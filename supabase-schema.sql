@@ -1,0 +1,492 @@
+-- HAIRPORT by Timi Supabase alap adatmodell
+-- Futtasd a Supabase Dashboard > SQL Editor feluleten.
+
+create extension if not exists pgcrypto;
+create extension if not exists btree_gist;
+
+create table if not exists public.services (
+    id uuid primary key default gen_random_uuid(),
+    name text not null unique,
+    description text default '',
+    category text not null default 'Szolgáltatások',
+    price_text text default '',
+    duration_minutes integer not null default 60 check (duration_minutes >= 0),
+    booking_enabled boolean not null default true,
+    active boolean not null default true,
+    sort_order integer not null default 0,
+    created_at timestamptz not null default now()
+);
+
+create table if not exists public.availability_rules (
+    id uuid primary key default gen_random_uuid(),
+    weekday integer not null check (weekday between 1 and 7),
+    start_time time not null,
+    end_time time not null,
+    slot_step_minutes integer not null default 15 check (slot_step_minutes > 0),
+    active boolean not null default true,
+    created_at timestamptz not null default now(),
+    unique (weekday, start_time, end_time),
+    check (end_time > start_time)
+);
+
+create table if not exists public.availability_windows (
+    id uuid primary key default gen_random_uuid(),
+    work_date date not null,
+    start_time time not null,
+    end_time time not null,
+    slot_step_minutes integer not null default 30 check (slot_step_minutes > 0),
+    active boolean not null default true,
+    created_at timestamptz not null default now(),
+    unique (work_date, start_time, end_time),
+    check (end_time > start_time)
+);
+
+create table if not exists public.blocked_times (
+    id uuid primary key default gen_random_uuid(),
+    starts_at timestamptz not null,
+    ends_at timestamptz not null,
+    reason text default '',
+    created_at timestamptz not null default now(),
+    check (ends_at > starts_at)
+);
+
+create table if not exists public.bookings (
+    id uuid primary key default gen_random_uuid(),
+    service_id uuid not null references public.services(id),
+    customer_name text not null,
+    customer_phone text not null,
+    customer_email text not null,
+    note text default '',
+    starts_at timestamptz not null,
+    ends_at timestamptz not null,
+    status text not null default 'pending' check (status in ('pending', 'confirmed', 'done', 'cancelled')),
+    created_at timestamptz not null default now(),
+    check (ends_at > starts_at)
+);
+
+create table if not exists public.booking_events (
+    id uuid primary key default gen_random_uuid(),
+    booking_id uuid references public.bookings(id) on delete set null,
+    event_type text not null,
+    channel text default '',
+    status text not null default 'info' check (status in ('info', 'success', 'warning', 'error')),
+    title text not null default '',
+    message text default '',
+    metadata jsonb not null default '{}'::jsonb,
+    created_at timestamptz not null default now()
+);
+
+create table if not exists public.site_settings (
+    key text primary key,
+    value jsonb not null default '{}'::jsonb,
+    updated_at timestamptz not null default now()
+);
+
+do $$
+begin
+    if not exists (
+        select 1
+        from pg_constraint
+        where conname = 'services_name_key'
+    ) then
+        alter table public.services
+            add constraint services_name_key unique (name);
+    end if;
+
+    if not exists (
+        select 1
+        from pg_constraint
+        where conname = 'availability_rules_weekday_start_time_end_time_key'
+    ) then
+        alter table public.availability_rules
+            add constraint availability_rules_weekday_start_time_end_time_key unique (weekday, start_time, end_time);
+    end if;
+
+    if not exists (
+        select 1
+        from pg_constraint
+        where conname = 'availability_windows_work_date_start_time_end_time_key'
+    ) then
+        alter table public.availability_windows
+            add constraint availability_windows_work_date_start_time_end_time_key unique (work_date, start_time, end_time);
+    end if;
+end $$;
+
+do $$
+begin
+    if not exists (
+        select 1
+        from pg_constraint
+        where conname = 'bookings_no_overlap'
+    ) then
+        alter table public.bookings
+            add constraint bookings_no_overlap
+            exclude using gist (tstzrange(starts_at, ends_at, '[)') with &&)
+            where (status in ('pending', 'confirmed'));
+    end if;
+end $$;
+
+do $$
+begin
+    alter table public.bookings
+        drop constraint if exists bookings_status_check;
+
+    alter table public.bookings
+        add constraint bookings_status_check
+        check (status in ('pending', 'confirmed', 'done', 'cancelled'));
+end $$;
+
+alter table public.services enable row level security;
+alter table public.availability_rules enable row level security;
+alter table public.availability_windows enable row level security;
+alter table public.blocked_times enable row level security;
+alter table public.bookings enable row level security;
+alter table public.booking_events enable row level security;
+alter table public.site_settings enable row level security;
+
+drop policy if exists "public can read active services" on public.services;
+create policy "public can read active services"
+    on public.services for select
+    to anon
+    using (active = true);
+
+drop policy if exists "admin can manage services" on public.services;
+create policy "admin can manage services"
+    on public.services for all
+    to authenticated
+    using (true)
+    with check (true);
+
+drop policy if exists "admin can manage availability" on public.availability_rules;
+create policy "admin can manage availability"
+    on public.availability_rules for all
+    to authenticated
+    using (true)
+    with check (true);
+
+drop policy if exists "admin can manage availability windows" on public.availability_windows;
+create policy "admin can manage availability windows"
+    on public.availability_windows for all
+    to authenticated
+    using (true)
+    with check (true);
+
+drop policy if exists "admin can manage blocked times" on public.blocked_times;
+create policy "admin can manage blocked times"
+    on public.blocked_times for all
+    to authenticated
+    using (true)
+    with check (true);
+
+drop policy if exists "admin can manage bookings" on public.bookings;
+create policy "admin can manage bookings"
+    on public.bookings for all
+    to authenticated
+    using (true)
+    with check (true);
+
+drop policy if exists "admin can read booking events" on public.booking_events;
+create policy "admin can read booking events"
+    on public.booking_events for select
+    to authenticated
+    using (true);
+
+drop policy if exists "admin can manage booking events" on public.booking_events;
+create policy "admin can manage booking events"
+    on public.booking_events for all
+    to authenticated
+    using (true)
+    with check (true);
+
+drop policy if exists "public can read site settings" on public.site_settings;
+create policy "public can read site settings"
+    on public.site_settings for select
+    to anon, authenticated
+    using (true);
+
+drop policy if exists "admin can manage site settings" on public.site_settings;
+create policy "admin can manage site settings"
+    on public.site_settings for all
+    to authenticated
+    using (true)
+    with check (true);
+
+create or replace function public.get_available_slots(p_service_id uuid, p_date date)
+returns table(starts_at timestamptz, label text)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+    with svc as (
+        select id, duration_minutes
+        from public.services
+        where id = p_service_id
+            and active = true
+            and booking_enabled = true
+    ),
+    windows as (
+        select *
+        from public.availability_windows
+        where active = true
+            and work_date = p_date
+    ),
+    slots as (
+        select
+            gs as starts_at,
+            gs + make_interval(mins => duration.effective_minutes) as ends_at
+        from svc
+        cross join windows
+        cross join lateral (
+            select case
+                when svc.duration_minutes > 0 then svc.duration_minutes
+                else windows.slot_step_minutes
+            end as effective_minutes
+        ) duration
+        cross join lateral generate_series(
+            ((p_date::text || ' ' || windows.start_time::text)::timestamp at time zone 'Europe/Budapest'),
+            ((p_date::text || ' ' || windows.end_time::text)::timestamp at time zone 'Europe/Budapest') - make_interval(mins => duration.effective_minutes),
+            make_interval(mins => windows.slot_step_minutes)
+        ) as gs
+    )
+    select
+        slots.starts_at,
+        to_char(slots.starts_at at time zone 'Europe/Budapest', 'HH24:MI') as label
+    from slots
+    where slots.starts_at > now()
+        and not exists (
+            select 1
+            from public.bookings b
+            where b.status in ('pending', 'confirmed')
+                and tstzrange(b.starts_at, b.ends_at, '[)') && tstzrange(slots.starts_at, slots.ends_at, '[)')
+        )
+        and not exists (
+            select 1
+            from public.blocked_times bt
+            where tstzrange(bt.starts_at, bt.ends_at, '[)') && tstzrange(slots.starts_at, slots.ends_at, '[)')
+        )
+    order by slots.starts_at;
+$$;
+
+create or replace function public.get_available_dates(
+    p_service_id uuid,
+    p_start_date date default current_date,
+    p_days integer default 90
+)
+returns table(work_date date, label text)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+    with days as (
+        select gs::date as work_date
+        from generate_series(
+            p_start_date,
+            p_start_date + (least(greatest(coalesce(p_days, 90), 1), 180) - 1),
+            interval '1 day'
+        ) as gs
+    )
+    select
+        days.work_date,
+        to_char(days.work_date, 'YYYY. MM. DD.') as label
+    from days
+    where exists (
+        select 1
+        from public.get_available_slots(p_service_id, days.work_date)
+        limit 1
+    )
+    order by days.work_date;
+$$;
+
+create or replace function public.create_booking(
+    p_service_id uuid,
+    p_customer_name text,
+    p_customer_phone text,
+    p_customer_email text,
+    p_note text,
+    p_starts_at timestamptz
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+    v_duration integer;
+    v_ends_at timestamptz;
+    v_booking_id uuid;
+begin
+    select duration_minutes
+    into v_duration
+    from public.services
+    where id = p_service_id
+        and active = true
+        and booking_enabled = true;
+
+    if v_duration is null then
+        raise exception 'Ez a szolgáltatás jelenleg nem foglalható.';
+    end if;
+
+    if v_duration = 0 then
+        select aw.slot_step_minutes
+        into v_duration
+        from public.availability_windows aw
+        where aw.active = true
+            and aw.work_date = (p_starts_at at time zone 'Europe/Budapest')::date
+            and p_starts_at >= (((p_starts_at at time zone 'Europe/Budapest')::date::text || ' ' || aw.start_time::text)::timestamp at time zone 'Europe/Budapest')
+            and p_starts_at < (((p_starts_at at time zone 'Europe/Budapest')::date::text || ' ' || aw.end_time::text)::timestamp at time zone 'Europe/Budapest')
+        order by aw.start_time
+        limit 1;
+    end if;
+
+    v_ends_at := p_starts_at + make_interval(mins => v_duration);
+
+    if not exists (
+        select 1
+        from public.get_available_slots(p_service_id, (p_starts_at at time zone 'Europe/Budapest')::date) s
+        where s.starts_at = p_starts_at
+    ) then
+        raise exception 'Ez az időpont már nem szabad. Kérlek válassz másikat.';
+    end if;
+
+    insert into public.bookings (
+        service_id,
+        customer_name,
+        customer_phone,
+        customer_email,
+        note,
+        starts_at,
+        ends_at
+    )
+    values (
+        p_service_id,
+        trim(p_customer_name),
+        trim(p_customer_phone),
+        lower(trim(p_customer_email)),
+        coalesce(trim(p_note), ''),
+        p_starts_at,
+        v_ends_at
+    )
+    returning id into v_booking_id;
+
+    insert into public.booking_events (
+        booking_id,
+        event_type,
+        channel,
+        status,
+        title,
+        message,
+        metadata
+    )
+    values (
+        v_booking_id,
+        'booking_created',
+        'booking',
+        'success',
+        'Foglalás rögzítve',
+        'A vendég foglalása bekerült az adatbázisba.',
+        jsonb_build_object(
+            'service_id', p_service_id,
+            'starts_at', p_starts_at,
+            'ends_at', v_ends_at,
+            'customer_email', lower(trim(p_customer_email))
+        )
+    );
+
+    return v_booking_id;
+exception
+    when exclusion_violation then
+        raise exception 'Ez az időpont közben betelt. Kérlek válassz másikat.';
+end;
+$$;
+
+grant usage on schema public to anon, authenticated;
+grant select on public.services to anon, authenticated;
+grant execute on function public.get_available_slots(uuid, date) to anon, authenticated;
+grant execute on function public.get_available_dates(uuid, date, integer) to anon, authenticated;
+grant execute on function public.create_booking(uuid, text, text, text, text, timestamptz) to anon, authenticated;
+grant select, insert, update, delete on public.services to authenticated;
+grant select, insert, update, delete on public.availability_rules to authenticated;
+grant select, insert, update, delete on public.availability_windows to authenticated;
+grant select, insert, update, delete on public.blocked_times to authenticated;
+grant select, insert, update, delete on public.bookings to authenticated;
+grant select, insert, update, delete on public.booking_events to authenticated;
+grant select on public.site_settings to anon, authenticated;
+grant insert, update, delete on public.site_settings to authenticated;
+
+insert into public.services (name, category, price_text, duration_minutes, booking_enabled, active, sort_order)
+values
+    ('Női hajvágás · rövid haj', 'Hajvágás', '5 500 Ft', 60, true, true, 10),
+    ('Női hajvágás · félhosszú haj', 'Hajvágás', '6 500 Ft', 60, true, true, 20),
+    ('Női hajvágás · hosszú haj', 'Hajvágás', '7 500 Ft', 75, true, true, 30),
+    ('Hajmosás + szárítás · rövid haj', 'Hajvágás', '4 000 Ft', 45, true, true, 40),
+    ('Hajmosás + szárítás · félhosszú haj', 'Hajvágás', '5 000 Ft', 50, true, true, 50),
+    ('Hajmosás + szárítás · hosszú haj', 'Hajvágás', '6 000 Ft', 60, true, true, 60),
+    ('Férfi hajvágás', 'Hajvágás', '4 500 Ft', 45, true, true, 70),
+    ('Gyermek hajvágás', 'Hajvágás', '3 500 Ft', 40, true, true, 80),
+    ('Tőfestés', 'Festés', '8 500 Ft-tól', 120, true, true, 90),
+    ('Teljes festés', 'Festés', '11 000 Ft-tól', 150, true, true, 100),
+    ('Festés + vágás', 'Festés', '14 000 Ft-tól', 180, true, true, 110),
+    ('Tőszőkítés', 'Szőkítés / melír', '12 000 Ft-tól', 150, true, true, 120),
+    ('Melír', 'Szőkítés / melír', '15 000 Ft-tól', 180, true, true, 130),
+    ('Balayage', 'Szőkítés / melír', '22 000 Ft-tól', 240, true, true, 140),
+    ('Airtouch / Babylights', 'Szőkítés / melír', '22 000 Ft-tól', 240, true, true, 150),
+    ('Olaplex kezelés', 'Kezelések', '7 000 Ft', 60, true, true, 160),
+    ('Hajbotox kezelés', 'Kezelések', '8 500 Ft', 90, true, true, 170),
+    ('Keratinos hajegyenesítés', 'Kezelések', '13 500 Ft-tól', 180, true, true, 180),
+    ('Hidratáló kezelés', 'Kezelések', '5 000 Ft-tól', 60, true, true, 190),
+    ('Egyszerű fonás', 'Frizurák', '2 500 Ft', 30, true, true, 200),
+    ('Dupla fonás', 'Frizurák', '4 000 Ft', 45, true, true, 210),
+    ('Alkalmi frizura', 'Frizurák', '9 000 Ft-tól', 90, true, true, 220),
+    ('Hullámosítás / hajvasalás', 'Frizurák', '3 000 Ft', 40, true, true, 230)
+on conflict (name) do update set
+    category = excluded.category,
+    price_text = excluded.price_text,
+    duration_minutes = excluded.duration_minutes,
+    booking_enabled = excluded.booking_enabled,
+    active = excluded.active,
+    sort_order = excluded.sort_order;
+
+insert into public.site_settings (key, value)
+values ('telefon_lathato', '{"visible": true}'::jsonb)
+on conflict (key) do nothing;
+
+-- Publikus weboldal-kepek. Feltolteni es torolni csak belepett admin tud.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+    'site-media',
+    'site-media',
+    true,
+    12582912,
+    array['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif', 'image/svg+xml']
+)
+on conflict (id) do update set
+    public = excluded.public,
+    file_size_limit = excluded.file_size_limit,
+    allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "public can view site media" on storage.objects;
+create policy "public can view site media"
+    on storage.objects for select
+    to anon, authenticated
+    using (bucket_id = 'site-media');
+
+drop policy if exists "admin can upload site media" on storage.objects;
+create policy "admin can upload site media"
+    on storage.objects for insert
+    to authenticated
+    with check (bucket_id = 'site-media');
+
+drop policy if exists "admin can update site media" on storage.objects;
+create policy "admin can update site media"
+    on storage.objects for update
+    to authenticated
+    using (bucket_id = 'site-media')
+    with check (bucket_id = 'site-media');
+
+drop policy if exists "admin can delete site media" on storage.objects;
+create policy "admin can delete site media"
+    on storage.objects for delete
+    to authenticated
+    using (bucket_id = 'site-media');

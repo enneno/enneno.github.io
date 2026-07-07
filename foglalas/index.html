@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Online időpontfoglalás fodrász szalonba.">
+    <link rel="canonical" href="https://enneno.github.io/foglalas/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css?v=20260707flow2">
+    <title>Időpontfoglalás - HAIRPORT by Timi</title>
+</head>
+<body class="tartalom-toltes" data-page="foglalas" data-booking-mode="supabase">
+    <div id="fejlec-helye"></div>
+    <main class="page-shell">
+        <header class="page-head">
+            <p class="page-kicker">Online foglalás</p>
+            <h1 class="page-title">Időpontfoglalás</h1>
+            <p class="page-copy">Válassz szolgáltatást, dátumot és szabad időpontot.</p>
+        </header>
+        <section class="booking-experience" aria-label="Időpontfoglalási folyamat">
+            <div class="booking-progress" aria-live="polite">
+                <div class="booking-progress-copy"><span>Foglalás</span><strong id="booking-current-step">Szolgáltatás kiválasztása</strong></div>
+                <div class="booking-progress-track" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+            </div>
+
+            <form id="foglalas-urlap" class="booking-flow" novalidate>
+                <div class="booking-workspace">
+                    <div class="booking-stage">
+                        <section class="booking-step active" data-booking-step="1">
+                            <div class="booking-step-head"><h2>Milyen szolgáltatást szeretnél?</h2><p>Válaszd ki a számodra megfelelő kezelést.</p></div>
+                            <select id="foglalas-szolgatatas" class="booking-native-select" required><option value="" disabled selected>Szolgáltatások betöltése...</option></select>
+                            <div id="booking-service-options" class="booking-service-options" aria-live="polite"></div>
+                        </section>
+
+                        <section class="booking-step" data-booking-step="2" hidden>
+                            <div class="booking-step-head"><h2>Válassz egy szabad napot</h2><p>Csak azok a napok választhatók, amelyeken még van megfelelő időpont.</p></div>
+                            <select id="foglalas-datum" class="booking-native-select" required><option value="" disabled selected>Előbb válassz szolgáltatást...</option></select>
+                            <div class="booking-calendar">
+                                <div class="booking-calendar-head">
+                                    <button type="button" id="booking-calendar-prev" class="booking-icon-button" aria-label="Előző hónap">−</button>
+                                    <strong id="booking-calendar-label">Szabad időpontok</strong>
+                                    <button type="button" id="booking-calendar-next" class="booking-icon-button" aria-label="Következő hónap">+</button>
+                                </div>
+                                <div class="booking-calendar-weekdays" aria-hidden="true"><span>H</span><span>K</span><span>Sze</span><span>Cs</span><span>P</span><span>Szo</span><span>V</span></div>
+                                <div id="booking-date-options" class="booking-calendar-grid" aria-live="polite"></div>
+                            </div>
+                        </section>
+
+                        <section class="booking-step" data-booking-step="3" hidden>
+                            <div class="booking-step-head"><h2>Mikor érkeznél?</h2><p>A kiválasztott nap még szabad kezdési időpontjai.</p></div>
+                            <select id="foglalas-ido" class="booking-native-select" required><option value="" disabled selected>Előbb válassz szolgáltatást és dátumot...</option></select>
+                            <div id="booking-time-options" class="booking-time-options" aria-live="polite"></div>
+                        </section>
+
+                        <section class="booking-step" data-booking-step="4" hidden>
+                            <div class="booking-step-head"><h2>Hogyan érhetünk el?</h2><p>A visszaigazolást a megadott email-címre küldjük.</p></div>
+                            <div class="booking-contact-grid">
+                                <label class="booking-field"><span>Teljes név</span><input type="text" id="foglalas-nev" class="urlap-mezo" placeholder="Teljes neved" autocomplete="name" required></label>
+                                <label class="booking-field"><span>Telefonszám</span><span class="booking-phone-field"><b>+36</b><input type="tel" id="foglalas-tel" class="urlap-mezo" placeholder="301234567" inputmode="numeric" autocomplete="tel-national" required></span></label>
+                                <label class="booking-field booking-field-wide"><span>Email</span><input type="email" id="foglalas-email" class="urlap-mezo" placeholder="Email címed" autocomplete="email" required></label>
+                                <label class="booking-field booking-field-wide"><span>Megjegyzés <small>opcionális</small></span><textarea id="foglalas-komment" class="urlap-mezo" rows="3" placeholder="Megjegyzés, egyedi kérés"></textarea></label>
+                            </div>
+                        </section>
+
+                        <section class="booking-step" data-booking-step="5" hidden>
+                            <div class="booking-step-head"><h2>Ellenőrizd a foglalásodat</h2><p>A küldés előtt még egyszer áttekintheted a részleteket.</p></div>
+                            <div class="booking-final-summary">
+                                <div><span>Szolgáltatás</span><strong data-booking-summary="service">Nincs kiválasztva</strong></div>
+                                <div><span>Dátum</span><strong data-booking-summary="date">Nincs kiválasztva</strong></div>
+                                <div><span>Időpont</span><strong data-booking-summary="time">Nincs kiválasztva</strong></div>
+                                <div><span>Vendég</span><strong data-booking-summary="guest">Nincs megadva</strong></div>
+                            </div>
+                            <label class="booking-policy" for="foglalas-lemondas">
+                                <input type="checkbox" id="foglalas-lemondas" required>
+                                <span>Elfogadom, hogy amennyiben a lefoglalt időpontra nem tudok elmenni, azt legalább 24 órával korábban jelzem. 24 órán belüli lemondás vagy meg nem jelenés esetén a következő alkalommal a kihagyott szolgáltatás árának 100%-át számítjuk fel. Lemondás: <a href="mailto:dankutimea6@gmail.com">dankutimea6@gmail.com</a> vagy <a href="tel:+36707559025">+36 70 755 9025</a>.</span>
+                            </label>
+                        </section>
+                        <p id="foglalas-status" class="urlap-status booking-flow-status" aria-live="polite"></p>
+                    </div>
+
+                    <aside class="booking-summary" aria-label="Foglalás összegzése">
+                        <p class="booking-summary-label">A foglalásod</p>
+                        <div class="booking-summary-row"><span>Szolgáltatás</span><strong data-booking-summary="service">Még nincs kiválasztva</strong></div>
+                        <div class="booking-summary-row"><span>Dátum</span><strong data-booking-summary="date">Még nincs kiválasztva</strong></div>
+                        <div class="booking-summary-row"><span>Időpont</span><strong data-booking-summary="time">Még nincs kiválasztva</strong></div>
+                        <div class="booking-summary-row"><span>Vendég</span><strong data-booking-summary="guest">Még nincs megadva</strong></div>
+                        <p class="booking-summary-note">A véglegesítés előtt minden adatot ellenőrizhetsz.</p>
+                    </aside>
+                </div>
+                <div class="booking-navigation">
+                    <button type="button" id="booking-prev" class="booking-nav-button" disabled>Vissza</button>
+                    <button type="button" id="booking-next" class="booking-nav-button booking-nav-primary" disabled>Tovább</button>
+                    <button type="submit" id="foglalas-kuldes" class="gomb urlap-kuldes-gomb" hidden disabled>Foglalás elküldése</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <div id="sikeres-popup" class="popup-hatter" role="dialog" aria-modal="true" aria-labelledby="sikeres-popup-cim">
+        <div class="popup-doboz">
+            <h2 id="sikeres-popup-cim">Köszönjük a foglalást!</h2>
+            <p class="popup-szoveg">Megkaptuk az időpontkérésedet.</p>
+            <div class="popup-akciok">
+                <a id="naptar-link" class="button-ghost" href="#" hidden>Naptárba mentés</a>
+                <button type="button" class="gomb" data-popup-close>Bezárás</button>
+            </div>
+        </div>
+    </div>
+    <div id="lablec-helye"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/supabase-config.js"></script>
+    <script src="/script.js?v=20260705menu4"></script>
+    <script src="/site-cms.js?v=20260705cms3"></script>
+    <script src="/booking.js?v=20260707flow3"></script>
+</body>
+</html>
