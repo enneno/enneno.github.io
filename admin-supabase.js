@@ -384,7 +384,7 @@
                 <div class="admin-naptar-datum">${html(datumFelirat(datum))}</div>
                 <label class="admin-mezo">Kezdés<input type="time" data-naptar-mezo="start_time" value="${attr(ertek.start_time)}"></label>
                 <label class="admin-mezo">Vége<input type="time" data-naptar-mezo="end_time" value="${attr(ertek.end_time)}"></label>
-                <button type="button" class="admin-kis-gomb" data-naptar-torles>Törlés</button>
+                <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-naptar-torles>Törlés</button>
             `;
             elemek.naptarKijeloltLista.appendChild(sor);
         });
@@ -1163,7 +1163,7 @@
                 </div>
             </div>
             <div class="admin-db-akciok">
-                <button type="button" class="admin-kis-gomb" data-szolgaltatas-torles>Törlés</button>
+                <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-szolgaltatas-torles>Törlés</button>
             </div>
         `;
 
@@ -1199,6 +1199,10 @@
         }
 
         if (event.target.closest('[data-szolgaltatas-torles]')) {
+            if (!window.confirm('Biztosan törlöd ezt az árlista tételt?')) {
+                return;
+            }
+
             await rekordTorlese('services', kartya.dataset.id, szolgaltatasokBetoltese);
         }
     }
@@ -1270,14 +1274,10 @@
 
         kartya.innerHTML = `
             <div class="admin-idosav-grid">
-                <div class="admin-idosav-datum-sor">
-                    <label class="admin-mezo">Dátum<input type="date" data-mezo="work_date" value="${attr(idosav.work_date || maiDatum())}"></label>
-                    <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-idosav-torles>Törlés</button>
-                </div>
-                <div class="admin-idosav-ido-sor">
-                    <label class="admin-mezo">Kezdés<input type="time" data-mezo="start_time" value="${attr(idosav.start_time?.slice(0, 5) || '09:00')}"></label>
-                    <label class="admin-mezo">Vége<input type="time" data-mezo="end_time" value="${attr(idosav.end_time?.slice(0, 5) || '18:00')}"></label>
-                </div>
+                <label class="admin-mezo admin-idosav-datum-mezo">Dátum<input type="date" data-mezo="work_date" value="${attr(idosav.work_date || maiDatum())}"></label>
+                <label class="admin-mezo admin-idosav-ido-mezo">Kezdés<input type="time" data-mezo="start_time" value="${attr(idosav.start_time?.slice(0, 5) || '09:00')}"></label>
+                <label class="admin-mezo admin-idosav-ido-mezo">Vége<input type="time" data-mezo="end_time" value="${attr(idosav.end_time?.slice(0, 5) || '18:00')}"></label>
+                <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-idosav-torles>Törlés</button>
             </div>
         `;
 
@@ -1661,7 +1661,7 @@
                     <h3>${html(megjegyzes)}</h3>
                     <p>${html(datumIdo(tiltas.starts_at))} - ${html(datumIdo(tiltas.ends_at, true))}</p>
                 </div>
-                <button type="button" class="admin-kis-gomb" data-tiltas-torles>Törlés</button>
+                <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-tiltas-torles>Törlés</button>
             </div>
         `;
 
@@ -1707,6 +1707,10 @@
         const kartya = event.target.closest('.admin-db-kartya');
 
         if (!kartya || !event.target.closest('[data-tiltas-torles]')) {
+            return;
+        }
+
+        if (!window.confirm('Biztosan törlöd ezt a foglalt időt?')) {
             return;
         }
 

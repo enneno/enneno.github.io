@@ -1842,3 +1842,128 @@ button.booking-calendar-day.selected {
         grid-template-columns: minmax(108px, 1fr) 68px 68px;
     }
 }
+
+/* Admin UX final polish */
+.page-title,
+.price-group > h2,
+.gallery-card h3,
+.privacy-panel h2,
+.privacy-panel h3 {
+    background-size: 100% 135%;
+    background-position: center top;
+    line-height: 1.08;
+}
+.page-title {
+    padding-top: 0.08em;
+    margin-top: -0.08em;
+    overflow: visible;
+}
+.admin-body .admin-idopont-szerkeszto {
+    display: none;
+}
+.admin-body .admin-db-kartya.szerkeszt .admin-idopont-szerkeszto {
+    display: grid;
+}
+.admin-body .admin-veszely-gomb {
+    border-color: rgba(177, 67, 67, 0.76) !important;
+    background: rgba(137, 38, 38, 0.96) !important;
+    color: #fff7f7 !important;
+}
+.admin-body .admin-veszely-gomb:hover {
+    background: rgba(183, 55, 55, 0.98) !important;
+}
+.admin-body .admin-idosav-lista-akciok {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    align-items: stretch;
+}
+.admin-body .admin-idosav-lista-akciok .admin-kis-gomb {
+    width: 100%;
+    min-height: 44px;
+    padding-inline: 10px;
+}
+.admin-body .admin-idosav-grid {
+    display: grid;
+    grid-template-columns: minmax(112px, 1fr) minmax(64px, 82px) minmax(64px, 82px) auto;
+    gap: 8px;
+    align-items: end;
+}
+.admin-body .admin-idosav-grid .admin-mezo {
+    gap: 0;
+    color: transparent;
+    font-size: 0;
+}
+.admin-body .admin-idosav-grid .admin-mezo input {
+    color: var(--ivory);
+    font-size: 15px;
+}
+.admin-body .admin-idosav-grid [data-idosav-torles] {
+    min-width: 74px;
+}
+.admin-body .admin-naptar-fej {
+    display: grid;
+    gap: 10px;
+}
+.admin-body .admin-naptar-fej > .admin-mezo {
+    text-align: center;
+}
+.admin-body .admin-naptar-fej > .admin-mezo input {
+    text-align: center;
+}
+.admin-body .admin-naptar-akciok {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    gap: 8px;
+    align-items: center;
+}
+.admin-body .admin-naptar-akciok .admin-kis-gomb {
+    width: 44px;
+    min-width: 44px;
+    padding: 0;
+    font-size: 0;
+    justify-self: center;
+}
+.admin-body #admin-naptar-elozo {
+    grid-column: 1;
+}
+.admin-body #admin-naptar-kovetkezo {
+    grid-column: 3;
+}
+.admin-body #admin-naptar-elozo::before,
+.admin-body #admin-naptar-kovetkezo::before {
+    font-size: 26px;
+    font-weight: 300;
+    line-height: 1;
+}
+.admin-body #admin-naptar-elozo::before {
+    content: '<';
+}
+.admin-body #admin-naptar-kovetkezo::before {
+    content: '>';
+}
+@media (max-width: 560px) {
+    .admin-body .admin-idosav-lista-akciok {
+        grid-template-columns: 1fr 1fr;
+    }
+    .admin-body .admin-idosav-lista-akciok .admin-kis-gomb {
+        font-size: 13px;
+    }
+    .admin-body .admin-idosav-grid {
+        grid-template-columns: minmax(104px, 1fr) 62px 62px auto;
+        gap: 7px;
+    }
+    .admin-body .admin-idosav-grid [data-idosav-torles] {
+        min-width: 68px;
+        padding-inline: 9px;
+    }
+}
+@media (max-width: 380px) {
+    .admin-body .admin-idosav-grid {
+        grid-template-columns: minmax(100px, 1fr) 58px 58px;
+    }
+    .admin-body .admin-idosav-grid [data-idosav-torles] {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}
