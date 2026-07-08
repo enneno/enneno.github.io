@@ -497,7 +497,6 @@ body[data-page='arlista'] .page-copy { font-family: 'Outfit', Arial, sans-serif;
 }
 
 /* Admin remains practical */
-.admin-body .site-header,
 .admin-body .site-footer { display: none; }
 .admin-oldal { padding: 30px clamp(14px, 4vw, 56px); }
 .admin-fejlec,
@@ -1686,5 +1685,23 @@ button.booking-calendar-day.selected {
     .admin-body .admin-tiltas-sor .admin-mezo-szeles,
     .admin-body .admin-kozos-idosav-sor .admin-hozzaadas {
         grid-column: 1 / -1;
+    }
+}
+
+/* Admin keeps the public header navigation */
+.admin-body .site-header {
+    display: grid;
+}
+.admin-body .admin-oldal {
+    padding-top: 132px;
+}
+@media (max-width: 900px) {
+    .admin-body .admin-oldal {
+        padding-top: 112px;
+    }
+}
+@media (max-width: 560px) {
+    .admin-body .admin-oldal {
+        padding-top: 110px;
     }
 }
