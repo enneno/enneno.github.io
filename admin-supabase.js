@@ -874,8 +874,8 @@
                 <label class="admin-mezo">Vége<input type="time" data-idopont-mezo="end_time" value="${attr(idoInputErtek(foglalas.ends_at))}" disabled></label>
                 <label class="admin-mezo admin-mezo-szeles">Üzenet az emailhez<textarea data-idopont-mezo="admin_message" placeholder="Opcionális. Lemondásnál vagy időpontmódosításnál bekerül a vendég emailjébe." disabled></textarea></label>
             </div>
-            <div class="admin-db-akciok">
-                <button type="button" class="admin-kis-gomb" data-foglalas-torles>Eltávolítás</button>
+            <div class="admin-db-akciok admin-foglalas-torles-sor">
+                <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-foglalas-torles>Eltávolítás</button>
             </div>
         `;
 
@@ -905,8 +905,8 @@
                 <label class="admin-mezo">Vége<input type="time" data-idopont-mezo="end_time" value="${attr(idoInputErtek(tiltas.ends_at))}" disabled></label>
                 <label class="admin-mezo admin-mezo-szeles">Név / megjegyzés<input type="text" data-idopont-mezo="reason" value="${attr(megjegyzes)}" required disabled></label>
             </div>
-            <div class="admin-db-akciok">
-                <button type="button" class="admin-kis-gomb" data-foglalas-torles>Eltávolítás</button>
+            <div class="admin-db-akciok admin-foglalas-torles-sor">
+                <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-foglalas-torles>Eltávolítás</button>
             </div>
         `;
 
