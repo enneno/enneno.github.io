@@ -1,6 +1,4 @@
 window.LUMI_SUPABASE = {
-    // TODO: Add az új fodrász szalon Supabase projekt URL-jét.
-    url: '',
-    // TODO: Add az új Supabase anon/publishable kulcsát.
-    publishableKey: ''
+    url: 'https://gwouqlieyinpcllznlqs.supabase.co',
+    publishableKey: 'sb_publishable_wvdqAKBQLTr18T1CQetxIg_DLYf3gxl'
 };
