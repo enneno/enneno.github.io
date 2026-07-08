@@ -756,7 +756,7 @@ Telefon: ${adatok.telefon}`;
             'VERSION:2.0',
             'PRODID:-//HAIRPORT by Timi//Booking//HU',
             'BEGIN:VEVENT',
-            `UID:${Date.now()}@szalon.hu`,
+            `UID:${Date.now()}@hairport.local`,
             `DTSTAMP:${icsDatum(new Date())}`,
             `DTSTART:${icsDatum(kezdes)}`,
             `DTEND:${icsDatum(vege)}`,

@@ -43,15 +43,15 @@ Az `.ics` csatolmányt iPhone-on a Mail/Naptár általában eseményként tudja 
 
 Szükséges Supabase secrets:
 - `RESEND_API_KEY`
-- `OWNER_EMAIL` például `sajat-email@example.com`
-- `FROM_EMAIL` például `HAIRPORT by Timi <foglalas@szalon.hu>`
-- `REPLY_TO_EMAIL` például `sajat-email@example.com`
+- `OWNER_EMAIL` például `hairporttimi@gmail.com`
+- `FROM_EMAIL` például `HAIRPORT by Timi <foglalas@sajat-domain.hu>`
+- `REPLY_TO_EMAIL` például `hairporttimi@gmail.com`
 
 Secret kulcsot soha ne tegyél a frontend fájlokba vagy GitHubra.
 
 Javasolt ingyenes email szolgáltató: Resend.
 
-Éles használathoz a `szalon.hu` domaint érdemes hitelesíteni Resendben. Amíg nincs domain hitelesítés, a `HAIRPORT by Timi <onboarding@resend.dev>` feladó leginkább tesztelésre jó, és korlátozott lehet, hogy kinek tud emailt küldeni.
+Éles használathoz a `saját domaint` érdemes hitelesíteni Resendben. Amíg nincs domain hitelesítés, a `HAIRPORT by Timi <onboarding@resend.dev>` feladó leginkább tesztelésre jó, és korlátozott lehet, hogy kinek tud emailt küldeni.
 
 Supabase CLI-vel az élesítés menete:
 
@@ -59,9 +59,9 @@ Supabase CLI-vel az élesítés menete:
 supabase login
 supabase link --project-ref SAJAT_PROJECT_REF
 supabase secrets set RESEND_API_KEY=ide_jon_a_resend_api_kulcs
-supabase secrets set OWNER_EMAIL=sajat-email@example.com
-supabase secrets set FROM_EMAIL="HAIRPORT by Timi <foglalas@szalon.hu>"
-supabase secrets set REPLY_TO_EMAIL=sajat-email@example.com
+supabase secrets set OWNER_EMAIL=hairporttimi@gmail.com
+supabase secrets set FROM_EMAIL="HAIRPORT by Timi <foglalas@sajat-domain.hu>"
+supabase secrets set REPLY_TO_EMAIL=hairporttimi@gmail.com
 supabase functions deploy send-booking-email
 supabase functions deploy send-booking-update-email
 ```

@@ -10,7 +10,7 @@ function lumiAlapOldalAdatok() {
             terkepUrl: 'https://www.google.com/maps/search/?api=1&query=fodrasz%20szalon',
             telefon: '+36 70 755 9025',
             telefonLink: '+36707559025',
-            email: 'dankutimea6@gmail.com',
+            email: 'hairporttimi@gmail.com',
             instagram: 'https://www.instagram.com/hairport_by_timi/',
             instagramUzenet: 'https://ig.me/m/hairport_by_timi'
         },

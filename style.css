@@ -1409,3 +1409,78 @@ button.booking-calendar-day.selected {
         padding-inline: 10px;
     }
 }
+/* Privacy page */
+.privacy-wide {
+    max-width: 980px;
+}
+.privacy-updated {
+    margin: 0 0 28px;
+    color: var(--gold-light);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.privacy-block {
+    padding-block: 28px;
+    border-top: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, rgba(201, 181, 128, 0.32), transparent) 1;
+}
+.privacy-block:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+}
+.privacy-block h2 {
+    margin: 0 0 16px;
+    font-size: clamp(24px, 3vw, 34px);
+}
+.privacy-block p {
+    margin: 0 0 14px;
+    line-height: 1.8;
+}
+.privacy-table {
+    display: grid;
+    gap: 1px;
+    margin: 16px 0;
+    border: 1px solid rgba(201, 181, 128, 0.18);
+    background: rgba(201, 181, 128, 0.12);
+}
+.privacy-table > div {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.36fr) minmax(0, 1fr);
+    gap: 18px;
+    padding: 16px;
+    background: rgba(6, 6, 5, 0.88);
+}
+.privacy-table strong {
+    color: var(--gold-light);
+    font-weight: 500;
+}
+.privacy-table span,
+.privacy-list li,
+.privacy-note {
+    color: var(--muted);
+}
+.privacy-panel a {
+    color: var(--gold-light);
+    text-decoration-color: rgba(210, 189, 138, 0.45);
+    text-underline-offset: 3px;
+}
+.privacy-list {
+    display: grid;
+    gap: 10px;
+    padding-left: 20px;
+    margin: 16px 0 18px;
+}
+.privacy-note {
+    font-size: 14px;
+}
+@media (max-width: 640px) {
+    .privacy-table > div {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 14px;
+    }
+    .privacy-block {
+        padding-block: 24px;
+    }
+}

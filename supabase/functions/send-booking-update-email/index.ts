@@ -27,9 +27,9 @@ serve(async (req) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
     const ownerEmail = Deno.env.get("OWNER_EMAIL") || "";
-    const fromEmail = Deno.env.get("FROM_EMAIL") || "Arany Szalon <foglalas@szalon.hu>";
+    const fromEmail = Deno.env.get("FROM_EMAIL") || "HAIRPORT by Timi <onboarding@resend.dev>";
     const replyToEmail = Deno.env.get("REPLY_TO_EMAIL") || ownerEmail;
-    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "admin@example.com";
+    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "hairporttimi@gmail.com";
 
     if (!supabaseUrl || !serviceRoleKey) {
       return json({ ok: false, error: "Missing Supabase environment variables" }, 500);
@@ -86,9 +86,9 @@ serve(async (req) => {
       ` : ""}
       <p>Ha kérdésed van vagy módosítani szeretnél, kérlek Instagramon írj üzenetet.</p>
       <p style="margin:22px 0;">
-        <a href="${instagramUrl}" style="display:inline-block;padding:12px 18px;background:#b9858f;color:#fffaf4;border-radius:999px;text-decoration:none;font-weight:700;">Instagram üzenet</a>
+        <a href="${instagramUrl}" style="display:inline-block;padding:12px 18px;background:#d6bd78;color:#fffaf4;border-radius:999px;text-decoration:none;font-weight:700;">Instagram üzenet</a>
       </p>
-      <p>Arany Szalon</p>
+      <p>HAIRPORT by Timi</p>
     `);
     const customerText = [
       `Szia ${booking.customer_name}!`,
@@ -102,7 +102,7 @@ serve(async (req) => {
       "",
       `Ha kérdésed van vagy módosítani szeretnél, kérlek Instagramon írj: ${instagramUrl}`,
       "",
-      "Arany Szalon",
+      "HAIRPORT by Timi",
     ].join("\n");
 
     await sendEmailWithRetry(resendApiKey, fromEmail, booking.customer_email, replyToEmail, update.subject, customerHtml, customerText);
@@ -156,7 +156,7 @@ async function isAdminRequest(req: Request, supabase: any, adminEmail: string) {
 function adminUpdateMessage(status: string, statusChanged: boolean, timeChanged: boolean) {
   if (status === "cancelled") {
     return {
-      subject: "Arany Szalon időpontod lemondva",
+      subject: "HAIRPORT by Timi időpontod lemondva",
       title: "Időpont lemondva",
       message: "A foglalásod lemondásra került. Ha új időpontot szeretnél egyeztetni, kérlek írj Instagramon.",
     };
@@ -164,7 +164,7 @@ function adminUpdateMessage(status: string, statusChanged: boolean, timeChanged:
 
   if (status === "confirmed") {
     return {
-      subject: timeChanged ? "Arany Szalon időpontod visszaigazolva és módosítva" : "Arany Szalon időpontod visszaigazolva",
+      subject: timeChanged ? "HAIRPORT by Timi időpontod visszaigazolva és módosítva" : "HAIRPORT by Timi időpontod visszaigazolva",
       title: timeChanged ? "Időpont visszaigazolva és módosítva" : "Időpont visszaigazolva",
       message: timeChanged
         ? "A foglalásod vissza lett igazolva, és az időpont adatai módosultak. Az aktuális részleteket lent találod."
@@ -174,7 +174,7 @@ function adminUpdateMessage(status: string, statusChanged: boolean, timeChanged:
 
   if (timeChanged) {
     return {
-      subject: "Arany Szalon időpontod módosult",
+      subject: "HAIRPORT by Timi időpontod módosult",
       title: "Időpont módosítva",
       message: "Az időpontod adatai módosultak. Az aktuális részleteket lent találod.",
     };
@@ -182,7 +182,7 @@ function adminUpdateMessage(status: string, statusChanged: boolean, timeChanged:
 
   if (statusChanged && status === "pending") {
     return {
-      subject: "Arany Szalon foglalásod státusza módosult",
+      subject: "HAIRPORT by Timi foglalásod státusza módosult",
       title: "Foglalás státusza módosult",
       message: "A foglalásod státusza módosult. Az aktuális részleteket lent találod.",
     };
@@ -248,7 +248,7 @@ function pageHtml(content: string) {
       <body style="margin:0;background:#fdf4e2;color:#2b2521;font-family:Arial,sans-serif;">
         <div style="max-width:620px;margin:0 auto;padding:28px 18px;">
           <div style="background:#fffaf4;border:1px solid #ead4cf;border-radius:18px;padding:28px;">
-            <p style="margin:0 0 12px;color:#b9858f;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Arany Szalon</p>
+            <p style="margin:0 0 12px;color:#d6bd78;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">HAIRPORT by Timi</p>
             ${content}
           </div>
         </div>
