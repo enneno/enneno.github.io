@@ -1,4 +1,4 @@
--- HAIRPORT by Timi esemenynaplo migracio
+-- Lumi Nails esemenynaplo migracio
 -- Ezt futtasd a Supabase Dashboard > SQL Editor feluleten.
 -- Csak az esemenynaplot es a create_booking naplozast frissiti, arlistat nem ir at.
 

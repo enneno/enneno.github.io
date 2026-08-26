@@ -1,4 +1,4 @@
-# HAIRPORT by Timi Supabase beállítás
+# Lumi Nails Supabase beállítás
 
 ## 1. Adatbázis
 
@@ -19,6 +19,10 @@ A foglalási oldal a `get_available_dates` függvénnyel csak azokat a dátumoka
 
 Ha a régi adatbázis már fut, elég a gyökérben lévő `supabase-date-availability-migration.sql` friss tartalmát újra futtatni. Ez hozzáadja a `Kész` foglalási státuszt és az online telefonszám láthatóság beállítását is.
 
+A rövid, `LUMI-XXXX` foglalási azonosítókhoz futtasd újra a gyökérben lévő `supabase-booking-self-service.sql` teljes tartalmát is. Ez az új foglalásoknak négykarakteres kódot ad, a meglévő hosszú kódokat pedig rövidre cseréli. A régi emailben szereplő hosszú kód továbbra is használható marad, és a frissítés nem küld új emailt a vendégeknek.
+
+A foglalások közötti kötelező 30 perces szünethez futtasd a `supabase-booking-buffer.sql` fájlt. A frissítés után például egy 12:30-kor végződő foglalást követően 13:00 lesz az első foglalható időpont. A védelem a megjelenített időpontokra és a tényleges adatbázis-mentésre is érvényes.
+
 ## 2. Admin belépés
 
 Supabase Dashboard > Authentication > Users alatt hozz létre egy admin felhasználót email + jelszóval.
@@ -37,31 +41,33 @@ Foglalás után két email megy ki:
 - neked egy részletes értesítés az új foglalásról, benne egy `.ics` naptár csatolmánnyal
 - a vendégnek egy visszaigazoló email a foglalás adataival
 
-Admin módosítás után a vendég automatikus emailt kap, ha a foglalás vissza lett igazolva, le lett mondva, vagy az időpont dátuma/kezdése/vége módosult. A `Kész` státusz önmagában nem küld emailt.
+Admin módosítás után a vendég automatikus emailt kap, ha a foglalás vissza lett igazolva, le lett mondva, vagy az időpont dátuma/kezdése/vége módosult. A `Kész` státusz nem küld azonnali módosítási emailt; az automatikus köszönő + értékeléskérő emailt a külön időzített értesítő function küldi 2 nappal később 12:00 körül.
 
 Az `.ics` csatolmányt iPhone-on a Mail/Naptár általában eseményként tudja megnyitni, így gyorsan fel tudod venni a saját naptáradba.
 
 Szükséges Supabase secrets:
 - `RESEND_API_KEY`
-- `OWNER_EMAIL` például `hairporttimi@gmail.com`
-- `FROM_EMAIL` például `HAIRPORT by Timi <foglalas@sajat-domain.hu>`
-- `REPLY_TO_EMAIL` például `hairporttimi@gmail.com`
+- `OWNER_EMAIL` például `luminails.xx@gmail.com`
+- `FROM_EMAIL` például `Lumi Nails <luminails.xx@gmail.com>`
+- `REPLY_TO_EMAIL` például `luminails.xx@gmail.com`
+- `ADMIN_EMAIL` például `llevisimon@gmail.com`
 
 Secret kulcsot soha ne tegyél a frontend fájlokba vagy GitHubra.
 
 Javasolt ingyenes email szolgáltató: Resend.
 
-Éles használathoz a `saját domaint` érdemes hitelesíteni Resendben. Amíg nincs domain hitelesítés, a `HAIRPORT by Timi <onboarding@resend.dev>` feladó leginkább tesztelésre jó, és korlátozott lehet, hogy kinek tud emailt küldeni.
+Éles használathoz a `luminails.hu` domaint érdemes hitelesíteni Resendben. Amíg nincs domain hitelesítés, a `Lumi Nails <onboarding@resend.dev>` feladó leginkább tesztelésre jó, és korlátozott lehet, hogy kinek tud emailt küldeni.
 
 Supabase CLI-vel az élesítés menete:
 
 ```bash
 supabase login
-supabase link --project-ref SAJAT_PROJECT_REF
+supabase link --project-ref htbpzvmlegapaphsipax
 supabase secrets set RESEND_API_KEY=ide_jon_a_resend_api_kulcs
-supabase secrets set OWNER_EMAIL=hairporttimi@gmail.com
-supabase secrets set FROM_EMAIL="HAIRPORT by Timi <foglalas@sajat-domain.hu>"
-supabase secrets set REPLY_TO_EMAIL=hairporttimi@gmail.com
+supabase secrets set OWNER_EMAIL=luminails.xx@gmail.com
+supabase secrets set FROM_EMAIL="Lumi Nails <luminails.xx@gmail.com>"
+supabase secrets set REPLY_TO_EMAIL=luminails.xx@gmail.com
+supabase secrets set ADMIN_EMAIL=llevisimon@gmail.com
 supabase functions deploy send-booking-email
 supabase functions deploy send-booking-update-email
 ```
@@ -69,19 +75,62 @@ supabase functions deploy send-booking-update-email
 Ha még nincs Resend domain hitelesítés, ideiglenesen ezt használd:
 
 ```bash
-supabase secrets set FROM_EMAIL="HAIRPORT by Timi <onboarding@resend.dev>"
+supabase secrets set FROM_EMAIL="Lumi Nails <onboarding@resend.dev>"
+```
+## 4. Automatikus emlékeztető és értékeléskérő email
+
+A projektben külön Edge Function kezeli az időzített emaileket:
+
+- `supabase/functions/process-booking-notifications`
+
+Működés:
+
+- ha foglaláskor az időpont több mint 48 órára van, a rendszer az előző nap 12:00-ra ütemez egy emlékeztető emailt;
+- ha adminban a foglalás `Kész` állapotba kerül, a rendszer 2 nappal később 12:00-ra ütemez egy köszönő + Google értékeléskérő emailt;
+- ugyanarra az email címre értékeléskérő email csak egyszer mehet ki; ezt külön `booking_review_recipients` tábla őrzi, ezért akkor is megmarad, ha az eredeti foglalást később törlöd az adminból;
+- minden küldés eredménye bekerül a `booking_events` naplóba.
+
+Telepítés:
+
+1. Supabase SQL Editorban futtasd a gyökérben lévő `supabase-booking-notifications.sql` fájlt. Ha ezt már korábban futtattad, elég a kisebb `supabase-review-recipient-fix.sql` javító SQL-t lefuttatni.
+2. Állíts be egy erős titkot Edge Function secretként:
+
+```bash
+supabase secrets set BOOKING_NOTIFICATIONS_SECRET="egy_hosszu_random_titok"
 ```
 
-## 4. Weboldal tartalma es kepek
+3. Ha van konkrét Google értékelés linked, opcionálisan beállíthatod secretként is:
 
-A friss `supabase-schema.sql` letrehozza a `site-media` publikus Storage bucketet es a hozza tartozo jogosultsagokat is.
+```bash
+supabase secrets set GOOGLE_REVIEW_URL="https://..."
+```
 
-Az admin `Oldal szovegek` fuleten szerkesztheto:
-- a fejlec es a navigacio szovege
-- minden fooldali szoveg es kep
-- az arlista oldal bevezetoje; maguk az arlista tetelek tovabbra is az `Arlista` fulon
-- a galeria kepei, cimei, leirasai es sorrendje
-- a foglalasi oldal szovegei es lemondasi feltetele
-- az elerhetosegek, a footer es a megosztasi kep
+Ha nincs secret, az adminban szerkeszthető `Google értékelés link` mezőt használja.
 
-A telefonrol kivalasztott kepek kozvetlenul a `site-media` bucketbe kerulnek. A feltoltes utan a `Tartalom mentese` gombbal kell veglegesiteni, hogy az uj kep megjelenjen a publikus oldalon.
+4. Deployold az új functiont:
+
+```bash
+supabase functions deploy process-booking-notifications
+```
+
+5. Hozz létre Cron jobot 10 percenkénti futással. Ehhez használhatod a Supabase Dashboard > Integrations > Cron felületét, vagy a gyökérben lévő `supabase-booking-notifications-cron-example.sql` mintát.
+
+A Cron HTTP kérésnél küldeni kell ezt a headert:
+
+```text
+x-lumi-cron-secret: ugyanaz_a_titok_mint_a_BOOKING_NOTIFICATIONS_SECRET
+```
+
+Secret kulcsot továbbra se tegyél frontend fájlba vagy GitHub Pages kódba.
+
+## E-mail tesztküldés
+
+Az admin `E-mail teszt` nézete a `send-email-previews` Edge Functiont hívja. A funkció kizárólag a bejelentkezett admin e-mail-címével használható, a tesztcímzett rögzítve van, és nem módosít foglalási adatot.
+
+Telepítés CLI-ből:
+
+```bash
+supabase functions deploy send-email-previews
+```
+
+A funkció a meglévő `RESEND_API_KEY`, `FROM_EMAIL`, `REPLY_TO_EMAIL`, `OWNER_EMAIL` és `ADMIN_EMAIL` secret beállításokat használja.

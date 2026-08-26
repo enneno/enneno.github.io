@@ -1,0 +1,2313 @@
+const { test, expect } = require('playwright/test');
+const path = require('node:path');
+const fs = require('node:fs');
+
+const publicPages = ['/', '/arlista/', '/galeria/', '/foglalas/', '/fiokom/', '/adatkezeles/'];
+
+async function installLoggedOutAdminBoundaryMock(page) {
+    await page.route('https://cdn.jsdelivr.net/**', route => route.fulfill({
+        status: 200,
+        contentType: 'text/javascript; charset=utf-8',
+        body: ''
+    }));
+    await page.addInitScript(() => {
+        window.__lumiAdminSessionSettled = false;
+        const client = {
+            auth: {
+                getSession: () => new Promise((resolve) => {
+                    queueMicrotask(() => {
+                        resolve({ data: { session: null }, error: null });
+                        queueMicrotask(() => { window.__lumiAdminSessionSettled = true; });
+                    });
+                }),
+                onAuthStateChange: () => ({ data: { subscription: { unsubscribe() {} } } }),
+                signInWithPassword: async () => ({ data: { session: null }, error: null }),
+                signOut: async () => ({ error: null }),
+                updateUser: async () => ({ data: { user: null }, error: null })
+            }
+        };
+        window.supabase = { createClient: () => client };
+    });
+}
+
+async function showLoggedOutAdminWorkspace(page) {
+    await page.waitForFunction(() => window.__lumiAdminSessionSettled === true);
+    await page.evaluate(() => {
+        document.getElementById('admin-bejelentkezes-panel').hidden = true;
+        document.getElementById('admin-tartalom').hidden = false;
+    });
+}
+
+async function installEmailAlertAdminBoundaryMock(page) {
+    await page.route('https://cdn.jsdelivr.net/**', route => route.fulfill({
+        status: 200,
+        contentType: 'text/javascript; charset=utf-8',
+        body: ''
+    }));
+    await page.route('**/adatok.json*', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json; charset=utf-8',
+        body: '{}'
+    }));
+    await page.addInitScript(() => {
+        const initialEvents = [{
+            id: 'email-error-1',
+            booking_id: 'booking-1',
+            event_type: 'booking_confirmation_email',
+            channel: 'email',
+            status: 'error',
+            title: 'Foglalási email hiba',
+            message: 'A teszt email nem küldhető.',
+            metadata: {},
+            created_at: '2026-08-21T08:30:00.000Z',
+            bookings: {
+                customer_name: 'Teszt Anna',
+                customer_email: 'anna@example.com',
+                customer_phone: '+36201234567',
+                starts_at: '2026-08-22T08:00:00.000Z'
+            }
+        }];
+        const persistedAcknowledgement = localStorage.getItem('__lumiTestEmailAcknowledgement');
+        const events = persistedAcknowledgement
+            ? [JSON.parse(persistedAcknowledgement), ...initialEvents]
+            : [...initialEvents];
+        const session = {
+            access_token: 'admin-test-token',
+            user: { email: 'llevisimon@gmail.com' }
+        };
+
+        window.__lumiAdminSessionSettled = false;
+        window.__lumiBookingEventWrites = [];
+
+        function queryFor(table) {
+            let operation = 'select';
+            let payload = null;
+            let cachedResult = null;
+
+            const result = (single = false) => {
+                if (cachedResult) {
+                    return single && Array.isArray(cachedResult.data)
+                        ? { ...cachedResult, data: cachedResult.data[0] || null }
+                        : cachedResult;
+                }
+
+                if (table === 'booking_events' && operation === 'insert') {
+                    const rows = Array.isArray(payload) ? payload : [payload];
+                    const created = rows.map((row, index) => ({
+                        ...row,
+                        id: row.id || `created-event-${events.length + index + 1}`,
+                        created_at: row.created_at || new Date().toISOString(),
+                        bookings: null
+                    }));
+                    events.unshift(...created);
+                    window.__lumiBookingEventWrites.push(...created);
+                    const acknowledgement = created.find(event => event.event_type === 'admin_email_errors_acknowledged');
+                    if (acknowledgement) {
+                        localStorage.setItem('__lumiTestEmailAcknowledgement', JSON.stringify(acknowledgement));
+                    }
+                    cachedResult = { data: created, error: null };
+                } else if (table === 'booking_events') {
+                    cachedResult = { data: [...events], error: null };
+                } else {
+                    cachedResult = { data: [], error: null };
+                }
+
+                return single && Array.isArray(cachedResult.data)
+                    ? { ...cachedResult, data: cachedResult.data[0] || null }
+                    : cachedResult;
+            };
+
+            const query = {
+                select: () => query,
+                insert: value => { operation = 'insert'; payload = value; return query; },
+                update: value => { operation = 'update'; payload = value; return query; },
+                upsert: value => { operation = 'upsert'; payload = value; return query; },
+                delete: () => { operation = 'delete'; return query; },
+                eq: () => query,
+                neq: () => query,
+                in: () => query,
+                is: () => query,
+                gte: () => query,
+                lte: () => query,
+                gt: () => query,
+                lt: () => query,
+                order: () => query,
+                limit: () => query,
+                range: () => query,
+                single: async () => result(true),
+                maybeSingle: async () => ({ data: null, error: null }),
+                then: (resolve, reject) => Promise.resolve(result()).then(resolve, reject)
+            };
+            return query;
+        }
+
+        const client = {
+            auth: {
+                getSession: async () => {
+                    queueMicrotask(() => { window.__lumiAdminSessionSettled = true; });
+                    return { data: { session }, error: null };
+                },
+                onAuthStateChange: () => ({ data: { subscription: { unsubscribe() {} } } }),
+                signInWithPassword: async () => ({ data: { session }, error: null }),
+                signOut: async () => ({ error: null }),
+                updateUser: async () => ({ data: { user: session.user }, error: null })
+            },
+            from: table => queryFor(table),
+            rpc: async name => name === 'is_lumi_admin'
+                ? ({ data: true, error: null })
+                : ({ data: null, error: null }),
+            functions: { invoke: async () => ({ data: { ok: true }, error: null }) },
+            storage: {
+                from: () => ({
+                    remove: async () => ({ data: [], error: null }),
+                    upload: async () => ({ data: null, error: null })
+                })
+            }
+        };
+        window.supabase = { createClient: () => client };
+    });
+}
+
+test('a publikus oldalak betöltődnek JavaScript oldalhiba nélkül', async ({ page }) => {
+    const pageErrors = [];
+    page.on('pageerror', error => pageErrors.push(error.message));
+
+    for (const path of publicPages) {
+        const response = await page.goto(path, { waitUntil: 'domcontentloaded' });
+        expect(response, path + ' nem adott választ').not.toBeNull();
+        expect(response.status(), path + ' HTTP státusz').toBeLessThan(400);
+        await expect(page.locator('body')).toBeVisible();
+    }
+
+    expect(pageErrors).toEqual([]);
+});
+
+test('a főoldali vendégértesítő adminból kapcsolható és mobilon is rendezett', async ({ page }) => {
+    const cms = fs.readFileSync(path.resolve(__dirname, '..', 'admin-content.js'), 'utf8');
+    expect(cms).toContain("checkbox('fooldal.ertesito.aktiv'");
+    expect(cms).toContain("field('fooldal.ertesito.cimke'");
+    expect(cms).toContain("field('fooldal.ertesito.szoveg'");
+
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+    await page.evaluate(() => {
+        window.fooldalAdatokAlkalmazasa({
+            ertesito: {
+                aktiv: false,
+                cimke: 'Aktuális információ',
+                szoveg: 'Kiinduló tesztállapot.'
+            }
+        }, {});
+    });
+    await expect(page.locator('#vendegertesito')).toBeHidden();
+
+    await page.evaluate(() => {
+        const adatok = window.lumiAlapOldalAdatok();
+        adatok.fooldal.ertesito = {
+            aktiv: true,
+            cimke: 'Aktuális információ',
+            szoveg: 'Kedves Vendégeim!\nAugusztus 20–24. között szabadság miatt nem leszek elérhető.'
+        };
+        window.fooldalAdatokAlkalmazasa(adatok.fooldal, adatok.galeria);
+    });
+
+    const ertesito = page.locator('#vendegertesito');
+    await expect(ertesito).toBeVisible();
+    await expect(ertesito.locator('.vendegertesito-cimke')).toHaveText('Aktuális információ');
+    await expect(ertesito.locator('.vendegertesito-szoveg')).toContainText('Augusztus 20–24.');
+    const ertesitoTipografia = await ertesito.locator('.vendegertesito-szoveg').evaluate((elem) => ({
+        fontSize: Number.parseFloat(getComputedStyle(elem).fontSize),
+        bodyToken: Number.parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue('--lumi-font-body')
+        )
+    }));
+    expect(ertesitoTipografia.bodyToken).toBeGreaterThan(0);
+    expect(ertesitoTipografia.fontSize).toBe(ertesitoTipografia.bodyToken);
+    const mobilElhelyezes = await page.evaluate(() => {
+        const sav = document.getElementById('vendegertesito').getBoundingClientRect();
+        const hero = document.getElementById('hero').getBoundingClientRect();
+        return {
+            savAlja: Math.round(sav.bottom),
+            heroTeteje: Math.round(hero.top),
+            szelesseg: document.documentElement.scrollWidth
+        };
+    });
+    expect(mobilElhelyezes.heroTeteje).toBeGreaterThanOrEqual(mobilElhelyezes.savAlja);
+    expect(mobilElhelyezes.szelesseg).toBeLessThanOrEqual(375);
+
+    await page.setViewportSize({ width: 844, height: 390 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(844);
+
+    await page.evaluate(() => {
+        window.fooldalAdatokAlkalmazasa({
+            ertesito: {
+                aktiv: false,
+                cimke: 'Aktuális információ',
+                szoveg: 'Ez az üzenet most ne jelenjen meg.'
+            }
+        }, {});
+    });
+    await expect(ertesito).toBeHidden();
+});
+
+test('mobilon minden szerkeszthető publikus és admin mező 22 pixeles technikai méretet és optikai korrekciót használ', async ({ page }) => {
+    const mezoSelector = [
+        'input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"])',
+        'select',
+        'textarea',
+        '[contenteditable="true"]'
+    ].join(',');
+
+    await page.setViewportSize({ width: 375, height: 812 });
+    for (const utvonal of ['/foglalas/', '/admin/']) {
+        await page.goto(utvonal, { waitUntil: 'domcontentloaded' });
+        const mezok = await page.locator(mezoSelector).evaluateAll((elemek) => elemek.map((elem) => ({
+            azonosito: elem.id || elem.name || elem.type || elem.tagName.toLowerCase(),
+            betumeret: Number.parseFloat(getComputedStyle(elem).fontSize),
+            optikaiArany: getComputedStyle(elem).fontSizeAdjust
+        })));
+        expect(mezok.length, utvonal + ' nem tartalmazott ellenőrizhető mezőt').toBeGreaterThan(0);
+        expect(
+            mezok.filter(({ betumeret }) => betumeret < 22),
+            utvonal + ' oldalon 22 px alatti mobilmező maradt'
+        ).toEqual([]);
+        expect(
+            mezok.filter(({ optikaiArany }) => optikaiArany !== '0.36'),
+            utvonal + ' oldalon optikai korrekció nélküli mobilmező maradt'
+        ).toEqual([]);
+        expect(await page.evaluate(() => getComputedStyle(document.documentElement).webkitTextSizeAdjust)).toBe('100%');
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+    }
+});
+
+test('shared typography roles work on public and admin mobile views', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const desktop = await page.evaluate(() => ({
+        button: getComputedStyle(document.querySelector('.gomb')).fontSize,
+        token: getComputedStyle(document.documentElement).getPropertyValue('--lumi-font-button').trim()
+    }));
+    expect(desktop).toEqual({ button: '13px', token: '13px' });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const publicMobile = await page.evaluate(() => ({
+        button: getComputedStyle(document.querySelector('.gomb')).fontSize,
+        galleryButton: getComputedStyle(document.querySelector('.galeria-atvezeto-szoveg .gomb')).fontSize,
+        caption: getComputedStyle(document.documentElement).getPropertyValue('--lumi-font-caption').trim()
+    }));
+    expect(publicMobile).toEqual({ button: '13px', galleryButton: '13px', caption: '12px' });
+
+    await page.goto('/admin/', { waitUntil: 'domcontentloaded' });
+    const adminMobile = await page.evaluate(() => ({
+        button: getComputedStyle(document.querySelector('.admin-gomb')).fontSize,
+        compactButton: getComputedStyle(document.querySelector('.admin-kis-gomb')).fontSize,
+        label: getComputedStyle(document.querySelector('.admin-mezo')).fontSize,
+        calendar: getComputedStyle(document.documentElement).getPropertyValue('--lumi-font-calendar').trim()
+    }));
+    expect(adminMobile).toEqual({ button: '13px', compactButton: '13px', label: '12px', calendar: '10px' });
+});
+
+test('a foglalás üres beküldése helyben jelez és nem indít adatbázis-írást', async ({ page }) => {
+    let writeRequest = false;
+    await page.route('**/functions/v1/create-booking-with-email', route => {
+        writeRequest = true;
+        return route.abort();
+    });
+    await page.route('**/rest/v1/rpc/create_booking', route => {
+        writeRequest = true;
+        return route.abort();
+    });
+
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#foglalas-urlap')).toBeVisible();
+    await page.locator('#foglalas-urlap').evaluate(urlap => {
+        urlap.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    });
+    await expect(page.locator('#foglalas-status')).not.toHaveText('');
+    expect(writeRequest).toBe(false);
+});
+
+test('a foglalási kapcsolati linkek a tényleges tartalombetöltéskor frissülnek', async ({ page }) => {
+    const instagramUrl = 'https://www.instagram.com/lumi-event-test/';
+    const messengerUrl = 'https://m.me/lumi-event-test';
+    const smsUrl = 'sms:+36123456789';
+
+    await page.route('**/rest/v1/site_settings*', async route => {
+        const key = new URL(route.request().url()).searchParams.get('key') || '';
+
+        if (key.includes('site_content')) {
+            await new Promise(resolve => setTimeout(resolve, 1200));
+            return route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    value: {
+                        kapcsolat: {
+                            instagramUzenet: instagramUrl,
+                            messenger: messengerUrl,
+                            smsUzenet: smsUrl
+                        }
+                    }
+                })
+            });
+        }
+
+        return route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({ value: { visible: true } })
+        });
+    });
+    await page.route('**/rest/v1/services*', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: '[]'
+    }));
+    await page.route('**/rest/v1/coupons*', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: '[]'
+    }));
+
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('[data-booking-contact="instagram"]')).toHaveAttribute('href', instagramUrl);
+    await expect(page.locator('[data-booking-contact="messenger"]')).toHaveAttribute('href', messengerUrl);
+    await expect(page.locator('[data-booking-contact="sms"]')).toHaveAttribute('href', smsUrl);
+});
+
+test('a publikus foglalási útvonalak megőrzik a kártya- és ikonstílusukat', async ({ page }) => {
+    const kartyaStilus = async () => page.locator('.foglalas-ut-kartya').first().evaluate(kartya => {
+        const ikon = kartya.querySelector('.foglalas-ut-ikon');
+        const cim = kartya.querySelector('.foglalas-ut-cim');
+        const kartyaCss = getComputedStyle(kartya);
+        const ikonCss = getComputedStyle(ikon);
+        const cimCss = getComputedStyle(cim);
+
+        return {
+            kartyaMegjelenes: kartyaCss.display,
+            ikonMegjelenes: ikonCss.display,
+            ikonSzelesseg: ikonCss.width,
+            ikonMagassag: ikonCss.height,
+            cimBetutipus: cimCss.fontFamily,
+            cimBetumeret: cimCss.fontSize,
+            cimAlahuzas: cimCss.textDecorationLine
+        };
+    });
+
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    expect(await kartyaStilus()).toEqual({
+        kartyaMegjelenes: 'grid',
+        ikonMegjelenes: 'flex',
+        ikonSzelesseg: '42px',
+        ikonMagassag: '42px',
+        cimBetutipus: '"Cormorant Garamond", serif',
+        cimBetumeret: '28px',
+        cimAlahuzas: 'none'
+    });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    expect(await kartyaStilus()).toEqual({
+        kartyaMegjelenes: 'grid',
+        ikonMegjelenes: 'flex',
+        ikonSzelesseg: '34px',
+        ikonMagassag: '34px',
+        cimBetutipus: '"Cormorant Garamond", serif',
+        cimBetumeret: '21px',
+        cimAlahuzas: 'none'
+    });
+});
+
+test('a foglalási űrlap alapstílusai a publikus bundle-ben maradnak', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+
+    const desktop = await page.evaluate(() => {
+        const stilus = selector => getComputedStyle(document.querySelector(selector));
+        const technikai = stilus('#foglalas-szolgatatas');
+        const fej = stilus('.foglalas-lepes-fej');
+        const szam = stilus('.foglalas-lepes-szam');
+        const asszisztens = stilus('.foglalas-asszisztens');
+        const stilusRacs = stilus('.foglalas-stilus-racs');
+        const stilusKartya = stilus('.foglalas-stilus-kartya');
+        const feltoltes = stilus('.foglalas-kepfeltoltes');
+        const fajlInput = stilus('#foglalas-inspiracio-kep');
+        const adatRacs = stilus('.foglalas-adat-racs');
+
+        return {
+            technikaiPozicio: technikai.position,
+            technikaiSzelesseg: technikai.width,
+            technikaiMagassag: technikai.height,
+            fejMegjelenes: fej.display,
+            szamMegjelenes: szam.display,
+            asszisztensMegjelenes: asszisztens.display,
+            stilusRacsMegjelenes: stilusRacs.display,
+            stilusRacsOszlopok: stilusRacs.gridTemplateColumns.split(' ').length,
+            stilusKartyaMegjelenes: stilusKartya.display,
+            feltoltesMegjelenes: feltoltes.display,
+            fajlInputPozicio: fajlInput.position,
+            fajlInputAtlatszosag: fajlInput.opacity,
+            adatRacsMegjelenes: adatRacs.display,
+            adatRacsOszlopok: adatRacs.gridTemplateColumns.split(' ').length
+        };
+    });
+
+    expect(desktop).toEqual({
+        technikaiPozicio: 'absolute',
+        technikaiSzelesseg: '1px',
+        technikaiMagassag: '1px',
+        fejMegjelenes: 'grid',
+        szamMegjelenes: 'flex',
+        asszisztensMegjelenes: 'grid',
+        stilusRacsMegjelenes: 'grid',
+        stilusRacsOszlopok: 2,
+        stilusKartyaMegjelenes: 'grid',
+        feltoltesMegjelenes: 'flex',
+        fajlInputPozicio: 'absolute',
+        fajlInputAtlatszosag: '0',
+        adatRacsMegjelenes: 'grid',
+        adatRacsOszlopok: 3
+    });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    const mobile = await page.evaluate(() => ({
+        stilusRacsOszlopok: getComputedStyle(document.querySelector('.foglalas-stilus-racs')).gridTemplateColumns.split(' ').length,
+        adatRacsOszlopok: getComputedStyle(document.querySelector('.foglalas-adat-racs')).gridTemplateColumns.split(' ').length
+    }));
+    expect(mobile).toEqual({ stilusRacsOszlopok: 1, adatRacsOszlopok: 1 });
+});
+
+test('a teljes oldalas foglalási űrlap minden részt egyben mutat és megőrzi a választásokat', async ({ page }) => {
+    await page.route('**/rest/v1/services*', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify([
+            ['001', 'Építés - S méret', '7000 Ft', 7000, 150],
+            ['002', 'Építés - M méret', '8000 Ft', 8000, 180],
+            ['003', 'Építés - L méret', '9000 Ft', 9000, 210],
+            ['004', 'Töltés - S méret', '6500 Ft', 6500, 120],
+            ['005', 'Töltés - M méret', '7500 Ft', 7500, 150],
+            ['006', 'Töltés - L méret', '8500 Ft', 8500, 180],
+            ['007', 'Manikűr - Sima manikűr', '2500 Ft', 2500, 60],
+            ['008', 'Manikűr - Gél lakk leszedés + manikűr', '3000 Ft', 3000, 60],
+            ['009', 'Manikűr - Műköröm leszedés + manikűr', '3500 Ft', 3500, 90],
+            ['010', 'Gél lakk - Hagyományos gél lakk', '4500 Ft', 4500, 90],
+            ['011', 'Gél lakk - Erősített gél lakk', '5500 Ft', 5500, 120]
+        ].map(([id, name, priceText, priceAmount, durationMinutes]) => ({
+            id: `00000000-0000-0000-0000-000000000${id}`,
+            name,
+            description: name,
+            price_text: priceText,
+            price_amount: priceAmount,
+            price_unit: 'Ft',
+            price_suffix: '',
+            duration_minutes: durationMinutes
+        })))
+    }));
+    await page.route('**/rest/v1/rpc/get_available_dates_for_style', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify([{ work_date: '2099-12-01' }])
+    }));
+    await page.route('**/rest/v1/rpc/get_available_slots_for_style', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify([{ starts_at: '2099-12-01T10:00:00+01:00', label: '10:00' }])
+    }));
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('.foglalas-lepes:visible')).toHaveCount(5);
+    await expect(page.locator('#foglalas-lepes-felirat')).toHaveCount(0);
+    await expect(page.locator('.foglalas-flow-navigacio')).toHaveCount(0);
+    await expect(page.locator('body')).not.toHaveClass(/foglalas-folyamat-aktiv/);
+
+    await expect(page.locator('#foglalas-szolgatatas option[value]:not([value=""])').first()).toBeAttached();
+    const szolgaltatasId = await page.locator('#foglalas-szolgatatas option[value]:not([value=""])').first().getAttribute('value');
+    await page.selectOption('#foglalas-szolgatatas', szolgaltatasId);
+
+    await page.locator('input[name="korom-stilus"]').first().evaluate(input => {
+        input.checked = true;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    await expect(page.locator('#foglalas-datum-kartyak [data-value="2099-12-01"]')).toBeVisible();
+    await page.locator('#foglalas-datum-kartyak [data-value="2099-12-01"]').click();
+    await expect(page.locator('#foglalas-ido-kartyak [data-value="2099-12-01T10:00:00+01:00"]')).toBeVisible();
+    await page.locator('#foglalas-ido-kartyak [data-value="2099-12-01T10:00:00+01:00"]').click();
+
+    await expect(page.locator('.foglalas-lepes:visible')).toHaveCount(5);
+    await expect(page.locator('#foglalas-szolgatatas')).toHaveValue(szolgaltatasId);
+    await expect(page.locator('input[name="korom-stilus"]').first()).toBeChecked();
+    await expect(page.locator('#foglalas-ido')).toHaveValue('2099-12-01T10:00:00+01:00');
+    await expect(page.locator('#foglalas-osszefoglalo')).toContainText('10:00');
+});
+
+test('a teljes oldalas foglalási felület asztalon és mobilon is tömör választókat használ', async ({ page }) => {
+    await page.route('**/rest/v1/services*', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify([
+            ['001', 'Építés - S méret', '7000 Ft', 7000, 150],
+            ['002', 'Építés - M méret', '8000 Ft', 8000, 180],
+            ['003', 'Építés - L méret', '9000 Ft', 9000, 210],
+            ['004', 'Töltés - S méret', '6500 Ft', 6500, 120],
+            ['005', 'Töltés - M méret', '7500 Ft', 7500, 150],
+            ['006', 'Töltés - L méret', '8500 Ft', 8500, 180],
+            ['007', 'Manikűr - Sima manikűr', '2500 Ft', 2500, 60],
+            ['008', 'Manikűr - Gél lakk leszedés + manikűr', '3000 Ft', 3000, 60],
+            ['009', 'Manikűr - Műköröm leszedés + manikűr', '3500 Ft', 3500, 90],
+            ['010', 'Gél lakk - Hagyományos gél lakk', '4500 Ft', 4500, 90],
+            ['011', 'Gél lakk - Erősített gél lakk', '5500 Ft', 5500, 120]
+        ].map(([id, name, priceText, priceAmount, durationMinutes]) => ({
+            id: `00000000-0000-0000-0000-000000000${id}`,
+            name,
+            description: name,
+            price_text: priceText,
+            price_amount: priceAmount,
+            price_unit: 'Ft',
+            price_suffix: '',
+            duration_minutes: durationMinutes
+        })))
+    }));
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('.foglalas-flow-racs')).toHaveCount(0);
+    await expect(page.locator('.foglalas-lepes:visible')).toHaveCount(5);
+    const desktopKartya = await page.locator('#foglalas-szolgaltatas-kartyak .foglalas-valaszto-kartya').first().boundingBox();
+    expect(desktopKartya.height).toBeLessThanOrEqual(96);
+    const desktopKartyaMeta = await page.locator('#foglalas-szolgaltatas-kartyak .foglalas-kartya-meta').first().evaluate((meta) => {
+        const ar = meta.querySelector('.foglalas-kartya-meta-ar').getBoundingClientRect();
+        const ido = meta.querySelector('.foglalas-kartya-meta-ido').getBoundingClientRect();
+        return {
+            egySorban: Math.abs(ar.top - ido.top) <= 1,
+            elvalasztoLathato: getComputedStyle(meta.querySelector('.foglalas-kartya-meta-elvalaszto')).display !== 'none'
+        };
+    });
+    expect(desktopKartyaMeta).toEqual({ egySorban: true, elvalasztoLathato: true });
+    const desktopOsszefoglalo = await page.locator('#foglalas-osszefoglalo').boundingBox();
+    const desktopKuldes = await page.locator('#foglalas-kuldes').boundingBox();
+    expect(desktopKuldes.y - (desktopOsszefoglalo.y + desktopOsszefoglalo.height)).toBeGreaterThanOrEqual(20);
+    expect(Math.abs(
+        (desktopKuldes.x + desktopKuldes.width) - (desktopOsszefoglalo.x + desktopOsszefoglalo.width)
+    )).toBeLessThanOrEqual(1);
+    expect(desktopKuldes.width).toBeLessThanOrEqual(280);
+
+    await page.locator('[data-booking-path="online"]').click();
+    await expect(page.locator('body')).not.toHaveClass(/foglalas-folyamat-aktiv/);
+    await expect(page.locator('.foglalas-nyito')).toBeVisible();
+    await expect(page.locator('#foglalas-ellenorzes')).toBeVisible();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('.foglalas-lepes:visible')).toHaveCount(5);
+    const csoportok = page.locator('#foglalas-szolgaltatas-kartyak .foglalas-szolgaltatas-csoport');
+    await expect(csoportok).toHaveCount(4);
+    await expect(csoportok.locator('.foglalas-szolgaltatas-csoport-cim')).toHaveText([
+        'Építés',
+        'Töltés',
+        'Manikűr',
+        'Gél lakk'
+    ]);
+    expect(await page.locator('#foglalas-szolgatatas optgroup').evaluateAll(
+        (elemek) => elemek.map((elem) => elem.label)
+    )).toEqual(['Építés', 'Töltés', 'Manikűr', 'Gél lakk']);
+
+    const csoportMeretek = await csoportok.evaluateAll((elemek) => elemek.map((elem) => ({
+        kartyaDb: elem.querySelectorAll('.foglalas-valaszto-kartya').length,
+        felsoEl: elem.getBoundingClientRect().top,
+        alsoEl: elem.getBoundingClientRect().bottom
+    })));
+    expect(csoportMeretek.map(({ kartyaDb }) => kartyaDb)).toEqual([3, 3, 3, 2]);
+    expect(csoportMeretek[1].felsoEl).toBeGreaterThanOrEqual(csoportMeretek[0].alsoEl);
+    expect(csoportMeretek[2].felsoEl).toBeGreaterThanOrEqual(csoportMeretek[1].alsoEl);
+    expect(csoportMeretek[3].felsoEl).toBeGreaterThanOrEqual(csoportMeretek[2].alsoEl);
+
+    const epitesKartyak = csoportok.nth(0).locator('.foglalas-valaszto-kartya');
+    await expect(epitesKartyak.locator('.foglalas-kartya-cim')).toHaveText(['S méret', 'M méret', 'L méret']);
+    const epitesFelsoElek = await epitesKartyak.evaluateAll(
+        (elemek) => elemek.map((elem) => Math.round(elem.getBoundingClientRect().top))
+    );
+    expect(new Set(epitesFelsoElek).size).toBe(1);
+    const mobilKartyaMeta = await epitesKartyak.first().locator('.foglalas-kartya-meta').evaluate((meta) => {
+        const ar = meta.querySelector('.foglalas-kartya-meta-ar').getBoundingClientRect();
+        const idoElem = meta.querySelector('.foglalas-kartya-meta-ido');
+        const ido = idoElem.getBoundingClientRect();
+        const idoStilus = getComputedStyle(idoElem);
+        return {
+            idoUjSorban: ido.top >= ar.bottom - 1,
+            idoEgySoros: ido.height <= Number.parseFloat(idoStilus.lineHeight) + 1,
+            elvalasztoRejtett: getComputedStyle(meta.querySelector('.foglalas-kartya-meta-elvalaszto')).display === 'none'
+        };
+    });
+    expect(mobilKartyaMeta).toEqual({
+        idoUjSorban: true,
+        idoEgySoros: true,
+        elvalasztoRejtett: true
+    });
+
+    const szolgaltatasKartya = await page.locator('#foglalas-szolgaltatas-kartyak .foglalas-valaszto-kartya').first().boundingBox();
+    const stilusKartya = await page.locator('.foglalas-stilus-kartya').first().boundingBox();
+    expect(szolgaltatasKartya.height).toBeLessThanOrEqual(80);
+    expect(stilusKartya.height).toBeLessThanOrEqual(80);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+
+    const telefonMezoStilus = await page.locator('.tel-csoport > .urlap-mezo').evaluate((mezo) => {
+        const mezoStilus = getComputedStyle(mezo);
+        const csoportStilus = getComputedStyle(mezo.parentElement);
+        return {
+            kulsoKeret: csoportStilus.borderRightWidth,
+            belsoKeret: mezoStilus.borderRightWidth,
+            betumeret: Number.parseFloat(mezoStilus.fontSize)
+        };
+    });
+    expect(telefonMezoStilus).toEqual({
+        kulsoKeret: '1px',
+        belsoKeret: '0px',
+        betumeret: 22
+    });
+    const mobilOsszefoglalo = await page.locator('#foglalas-osszefoglalo').boundingBox();
+    const mobilKuldes = await page.locator('#foglalas-kuldes').boundingBox();
+    expect(mobilKuldes.y - (mobilOsszefoglalo.y + mobilOsszefoglalo.height)).toBeGreaterThanOrEqual(20);
+    expect(Math.abs(mobilKuldes.x - mobilOsszefoglalo.x)).toBeLessThanOrEqual(1);
+    expect(Math.abs(mobilKuldes.width - mobilOsszefoglalo.width)).toBeLessThanOrEqual(1);
+    await expect(page.locator('#foglalas-status')).toBeHidden();
+
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.foglalas-szolgaltatas-csoport')).toHaveCount(4);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.foglalas-szolgaltatas-csoport')).toHaveCount(4);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(844);
+});
+
+test('a foglalások között kötelező a 30 perces szünet', () => {
+    const migration = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-booking-buffer.sql'), 'utf8');
+    const schema = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-schema.sql'), 'utf8');
+    const styleMigration = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-booking-style-duration.sql'), 'utf8');
+    const blockedTimeMigration = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-blocked-time-status.sql'), 'utf8');
+    const statusFix = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-booking-buffer-status-fix.sql'), 'utf8');
+    const bufferedRange = "b.ends_at + interval '30 minutes'";
+    const bufferedSlot = "slots.ends_at + interval '30 minutes'";
+
+    [migration, schema, styleMigration, blockedTimeMigration].forEach(sql => {
+        expect(sql).toContain(bufferedRange);
+        expect(sql).toContain(bufferedSlot);
+    });
+    expect(migration).toContain('create trigger bookings_enforce_buffer');
+    expect(migration).toContain("new.ends_at + interval '30 minutes'");
+    expect(migration).toContain("if tg_op = 'UPDATE' then");
+    expect(migration).toContain('new.starts_at is not distinct from old.starts_at');
+    expect(migration).toContain("old.status in ('pending', 'confirmed', 'done')");
+    expect(schema).toContain('new.starts_at is not distinct from old.starts_at');
+    expect(statusFix).toContain('create or replace function public.lumi_enforce_booking_buffer()');
+    expect(statusFix).toContain('new.starts_at is not distinct from old.starts_at');
+    expect(statusFix).toContain('create trigger bookings_enforce_buffer');
+
+    const utkozik = (meglevoVege, ujKezdete) => ujKezdete < meglevoVege + 30;
+    expect(utkozik(12 * 60 + 30, 12 * 60 + 30)).toBe(true);
+    expect(utkozik(12 * 60 + 30, 13 * 60)).toBe(false);
+});
+
+test('az admin csak a ténylegesen módosított foglalási kártyákat menti', () => {
+    const adminForras = fs.readFileSync(path.resolve(__dirname, '..', 'src', 'admin', '10-bookings-events.js'), 'utf8');
+
+    expect(adminForras).toContain('function foglalasKartyaModosult(kartya, modositas)');
+    expect(adminForras).toContain('if (!foglalasKartyaModosult(kartya, modositas))');
+    expect(adminForras).toContain('kartya.dataset.eredetiReason = megjegyzes');
+    expect(adminForras).toContain("onlineStatusz('Nem történt módosítás.')");
+});
+test('a foglalási biztonsági folyamatok idempotensek, privátak és tartósan újrapróbálhatók', () => {
+    const bookingForras = fs.readFileSync(path.resolve(__dirname, '..', 'src', 'booking', '10-form-services.js'), 'utf8');
+    const adminForras = fs.readFileSync(path.resolve(__dirname, '..', 'src', 'admin', '10-bookings-events.js'), 'utf8');
+    const migration = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-booking-reliability.sql'), 'utf8');
+    const createFunction = fs.readFileSync(path.resolve(__dirname, '..', 'supabase', 'functions', 'create-booking-with-email', 'index.ts'), 'utf8');
+    const uploadFunction = fs.readFileSync(path.resolve(__dirname, '..', 'supabase', 'functions', 'upload-booking-inspirations', 'index.ts'), 'utf8');
+    const sendFunction = fs.readFileSync(path.resolve(__dirname, '..', 'supabase', 'functions', 'send-booking-email', 'index.ts'), 'utf8');
+    const updateFunction = fs.readFileSync(path.resolve(__dirname, '..', 'supabase', 'functions', 'send-booking-update-email', 'index.ts'), 'utf8');
+    const workerFunction = fs.readFileSync(path.resolve(__dirname, '..', 'supabase', 'functions', 'process-booking-notifications', 'index.ts'), 'utf8');
+    const previewFunction = fs.readFileSync(path.resolve(__dirname, '..', 'supabase', 'functions', 'send-email-previews', 'index.ts'), 'utf8');
+    const retentionMigration = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-booking-retention-monthly-report.sql'), 'utf8');
+
+    expect(bookingForras).toContain("functions.invoke('create-booking-with-email'");
+    expect(bookingForras).toContain("functions.invoke('upload-booking-inspirations'");
+    expect(bookingForras).not.toContain("rpc('create_booking'");
+    expect(bookingForras).not.toContain(".from('site-media').upload");
+    expect(bookingForras).toContain('keresAzonosito !== allapot.datumKeresAzonosito');
+    expect(bookingForras).toContain('keresAzonosito !== allapot.idoKeresAzonosito');
+
+    expect(migration).toContain("'booking-inspirations'");
+    expect(migration).toContain('false,');
+    expect(migration).toContain('create_booking_idempotent');
+    expect(migration).toContain('booking_email_jobs');
+    expect(migration).toContain('claim_due_booking_email_jobs');
+    expect(migration).toContain('apply_admin_booking_changes');
+    expect(migration).toContain('admin_booking_change_operations');
+
+    expect(createFunction).toContain('p_request_key: requestKey');
+    expect(uploadFunction).toContain('.eq("request_key", requestKey)');
+    expect(uploadFunction).toContain('inspiration_upload_started_at');
+    expect(uploadFunction).not.toContain('getPublicUrl');
+    expect(adminForras).toContain("rpc('apply_admin_booking_changes'");
+    expect(adminForras).toContain('foglalasMentesMuvelet');
+
+    for (const source of [sendFunction, updateFunction, workerFunction]) {
+        expect(source).toContain('Idempotency-Key');
+    }
+    expect(sendFunction).toContain('finish_booking_email_job');
+    expect(updateFunction).toContain('finish_booking_email_job');
+    expect(workerFunction).toContain('claim_due_booking_email_jobs');
+    expect(workerFunction).toContain('claim_expired_bookings_for_retention');
+    expect(workerFunction).toContain('claim_due_booking_monthly_reports');
+    expect(workerFunction).toContain('monthly-booking-report/');
+    expect(previewFunction).toContain('monthly_booking_report');
+    expect(retentionMigration).toContain("now() - interval '6 months'");
+    expect(retentionMigration).toContain("date_trunc('month', v_today - interval '1 month')");
+    expect(retentionMigration).toContain("'5 8 1 * *'");
+    expect(retentionMigration).toContain('alter table public.booking_monthly_report_jobs enable row level security');
+    expect(retentionMigration).toContain('revoke all on function public.claim_due_booking_monthly_reports');
+});
+
+
+test('a fő publikus oldalak nagyíthatók és helyes főcím-struktúrát használnak', async ({ page }) => {
+    for (const path of ['/', '/arlista/', '/galeria/', '/foglalas/']) {
+        await page.goto(path, { waitUntil: 'domcontentloaded' });
+        await expect(page.locator('main')).toHaveCount(1);
+        await expect(page.locator('h1')).toHaveCount(1);
+        await expect(page.locator('meta[name="viewport"]')).not.toHaveAttribute('content', /maximum-scale/);
+    }
+});
+
+test('a mobil főoldal címei törnek, a térközei és a CTA nyilai egységesek', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+
+    const cimStilusok = await page.locator(
+        '#szolgaltatasok h2, .galeria-showcase-fej h2, #kapcsolat h2'
+    ).evaluateAll((cimek) => cimek.map((cim) => {
+        const stilus = getComputedStyle(cim);
+        return {
+            whiteSpace: stilus.whiteSpace,
+            lineHeight: Number.parseFloat(stilus.lineHeight)
+        };
+    }));
+    expect(cimStilusok.every(({ whiteSpace, lineHeight }) =>
+        whiteSpace === 'normal' && lineHeight > 0
+    )).toBe(true);
+
+    const nyilak = await page.locator(
+        '.hero-visual-cimke a > span, .szoveges-link > span, .szolgaltatas-kartya > a > span'
+    ).allTextContents();
+    expect(nyilak.length).toBeGreaterThan(0);
+    expect(nyilak.every((nyil) => nyil.trim() === '→')).toBe(true);
+
+    const szekcioTavolsagok = await page.locator(
+        '#bemutatkozas, #szolgaltatasok, #galeria-atvezeto'
+    ).evaluateAll((szekciok) => szekciok.map(
+        (szekcio) => Number.parseFloat(getComputedStyle(szekcio).marginBottom)
+    ));
+    expect(szekcioTavolsagok).toEqual([64, 64, 0]);
+});
+
+test('a publikus H2-k mobilon két pixellel nőnek, desktopon változatlanok maradnak', async ({ page }) => {
+    const akciosH2Meret = () => page.evaluate(() => {
+        const banner = document.createElement('div');
+        const cim = document.createElement('h2');
+        banner.className = 'akcios-banner';
+        cim.className = 'akcios-banner-cim';
+        banner.append(cim);
+        document.body.append(banner);
+        const meret = Number.parseFloat(getComputedStyle(cim).fontSize);
+        banner.remove();
+        return meret;
+    });
+
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const desktopFooldalH2Meretek = await page.locator('main h2').evaluateAll((cimek) => cimek.map(
+        (cim) => Number.parseFloat(getComputedStyle(cim).fontSize)
+    ));
+    expect(desktopFooldalH2Meretek).toEqual([94, 78, 78, 78, 88]);
+    expect(await akciosH2Meret()).toBe(52);
+
+    await page.goto('/adatkezeles/', { waitUntil: 'domcontentloaded' });
+    const desktopJogiH2Meretek = await page.locator('.jogi-tartalom h2').evaluateAll(
+        (cimek) => cimek.map((cim) => getComputedStyle(cim).fontSize)
+    );
+    expect(desktopJogiH2Meretek.every((meret) => meret === '40px')).toBe(true);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const mobilFooldalH2Meretek = await page.locator('main h2').evaluateAll((cimek) => cimek.map(
+        (cim) => Number.parseFloat(getComputedStyle(cim).fontSize)
+    ));
+    expect(mobilFooldalH2Meretek).toEqual([48.8, 44.9, 42.95, 40, 38.66]);
+    expect(await akciosH2Meret()).toBe(36);
+
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    const mobilFoglalasH2Meretek = await page.locator('main h2').evaluateAll((cimek) => cimek.map(
+        (cim) => Number.parseFloat(getComputedStyle(cim).fontSize)
+    ));
+    expect(mobilFoglalasH2Meretek).toEqual([50.75, 41]);
+
+    await page.goto('/adatkezeles/', { waitUntil: 'domcontentloaded' });
+    const jogiH2Meretek = await page.locator('.jogi-tartalom h2').evaluateAll(
+        (cimek) => cimek.map((cim) => getComputedStyle(cim).fontSize)
+    );
+    expect(jogiH2Meretek.length).toBeGreaterThan(0);
+    expect(jogiH2Meretek.every((meret) => meret === '42px')).toBe(true);
+});
+
+test('minden publikus mobil szöveg ugyanazt az egyetlen mesterskálát örökli', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    for (const path of ['/', '/arlista/', '/galeria/', '/foglalas/', '/adatkezeles/']) {
+        await page.goto(path, { waitUntil: 'domcontentloaded' });
+        const tipografia = await page.evaluate(() => {
+            const meretezhetoElemek = Array.from(document.querySelectorAll(
+                '.site-header a, main h1, main h2, main h3, main p, main li, main button, main label, main input, footer a, footer p'
+            ));
+            const szovegSkala = (elem) => {
+                const stilus = getComputedStyle(elem);
+                return stilus.webkitTextSizeAdjust || stilus.textSizeAdjust;
+            };
+            return {
+                token: getComputedStyle(document.documentElement)
+                    .getPropertyValue('--ui-mobile-type-scale').trim(),
+                bodySkala: szovegSkala(document.body),
+                mindenSzovegAzonos: meretezhetoElemek.every(
+                    (elem) => szovegSkala(elem) === '80%'
+                ),
+                dokumentumSzelesseg: document.documentElement.scrollWidth
+            };
+        });
+
+        expect(tipografia.token).toBe('80%');
+        expect(tipografia.bodySkala).toBe('80%');
+        expect(tipografia.mindenSzovegAzonos).toBe(true);
+        expect(tipografia.dokumentumSzelesseg).toBeLessThanOrEqual(390);
+    }
+
+    await page.goto('/admin/', { waitUntil: 'domcontentloaded' });
+    const adminSkala = await page.evaluate(() => {
+        const stilus = getComputedStyle(document.body);
+        return stilus.webkitTextSizeAdjust || stilus.textSizeAdjust;
+    });
+    expect(adminSkala).toBe('100%');
+});
+
+test('a főoldali szolgáltatásrész a Barna-Beige-Rosy rendszerben asztalon és mobilon is rendezett', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const hatterKepSzelessegek = await page.locator('.szolgaltatas-kartya').evaluateAll(async (kartyak) =>
+        Promise.all(kartyak.map(async (kartya) => {
+            const hatter = getComputedStyle(kartya, '::before').backgroundImage;
+            const kepUrl = hatter.match(/url\(["']?(.*?)["']?\)/)?.[1];
+            if (!kepUrl) return 0;
+            const kep = new Image();
+            kep.src = kepUrl;
+            await kep.decode();
+            return kep.naturalWidth;
+        }))
+    );
+
+    const asztali = await page.locator('#szolgaltatasok').evaluate((szekcio) => {
+        const gyokerStilus = getComputedStyle(document.documentElement);
+        const lista = szekcio.querySelector('.szolgaltatas-lista');
+        const kartyak = Array.from(szekcio.querySelectorAll('.szolgaltatas-kartya'));
+        return {
+            primary: gyokerStilus.getPropertyValue('--ui-primary').trim(),
+            accent: gyokerStilus.getPropertyValue('--ui-accent').trim(),
+            highlight: gyokerStilus.getPropertyValue('--ui-highlight').trim(),
+            warm: gyokerStilus.getPropertyValue('--ui-warm').trim(),
+            hatter: getComputedStyle(szekcio).backgroundColor,
+            oszlopok: getComputedStyle(lista).gridTemplateColumns.split(/\s+/).length,
+            listaOverflow: getComputedStyle(lista).overflow,
+            kartyak: kartyak.length,
+            kepHatters: kartyak.map((kartya) => getComputedStyle(kartya, '::before').backgroundImage),
+            fedoretegek: kartyak.map((kartya) => getComputedStyle(kartya, '::after').backgroundImage),
+            keretSzinek: kartyak.map((kartya) => getComputedStyle(kartya).borderColor),
+            keretSzelessegek: kartyak.map((kartya) => getComputedStyle(kartya).borderWidth),
+            keretIvek: kartyak.map((kartya) => ({
+                kartya: getComputedStyle(kartya).borderRadius,
+                keret: getComputedStyle(kartya, '::after').borderRadius
+            })),
+            szamok: kartyak.reduce((darab, kartya) => darab + kartya.querySelectorAll('.szolgaltatas-szam').length, 0),
+            cimSzinek: kartyak.map((kartya) => getComputedStyle(kartya.querySelector('h3')).color),
+            linkMagassagok: kartyak.map((kartya) =>
+                Math.round(kartya.querySelector('a').getBoundingClientRect().height))
+        };
+    });
+
+    expect(asztali).toMatchObject({
+        primary: '#91766e',
+        accent: '#f0d7d5',
+        highlight: '#f3ece3',
+        warm: '#f0d7d5',
+        hatter: 'rgb(145, 118, 110)',
+        listaOverflow: 'visible',
+        oszlopok: 2,
+        kartyak: 4
+    });
+    expect(asztali.linkMagassagok.every((magassag) => magassag >= 44)).toBe(true);
+    expect(hatterKepSzelessegek.every((szelesseg) => szelesseg > 0)).toBe(true);
+    expect(asztali.kepHatters.every((kep) => kep !== 'none')).toBe(true);
+    expect(asztali.fedoretegek.every((reteg) => reteg.includes('linear-gradient'))).toBe(true);
+    expect(asztali.keretSzinek.every((szin) => szin === 'rgb(240, 215, 213)')).toBe(true);
+    expect(asztali.keretSzelessegek.every((szelesseg) => szelesseg === '2px')).toBe(true);
+    expect(asztali.keretIvek.every(({ kartya, keret }) => kartya === keret)).toBe(true);
+    expect(asztali.szamok).toBe(0);
+    expect(asztali.cimSzinek.every((szin) => szin === 'rgb(255, 249, 245)')).toBe(true);
+
+    const elsoKartya = page.locator('.szolgaltatas-kartya').first();
+    await elsoKartya.hover();
+    await expect.poll(async () => elsoKartya.evaluate((kartya) =>
+        new DOMMatrixReadOnly(getComputedStyle(kartya).transform).a
+    )).toBeGreaterThan(1.01);
+    await expect.poll(async () => elsoKartya.evaluate((kartya) =>
+        new DOMMatrixReadOnly(getComputedStyle(kartya, '::before').transform).a
+    )).toBeGreaterThan(1.03);
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect.poll(async () => elsoKartya.evaluate((kartya) =>
+        new DOMMatrixReadOnly(getComputedStyle(kartya).transform).a
+    )).toBe(1);
+    await expect.poll(async () => elsoKartya.evaluate((kartya) =>
+        new DOMMatrixReadOnly(getComputedStyle(kartya, '::before').transform).a
+    )).toBe(1);
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    const mobil = await page.locator('#szolgaltatasok').evaluate((szekcio) => {
+        const lista = szekcio.querySelector('.szolgaltatas-lista');
+        const zaras = szekcio.querySelector('.szolgaltatas-zaras');
+        const gomb = zaras.querySelector('.gomb');
+        return {
+            oszlopok: getComputedStyle(lista).gridTemplateColumns.split(/\s+/).length,
+            szekcioSzelesseg: Math.round(szekcio.getBoundingClientRect().width),
+            listaSzelesseg: Math.round(lista.getBoundingClientRect().width),
+            gombSzelesseg: Math.round(gomb.getBoundingClientRect().width),
+            zarasSzelesseg: Math.round(zaras.getBoundingClientRect().width),
+            dokumentumSzelesseg: document.documentElement.scrollWidth
+        };
+    });
+
+    expect(mobil.oszlopok).toBe(1);
+    expect(mobil.dokumentumSzelesseg).toBeLessThanOrEqual(390);
+    expect(mobil.szekcioSzelesseg).toBe(390);
+    expect(mobil.listaSzelesseg).toBeLessThan(mobil.szekcioSzelesseg);
+    expect(Math.abs(mobil.gombSzelesseg - mobil.zarasSzelesseg)).toBeLessThanOrEqual(1);
+});
+
+test('a mobil menü első kattintásra bezár, a fiókhoz navigál, a belső link pedig finoman görget', async ({ page }) => {
+    await page.addInitScript(() => {
+        const eredetiScrollIntoView = Element.prototype.scrollIntoView;
+        Element.prototype.scrollIntoView = function (opciok) {
+            window.__lumiScrollHivasok = window.__lumiScrollHivasok || [];
+            window.__lumiScrollHivasok.push({ id: this.id, opciok });
+            return eredetiScrollIntoView.call(this, opciok);
+        };
+    });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    await page.locator('.hamburger').click();
+    await page.locator('#mobil-nav a[href="/fiokom/"]').click();
+
+    await expect(page).toHaveURL(/\/fiokom\/$/);
+
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('.hamburger').click();
+    await page.locator('#mobil-nav a[href="/#szolgaltatasok"]').click();
+
+    await expect(page.locator('#mobil-nav')).not.toHaveClass(/open/);
+    await expect(page).toHaveURL(/\/#szolgaltatasok$/);
+    await expect.poll(() => page.evaluate(() => {
+        return (window.__lumiScrollHivasok || []).filter(hivas => hivas.id === 'szolgaltatasok');
+    })).toEqual([{ id: 'szolgaltatasok', opciok: { behavior: 'smooth', block: 'start' } }]);
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('.site-header .menu-pontok a[href="/#szolgaltatasok"]').click();
+    await expect.poll(() => page.evaluate(() => {
+        return (window.__lumiScrollHivasok || []).filter(hivas => hivas.id === 'szolgaltatasok');
+    })).toEqual([{ id: 'szolgaltatasok', opciok: { behavior: 'smooth', block: 'start' } }]);
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#mobil-nav')).toHaveCSS('transition-duration', '0s');
+    await page.locator('[data-booking-path="manage"]').click();
+    await expect.poll(() => page.evaluate(() => {
+        return (window.__lumiScrollHivasok || []).filter(hivas => hivas.id === 'foglalas-ellenorzes');
+    })).toEqual([{ id: 'foglalas-ellenorzes', opciok: { behavior: 'auto', block: 'start' } }]);
+});
+
+test('a galéria képnézegető fókusza bent marad, majd visszatér a megnyitó képre', async ({ page }) => {
+    await page.goto('/galeria/', { waitUntil: 'domcontentloaded' });
+    const elsoKep = page.locator('.galeria-kep-gomb').first();
+    const lightbox = page.locator('#galeria-lightbox');
+    const bezaras = lightbox.locator('.galeria-lightbox-bezar');
+
+    await expect(elsoKep).toBeVisible();
+    await elsoKep.focus();
+    await elsoKep.click();
+    await expect(lightbox).toHaveAttribute('aria-hidden', 'false');
+    await expect(bezaras).toBeFocused();
+
+    await page.keyboard.press('Shift+Tab');
+    await expect(lightbox.locator('.galeria-lightbox-kovetkezo')).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(lightbox).toHaveAttribute('aria-hidden', 'true');
+    await expect(elsoKep).toBeFocused();
+});
+
+test('a foglaláskezelő elutasítja a hiányos és az ismeretlen azonosítót', async ({ page }) => {
+    let statusRequestCount = 0;
+    await page.route('**/rest/v1/rpc/get_booking_status', async route => {
+        statusRequestCount += 1;
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: '[]'
+        });
+    });
+
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    const input = page.locator('#foglalas-azonosito');
+    await input.fill('rossz-kod');
+    await page.locator('#foglalas-ellenorzes-urlap button[type="submit"]').click();
+    await expect(page.locator('#foglalas-ellenorzes-status')).toContainText('teljes, LUMI kezdetű');
+    expect(statusRequestCount).toBe(0);
+
+    await input.fill('LUMI-AAAA');
+    await page.locator('#foglalas-ellenorzes-urlap button[type="submit"]').click();
+    await expect(page.locator('#foglalas-ellenorzes-status')).toContainText('Nem találtam foglalást');
+    expect(statusRequestCount).toBe(1);
+});
+
+test('a 24 órán belüli foglalás is lemondható és minden szükséges részlete látható', async ({ page }) => {
+    const reference = 'LUMI-A7K3';
+    const startsAt = new Date(Date.now() + 2 * 60 * 60 * 1000);
+    const endsAt = new Date(startsAt.getTime() + 2 * 60 * 60 * 1000);
+    const expectedEndTime = new Intl.DateTimeFormat('hu-HU', {
+        hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Budapest'
+    }).format(endsAt);
+    let cancellationRequestCount = 0;
+    await page.route('**/rest/v1/rpc/get_booking_status', async route => {
+        expect(route.request().postDataJSON()).toEqual({ p_reference: reference });
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify([{
+                booking_reference: reference,
+                service_name: 'Gél lakk',
+                service_price_amount: 6500,
+                final_price_amount: 6000,
+                service_price_unit: 'Ft',
+                service_price_text: '6.500 Ft',
+                nail_style: 'Francia köröm',
+                starts_at: startsAt.toISOString(),
+                ends_at: endsAt.toISOString(),
+                status: 'confirmed',
+                status_label: 'Visszaigazolva',
+                coupon_label: 'LUMI10 - 500 Ft kedvezmény',
+                can_cancel: true,
+                cancellation_note_required: true
+            }])
+        });
+    });
+    await page.route('**/rest/v1/rpc/cancel_booking_by_reference', async route => {
+        cancellationRequestCount += 1;
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify([{ success: true, result: 'cancelled', message: 'Sikeres.' }])
+        });
+    });
+
+    await page.goto('/foglalas/?foglalas=' + reference + '#foglalas-ellenorzes', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toBeVisible();
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toContainText('Gél lakk');
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toContainText('6000 Ft');
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toContainText('Francia köröm');
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toContainText(expectedEndTime);
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toContainText('LUMI10');
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toContainText('Visszaigazolva');
+    await expect(page.locator('.foglalas-lemondas-hatarido')).toContainText('24 órán belül');
+    await expect(page.locator('#foglalas-lemondas-megjegyzes-blokk')).toBeVisible();
+    await expect(page.locator('#foglalas-lemondas-megjegyzes')).toHaveAttribute('required', '');
+    await expect(page.locator('#foglalas-lemondas')).toBeVisible();
+    await page.locator('#foglalas-lemondas').click();
+    await expect(page.locator('#foglalas-ellenorzes-status')).toContainText('írj rövid indokot');
+    expect(cancellationRequestCount).toBe(0);
+});
+
+test('a foglalás lemondható az azonosítóval és megjegyzéssel', async ({ page }) => {
+    const reference = 'LUMI-7K3M';
+    let statusRequestCount = 0;
+    await page.route('**/rest/v1/rpc/get_booking_status', async route => {
+        statusRequestCount += 1;
+        const cancelled = statusRequestCount > 1;
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify([{
+                booking_reference: reference,
+                service_name: 'Erősített gél lakk',
+                starts_at: '2099-09-15T09:00:00+02:00',
+                ends_at: '2099-09-15T11:00:00+02:00',
+                status: cancelled ? 'cancelled_by_customer' : 'confirmed',
+                status_label: cancelled ? 'Általad lemondva' : 'Visszaigazolva',
+                can_cancel: !cancelled,
+                cancel_deadline: '2099-09-14T09:00:00+02:00'
+            }])
+        });
+    });
+    await page.route('**/rest/v1/rpc/cancel_booking_by_reference', async route => {
+        expect(route.request().postDataJSON()).toEqual({
+            p_reference: reference,
+            p_note: 'Betegség miatt.'
+        });
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify([{
+                success: true,
+                result: 'cancelled',
+                message: 'A foglalást sikeresen lemondtad.'
+            }])
+        });
+    });
+
+    await page.goto('/foglalas/?foglalas=' + reference + '#foglalas-ellenorzes', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#foglalas-lemondas')).toBeVisible();
+    await expect(page.locator('#foglalas-lemondas-megjegyzes')).toBeVisible();
+    await page.locator('#foglalas-lemondas-megjegyzes').fill('Betegség miatt.');
+    page.once('dialog', dialog => dialog.accept());
+    await page.locator('#foglalas-lemondas').click();
+    await expect(page.locator('#foglalas-ellenorzes-eredmeny')).toContainText('Általad lemondva');
+    await expect(page.locator('#foglalas-ellenorzes-status')).toContainText('sikeresen lemondtad');
+    await expect(page.locator('#foglalas-lemondas')).toBeHidden();
+    expect(statusRequestCount).toBe(2);
+});
+
+test('a foglaláskezelő asztali és mobil nézetben is rendezett marad', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+
+    const manageCard = page.locator('[data-booking-path="manage"]');
+    const section = page.locator('#foglalas-ellenorzes');
+    const desktopAccountLink = page.locator('.site-header .menu-pontok a[href="/fiokom/"]');
+    const mobileAccountLink = page.locator('#mobil-nav a[href="/fiokom/"]');
+    const desktopBookingLink = page.locator('.site-header .menu-pontok a[href="/foglalas/"]');
+    const mobileBookingLink = page.locator('#mobil-nav a[href="/foglalas/"]');
+    await expect(desktopAccountLink).toHaveText('Fiókom');
+    await expect(mobileAccountLink).toHaveText('Fiókom');
+    await expect(desktopBookingLink).toHaveText('Foglalás');
+    await expect(mobileBookingLink).toHaveText('Foglalás');
+    expect(await desktopBookingLink.evaluate(elem => elem === elem.parentElement.lastElementChild)).toBe(true);
+    expect(await mobileBookingLink.evaluate(elem => elem === elem.parentElement.lastElementChild)).toBe(true);
+    expect(await page.evaluate(() =>
+        Boolean(document.getElementById('online-foglalas').compareDocumentPosition(document.getElementById('foglalas-ellenorzes')) & Node.DOCUMENT_POSITION_FOLLOWING)
+    )).toBe(true);
+    await expect(manageCard).toBeVisible();
+    await manageCard.click();
+    await expect(page).toHaveURL(/#foglalas-ellenorzes$/);
+    await expect(section).toBeVisible();
+    await expect.poll(() => page.evaluate(() => {
+        const header = document.querySelector('.site-header').getBoundingClientRect();
+        const target = document.getElementById('foglalas-ellenorzes').getBoundingClientRect();
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        return target.top >= header.bottom
+            && (target.top <= header.bottom + 48 || Math.abs(window.scrollY - maxScroll) <= 2);
+    })).toBe(true);
+    const desktopTargetOffset = await page.evaluate(() => {
+        const header = document.querySelector('.site-header').getBoundingClientRect();
+        const target = document.getElementById('foglalas-ellenorzes').getBoundingClientRect();
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        return {
+            headerBottom: header.bottom,
+            targetTop: target.top,
+            reachedPageEnd: Math.abs(window.scrollY - maxScroll) <= 2
+        };
+    });
+    expect(desktopTargetOffset.targetTop).toBeGreaterThanOrEqual(desktopTargetOffset.headerBottom);
+    expect(
+        desktopTargetOffset.targetTop <= desktopTargetOffset.headerBottom + 48
+        || desktopTargetOffset.reachedPageEnd
+    ).toBe(true);
+
+    const desktopColumns = await section.evaluate(element =>
+        getComputedStyle(element).gridTemplateColumns.split(' ').filter(Boolean).length
+    );
+    expect(desktopColumns).toBe(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(1280);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.evaluate(() => {
+        window.history.replaceState(null, '', '/foglalas/');
+        window.scrollTo(0, 0);
+    });
+    await manageCard.click();
+    await expect(page).toHaveURL(/#foglalas-ellenorzes$/);
+    await expect.poll(() => page.evaluate(() => {
+        const header = document.querySelector('.site-header').getBoundingClientRect();
+        const target = document.getElementById('foglalas-ellenorzes').getBoundingClientRect();
+        return target.top >= header.bottom && target.top <= header.bottom + 48;
+    })).toBe(true);
+    const mobileColumns = await section.evaluate(element =>
+        getComputedStyle(element).gridTemplateColumns.split(' ').filter(Boolean).length
+    );
+    const inputBox = await page.locator('#foglalas-azonosito').boundingBox();
+    const buttonBox = await page.locator('#foglalas-ellenorzes-urlap button[type="submit"]').boundingBox();
+    const sectionBox = await section.boundingBox();
+
+    expect(mobileColumns).toBe(1);
+    expect(buttonBox.y).toBeGreaterThanOrEqual(inputBox.y + inputBox.height - 1);
+    expect(sectionBox.x).toBeGreaterThanOrEqual(0);
+    expect(sectionBox.x + sectionBox.width).toBeLessThanOrEqual(391);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    const mobileTargetOffset = await page.evaluate(() => {
+        const header = document.querySelector('.site-header').getBoundingClientRect();
+        const target = document.getElementById('foglalas-ellenorzes').getBoundingClientRect();
+        return { headerBottom: header.bottom, targetTop: target.top };
+    });
+    expect(mobileTargetOffset.targetTop).toBeGreaterThanOrEqual(mobileTargetOffset.headerBottom);
+    expect(mobileTargetOffset.targetTop).toBeLessThanOrEqual(mobileTargetOffset.headerBottom + 48);
+});
+
+test('a foglaláskezelő új szövegei szerkeszthetők és a tesztemailekben látszik a kezelési link', async ({ page }) => {
+    const cms = fs.readFileSync(path.resolve(__dirname, '..', 'admin-content.js'), 'utf8');
+    const previews = fs.readFileSync(
+        path.resolve(__dirname, '..', 'supabase', 'functions', 'send-email-previews', 'index.ts'),
+        'utf8'
+    );
+    const sql = fs.readFileSync(path.resolve(__dirname, '..', 'supabase-booking-self-service.sql'), 'utf8');
+    const adminEvents = fs.readFileSync(path.resolve(__dirname, '..', 'src', 'admin', '10-bookings-events.js'), 'utf8');
+
+    expect(cms).toContain("field('navigacio.foglalasom'");
+    expect(cms).toContain("field('foglalas.oldal.utak.kezeles.cim'");
+    expect(cms).toContain("field('foglalas.oldal.kezeles.kodSegitseg'");
+    expect(cms).toContain("field('foglalas.oldal.kezeles.lemondasMegjegyzesPlaceholder'");
+    expect(cms).toContain("field('foglalas.popup.azonositoLeiras'");
+    expect(previews).toContain('const bookingReference = "LUMI-7K3M"');
+    expect(previews).toContain('actionUrl: bookingManageUrl');
+    expect(previews).toContain('actionLabel: "Foglalás ellenőrzése vagy lemondása"');
+
+    expect(sql).toContain("set status = 'cancelled_by_customer'");
+    expect(sql).toContain("'customer_cancelled'");
+    expect(sql).toContain("v_reference := 'LUMI-'");
+    expect(sql).toContain("legacy_public_reference");
+    expect(sql).toContain("b.public_reference ~* '^LUMI(?:-[A-Z0-9]{4}){5}$'");
+    expect(sql).toContain("coalesce(b.legacy_public_reference, '')");
+    expect(adminEvents).toContain("customer_cancelled: 'A vendég mondta le'");
+    expect(adminEvents).toContain("modositas.status === 'cancelled_by_customer'");
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+    await page.evaluate(() => {
+        const foglalas = window.lumiAlapOldalAdatok().foglalas;
+        foglalas.oldal.utak.kezeles.cim = 'Teszt kezelőkártya';
+        foglalas.oldal.kezeles.cim = 'Teszt ellenőrző cím';
+        foglalas.oldal.kezeles.kodCimke = 'Teszt azonosító címke';
+        foglalas.oldal.kezeles.lemondasMegjegyzesPlaceholder = 'Teszt lemondási megjegyzés';
+        foglalas.popup.azonositoCimke = 'Teszt popup azonosító';
+        window.foglalasAdatokAlkalmazasa(foglalas, {});
+    });
+
+    await expect(page.locator('[data-booking-path="manage"] .foglalas-ut-cim')).toHaveText('Teszt kezelőkártya');
+    await expect(page.locator('#foglalas-ellenorzes-cim')).toHaveText('Teszt ellenőrző cím');
+    await expect(page.locator('label[for="foglalas-azonosito"]')).toHaveText('Teszt azonosító címke');
+    await expect(page.locator('#foglalas-lemondas-megjegyzes')).toHaveAttribute(
+        'placeholder',
+        'Teszt lemondási megjegyzés'
+    );
+    await expect(page.locator('#foglalas-popup-azonosito > span')).toHaveText('Teszt popup azonosító');
+});
+
+
+test('a francia és díszített stílus plusz 30 percet jelez', async ({ page }) => {
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+
+    const egyszeru = page.locator('input[name="korom-stilus"][value="Egyszerű / egyszínű köröm"]');
+    const francia = page.locator('input[name="korom-stilus"][value="Francia köröm"]');
+    const diszites = page.locator('input[name="korom-stilus"][value="Festés / díszítés"]');
+
+    await expect(egyszeru).toHaveAttribute('data-extra-minutes', '0');
+    await expect(francia).toHaveAttribute('data-extra-minutes', '30');
+    await expect(diszites).toHaveAttribute('data-extra-minutes', '30');
+    await expect(francia.locator('xpath=..').locator('.foglalas-stilus-ido')).toHaveText('+30 perc');
+    await expect(diszites.locator('xpath=..').locator('.foglalas-stilus-ido')).toHaveText('+30 perc');
+
+    await francia.evaluate(input => {
+        input.checked = true;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await expect(page.locator('#foglalas-osszefoglalo')).toContainText('Francia köröm (+30 perc)');
+});
+
+test('az admin belépési felülete vagy a hitelesített panel megjelenik', async ({ page }) => {
+    const response = await page.goto('/admin/', { waitUntil: 'domcontentloaded' });
+    expect(response.status()).toBeLessThan(400);
+    await expect(page.locator('#admin-bejelentkezes-panel, #admin-tartalom').first()).toBeAttached();
+    await expect(page.locator('#admin-panel-export')).toHaveCount(0);
+    await expect(page.locator('[data-admin-export]')).toHaveCount(2);
+});
+
+test('az admin külön, mobilon is kezelhető jelzést ad a vendéglemondásokról', async ({ page }) => {
+    const adminForras = fs.readFileSync(path.resolve(__dirname, '..', 'src', 'admin', '10-bookings-events.js'), 'utf8');
+    expect(adminForras).toContain("event_type: 'customer_cancellation_acknowledged'");
+    expect(adminForras).toContain(".neq('event_type', 'customer_cancellation_acknowledged')");
+    expect(adminForras).toContain("allapot.foglalasStatuszSzuro = 'cancelled_by_customer'");
+    expect(adminForras).toContain(".select('booking_id,event_type,message,metadata,created_at')");
+    expect(adminForras).toContain('metadata.cancellation_note');
+    expect(adminForras).toContain('admin-foglalas-lemondasi-megjegyzes');
+
+    await installLoggedOutAdminBoundaryMock(page);
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/admin/', { waitUntil: 'domcontentloaded' });
+    await showLoggedOutAdminWorkspace(page);
+    await page.locator('.admin-v2-sidebar [data-admin-v2-nav="foglalasok"]').click();
+    await expect(page.locator('#admin-panel-foglalasok')).toHaveClass(/aktiv/);
+    await page.evaluate(() => {
+        const jelzes = document.getElementById('admin-vendeg-lemondas-jelzes');
+        jelzes.hidden = false;
+        document.getElementById('admin-vendeg-lemondas-darab').textContent = '2';
+        document.getElementById('admin-foglalas-lista').insertAdjacentHTML('beforeend', `
+            <article class="admin-db-kartya admin-foglalas-kartya admin-foglalas-statusz-cancelled_by_customer">
+                <p class="admin-foglalas-lemondasi-megjegyzes">
+                    <strong>Lemondási megjegyzés</strong>
+                    <span>Közbejött egy családi program, ezért most nem tudok menni.</span>
+                </p>
+            </article>
+        `);
+    });
+
+    const jelzes = page.locator('#admin-vendeg-lemondas-jelzes');
+    await expect(jelzes).toBeVisible();
+    await expect(jelzes).toContainText('2');
+    await expect(page.locator('#admin-vendeg-lemondas-megnyitas')).toBeVisible();
+    await expect(page.locator('#admin-vendeg-lemondas-tudomasulvetel')).toBeVisible();
+    const lemondasiMegjegyzes = page.locator('.admin-foglalas-lemondasi-megjegyzes');
+    await expect(lemondasiMegjegyzes).toContainText('Közbejött egy családi program');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(jelzes).toBeVisible();
+    await expect(lemondasiMegjegyzes).toBeVisible();
+    expect(await jelzes.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+    expect(await lemondasiMegjegyzes.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+    await expect(page.locator('#admin-vendeg-lemondas-tudomasulvetel')).toBeVisible();
+});
+
+test('az admin emailhiba értesítése tartósan nyugtázható', async ({ page }) => {
+    const pageErrors = [];
+    const consoleErrors = [];
+    page.on('pageerror', error => pageErrors.push(error.message));
+    page.on('console', message => {
+        if (message.type() === 'error') {
+            consoleErrors.push({
+                text: message.text(),
+                url: message.location().url
+            });
+        }
+    });
+
+    await installEmailAlertAdminBoundaryMock(page);
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/admin/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__lumiAdminSessionSettled === true);
+
+    const notificationButton = page.getByRole('button', { name: 'Értesítések megnyitása' });
+    const notificationDot = notificationButton.locator('[data-admin-v2-email-alert]');
+    await expect(notificationDot).toBeVisible();
+
+    await notificationButton.click();
+    await page.getByRole('region', { name: 'Értesítések' })
+        .getByRole('button', { name: /emailhiba/i })
+        .click();
+    await expect(page.locator('#admin-panel-esemenynaplo')).toHaveClass(/aktiv/);
+    await expect(page.locator('#admin-v2-email-failed')).toHaveText('1');
+
+    const acknowledgeButton = page.getByRole('button', { name: 'Emailhibák nyugtázása' });
+    await expect(acknowledgeButton).toBeVisible();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(acknowledgeButton).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    const mobileAcknowledgeButton = await acknowledgeButton.evaluate(element => {
+        const style = getComputedStyle(element);
+        const box = element.getBoundingClientRect();
+        return {
+            width: box.width,
+            height: box.height,
+            minHeight: style.minHeight,
+            display: style.display,
+            viewportWidth: window.innerWidth,
+            mobileMediaMatches: matchMedia('(max-width: 900px)').matches
+        };
+    });
+    expect(mobileAcknowledgeButton).toEqual(expect.objectContaining({
+        minHeight: '44px',
+        viewportWidth: 390,
+        mobileMediaMatches: true
+    }));
+    expect(mobileAcknowledgeButton.width).toBeGreaterThanOrEqual(44);
+    expect(mobileAcknowledgeButton.height).toBeGreaterThanOrEqual(44);
+
+    await acknowledgeButton.click();
+
+    await expect(notificationDot).toBeHidden();
+    await expect(page.locator('#admin-v2-email-failed')).toHaveText('0');
+    await expect(acknowledgeButton).toBeHidden();
+
+    const writes = await page.evaluate(() => window.__lumiBookingEventWrites);
+    expect(writes).toHaveLength(1);
+    expect(writes[0]).toEqual(expect.objectContaining({
+        event_type: 'admin_email_errors_acknowledged',
+        channel: 'admin',
+        status: 'success',
+        metadata: expect.objectContaining({
+            acknowledged_count: 1,
+            acknowledged_through: '2026-08-21T08:30:00.000Z'
+        })
+    }));
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__lumiAdminSessionSettled === true);
+    await expect(
+        page.getByRole('button', { name: 'Értesítések megnyitása' })
+            .locator('[data-admin-v2-email-alert]')
+    ).toBeHidden();
+    expect(pageErrors).toEqual([]);
+    expect(consoleErrors).toEqual([]);
+});
+
+test('az új árlista tétel nem ütközik a már meglévő ideiglenes névvel', async () => {
+    const szolgaltatasAdmin = fs.readFileSync(path.resolve(__dirname, '..', 'src', 'admin', '20-services.js'), 'utf8');
+    expect(szolgaltatasAdmin).toContain('function ujSzolgaltatasNev(szolgaltatasok');
+    expect(szolgaltatasAdmin).toContain('while (hasznaltNevek.has');
+    expect(szolgaltatasAdmin).toContain('ujTetel.name = ujSzolgaltatasNev()');
+    expect(szolgaltatasAdmin).toContain("String(error?.code || '') === '23505'");
+    expect(szolgaltatasAdmin).toContain(".select('name')");
+});
+
+test('az inspirációs képnéző fejléce görgetéskor rögzítve marad', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    const figures = Array.from({ length: 8 }, (_, index) =>
+        '<figure><div style="height:420px;background:#eee"></div><figcaption>' +
+        (index + 1) + '. kép</figcaption></figure>'
+    ).join('');
+
+    await page.setContent(
+        '<div class="admin-inspiracio-modal">' +
+        '<div class="admin-inspiracio-modal-doboz">' +
+        '<div class="admin-inspiracio-modal-fejlec">' +
+        '<h3>Inspirációs képek</h3>' +
+        '<button class="admin-inspiracio-bezaras">×</button>' +
+        '</div>' +
+        '<div class="admin-inspiracio-modal-racs">' + figures + '</div>' +
+        '</div>' +
+        '</div>'
+    );
+    await page.addStyleTag({ path: path.resolve(__dirname, '..', 'style.css') });
+    await page.waitForTimeout(100);
+
+    const header = page.locator('.admin-inspiracio-modal-fejlec');
+    const grid = page.locator('.admin-inspiracio-modal-racs');
+    const before = await header.boundingBox();
+    await grid.evaluate(element => { element.scrollTop = 800; });
+    const after = await header.boundingBox();
+
+    expect(await grid.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    expect(Math.abs(after.y - before.y)).toBeLessThan(1);
+    await expect(page.locator('.admin-inspiracio-bezaras')).toBeVisible();
+});
+
+test('a footer mobilon kompakt és asztali nézetben vízszintes', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.site-footer')).toBeVisible();
+    const mobileHeight = await page.locator('.footer-belso').evaluate(element => element.getBoundingClientRect().height);
+    expect(mobileHeight).toBeLessThan(260);
+    const mobileTopInset = await page.evaluate(() => {
+        const footer = document.querySelector('.site-footer').getBoundingClientRect();
+        const content = document.querySelector('.footer-belso').getBoundingClientRect();
+        return content.top - footer.top;
+    });
+    expect(mobileTopInset).toBeLessThanOrEqual(20.1);
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    const columns = await page.locator('.footer-belso').evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length);
+    expect(columns).toBe(3);
+});
+
+test('mobile section rhythm keeps gallery, booking and footer transitions compact', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.galeria-kartya-lapozo')).toBeVisible();
+
+    const homeRhythm = await page.evaluate(() => {
+        const gallery = document.querySelector('#galeria-atvezeto').getBoundingClientRect();
+        const carousel = document.querySelector('.galeria-kartya-lapozo').getBoundingClientRect();
+        const activeCard = document.querySelector('.galeria-kartya-lapozo img[data-aktiv=true]').getBoundingClientRect();
+        const controlsElement = document.querySelector('.galeria-kartya-vezerlok');
+        const controls = controlsElement.getBoundingClientRect();
+        const bookingCta = document.querySelector('#kapcsolat').getBoundingClientRect();
+        return {
+            sectionGap: bookingCta.top - gallery.bottom,
+            carouselHeight: carousel.height,
+            activeCardWidth: activeCard.width,
+            controlsWidth: controls.width,
+            controlsInside: controls.top >= carousel.top && controls.bottom <= carousel.bottom,
+            mobileDotsHidden: getComputedStyle(controlsElement.querySelector('.galeria-kartya-pontok')).display === 'none',
+            mobileStatusVisible: getComputedStyle(controlsElement.querySelector('.galeria-kartya-allapot')).display !== 'none',
+            gallerySurface: getComputedStyle(document.querySelector('#galeria-atvezeto')).backgroundColor,
+            bookingSurface: getComputedStyle(document.querySelector('#kapcsolat')).backgroundColor
+        };
+    });
+    expect(Math.abs(homeRhythm.sectionGap)).toBeLessThanOrEqual(1);
+    expect(homeRhythm.carouselHeight).toBeLessThanOrEqual(360.5);
+    expect(homeRhythm.activeCardWidth).toBeGreaterThanOrEqual(270);
+    expect(homeRhythm.controlsWidth).toBeLessThanOrEqual(170);
+    expect(homeRhythm.controlsInside).toBe(true);
+    expect(homeRhythm.mobileDotsHidden).toBe(true);
+    expect(homeRhythm.mobileStatusVisible).toBe(true);
+    expect(homeRhythm.gallerySurface).not.toBe(homeRhythm.bookingSurface);
+
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    const bookingRhythm = await page.evaluate(() => {
+        const main = document.querySelector('.foglalas-oldal').getBoundingClientRect();
+        const intro = document.querySelector('.foglalas-nyito-szoveg').getBoundingClientRect();
+        const choices = document.querySelector('.foglalas-utak').getBoundingClientRect();
+        const online = document.querySelector('#online-foglalas').getBoundingClientRect();
+        const selfService = document.querySelector('#foglalas-ellenorzes').getBoundingClientRect();
+        return {
+            pageTopInset: intro.top - main.top,
+            choicesGap: choices.top - intro.bottom,
+            introGap: online.top - choices.bottom,
+            sectionGap: selfService.top - online.bottom
+        };
+    });
+    expect(bookingRhythm.pageTopInset).toBeLessThanOrEqual(24.5);
+    expect(bookingRhythm.choicesGap).toBeLessThanOrEqual(32.5);
+    expect(bookingRhythm.introGap).toBeLessThanOrEqual(32.5);
+    expect(Math.abs(bookingRhythm.sectionGap)).toBeLessThanOrEqual(1);
+
+    await page.goto('/admin/', { waitUntil: 'domcontentloaded' });
+    const adminRhythm = await page.evaluate(() => ({
+        shellPaddingBottom: getComputedStyle(document.querySelector('.admin-oldal')).paddingBottom,
+        workspacePaddingBottom: getComputedStyle(document.querySelector('.admin-workspace-main')).paddingBottom
+    }));
+    expect(adminRhythm).toEqual({
+        shellPaddingBottom: '0px',
+        workspacePaddingBottom: '34px'
+    });
+});
+
+test('a foglalásexport a kapott látható sorokat írja egy formázott munkalapra', async ({ page }) => {
+    await page.setContent('<button type="button" data-admin-export="foglalasok">Excel export</button>');
+    await page.evaluate(() => {
+        window.LumiAdminExportData = {
+            foglalasok: () => [{
+                __tipus: 'booking', id: 'booking-1', customer_name: 'Teszt Anna',
+                customer_phone: '+36201234567', customer_email: 'anna@example.com',
+                starts_at: '2026-07-24T08:00:00+02:00', ends_at: '2026-07-24T10:00:00+02:00',
+                created_at: '2026-07-20T10:00:00+02:00', status: 'confirmed', coupon_code: 'LUMI10',
+                services: { name: 'Gél lakk', price_text: '6000 Ft' }
+            }, {
+                __tipus: 'blocked', id: 'blocked-1', reason: 'Instagram - Erika',
+                starts_at: '2026-07-25T12:00:00+02:00', ends_at: '2026-07-25T13:30:00+02:00',
+                created_at: '2026-07-20T11:00:00+02:00'
+            }],
+            esemenyek: () => []
+        };
+    });
+    await page.addScriptTag({ path: path.resolve(__dirname, '..', 'admin-export.js') });
+    await page.evaluate(() => document.dispatchEvent(new Event('DOMContentLoaded')));
+
+    const downloadPromise = page.waitForEvent('download');
+    await page.locator('[data-admin-export="foglalasok"]').click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/^luminails-foglalasok-\d{4}-\d{2}-\d{2}\.xlsx$/);
+
+    const bytes = fs.readFileSync(await download.path());
+    expect(bytes.subarray(0, 4).toString('hex')).toBe('504b0304');
+    const eocd = bytes.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+    expect(eocd).toBeGreaterThan(0);
+    expect(bytes.readUInt16LE(eocd + 10)).toBe(8);
+    const raw = bytes.toString('utf8');
+    expect(raw).toContain('Foglalások');
+    expect(raw).toContain('Teszt Anna');
+    expect(raw).toContain('Kézzel hozzáadott');
+    expect(raw).not.toContain('Státuszkód');
+    expect(raw.indexOf('Azonosító')).toBeGreaterThan(raw.indexOf('Létrehozva'));
+    expect(raw).toContain('s="2"');
+});
+
+test('az eseménynapló exportja külön, egyetlen munkalapot készít', async ({ page }) => {
+    await page.setContent('<button type="button" data-admin-export="esemenyek">Excel export</button>');
+    await page.evaluate(() => {
+        window.LumiAdminExportData = {
+            foglalasok: () => [],
+            esemenyek: () => [{
+                id: 'event-1', booking_id: 'booking-1', event_type: 'booking_created', channel: 'web',
+                status: 'success', title: 'Foglalás rögzítve', message: 'Teszt esemény',
+                metadata: { source: 'test' }, created_at: '2026-07-20T10:00:01+02:00',
+                bookings: { customer_name: 'Teszt Anna', starts_at: '2026-07-24T08:00:00+02:00' }
+            }]
+        };
+    });
+    await page.addScriptTag({ path: path.resolve(__dirname, '..', 'admin-export.js') });
+    await page.evaluate(() => document.dispatchEvent(new Event('DOMContentLoaded')));
+
+    const downloadPromise = page.waitForEvent('download');
+    await page.locator('[data-admin-export="esemenyek"]').click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/^luminails-esemenynaplo-\d{4}-\d{2}-\d{2}\.xlsx$/);
+
+    const bytes = fs.readFileSync(await download.path());
+    const raw = bytes.toString('utf8');
+    expect(raw).toContain('Eseménynapló');
+    expect(raw).toContain('Foglalás rögzítve');
+    expect(raw).not.toContain('Foglalások');
+});
+test('az admin munkafelület asztali és mobil nézetben rendezett marad', async ({ page }) => {
+    const adminBundle = fs.readFileSync(path.resolve(__dirname, '..', 'admin-supabase.js'), 'utf8');
+    const adminStilus = fs.readFileSync(
+        path.resolve(__dirname, '..', 'src', 'styles', '40-admin.css'),
+        'utf8'
+    );
+    const adminNaptarForras = fs.readFileSync(
+        path.resolve(__dirname, '..', 'src', 'admin', '15-bookings-calendar.js'),
+        'utf8'
+    );
+    expect(adminBundle).toContain("select('id,public_reference,starts_at')");
+    expect(adminBundle).toContain('admin-foglalas-azonosito');
+    expect(adminBundle).toContain('admin-foglalas-nev-blokk');
+    expect(adminBundle).toContain('foglalasKeresesTorlesGombFrissitese');
+    expect(adminBundle).not.toContain('admin-foglalas-reszlet-szeles admin-foglalas-azonosito');
+    expect(adminNaptarForras).toContain("!['cancelled', 'cancelled_by_customer'].includes");
+    expect(adminNaptarForras).toContain('.filter(foglalasNaptarbanLathato)');
+    expect(adminNaptarForras).toContain('napiElemek.slice(0, 2)');
+    expect(adminNaptarForras).toContain("+ html(foglalasNaptarIdo(elem.datum)) + '</time></span>'");
+    expect(adminNaptarForras).toContain("(napiElemek.length - 2) + '</span>'");
+    expect(adminNaptarForras).toContain('foglalasKeresesTorlesGombFrissitese(elemek);');
+    expect(adminStilus).toContain('container: admin-workspace / inline-size');
+    expect(adminStilus).toContain('@container admin-workspace (max-width: 700px)');
+
+    await installLoggedOutAdminBoundaryMock(page);
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/admin/', { waitUntil: 'domcontentloaded' });
+    await showLoggedOutAdminWorkspace(page);
+    await page.locator('.admin-v2-sidebar [data-admin-v2-nav="foglalasok"]').click();
+    await expect(page.locator('#admin-panel-foglalasok')).toHaveClass(/aktiv/);
+
+    const workspace = page.locator('.admin-workspace-layout');
+    const sidebar = page.locator('.admin-sidebar');
+    const main = page.locator('.admin-workspace-main');
+    await expect(workspace).toBeVisible();
+    await expect(page.locator('#admin-panel-szovegek')).toHaveCount(1);
+    await expect(page.locator('.admin-workspace-main #admin-panel-szovegek')).toHaveCount(1);
+    await expect(page.locator('#admin-tiltas-statusz')).toHaveCount(0);
+    await expect(page.locator('#admin-foglalas-statusz-szuro option[value="cancelled_by_customer"]')).toHaveText('Vendég mondta le');
+
+    await page.locator('#admin-panel-foglalasok').evaluate((panel) => {
+        panel.hidden = false;
+        panel.querySelector('#admin-foglalas-lista').insertAdjacentHTML('beforeend', `
+            <article class="admin-db-kartya admin-foglalas-kartya admin-foglalas-statusz-confirmed" data-azonosito-elrendezes-teszt>
+                <div class="admin-db-kartya-fej">
+                    <div class="admin-foglalas-fosor">
+                        <div class="admin-foglalas-nev-blokk">
+                            <p class="admin-kartya-tipus admin-foglalas-azonosito"><code>LUMI-A2B4</code></p>
+                            <h3>Varga Petra Alexandra Hosszúpróbaneve</h3>
+                            <p class="admin-foglalas-rovid-szolgaltatas">Építés - M méret</p>
+                        </div>
+                        <p class="admin-foglalas-idopont"><span class="admin-foglalas-datum">05/08/26</span><span class="admin-foglalas-ido">10:00 – 11:00</span></p>
+                    </div>
+                    <div class="admin-foglalas-vezerlok">
+                        <select class="admin-db-statusz" disabled><option>Visszaigazolva</option></select>
+                        <button type="button" class="admin-kis-gomb" data-foglalas-reszletek aria-expanded="false">Részletek</button>
+                        <button type="button" class="admin-kis-gomb">Szerkesztés</button>
+                    </div>
+                </div>
+                <div class="admin-foglalas-reszletek"><p class="admin-foglalas-reszlet-sor">teszt@example.com · +36 20 123 4567</p></div>
+            </article>
+            <article class="admin-db-kartya admin-foglalas-kartya admin-db-kartya-tiltas admin-foglalas-statusz-blocked" data-tiltas-elrendezes-teszt>
+                <div class="admin-db-kartya-fej">
+                    <div class="admin-foglalas-fosor">
+                        <div class="admin-foglalas-nev-blokk">
+                            <span class="admin-kartya-tipus">Kézzel felvett idő</span>
+                            <h3>Varga Petra Alexandra Hosszúpróbaneve</h3>
+                            <p class="admin-foglalas-rovid-szolgaltatas">Kézzel rögzített időpont</p>
+                        </div>
+                        <p class="admin-foglalas-idopont"><span class="admin-foglalas-datum">05/08/26</span><span class="admin-foglalas-ido">10:00 – 11:00</span></p>
+                    </div>
+                    <div class="admin-foglalas-vezerlok">
+                        <select class="admin-db-statusz" disabled><option>Foglalt</option></select>
+                        <button type="button" class="admin-kis-gomb">Naptárba</button>
+                        <button type="button" class="admin-kis-gomb">Szerkesztés</button>
+                    </div>
+                </div>
+            </article>
+        `);
+    });
+    const azonositoElrendezes = await page.locator('[data-azonosito-elrendezes-teszt] .admin-foglalas-azonosito').evaluate((elem) => {
+        const stilus = getComputedStyle(elem);
+        const kodStilus = getComputedStyle(elem.querySelector('code'));
+        return {
+            nevBlokkban: Boolean(elem.closest('.admin-foglalas-nev-blokk')),
+            nevElott: elem.nextElementSibling?.tagName === 'H3',
+            teljesSzelesseg: elem.getBoundingClientRect().width >= elem.parentElement.getBoundingClientRect().width,
+            kodBetumeret: kodStilus.fontSize,
+            keret: stilus.borderTopWidth,
+            hatter: stilus.backgroundColor
+        };
+    });
+    expect(azonositoElrendezes).toEqual({
+        nevBlokkban: true,
+        nevElott: true,
+        teljesSzelesseg: false,
+        kodBetumeret: '11px',
+        keret: '0px',
+        hatter: 'rgba(0, 0, 0, 0)'
+    });
+
+    const kartyaSzerkezet = await page.locator('[data-azonosito-elrendezes-teszt], [data-tiltas-elrendezes-teszt]').evaluateAll((kartyak) =>
+        kartyak.map((kartya) => {
+            const fosor = kartya.querySelector('.admin-foglalas-fosor').getBoundingClientRect();
+            const datum = kartya.querySelector('.admin-foglalas-datum').getBoundingClientRect();
+            const ido = kartya.querySelector('.admin-foglalas-ido').getBoundingClientRect();
+            return {
+                balOldaliSorok: kartya.querySelector('.admin-foglalas-nev-blokk').children.length,
+                fosorMagassag: fosor.height,
+                datumAzIdoFelett: datum.bottom <= ido.top + 1,
+                jobbSzelEgyvonalban: Math.abs(datum.right - ido.right) <= 1
+            };
+        })
+    );
+    expect(kartyaSzerkezet[0].balOldaliSorok).toBe(3);
+    expect(kartyaSzerkezet[1].balOldaliSorok).toBe(3);
+    expect(Math.abs(kartyaSzerkezet[0].fosorMagassag - kartyaSzerkezet[1].fosorMagassag)).toBeLessThanOrEqual(1);
+    expect(kartyaSzerkezet.every(({ datumAzIdoFelett, jobbSzelEgyvonalban }) =>
+        datumAzIdoFelett && jobbSzelEgyvonalban
+    )).toBe(true);
+
+    const statuszSzinek = await page.locator('#admin-foglalas-lista').evaluate((lista) => {
+        const statuszok = ['pending', 'confirmed', 'blocked', 'done', 'cancelled', 'cancelled_by_customer'];
+        return Object.fromEntries(statuszok.map((statusz) => {
+            const kartya = document.createElement('article');
+            kartya.className = `admin-foglalas-kartya admin-foglalas-statusz-${statusz}`;
+            kartya.innerHTML = '<select class="admin-db-statusz" disabled><option>Állapot</option></select>';
+            lista.appendChild(kartya);
+            const mezo = kartya.querySelector('select');
+            const stilus = getComputedStyle(mezo);
+            const szin = { hatter: stilus.backgroundColor, szoveg: stilus.color };
+            kartya.remove();
+            return [statusz, szin];
+        }));
+    });
+    expect(statuszSzinek.blocked).toEqual(statuszSzinek.confirmed);
+    expect(new Set([
+        statuszSzinek.pending.hatter,
+        statuszSzinek.confirmed.hatter,
+        statuszSzinek.done.hatter,
+        statuszSzinek.cancelled.hatter,
+        statuszSzinek.cancelled_by_customer.hatter
+    ]).size).toBe(5);
+    expect(statuszSzinek.cancelled).toEqual({ hatter: 'rgb(46, 41, 39)', szoveg: 'rgb(255, 249, 245)' });
+    expect(statuszSzinek.done.hatter).toBe('rgb(226, 239, 229)');
+
+    const naptarStatuszSzinek = await page.locator('#admin-panel-foglalasok').evaluate((panel) => {
+        const statuszok = ['pending', 'confirmed', 'blocked', 'done'];
+        return Object.fromEntries(statuszok.map((statusz) => {
+            const esemeny = document.createElement('span');
+            esemeny.className = `admin-foglalas-naptar-esemeny admin-foglalas-naptar-statusz-${statusz}`;
+            panel.appendChild(esemeny);
+            const hatter = getComputedStyle(esemeny).backgroundColor;
+            esemeny.remove();
+            return [statusz, hatter];
+        }));
+    });
+    expect(naptarStatuszSzinek).toEqual({
+        pending: statuszSzinek.pending.hatter,
+        confirmed: statuszSzinek.confirmed.hatter,
+        blocked: statuszSzinek.blocked.hatter,
+        done: statuszSzinek.done.hatter
+    });
+
+    const kompaktKartya = page.locator('[data-azonosito-elrendezes-teszt]');
+    const kompaktMagassag = (await kompaktKartya.boundingBox()).height;
+    await expect(kompaktKartya.locator('.admin-foglalas-reszletek')).toBeHidden();
+    await kompaktKartya.locator('[data-foglalas-reszletek]').click();
+    await expect(kompaktKartya.locator('[data-foglalas-reszletek]')).toHaveAttribute('aria-expanded', 'true');
+    await expect(kompaktKartya.locator('.admin-foglalas-reszletek')).toBeVisible();
+    expect((await kompaktKartya.boundingBox()).height).toBeGreaterThan(kompaktMagassag);
+
+    const desktopSidebar = await sidebar.boundingBox();
+    const desktopMain = await main.boundingBox();
+    expect(desktopSidebar.x + desktopSidebar.width).toBeLessThanOrEqual(desktopMain.x + 1);
+
+    await page.setViewportSize({ width: 590, height: 844 });
+    const szelesMobilKartya = await kompaktKartya.evaluate((kartya) => {
+        const nevBlokk = kartya.querySelector('.admin-foglalas-nev-blokk').getBoundingClientRect();
+        const idopont = kartya.querySelector('.admin-foglalas-idopont').getBoundingClientRect();
+        const vezerlok = kartya.querySelector('.admin-foglalas-vezerlok').getBoundingClientRect();
+        const elemek = Array.from(kartya.querySelectorAll('.admin-foglalas-vezerlok > *'))
+            .map(elem => elem.getBoundingClientRect());
+        return {
+            idopontJobbra: idopont.left >= nevBlokk.right - 1,
+            vezerlokAzAdatokAlatt: vezerlok.y >= Math.max(nevBlokk.bottom, idopont.bottom) - 1,
+            vezerloAtfedes: elemek.some((doboz, index) => elemek.slice(index + 1).some(masik =>
+                doboz.right > masik.left + 1 && masik.right > doboz.left + 1
+                && doboz.bottom > masik.top + 1 && masik.bottom > doboz.top + 1
+            ))
+        };
+    });
+    expect(szelesMobilKartya).toEqual({
+        idopontJobbra: true,
+        vezerlokAzAdatokAlatt: true,
+        vezerloAtfedes: false
+    });
+    const szelesMobilTiltas = await page.locator('[data-tiltas-elrendezes-teszt]').evaluate((kartya) => {
+        const nevBlokk = kartya.querySelector('.admin-foglalas-nev-blokk').getBoundingClientRect();
+        const idopont = kartya.querySelector('.admin-foglalas-idopont').getBoundingClientRect();
+        const vezerlok = kartya.querySelector('.admin-foglalas-vezerlok').getBoundingClientRect();
+        const elemek = Array.from(kartya.querySelectorAll('.admin-foglalas-vezerlok > *'))
+            .map(elem => elem.getBoundingClientRect());
+        return {
+            idopontJobbra: idopont.left >= nevBlokk.right - 1,
+            vezerlokAzAdatokAlatt: vezerlok.y >= Math.max(nevBlokk.bottom, idopont.bottom) - 1,
+            vezerloAtfedes: elemek.some((doboz, index) => elemek.slice(index + 1).some(masik =>
+                doboz.right > masik.left + 1 && masik.right > doboz.left + 1
+                && doboz.bottom > masik.top + 1 && masik.bottom > doboz.top + 1
+            ))
+        };
+    });
+    expect(szelesMobilTiltas).toEqual({
+        idopontJobbra: true,
+        vezerlokAzAdatokAlatt: true,
+        vezerloAtfedes: false
+    });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(590);
+
+    const adminPanelMegjelenitese = async (panelNev) => {
+        await page.evaluate((nev) => {
+            document.querySelectorAll('.admin-db-panel').forEach((panel) => {
+                panel.classList.toggle('aktiv', panel.id === `admin-panel-${nev}`);
+            });
+        }, panelNev);
+    };
+    const zoomSzelessegek = [320, 375, 390, 414, 521, 590, 768, 769, 844, 901, 1024, 1440];
+    const kompaktTiltasSzelessegek = new Set([320, 375, 390, 414, 521, 590]);
+    const adminPanelek = [
+        'foglalasok',
+        'szolgaltatasok',
+        'kuponok',
+        'idosavok',
+        'tiltasok',
+        'esemenynaplo',
+        'emailteszt',
+        'szovegek'
+    ];
+
+    for (const szelesseg of zoomSzelessegek) {
+        await page.setViewportSize({ width: szelesseg, height: 900 });
+
+        for (const panelNev of adminPanelek) {
+            await adminPanelMegjelenitese(panelNev);
+            const levagottElemek = await page.evaluate(() => {
+                const foTerulet = document.querySelector('.admin-workspace-main').getBoundingClientRect();
+                const aktivPanel = document.querySelector('.admin-db-panel.aktiv');
+                return Array.from(aktivPanel.querySelectorAll('input, select, textarea, button, .admin-mezo, .admin-naptar-blokk'))
+                    .filter((elem) => {
+                        const stilus = getComputedStyle(elem);
+                        if (stilus.display === 'none' || stilus.visibility === 'hidden') return false;
+                        if (elem.closest('.admin-v2-subnav')) return false;
+                        const doboz = elem.getBoundingClientRect();
+                        return doboz.width > 0
+                            && (doboz.left < foTerulet.left - 1 || doboz.right > foTerulet.right + 1);
+                    })
+                    .map((elem) => elem.id || elem.className || elem.tagName);
+            });
+            expect(levagottElemek, `${panelNev} panel, ${szelesseg}px`).toEqual([]);
+        }
+
+        if (kompaktTiltasSzelessegek.has(szelesseg)) {
+            await adminPanelMegjelenitese('tiltasok');
+            const tiltasUrlap = await page.locator('#admin-tiltas-form .admin-tiltas-sor').evaluate((sor) => {
+                const [datum, kezdes, vege, megjegyzes] = Array.from(sor.children)
+                    .map((elem) => elem.getBoundingClientRect());
+                const sorDoboz = sor.getBoundingClientRect();
+                return {
+                    datumTeljesSzelessegu: datum.width >= sorDoboz.width - 1,
+                    idokEgySorban: Math.abs(kezdes.top - vege.top) <= 1,
+                    megjegyzesTeljesSzelessegu: megjegyzes.width >= sorDoboz.width - 1,
+                    megjegyzesAzIdokAlatt: megjegyzes.top >= Math.max(kezdes.bottom, vege.bottom) - 1
+                };
+            });
+            expect(tiltasUrlap, `foglalt ido urlap, ${szelesseg}px`).toEqual({
+                datumTeljesSzelessegu: true,
+                idokEgySorban: true,
+                megjegyzesTeljesSzelessegu: true,
+                megjegyzesAzIdokAlatt: true
+            });
+        }
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(szelesseg);
+    }
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await adminPanelMegjelenitese('foglalasok');
+    await expect.poll(async () => {
+        const mobileSidebar = await sidebar.boundingBox();
+        return mobileSidebar.x + mobileSidebar.width;
+    }).toBeLessThanOrEqual(1);
+    const mobileMain = await main.boundingBox();
+    expect(mobileMain.x).toBeGreaterThanOrEqual(0);
+    expect(mobileMain.width).toBeLessThanOrEqual(390);
+    const mobileMenuButton = page.getByRole('button', { name: 'Navigáció megnyitása' });
+    await expect(mobileMenuButton).toBeVisible();
+    const mobileMenuButtonBox = await mobileMenuButton.boundingBox();
+    expect(mobileMenuButtonBox.width).toBeGreaterThanOrEqual(44);
+    expect(mobileMenuButtonBox.height).toBeGreaterThanOrEqual(44);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+
+    const mobilNev = await page.locator('[data-azonosito-elrendezes-teszt] h3').evaluate((elem) => {
+        const stilus = getComputedStyle(elem);
+        return {
+            whiteSpace: stilus.whiteSpace,
+            overflow: stilus.overflow,
+            textOverflow: stilus.textOverflow,
+            magassag: elem.getBoundingClientRect().height,
+            sormagassag: Number.parseFloat(stilus.lineHeight)
+        };
+    });
+    expect(mobilNev.whiteSpace).toBe('normal');
+    expect(mobilNev.overflow).toBe('visible');
+    expect(mobilNev.textOverflow).toBe('clip');
+    expect(mobilNev.magassag).toBeGreaterThan(mobilNev.sormagassag);
+
+    const mobilKartyaElrendezes = await kompaktKartya.evaluate((kartya) => {
+        const nevBlokk = kartya.querySelector('.admin-foglalas-nev-blokk').getBoundingClientRect();
+        const idopont = kartya.querySelector('.admin-foglalas-idopont').getBoundingClientRect();
+        const vezerlok = kartya.querySelector('.admin-foglalas-vezerlok').getBoundingClientRect();
+        const gombok = Array.from(kartya.querySelectorAll('.admin-foglalas-vezerlok > *'))
+            .map(elem => elem.getBoundingClientRect());
+        return {
+            idopontJobbra: idopont.left >= nevBlokk.right - 1,
+            vezerlokAzAdatokAlatt: vezerlok.y >= Math.max(nevBlokk.bottom, idopont.bottom) - 1,
+            vezerloAtfedes: gombok.some((doboz, index) => gombok.slice(index + 1).some(masik =>
+                doboz.right > masik.left + 1 && masik.right > doboz.left + 1
+                && doboz.bottom > masik.top + 1 && masik.bottom > doboz.top + 1
+            ))
+        };
+    });
+    expect(mobilKartyaElrendezes).toEqual({
+        idopontJobbra: true,
+        vezerlokAzAdatokAlatt: true,
+        vezerloAtfedes: false
+    });
+
+    const mobilVezerloTipografia = await kompaktKartya.evaluate((kartya) => {
+        const szolgaltatas = Number.parseFloat(getComputedStyle(kartya.querySelector('.admin-foglalas-rovid-szolgaltatas')).fontSize);
+        const reszletGomb = Number.parseFloat(getComputedStyle(kartya.querySelector('[data-foglalas-reszletek]')).fontSize);
+        const reszletSzoveg = Number.parseFloat(getComputedStyle(kartya.querySelector('.admin-foglalas-reszlet-sor')).fontSize);
+        const statuszStilus = getComputedStyle(kartya.querySelector('.admin-db-statusz'));
+        return {
+            szolgaltatas,
+            reszletGomb,
+            reszletSzoveg,
+            statuszTechnikaiMeret: Number.parseFloat(statuszStilus.fontSize),
+            statuszOptikaiArany: statuszStilus.fontSizeAdjust
+        };
+    });
+    expect(mobilVezerloTipografia.reszletGomb).toBeGreaterThanOrEqual(mobilVezerloTipografia.szolgaltatas);
+    expect(mobilVezerloTipografia.reszletGomb).toBeLessThanOrEqual(12);
+    expect(mobilVezerloTipografia.reszletSzoveg).toBeLessThanOrEqual(mobilVezerloTipografia.szolgaltatas);
+    expect(mobilVezerloTipografia.statuszTechnikaiMeret).toBeGreaterThanOrEqual(22);
+    expect(mobilVezerloTipografia.statuszOptikaiArany).toBe('0.3');
+
+    await page.locator('#admin-foglalas-lapozo').evaluate((lapozo) => {
+        lapozo.innerHTML = '<button type="button">Előző</button><span>1 / 4</span><button type="button">Következő</button>';
+    });
+    const mobilAlsoTerkoz = await page.locator('#admin-foglalas-lapozo').evaluate((lapozo) => {
+        const stilus = getComputedStyle(lapozo);
+        return {
+            marginAlul: Number.parseFloat(stilus.marginBottom),
+            belsoTerAlul: Number.parseFloat(stilus.paddingBottom)
+        };
+    });
+    expect(mobilAlsoTerkoz).toEqual({ marginAlul: 0, belsoTerAlul: 0 });
+
+    const adminMezoBetumeret = await page.locator('#admin-foglalas-kereses').evaluate(
+        (mezo) => Number.parseFloat(getComputedStyle(mezo).fontSize)
+    );
+    expect(adminMezoBetumeret).toBeGreaterThanOrEqual(16);
+
+    const foglalasKereses = page.locator('#admin-foglalas-kereses');
+    const foglalasKeresesTorles = page.locator('#admin-foglalas-kereses-torles');
+    await expect(foglalasKeresesTorles).toBeHidden();
+    await foglalasKereses.fill('Varga Petra');
+    await expect(foglalasKeresesTorles).toBeVisible();
+    const torlesMeret = await foglalasKeresesTorles.boundingBox();
+    expect(torlesMeret.width).toBeGreaterThanOrEqual(44);
+    expect(torlesMeret.height).toBeGreaterThanOrEqual(44);
+    await foglalasKeresesTorles.click();
+    await expect(foglalasKereses).toHaveValue('');
+    await expect(foglalasKeresesTorles).toBeHidden();
+    expect(await foglalasKereses.evaluate((mezo) => document.activeElement === mezo)).toBe(true);
+
+    const naptarNezetGomb = page.locator('[data-foglalas-nezet="naptar"]');
+    const listaNezetGomb = page.locator('[data-foglalas-nezet="lista"]');
+    await expect(naptarNezetGomb).toHaveAttribute('aria-pressed', 'false');
+    await naptarNezetGomb.click();
+    await expect(naptarNezetGomb).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#admin-foglalas-naptar')).toBeVisible();
+    await expect(page.locator('#admin-foglalas-lista-nezet')).toBeHidden();
+    await expect(page.locator('#admin-foglalas-naptar-cim')).not.toHaveText('');
+    expect(await page.locator('.admin-foglalas-naptar-hetfej span').count()).toBe(7);
+    expect(await page.locator('[data-foglalas-naptar-datum]').count()).toBeGreaterThanOrEqual(28);
+    expect(await page.locator('#admin-foglalas-naptar-racs').evaluate(
+        (racs) => getComputedStyle(racs).gridTemplateColumns.split(' ').filter(Boolean).length
+    )).toBe(7);
+    await page.locator('[data-foglalas-naptar-datum]').first().evaluate((nap) => {
+        nap.querySelector('.admin-foglalas-naptar-esemenyek').innerHTML = `
+            <span class="admin-foglalas-naptar-esemeny admin-foglalas-naptar-statusz-confirmed"><time>09:00</time></span>
+            <span class="admin-foglalas-naptar-esemeny admin-foglalas-naptar-statusz-pending"><time>12:30</time></span>
+            <span class="admin-foglalas-naptar-tovabbi">+2</span>`;
+    });
+    await expect(page.locator('.admin-foglalas-naptar-esemeny time').first()).toBeVisible();
+    await expect(page.locator('.admin-foglalas-naptar-tovabbi').first()).toHaveText('+2');
+    await page.locator('[data-foglalas-naptar-datum]').first().click();
+    await expect(page.locator('[data-foglalas-naptar-datum][aria-pressed="true"]')).toHaveCount(1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    await page.setViewportSize({ width: 375, height: 667 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+    await page.setViewportSize({ width: 844, height: 390 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(844);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await listaNezetGomb.click();
+    await expect(page.locator('#admin-foglalas-lista-nezet')).toBeVisible();
+    await expect(page.locator('#admin-foglalas-naptar')).toBeHidden();
+
+    await page.getByRole('button', { name: 'Navigáció megnyitása' }).click();
+    await page.locator('.admin-v2-sidebar [data-admin-v2-nav="kommunikacio"]').click();
+    await expect(page.locator('#admin-panel-esemenynaplo')).toHaveClass(/aktiv/);
+    await page.locator('#admin-panel-esemenynaplo [data-admin-v2-panel="emailteszt"]').click();
+    await expect(page.locator('#admin-panel-emailteszt')).toBeVisible();
+    await expect(page.locator('#admin-email-teszt-kuldes')).toBeVisible();
+    await expect(page.locator('#admin-lebego-mentes')).toBeHidden();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+});
+
+test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgb(243, 236, 227)');
+    await expect(page.locator('.menu-pontok a').first()).toHaveCSS('color', 'rgb(33, 27, 25)');
+    await expect(page.locator('#kapcsolat h2')).toHaveCSS('color', 'rgb(33, 27, 25)');
+    await expect(page.locator('#kapcsolat .szekcio-leiras')).toHaveCSS('color', 'rgb(33, 27, 25)');
+    await expect(page.locator('.hero-primary')).toHaveCSS('background-color', 'rgb(240, 215, 213)');
+    await expect(page.locator('.hero-primary')).toHaveCSS('color', 'rgb(33, 27, 25)');
+    await expect(page.locator('.bemutatkozas-szoveg p').first()).toHaveCSS('text-align', 'justify');
+    await expect(page.locator('.bemutatkozas-szoveg p').first()).toHaveCSS('hyphens', 'none');
+
+    const asztaliIllesztes = await page.evaluate(() => {
+        const hero = document.querySelector('#hero').getBoundingClientRect();
+        const heroKep = document.querySelector('.hero-visual').getBoundingClientRect();
+        const bemutatkozasKep = document.querySelector('.bemutatkozas-kep').getBoundingClientRect();
+        return {
+            heroEsBemutatkozas: Math.abs(hero.bottom - bemutatkozasKep.top),
+            heroKepTeteje: Math.abs(hero.top - heroKep.top),
+            heroKepAlja: Math.abs(hero.bottom - heroKep.bottom)
+        };
+    });
+    expect(asztaliIllesztes.heroEsBemutatkozas).toBeGreaterThanOrEqual(40);
+    expect(asztaliIllesztes.heroEsBemutatkozas).toBeLessThanOrEqual(72.1);
+    expect(asztaliIllesztes.heroKepTeteje).toBeLessThanOrEqual(0.1);
+    expect(asztaliIllesztes.heroKepAlja).toBeLessThanOrEqual(0.1);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(page.locator('.hamburger')).toHaveCSS('background-color', 'rgb(240, 215, 213)');
+    await expect(page.locator('.hero-primary')).toHaveCSS('background-color', 'rgb(240, 215, 213)');
+
+    const mobilIllesztes = await page.evaluate(() => {
+        const hero = document.querySelector('#hero').getBoundingClientRect();
+        const heroKep = document.querySelector('.hero-visual').getBoundingClientRect();
+        const monogram = document.querySelector('.hero-monogram').getBoundingClientRect();
+        const bemutatkozasKep = document.querySelector('.bemutatkozas-kep').getBoundingClientRect();
+        return {
+            heroEsBemutatkozas: Math.abs(hero.bottom - bemutatkozasKep.top),
+            heroKepEsHeroAlja: Math.abs(hero.bottom - heroKep.bottom),
+            monogramBalTavolsag: Math.abs((monogram.left - heroKep.left) - 14)
+        };
+    });
+    expect(mobilIllesztes.heroEsBemutatkozas).toBeGreaterThanOrEqual(39.9);
+    expect(mobilIllesztes.heroEsBemutatkozas).toBeLessThanOrEqual(40.1);
+    expect(mobilIllesztes.heroKepEsHeroAlja).toBeLessThanOrEqual(0.1);
+    expect(mobilIllesztes.monogramBalTavolsag).toBeLessThanOrEqual(0.1);
+    await page.locator('.hamburger').click();
+    await expect(page.locator('.mobile-menu.open a').first()).toHaveCSS('color', 'rgb(33, 27, 25)');
+
+    for (const url of ['/arlista/', '/galeria/']) {
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
+        const cta = page.locator('.oldal-foglalas-cta');
+        const footer = page.locator('.site-footer');
+        await expect(cta).toBeVisible();
+        await expect(footer).toBeVisible();
+
+        const meretek = await page.evaluate(() => {
+            const gomb = document.querySelector('.oldal-foglalas-cta').getBoundingClientRect();
+            const lablec = document.querySelector('.site-footer').getBoundingClientRect();
+            return {
+                gombSzelesseg: Math.round(gomb.width),
+                kozepElteres: Math.abs((gomb.left + gomb.width / 2) - window.innerWidth / 2),
+                lablecTavolsag: lablec.top - gomb.bottom,
+                dokumentumSzelesseg: document.documentElement.scrollWidth
+            };
+        });
+
+        expect(meretek.gombSzelesseg).toBe(286);
+        expect(meretek.kozepElteres).toBeLessThanOrEqual(1);
+        expect(meretek.lablecTavolsag).toBeGreaterThanOrEqual(64);
+        expect(meretek.dokumentumSzelesseg).toBeLessThanOrEqual(390);
+    }
+
+    await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.tel-prefix')).toHaveCSS('color', 'rgb(33, 27, 25)');
+    await expect(page.locator('.tel-prefix')).toHaveCSS('background-color', 'rgb(243, 236, 227)');
+});
+test('az adatkezelési oldal asztali és mobil elrendezése áttekinthető', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/adatkezeles/', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('.site-header')).toBeVisible();
+    await expect(page.locator('.site-header')).toHaveCSS('position', 'fixed');
+    await expect(page.locator('.jogi-fejlec')).toHaveCSS('position', 'static');
+    await expect(page.locator('.jogi-fejlec h1')).toHaveText('Adatkezelési tájékoztató');
+    const fejlecPoziciok = await page.evaluate(() => {
+        const navigacio = document.querySelector('.site-header').getBoundingClientRect();
+        const jogiFejlec = document.querySelector('.jogi-fejlec').getBoundingClientRect();
+        return {
+            navigacioTeteje: Math.round(navigacio.top),
+            navigacioAlja: Math.round(navigacio.bottom),
+            jogiFejlecTeteje: Math.round(jogiFejlec.top)
+        };
+    });
+    expect(fejlecPoziciok.navigacioTeteje).toBe(0);
+    expect(fejlecPoziciok.jogiFejlecTeteje).toBeGreaterThan(fejlecPoziciok.navigacioAlja);
+    await expect(page.locator('.jogi-tartalomjegyzek a')).toHaveCount(8);
+    await expect(page.locator('#kezelt-adatok')).toContainText('Foglalási azonosító');
+    await expect(page.locator('#adatszukseglet')).toContainText('stílus');
+
+    const asztaliElrendezes = await page.evaluate(() => {
+        const oldal = document.querySelector('.jogi-oldal').getBoundingClientRect();
+        const tartalom = document.querySelector('.jogi-tartalom').getBoundingClientRect();
+        const racs = getComputedStyle(document.querySelector('.jogi-elrendezes'));
+        const oldalsav = getComputedStyle(document.querySelector('.jogi-oldalsav'));
+        const hibasHivatkozasok = [...document.querySelectorAll('.jogi-tartalomjegyzek a')]
+            .filter((link) => !document.querySelector(link.getAttribute('href')))
+            .length;
+        return {
+            oldalSzelesseg: oldal.width,
+            tartalomSzelesseg: tartalom.width,
+            oszlopok: racs.gridTemplateColumns.split(' ').filter(Boolean).length,
+            oldalsavPozicio: oldalsav.position,
+            hibasHivatkozasok,
+            dokumentumSzelesseg: document.documentElement.scrollWidth
+        };
+    });
+
+    expect(asztaliElrendezes.oldalSzelesseg).toBeGreaterThanOrEqual(1100);
+    expect(asztaliElrendezes.tartalomSzelesseg).toBeGreaterThan(700);
+    expect(asztaliElrendezes.oszlopok).toBe(2);
+    expect(asztaliElrendezes.oldalsavPozicio).toBe('sticky');
+    expect(asztaliElrendezes.hibasHivatkozasok).toBe(0);
+    expect(asztaliElrendezes.dokumentumSzelesseg).toBeLessThanOrEqual(1440);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    const mobilElrendezes = await page.evaluate(() => {
+        const racs = getComputedStyle(document.querySelector('.jogi-elrendezes'));
+        const adatlista = getComputedStyle(document.querySelector('.jogi-adatlista'));
+        const oldalsav = getComputedStyle(document.querySelector('.jogi-oldalsav'));
+        return {
+            oszlopok: racs.gridTemplateColumns.split(' ').filter(Boolean).length,
+            adatlistaOszlopok: adatlista.gridTemplateColumns.split(' ').filter(Boolean).length,
+            oldalsavPozicio: oldalsav.position,
+            dokumentumSzelesseg: document.documentElement.scrollWidth
+        };
+    });
+
+    expect(mobilElrendezes.oszlopok).toBe(1);
+    expect(mobilElrendezes.adatlistaOszlopok).toBe(1);
+    expect(mobilElrendezes.oldalsavPozicio).toBe('static');
+    expect(mobilElrendezes.dokumentumSzelesseg).toBeLessThanOrEqual(390);
+    await expect(page.locator('.jogi-tartalom h2').first()).toHaveCSS('font-size', '42px');
+});
+
+test('a főoldali galéria carousel gombbal, billentyűzettel és mobilon is működik', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const carousel = page.locator('.galeria-kartya-lapozo');
+    const images = carousel.locator('img');
+    const imageCount = await images.count();
+    const status = carousel.locator('.galeria-kartya-allapot');
+    expect(imageCount).toBeGreaterThan(1);
+    await expect(carousel).toHaveAttribute('role', 'region');
+    await expect(carousel).toHaveAttribute('aria-label', 'Válogatott Lumi Nails munkák');
+    await expect(carousel).toHaveAttribute('aria-roledescription', 'carousel');
+    await expect(status).toHaveText('1 / ' + imageCount);
+    await expect(images.nth(0)).toHaveAttribute('data-aktiv', 'true');
+
+    await carousel.getByRole('button', { name: 'Következő kép' }).click();
+    await expect(status).toHaveText('2 / ' + imageCount);
+    await expect(images.nth(1)).toHaveAttribute('data-aktiv', 'true');
+
+    await carousel.press('ArrowLeft');
+    await expect(status).toHaveText('1 / ' + imageCount);
+    await expect(images.nth(0)).toHaveAttribute('data-aktiv', 'true');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    const mobile = await carousel.evaluate((element) => {
+        const next = element.querySelector('.galeria-kartya-kovetkezo');
+        const dots = element.querySelector('.galeria-kartya-pontok');
+        const liveStatus = element.querySelector('.galeria-kartya-allapot');
+        const nextRect = next.getBoundingClientRect();
+        return {
+            nextWidth: Math.round(nextRect.width),
+            nextHeight: Math.round(nextRect.height),
+            dotsDisplay: getComputedStyle(dots).display,
+            statusDisplay: getComputedStyle(liveStatus).display,
+            documentWidth: document.documentElement.scrollWidth
+        };
+    });
+    expect(mobile).toEqual({
+        nextWidth: 44,
+        nextHeight: 44,
+        dotsDisplay: 'none',
+        statusDisplay: 'flex',
+        documentWidth: 390
+    });
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(images.nth(0)).toHaveCSS('transition-duration', '0s');
+});
