@@ -1,4 +1,4 @@
-name: Deploy static site to Pages
+name: Deploy Luminails CHATGPT_TEST preview
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -22,18 +22,25 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Luminails CHATGPT_TEST
         uses: actions/checkout@v4
+        with:
+          repository: enneno/Test
+          ref: CHATGPT_TEST
+          path: preview
+
+      - name: Remove source Pages custom-domain marker
+        run: rm -f preview/CNAME
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload static files
+      - name: Upload CHATGPT_TEST static files
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: preview
           include-hidden-files: true
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy preview to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
