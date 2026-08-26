@@ -24,11 +24,16 @@ jobs:
           repository: enneno/Test
           ref: CHATGPT_TEST
           path: source
+          persist-credentials: false
 
       - name: Replace Hairport files with CHATGPT_TEST
         shell: bash
         run: |
-          tar -C source -cf /tmp/chatgpt-test-preview.tar .
+          tar -C source \
+            --exclude='./.git' \
+            --exclude='./.github' \
+            --exclude='./CNAME' \
+            -cf /tmp/chatgpt-test-preview.tar .
           find . -mindepth 1 -maxdepth 1 \
             ! -name '.git' \
             ! -name '.github' \
