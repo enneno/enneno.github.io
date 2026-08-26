@@ -42,6 +42,7 @@ jobs:
           tar -xf /tmp/chatgpt-test-preview.tar -C .
           rm -rf source
           rm -f CNAME
+          sed -i 's#chatgpt-test-bookings.css?v=1#chatgpt-test-bookings.css?v=5#g' admin/index.html
 
       - name: Commit synchronized preview
         shell: bash
