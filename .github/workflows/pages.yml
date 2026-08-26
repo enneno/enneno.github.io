@@ -1,4 +1,4 @@
-name: Deploy Luminails CHATGPT_TEST preview
+name: Sync Luminails CHATGPT_TEST preview
 
 on:
   push:
@@ -7,40 +7,40 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
+  contents: write
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  sync:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout preview repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Checkout Luminails CHATGPT_TEST
         uses: actions/checkout@v4
         with:
           repository: enneno/Test
           ref: CHATGPT_TEST
-          path: preview
+          path: source
 
-      - name: Remove source Pages custom-domain marker
-        run: rm -f preview/CNAME
+      - name: Replace Hairport files with CHATGPT_TEST
+        shell: bash
+        run: |
+          rsync -a --delete --exclude='.git/' --exclude='.github/' source/ ./
+          rm -rf source
+          rm -f CNAME
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload CHATGPT_TEST static files
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: preview
-          include-hidden-files: true
-
-      - name: Deploy preview to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Commit synchronized preview
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Preview already synchronized"
+            exit 0
+          fi
+          git commit -m "Sync CHATGPT_TEST preview content"
+          git push origin main
