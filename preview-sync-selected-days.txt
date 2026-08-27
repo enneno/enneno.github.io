@@ -1,0 +1,2 @@
+Sync Lumi Nails CHATGPT_TEST selected-days mobile layout.
+Source branch head: 016bf5902537a1f34186c71b2a3ddf28bf8deda9
