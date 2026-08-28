@@ -1,4 +1,4 @@
-name: Sync Luminails CHATGPT_TEST preview
+name: Deploy Luminails test site
 
 on:
   push:
@@ -6,53 +6,98 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: write
+concurrency:
+  group: test-pages
+  cancel-in-progress: true
 
 jobs:
-  sync:
+  verify:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout preview repository
+      - name: Checkout test repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Checkout Luminails CHATGPT_TEST
-        uses: actions/checkout@v4
-        with:
-          repository: enneno/Test
-          ref: CHATGPT_TEST
-          path: source
-          persist-credentials: false
-
-      - name: Replace Hairport files with CHATGPT_TEST
+      - name: Reject production domain in test repository
         shell: bash
         run: |
-          tar -C source \
-            --exclude='./.git' \
-            --exclude='./.github' \
-            --exclude='./CNAME' \
-            -cf /tmp/chatgpt-test-preview.tar .
-          find . -mindepth 1 -maxdepth 1 \
-            ! -name '.git' \
-            ! -name '.github' \
-            ! -name 'source' \
-            -exec rm -rf {} +
-          tar -xf /tmp/chatgpt-test-preview.tar -C .
-          rm -rf source
-          rm -f CNAME
-          sed -i 's#chatgpt-test-bookings.css?v=1#chatgpt-test-bookings.css?v=5#g' admin/index.html
-
-      - name: Commit synchronized preview
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "Preview already synchronized"
-            exit 0
+          if [[ -e CNAME ]]; then
+            echo "::error::A teszt tároló nem tartalmazhat CNAME fájlt."
+            exit 1
           fi
-          git commit -m "Sync CHATGPT_TEST preview content"
-          git push origin main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Edge for Playwright
+        run: npx playwright install --with-deps msedge
+
+      - name: Verify committed test candidate
+        run: npm run check && npm test
+
+      - name: Prepare verified test artifact
+        shell: bash
+        run: |
+          artifact_dir="${RUNNER_TEMP}/verified-test-site"
+          mkdir -p "$artifact_dir"
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='playwright-report/' \
+            --exclude='test-results/' \
+            ./ "$artifact_dir/"
+
+      - name: Store verified test artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-test-site
+          path: ${{ runner.temp }}/verified-test-site
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy:
+    needs: verify
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download verified test artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verified-test-site
+          path: site
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload verified static files
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+          include-hidden-files: true
+
+      - name: Deploy test site to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Smoke test deployed preview
+        shell: bash
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          base_url="${SITE_URL%/}"
+          curl --fail --silent --show-error --retry 12 --retry-delay 5 "${base_url}/"
+          curl --fail --silent --show-error --retry 12 --retry-delay 5 "${base_url}/foglalas/"
