@@ -2,10 +2,19 @@ const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('playwright/test');
 
+function adminStyles(root) {
+    const directory = path.join(root, 'src', 'admin-styles');
+    return fs.readdirSync(directory)
+        .filter(file => file.endsWith('.css'))
+        .sort((left, right) => left.localeCompare(right, 'en'))
+        .map(file => fs.readFileSync(path.join(directory, file), 'utf8'))
+        .join('\n');
+}
+
 test('a főoldali Szolgáltatások CSS a publikus komponensrétegben él', async () => {
     const root = path.resolve(__dirname, '..');
     const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const adminCss = adminStyles(root);
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
     expect(publicCss).toContain('SZOLGÁLTATÁSOK');
@@ -343,7 +352,7 @@ test('a booking űrlap kiegészítő CSS-e a booking rétegben él', async () =>
     const root = path.resolve(__dirname, '..');
     const bookingCss = fs.readFileSync(path.join(root, 'src', 'styles', '30-booking.css'), 'utf8');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const adminCss = adminStyles(root);
 
     expect(bookingCss).toContain('Booking form accessibility — végleges megjelenés (99-ből migrálva)');
     expect(bookingCss).toContain('.foglalas-mezo-csoport {');
@@ -353,23 +362,23 @@ test('a booking űrlap kiegészítő CSS-e a booking rétegben él', async () =>
     expect(unifiedCss).not.toContain('.foglalas-fokozatos');
     expect(unifiedCss).not.toContain('.foglalas-oldal .urlap-mezo:focus');
     expect(unifiedCss).not.toContain('.admin-mezo-cimke {');
-    expect(adminCss).toContain('.admin-mezo-cimke {');
-    expect(unifiedCss).not.toContain('.admin-body input:focus,');
-    expect(adminCss).toContain('.admin-body input:focus,');
+    expect(adminCss).toContain('.admin-login-form .admin-mezo-cimke {');
+    expect(unifiedCss).not.toContain('.admin-mezo input:focus,');
+    expect(adminCss).toContain('.admin-mezo input:focus,');
 });
 
 test('a lebegő foglalás CTA CSS-e a publikus komponensrétegben él', async ({ page }) => {
     const root = path.resolve(__dirname, '..');
     const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const adminCss = adminStyles(root);
 
     expect(publicCss).toContain('Floating booking CTA — végleges megjelenés (99-ből migrálva)');
     expect(publicCss).toContain('.lebego-foglalas-gomb::after {');
     expect(publicCss).toContain('.lebego-foglalas-gomb.rejtve {');
     expect(unifiedCss).not.toContain('.lebego-foglalas-gomb');
     expect(unifiedCss).not.toContain('.admin-body #lebego-foglalas-gomb {');
-    expect(adminCss).toContain('.admin-body #lebego-foglalas-gomb {');
+    expect(adminCss).not.toContain('.lebego-foglalas-gomb');
 
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -387,7 +396,7 @@ test('a publikus foundation és hero CSS a publikus rétegben él', async ({ pag
     const root = path.resolve(__dirname, '..');
     const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const adminCss = adminStyles(root);
 
     expect(publicCss).toContain('Public foundation and hero — végleges megjelenés (99-ből migrálva)');
     expect(publicCss).toContain('/* Home hero */');
@@ -400,8 +409,8 @@ test('a publikus foundation és hero CSS a publikus rétegben él', async ({ pag
     expect(unifiedCss).not.toContain('#fo-tartalom');
     expect(unifiedCss).not.toContain('body.admin-body {');
     expect(adminCss).toContain('body.admin-body {');
-    expect(unifiedCss).not.toContain('/* Admin iOS input fallback */');
-    expect(adminCss).toContain('/* Admin iOS input fallback */');
+    expect(adminCss).toContain('--admin-ui-ios-field-optical-ratio');
+    expect(adminCss).toContain('@media screen and (max-width: 768px)');
 
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -430,68 +439,55 @@ test('a publikus foundation és hero CSS a publikus rétegben él', async ({ pag
     });
 });
 
-test('a legacy admin alap CSS a 40-admin rétegben él', async () => {
+test('az admin alapstílus és belépési felület a külön admin rétegekben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const foundationCss = fs.readFileSync(path.join(root, 'src', 'admin-styles', '00-foundation.css'), 'utf8');
+    const workspaceCss = fs.readFileSync(path.join(root, 'src', 'admin-styles', '20-workspace.css'), 'utf8');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
     const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
 
-    expect(adminCss).toContain('Legacy admin foundation — moved from public component layer');
-    expect(adminCss).toContain('Legacy admin mobile foundation — moved from public component layer');
-    expect(adminCss).toContain('Legacy admin base — végleges megjelenés (99-ből migrálva)');
-    expect(adminCss).toContain('.admin-auth-panel {');
-    expect(adminCss).toContain('.admin-eyebrow {');
-    expect(adminCss).toContain('.admin-body #lebego-foglalas-gomb {');
+    expect(foundationCss).toContain('body.admin-body {');
+    expect(workspaceCss).toContain('.admin-body.admin-v2 .admin-auth-panel {');
+    expect(workspaceCss).toContain('.admin-body.admin-v2 .admin-auth-panel .admin-eyebrow {');
     expect(unifiedCss).not.toContain('/* Admin */');
-    expect(unifiedCss).not.toContain('\n.admin-auth-panel {\n');
-    expect(unifiedCss).not.toContain('\n.admin-eyebrow {\n');
-    expect(unifiedCss).not.toContain('.admin-body #lebego-foglalas-gomb');
+    expect(unifiedCss).not.toContain('.admin-auth-panel');
+    expect(unifiedCss).not.toContain('.admin-eyebrow');
     expect(publicCss).not.toContain('\n.admin-body {\n');
     expect(publicCss).not.toContain('\n.admin-oldal {\n');
     expect(publicCss).not.toContain('#admin-idosav-naptar');
     expect(publicCss).toContain('body:not(.admin-body) {');
 });
 
-test('a legacy admin workspace és CMS CSS a 40-admin rétegben él', async () => {
+test('az admin munkafelület és CMS a saját feature rétegeiben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const workspaceCss = fs.readFileSync(path.join(root, 'src', 'admin-styles', '20-workspace.css'), 'utf8');
+    const contentCss = fs.readFileSync(path.join(root, 'src', 'admin-styles', '40-content-editor.css'), 'utf8');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
-    expect(adminCss).toContain('Legacy admin workspace and CMS — végleges megjelenés (99-ből migrálva)');
-    expect(adminCss).toContain('.admin-body .admin-workspace-layout {');
-    expect(adminCss).toContain('.admin-body .admin-sidebar {');
-    expect(adminCss).toContain('.admin-body .cms-editor-layout {');
-    expect(unifiedCss).not.toContain('LUMI ADMIN WORKSPACE REDESIGN');
-    expect(unifiedCss).not.toContain('.admin-body .admin-workspace-layout {');
-    expect(unifiedCss).not.toContain('.admin-body .cms-editor-layout {');
+    expect(workspaceCss).toContain('.admin-body.admin-v2 .admin-workspace-layout {');
+    expect(workspaceCss).toContain('.admin-body.admin-v2 .admin-sidebar {');
+    expect(contentCss).toContain('#admin-panel-szovegek .cms-editor-layout {');
+    expect(unifiedCss).not.toContain('.admin-workspace-layout');
+    expect(unifiedCss).not.toContain('.cms-editor-layout');
 });
 
-test('a legacy admin foglalások CSS a 40-admin rétegben él', async () => {
+test('az admin foglalások CSS-e az egyetlen kanonikus foglalási rétegben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const bookingsCss = fs.readFileSync(path.join(root, 'src', 'admin-styles', '30-bookings.css'), 'utf8');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
-    expect(adminCss).toContain('Legacy admin bookings — végleges megjelenés (99-ből migrálva)');
-    expect(adminCss).toContain('#admin-panel-foglalasok .admin-foglalas-attekintes {');
-    expect(adminCss).toContain('#admin-panel-foglalasok .admin-foglalas-naptar {');
-    expect(adminCss).toContain('#admin-panel-foglalasok .admin-vendeg-lemondas-jelzes {');
-    expect(unifiedCss).not.toContain('ADMIN FOGLALÁSOK – COMPACT DATA LIST');
-    expect(unifiedCss).not.toContain('#admin-panel-foglalasok .admin-foglalas-attekintes {');
-    expect(unifiedCss).not.toContain('#admin-panel-foglalasok .admin-foglalas-naptar {');
+    expect(bookingsCss).toContain('#admin-panel-foglalasok .admin-foglalas-attekintes {');
+    expect(bookingsCss).toContain('#admin-panel-foglalasok .admin-foglalas-naptar {');
+    expect(bookingsCss).toContain('#admin-panel-foglalasok .admin-vendeg-lemondas-jelzes {');
+    expect(unifiedCss).not.toContain('#admin-panel-foglalasok');
 });
 
 test('a unified override réteg nyugdíjazott és selector-mentes', async () => {
     const root = path.resolve(__dirname, '..');
-    const adminCss = fs.readFileSync(path.join(root, 'src', 'styles', '40-admin.css'), 'utf8');
+    const adminCss = adminStyles(root).replace(/\/\*[\s\S]*?\*\//g, '');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
-    expect(adminCss).toContain('Legacy admin compact panels — végleges megjelenés (99-ből migrálva)');
-    expect(adminCss).toContain('/* Árlista */');
-    expect(adminCss).toContain('/* Kuponok */');
-    expect(adminCss).toContain('/* Foglalható dátumok */');
-    expect(adminCss).toContain('/* Foglalt idők */');
-    expect(adminCss).toContain('/* Eseménynapló */');
-    expect(adminCss).toContain('/* Admin iOS input fallback */');
+    expect(adminCss).not.toContain('!important');
     expect(unifiedCss).toContain('Retired unified override layer');
     expect(unifiedCss).not.toContain('{');
 });
