@@ -5023,6 +5023,285 @@ body.cms-image-lightbox-open { overflow: hidden; }
   }
 }
 
+.admin-body.admin-v2 #admin-panel-arkalkulator {
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, .65fr);
+  align-items: start;
+  gap: 16px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card,
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-osszegzes {
+  min-width: 0;
+  border: 1px solid var(--admin-v2-border);
+  border-radius: 16px;
+  background: var(--admin-v2-surface);
+  box-shadow: var(--lumi-soft-shadow);
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card {
+  padding: 18px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card-fej {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 16px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card-fej h2,
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-osszegzes h2 {
+  margin: 0;
+  color: var(--admin-v2-ink);
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card-fej p {
+  margin: 4px 0 0;
+  color: var(--admin-v2-muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-alap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(128px, .34fr);
+  align-items: end;
+  gap: 10px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-fix-ar {
+  display: grid;
+  min-height: var(--admin-ui-choice-height);
+  padding: 5px 11px;
+  align-content: center;
+  border: 1px solid var(--admin-v2-border);
+  border-radius: var(--admin-ui-control-radius);
+  background: var(--admin-v2-surface-soft);
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-fix-ar span {
+  color: var(--admin-v2-muted);
+  font-size: 8px;
+  line-height: 1;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-fix-ar strong {
+  margin-top: 3px;
+  color: var(--admin-v2-ink);
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-valaszto {
+  margin-top: 12px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-lista {
+  display: grid;
+  margin-top: 14px;
+  gap: 7px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-ures {
+  margin: 0;
+  padding: 15px;
+  border: 1px dashed var(--admin-v2-border);
+  border-radius: 12px;
+  color: var(--admin-v2-muted);
+  background: var(--admin-v2-surface-soft);
+  font-size: 10px;
+  text-align: center;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-sor {
+  display: grid;
+  grid-template-columns: minmax(108px, 1fr) minmax(92px, .46fr) auto var(--admin-ui-icon-button-size);
+  min-height: 48px;
+  padding: 7px 8px 7px 11px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--admin-v2-border);
+  border-radius: 12px;
+  background: var(--admin-v2-surface-soft);
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-nev {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-nev strong {
+  overflow: hidden;
+  color: var(--admin-v2-ink);
+  font-size: 11px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-nev small {
+  color: var(--admin-v2-muted);
+  font-size: 8px;
+  line-height: 1.2;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-ar select {
+  width: 100%;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-fix-ar {
+  color: var(--admin-v2-muted);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-darab {
+  display: grid;
+  grid-template-columns: var(--admin-ui-icon-button-size) 52px var(--admin-ui-icon-button-size);
+  align-items: center;
+  gap: 3px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-darab output {
+  color: var(--admin-v2-ink);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-darab .admin-control-icon-button {
+  color: var(--admin-v2-brand-dark);
+  font-size: 15px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-torles {
+  color: var(--admin-v2-muted);
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-osszegzes {
+  position: sticky;
+  top: calc(var(--admin-v2-topbar) + 18px);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-kicker {
+  margin: 0 0 3px;
+  color: var(--admin-v2-brand);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator #admin-arkalkulator-vegosszeg {
+  display: block;
+  margin: 10px 0 17px;
+  color: var(--admin-v2-brand-dark);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(34px, 4vw, 48px);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: .95;
+  white-space: nowrap;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-bontas {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--admin-v2-border);
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-bontas > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 8px 0;
+  gap: 10px;
+  border-bottom: 1px solid var(--admin-v2-border);
+  font-size: 9px;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-bontas span {
+  overflow: hidden;
+  color: var(--admin-v2-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-bontas strong {
+  color: var(--admin-v2-ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-bontas > p {
+  margin: 10px 0 0;
+  color: var(--admin-v2-muted);
+  font-size: 9px;
+}
+
+@container admin-workspace (max-width: 700px) {
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-osszegzes {
+    position: static;
+    padding: 16px 18px;
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator #admin-arkalkulator-vegosszeg {
+    margin-block: 7px 12px;
+    font-size: 36px;
+  }
+}
+
+@container admin-workspace (max-width: 480px) {
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card {
+    padding: 13px;
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card-fej {
+    margin-bottom: 12px;
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-card-fej p {
+    display: none;
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-alap {
+    grid-template-columns: minmax(0, 1fr) minmax(104px, .38fr);
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-sor {
+    grid-template-columns: minmax(76px, 1fr) minmax(78px, .46fr) auto var(--admin-ui-icon-button-size);
+    padding-left: 9px;
+    gap: 5px;
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-darab {
+    grid-template-columns: var(--admin-ui-icon-button-size) 40px var(--admin-ui-icon-button-size);
+  }
+
+  .admin-body.admin-v2 #admin-panel-arkalkulator .admin-arkalkulator-extra-fix-ar {
+    font-size: 9px;
+  }
+}
+
 .admin-body.admin-v2 #admin-panel-kuponok > .admin-panel-akciok { margin: 0 0 11px; }
 .admin-body.admin-v2 #admin-panel-kuponok > .admin-panel-akciok .admin-hozzaadas { margin: 0; }
 
