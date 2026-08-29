@@ -339,7 +339,7 @@
             id: 'fooldal',
             title: 'Főoldal',
             description: 'A nyitóoldal minden fontos tartalmi blokkja.',
-            groups: [15, 1, 2, 3, 4, 5]
+            groups: [16, 15, 1, 2, 3, 4, 5]
         },
         {
             id: 'foglalas',
@@ -351,7 +351,7 @@
             id: 'szolgaltatasi-oldalak',
             title: 'Szolgáltatások',
             description: 'A külön szolgáltatási oldalak szövegei, kérdései és képei.',
-            groups: [16, 17, 18, 19]
+            groups: [17, 18, 19, 20]
         },
         {
             id: 'oldalak',
@@ -432,10 +432,10 @@
             ['Közösségi és üzenetküldő linkek', 9, 13],
             ['Lábléc', 14, 15]
         ],
-        16: servicePageFieldSets(6),
-        17: servicePageFieldSets(4),
+        17: servicePageFieldSets(6),
         18: servicePageFieldSets(4),
-        19: servicePageFieldSets(4, 3)
+        19: servicePageFieldSets(4),
+        20: servicePageFieldSets(4, 3)
     };
     document.addEventListener('DOMContentLoaded', () => {
         const root = document.getElementById('admin-cms-root');
