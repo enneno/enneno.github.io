@@ -985,6 +985,9 @@ test.describe('production admin redesign', () => {
         await expect(page.locator('.admin-v2-topbar')).toBeHidden();
         await expect(page.locator('#pwa-admin-tabbar .pwa-admin-toolbar-button')).toHaveCount(6);
 
+        const moreButton = page.locator('[data-pwa-admin-more]');
+        await moreButton.click();
+        await expect(page.locator('#pwa-admin-more-menu')).toBeVisible();
         const bell = page.locator('[data-pwa-admin-notifications]');
         await bell.click();
 
