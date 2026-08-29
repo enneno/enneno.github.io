@@ -11,7 +11,140 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  classify:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    outputs:
+      scope: ${{ steps.changes.outputs.scope }}
+      admin: ${{ steps.changes.outputs.admin }}
+      pwa: ${{ steps.changes.outputs.pwa }}
+      availability: ${{ steps.changes.outputs.availability }}
+      content: ${{ steps.changes.outputs.content }}
+      communications: ${{ steps.changes.outputs.communications }}
+      public: ${{ steps.changes.outputs.public }}
+    steps:
+      - name: Checkout test repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Select proportional verification
+        id: changes
+        shell: bash
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          admin=false
+          pwa=false
+          availability=false
+          content=false
+          communications=false
+          public=false
+          full=false
+
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]] ||
+             [[ -z "$BEFORE_SHA" ]] ||
+             [[ "$BEFORE_SHA" == "0000000000000000000000000000000000000000" ]] ||
+             ! git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            full=true
+          else
+            only_version_change() {
+              local path="$1"
+              local old_file new_file
+              old_file="$(mktemp)"
+              new_file="$(mktemp)"
+              if ! git show "${BEFORE_SHA}:${path}" 2>/dev/null |
+                sed -E 's/\?v=[0-9A-Za-z._-]+/?v=VERSION/g' > "$old_file"; then
+                rm -f "$old_file" "$new_file"
+                return 1
+              fi
+              if [[ ! -f "$path" ]]; then
+                rm -f "$old_file" "$new_file"
+                return 1
+              fi
+              sed -E 's/\?v=[0-9A-Za-z._-]+/?v=VERSION/g' "$path" > "$new_file"
+              if cmp -s "$old_file" "$new_file"; then
+                rm -f "$old_file" "$new_file"
+                return 0
+              fi
+              rm -f "$old_file" "$new_file"
+              return 1
+            }
+
+            while IFS= read -r path; do
+              [[ -z "$path" ]] && continue
+              case "$path" in
+                .github/*|*.md|.gitignore|.gitattributes)
+                  ;;
+                pwa-admin-shell.js|src/admin-styles/95-pwa.css|tests/pwa.spec.js)
+                  admin=true
+                  pwa=true
+                  ;;
+                src/admin/40-*|tests/admin-availability-*.spec.js|tests/admin-blocked-times-*.spec.js)
+                  admin=true
+                  availability=true
+                  ;;
+                admin-content.js|src/admin/*content*|tests/admin-content-*.spec.js|tests/admin-gallery-*.spec.js)
+                  admin=true
+                  content=true
+                  ;;
+                src/admin/*communication*|src/admin/*notification*|tests/admin-communications-mobile.spec.js)
+                  admin=true
+                  communications=true
+                  ;;
+                admin/*|src/admin/*|src/admin-styles/*|admin-supabase.js|admin-v2.css|tests/admin-*.spec.js|scripts/admin-css-isolation.js)
+                  admin=true
+                  ;;
+                src/public/*|src/styles/*|src/booking/*|script.js|style.css|booking.js|booking.css|tests/customer-account.spec.js|tests/smoke.spec.js|tests/css-architecture.spec.js|scripts/public-css-architecture.js)
+                  public=true
+                  ;;
+                *.html)
+                  if ! only_version_change "$path"; then
+                    public=true
+                  fi
+                  ;;
+                supabase-config.js)
+                  if only_version_change "$path"; then
+                    admin=true
+                    pwa=true
+                  else
+                    full=true
+                  fi
+                  ;;
+                package.json|package-lock.json|playwright.config.js|scripts/*|service-worker.js|manifest*.json|tests/*)
+                  full=true
+                  ;;
+                *)
+                  full=true
+                  ;;
+              esac
+            done < <(git diff --name-only "$BEFORE_SHA" "$GITHUB_SHA")
+          fi
+
+          if [[ "$full" == "true" ]]; then
+            scope=full
+          elif [[ "$admin" == "true" || "$public" == "true" ]]; then
+            scope=targeted
+          else
+            scope=none
+          fi
+
+          {
+            echo "scope=$scope"
+            echo "admin=$admin"
+            echo "pwa=$pwa"
+            echo "availability=$availability"
+            echo "content=$content"
+            echo "communications=$communications"
+            echo "public=$public"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Selected verification scope: $scope" >> "$GITHUB_STEP_SUMMARY"
+
   verify:
+    needs: classify
+    if: needs.classify.outputs.scope != 'none'
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -36,11 +169,39 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Edge for Playwright
+      - name: Run static and architecture checks
+        run: npm run check
+
+      - name: Install Edge for selected browser tests
         run: npx playwright install --with-deps msedge
 
-      - name: Verify committed test candidate
-        run: npm run check && npm test
+      - name: Run full browser suite
+        if: needs.classify.outputs.scope == 'full'
+        run: npm test
+
+      - name: Run core admin tests
+        if: needs.classify.outputs.scope == 'targeted' && needs.classify.outputs.admin == 'true'
+        run: npm run test:admin
+
+      - name: Run PWA tests
+        if: needs.classify.outputs.scope == 'targeted' && needs.classify.outputs.pwa == 'true'
+        run: npx playwright test tests/pwa.spec.js
+
+      - name: Run availability tests
+        if: needs.classify.outputs.scope == 'targeted' && needs.classify.outputs.availability == 'true'
+        run: npx playwright test tests/admin-availability-mobile.spec.js tests/admin-availability-selected-days-mobile.spec.js tests/admin-blocked-times-mobile.spec.js tests/admin-blocked-times-pagination.spec.js
+
+      - name: Run admin content tests
+        if: needs.classify.outputs.scope == 'targeted' && needs.classify.outputs.content == 'true'
+        run: npx playwright test tests/admin-content-editor-accordion.spec.js tests/admin-gallery-workspace-pagination.spec.js
+
+      - name: Run communications tests
+        if: needs.classify.outputs.scope == 'targeted' && needs.classify.outputs.communications == 'true'
+        run: npx playwright test tests/admin-communications-mobile.spec.js
+
+      - name: Run public and booking tests
+        if: needs.classify.outputs.scope == 'targeted' && needs.classify.outputs.public == 'true'
+        run: npx playwright test tests/smoke.spec.js tests/customer-account.spec.js tests/css-architecture.spec.js
 
       - name: Prepare verified test artifact
         shell: bash
@@ -64,7 +225,10 @@ jobs:
           retention-days: 7
 
   deploy:
-    needs: verify
+    needs:
+      - classify
+      - verify
+    if: needs.classify.outputs.scope != 'none' && needs.verify.result == 'success'
     permissions:
       contents: read
       pages: write
