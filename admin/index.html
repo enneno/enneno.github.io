@@ -22,7 +22,7 @@
             }
         })();
     </script>
-    <link rel="stylesheet" href="/admin-v2.css?v=e71876469930">
+    <link rel="stylesheet" href="/admin-v2.css?v=f99c0b7f3069">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700&family=Montserrat:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap"
@@ -221,12 +221,11 @@
                                 <div class="admin-arkalkulator-fix-ar" id="admin-arkalkulator-fix-ar" aria-live="polite"></div>
                             </div>
 
-                            <label class="admin-mezo admin-arkalkulator-extra-valaszto" for="admin-arkalkulator-extra">
-                                Díszítés hozzáadása
-                                <select id="admin-arkalkulator-extra">
-                                    <option value="">Válassz a Díszítés kategóriából…</option>
-                                </select>
-                            </label>
+                            <fieldset class="admin-arkalkulator-extra-valaszto">
+                                <legend>Díszítések</legend>
+                                <p>Jelöld be, amit hozzá szeretnél adni.</p>
+                                <div id="admin-arkalkulator-extra" class="admin-arkalkulator-extra-opciok"></div>
+                            </fieldset>
 
                             <div id="admin-arkalkulator-extra-lista" class="admin-arkalkulator-extra-lista" aria-live="polite"></div>
                         </section>
@@ -388,7 +387,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
     <script src="/supabase-config.js?v=84d7307ff175"></script>
     <script src="/script.js?v=8aba5f50ba23"></script>
-    <script src="/admin-supabase.js?v=d9b6214000c7"></script>
+    <script src="/admin-supabase.js?v=36c07d0dbacc"></script>
     <script src="/admin-export.js?v=7f5a873b8293"></script>
     <script src="/admin-content.js?v=4dcbd5fdbbb6"></script>
 </body>

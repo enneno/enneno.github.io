@@ -535,12 +535,18 @@ test.describe('production admin redesign', () => {
         await expect(panel).toHaveClass(/aktiv/);
         await expect(panel.locator('.admin-v2-page-heading h1')).toHaveText('Árkalkulátor');
         await expect(panel.locator('#admin-arkalkulator-szolgaltatas option')).toHaveCount(2);
-        await expect(panel.locator('#admin-arkalkulator-extra option')).toContainText(['Válassz a Díszítés kategóriából…', 'Francia · 1 000 Ft', 'Kövek · 500 Ft – 800 Ft']);
+        const franciaJelolo = panel.getByRole('checkbox', { name: 'Francia' });
+        const kovekJelolo = panel.getByRole('checkbox', { name: 'Kövek' });
+        await expect(franciaJelolo).toBeVisible();
+        await expect(kovekJelolo).toBeVisible();
+        await expect(franciaJelolo).not.toBeChecked();
         await expect(panel.locator('#admin-arkalkulator-vegosszeg')).toHaveText('6 500 Ft');
 
-        await panel.locator('#admin-arkalkulator-extra').selectOption('service-3');
+        await franciaJelolo.check();
         const francia = panel.locator('[data-ar-kalkulator-extra="service-3"]');
         await expect(francia).toContainText('Francia');
+        await expect(francia.locator('small')).toHaveCount(0);
+        await expect(francia.getByText('1 000 Ft', { exact: true })).toHaveCount(1);
         await expect(francia.locator('output')).toHaveText('1 db');
         await expect(panel.locator('#admin-arkalkulator-vegosszeg')).toHaveText('7 500 Ft');
 
@@ -548,10 +554,10 @@ test.describe('production admin redesign', () => {
         await expect(francia.locator('output')).toHaveText('2 db');
         await expect(panel.locator('#admin-arkalkulator-vegosszeg')).toHaveText('8 500 Ft');
 
-        await panel.locator('#admin-arkalkulator-extra').selectOption('service-4');
+        await kovekJelolo.check();
         const kovek = panel.locator('[data-ar-kalkulator-extra="service-4"]');
         await expect(kovek).toContainText('Kövek');
-        await expect(kovek.locator('[data-ar-kalkulator-extra-price] option')).toHaveText(['500 Ft', '800 Ft']);
+        await expect(kovek.locator('[data-ar-kalkulator-extra-price] option')).toHaveText(['500 Ft', '550 Ft', '600 Ft', '650 Ft', '700 Ft', '750 Ft', '800 Ft']);
         await kovek.locator('[data-ar-kalkulator-extra-price]').selectOption('800');
         await expect(panel.locator('#admin-arkalkulator-vegosszeg')).toHaveText('9 300 Ft');
 
@@ -569,6 +575,8 @@ test.describe('production admin redesign', () => {
 
         await panel.getByRole('button', { name: 'Új számolás' }).click();
         await expect(panel.locator('.admin-arkalkulator-extra-sor')).toHaveCount(0);
+        await expect(franciaJelolo).not.toBeChecked();
+        await expect(kovekJelolo).not.toBeChecked();
         await expect(panel.locator('#admin-arkalkulator-vegosszeg')).toHaveText('6 500 Ft');
         expect(browserErrors).toEqual([]);
     });

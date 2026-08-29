@@ -4193,18 +4193,21 @@ function arlistaFeliratokFrissitese() {
             arKalkulatorOsszegzesRenderelese();
         });
         panel.querySelector('#admin-arkalkulator-extra')?.addEventListener('change', event => {
-            const id = event.target.value;
-            if (!id) return;
+            const jelolonegyzet = event.target.closest('[data-ar-kalkulator-extra-toggle]');
+            if (!jelolonegyzet) return;
+            const id = jelolonegyzet.value;
             const szolgaltatas = arKalkulatorDiszitesek().find(tetel => String(tetel.id) === id);
-            if (szolgaltatas && !arKalkulatorAllapot.extrak.has(id)) {
+            if (jelolonegyzet.checked && szolgaltatas && !arKalkulatorAllapot.extrak.has(id)) {
                 arKalkulatorAllapot.extrak.set(id, {
                     szolgaltatas,
                     darab: 1,
                     ar: arKalkulatorElsoAr(szolgaltatas)
                 });
+            } else if (!jelolonegyzet.checked) {
+                arKalkulatorAllapot.extrak.delete(id);
             }
-            event.target.value = '';
-            arKalkulatorRenderelese();
+            arKalkulatorExtraListaRenderelese();
+            arKalkulatorOsszegzesRenderelese();
         });
         panel.querySelector('#admin-arkalkulator-extra-lista')?.addEventListener('click', arKalkulatorExtraKattintas);
         panel.querySelector('#admin-arkalkulator-extra-lista')?.addEventListener('change', arKalkulatorExtraValtozas);
@@ -4287,15 +4290,22 @@ function arlistaFeliratokFrissitese() {
     }
 
     function arKalkulatorExtraValasztoRenderelese() {
-        const select = document.getElementById('admin-arkalkulator-extra');
-        if (!select) return;
+        const lista = document.getElementById('admin-arkalkulator-extra');
+        if (!lista) return;
 
-        const elerheto = arKalkulatorDiszitesek().filter(tetel => !arKalkulatorAllapot.extrak.has(String(tetel.id)));
-        select.innerHTML = '<option value="">Válassz a Díszítés kategóriából…</option>' + elerheto.map(tetel =>
-            `<option value="${attr(String(tetel.id))}">${html(arKalkulatorTetelNev(tetel))} · ${html(arKalkulatorArTartomanySzoveg(tetel))}</option>`
-        ).join('');
-        select.disabled = elerheto.length === 0;
-        if (!elerheto.length) select.innerHTML = '<option value="">Minden díszítés hozzáadva</option>';
+        const diszitesek = arKalkulatorDiszitesek();
+        lista.innerHTML = diszitesek.length
+            ? diszitesek.map(tetel => {
+                const id = String(tetel.id);
+                const nev = arKalkulatorTetelNev(tetel);
+                return `
+                    <label class="admin-arkalkulator-extra-opcio">
+                        <input type="checkbox" value="${attr(id)}" data-ar-kalkulator-extra-toggle ${arKalkulatorAllapot.extrak.has(id) ? 'checked' : ''}>
+                        <span>${html(nev)}</span>
+                    </label>
+                `;
+            }).join('')
+            : '<p class="admin-arkalkulator-extra-nincs">Nincs aktív díszítés az árlistában.</p>';
     }
 
     function arKalkulatorExtraListaRenderelese() {
@@ -4311,14 +4321,13 @@ function arlistaFeliratokFrissitese() {
             const nev = arKalkulatorTetelNev(extra.szolgaltatas);
             const arak = arKalkulatorArak(extra.szolgaltatas);
             const arVezerlo = arak.length > 1
-                ? `<label class="admin-arkalkulator-extra-ar"><span class="sr-only">${html(nev)} ára</span><select data-ar-kalkulator-extra-price>${arak.map(ar => `<option value="${ar}" ${ar === extra.ar ? 'selected' : ''}>${arKalkulatorArSzoveg(ar)}</option>`).join('')}</select></label>`
+                ? `<label class="admin-arkalkulator-extra-ar"><span class="admin-arkalkulator-sr-only">${html(nev)} ára</span><select data-ar-kalkulator-extra-price>${arak.map(ar => `<option value="${ar}" ${ar === extra.ar ? 'selected' : ''}>${arKalkulatorArSzoveg(ar)}</option>`).join('')}</select></label>`
                 : `<span class="admin-arkalkulator-extra-fix-ar">${arKalkulatorArSzoveg(extra.ar)}</span>`;
 
             return `
                 <article class="admin-arkalkulator-extra-sor" data-ar-kalkulator-extra="${attr(id)}">
                     <div class="admin-arkalkulator-extra-nev">
                         <strong>${html(nev)}</strong>
-                        <small>${arKalkulatorArSzoveg(extra.ar * extra.darab)}</small>
                     </div>
                     ${arVezerlo}
                     <div class="admin-arkalkulator-darab" role="group" aria-label="${attr(nev)} darabszáma">
@@ -4326,7 +4335,6 @@ function arlistaFeliratokFrissitese() {
                         <output>${extra.darab} db</output>
                         <button type="button" class="admin-control-icon-button" data-ar-kalkulator-action="plusz" aria-label="${attr(nev)} darabszámának növelése">+</button>
                     </div>
-                    <button type="button" class="admin-control-icon-button admin-arkalkulator-extra-torles" data-ar-kalkulator-action="torles" aria-label="${attr(nev)} eltávolítása">${adminV2Ikon('close')}</button>
                 </article>
             `;
         }).join('');
@@ -4361,9 +4369,7 @@ function arlistaFeliratokFrissitese() {
         const extra = arKalkulatorAllapot.extrak.get(id);
         if (!extra) return;
 
-        if (gomb.dataset.arKalkulatorAction === 'torles') {
-            arKalkulatorAllapot.extrak.delete(id);
-        } else if (gomb.dataset.arKalkulatorAction === 'plusz') {
+        if (gomb.dataset.arKalkulatorAction === 'plusz') {
             extra.darab = Math.min(99, extra.darab + 1);
         } else if (gomb.dataset.arKalkulatorAction === 'minusz') {
             extra.darab = Math.max(1, extra.darab - 1);
@@ -4426,16 +4432,19 @@ function arlistaFeliratokFrissitese() {
             .filter(ertek => Number.isFinite(ertek) && ertek > 0);
         const fixAr = Number(szolgaltatas.price_amount);
         if (Number.isFinite(fixAr) && fixAr > 0 && !arak.includes(fixAr)) arak.unshift(fixAr);
-        return Array.from(new Set(arak));
+        const egyediArak = Array.from(new Set(arak));
+        if (egyediArak.length < 2) return egyediArak;
+
+        const alsoHatar = Math.min(...egyediArak);
+        const felsoHatar = Math.max(...egyediArak);
+        const lepesArak = [];
+        for (let ar = alsoHatar; ar <= felsoHatar; ar += 50) lepesArak.push(ar);
+        if (lepesArak.at(-1) !== felsoHatar) lepesArak.push(felsoHatar);
+        return lepesArak;
     }
 
     function arKalkulatorElsoAr(szolgaltatas) {
         return arKalkulatorArak(szolgaltatas)[0] || 0;
-    }
-
-    function arKalkulatorArTartomanySzoveg(szolgaltatas) {
-        const arak = arKalkulatorArak(szolgaltatas);
-        return arak.length ? arak.map(arKalkulatorArSzoveg).join(' – ') : 'Nincs ár';
     }
 
     function arKalkulatorArSzoveg(osszeg) {
