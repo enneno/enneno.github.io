@@ -311,6 +311,26 @@
                 field('fooldal.ertesito.cimke', 'Kis felső felirat'),
                 field('fooldal.ertesito.szoveg', 'Üzenet a vendégeknek', 'textarea')
             ]
+        },
+        {
+            title: 'Szolgáltatási oldal – Műköröm',
+            description: 'A műköröm építés és töltés oldal teljes szövege, keresőleírása és nyitóképe.',
+            fields: servicePageFields('szolgaltatasOldalak.mukorom', 6)
+        },
+        {
+            title: 'Szolgáltatási oldal – Gél lakk',
+            description: 'A hagyományos és erősített gél lakk oldal teljes szövege, keresőleírása és nyitóképe.',
+            fields: servicePageFields('szolgaltatasOldalak.gelLakk', 4)
+        },
+        {
+            title: 'Szolgáltatási oldal – Manikűr',
+            description: 'A manikűr oldal teljes szövege, keresőleírása és nyitóképe.',
+            fields: servicePageFields('szolgaltatasOldalak.manikur', 4)
+        },
+        {
+            title: 'Szolgáltatási oldal – Díszítés / Nail Art',
+            description: 'A körömdíszítési oldal teljes szövege, keresőleírása, nyitóképe és három további fotója.',
+            fields: servicePageFields('szolgaltatasOldalak.nailArt', 4, 3)
         }
     ];
 
@@ -326,6 +346,12 @@
             title: 'Foglalás',
             description: 'A foglalási oldal, az űrlap és a vendégnek szóló üzenetek.',
             groups: [8, 9, 10, 11]
+        },
+        {
+            id: 'szolgaltatasi-oldalak',
+            title: 'Szolgáltatások',
+            description: 'A külön szolgáltatási oldalak szövegei, kérdései és képei.',
+            groups: [16, 17, 18, 19]
         },
         {
             id: 'oldalak',
@@ -405,7 +431,11 @@
             ['Cím, telefon és email', 2, 8],
             ['Közösségi és üzenetküldő linkek', 9, 13],
             ['Lábléc', 14, 15]
-        ]
+        ],
+        16: servicePageFieldSets(6),
+        17: servicePageFieldSets(4),
+        18: servicePageFieldSets(4),
+        19: servicePageFieldSets(4, 3)
     };
     document.addEventListener('DOMContentLoaded', () => {
         const root = document.getElementById('admin-cms-root');
@@ -437,6 +467,85 @@
             field(`${base}.${index}.leiras`, `${label} szövege`, 'textarea'),
             field(`${base}.${index}.linkSzoveg`, `${label} linkjének szövege`)
         ];
+    }
+
+    function servicePageFields(base, faqCount, gallerySlots = 0) {
+        const fields = [
+            field(`${base}.seoCim`, 'Kereső és böngésző címe'),
+            field(`${base}.seoLeiras`, 'Kereső rövid leírása', 'textarea'),
+            field(`${base}.kicker`, 'Nyitókép kis felső szövege'),
+            field(`${base}.cim`, 'Oldal főcíme'),
+            field(`${base}.leiras`, 'Nyitókép bevezető szövege', 'textarea'),
+            image(`${base}.kep`, 'Nyitókép'),
+            field(`${base}.kepAlt`, 'Nyitókép leírása'),
+            field(`${base}.bevezetoKicker`, 'Bevezető kis felső szövege'),
+            field(`${base}.bevezetoCim`, 'Bevezető címe'),
+            field(`${base}.bevezeto`, 'Bevezető szövege', 'textarea'),
+            field(`${base}.szekciok.0.kicker`, 'Első tartalmi rész kis felső szövege'),
+            field(`${base}.szekciok.0.cim`, 'Első tartalmi rész címe'),
+            field(`${base}.szekciok.0.szoveg`, 'Első tartalmi rész szövege – üres sorral új bekezdés kezdhető', 'textarea'),
+            field(`${base}.szekciok.1.kicker`, 'Második tartalmi rész kis felső szövege'),
+            field(`${base}.szekciok.1.cim`, 'Második tartalmi rész címe'),
+            field(`${base}.szekciok.1.szoveg`, 'Második tartalmi rész szövege – üres sorral új bekezdés kezdhető', 'textarea'),
+            field(`${base}.kiemeles.kicker`, 'Kiemelt segítség kis felső szövege'),
+            field(`${base}.kiemeles.cim`, 'Kiemelt segítség címe'),
+            field(`${base}.kiemeles.szoveg`, 'Kiemelt segítség szövege', 'textarea')
+        ];
+
+        Array.from({ length: faqCount }, (_item, index) => {
+            fields.push(
+                field(`${base}.gyik.${index}.kerdes`, `${index + 1}. kérdés`),
+                field(`${base}.gyik.${index}.valasz`, `${index + 1}. válasz`, 'textarea')
+            );
+        });
+
+        fields.push(
+            field(`${base}.zaras.kicker`, 'Záró blokk kis felső szövege'),
+            field(`${base}.zaras.cim`, 'Záró blokk címe'),
+            field(`${base}.zaras.szoveg`, 'Záró blokk szövege', 'textarea'),
+            field(`${base}.gyikKicker`, 'Gyakori kérdések kis felső szövege'),
+            field(`${base}.gyikCim`, 'Gyakori kérdések blokk címe'),
+            field(`${base}.zaras.foglalasGomb`, 'Záró foglalás gomb felirata'),
+            field(`${base}.zaras.masodlagosGomb`, 'Záró másodlagos link felirata')
+        );
+
+        if (gallerySlots > 0) {
+            fields.push(
+                field(`${base}.kepekKicker`, 'Képes blokk kis felső szövege'),
+                field(`${base}.kepekCim`, 'Képes blokk címe')
+            );
+            Array.from({ length: gallerySlots }, (_item, index) => {
+                fields.push(
+                    image(`${base}.kepek.${index}.kep`, `${index + 1}. további kép`),
+                    field(`${base}.kepek.${index}.kepAlt`, `${index + 1}. további kép leírása`)
+                );
+            });
+        }
+        return fields;
+    }
+
+    function servicePageFieldSets(faqCount, gallerySlots = 0) {
+        const faqStart = 19;
+        const faqEnd = faqStart + faqCount * 2 - 1;
+        const closingStart = faqEnd + 1;
+        const extrasStart = closingStart + 3;
+        const sets = [
+            ['Keresőbeállítások', 0, 1],
+            ['Nyitókép', 2, 6],
+            ['Bevezető', 7, 9],
+            ['Első tartalmi rész', 10, 12],
+            ['Második tartalmi rész', 13, 15],
+            ['Kiemelt segítség', 16, 18],
+            ['Gyakori kérdések', faqStart, faqEnd],
+            ['Záró blokk', closingStart, closingStart + 2],
+            ['Gyakori kérdések blokk címe', extrasStart, extrasStart + 1],
+            ['Záró blokk gombjai', extrasStart + 2, extrasStart + 3]
+        ];
+        if (gallerySlots > 0) {
+            const galleryStart = extrasStart + 4;
+            sets.push(['Képes blokk', galleryStart, galleryStart + 1 + gallerySlots * 2]);
+        }
+        return sets;
     }
 
     async function loadContent() {
@@ -1050,6 +1159,12 @@
         const serviceCards = Array.from({ length: 4 }, (_item, index) =>
             deepMerge(clone(defaultCards[index] || { cim: '', leiras: '', linkSzoveg: '' }), storedCards[index] || {})
         );
+        const decorationCard = serviceCards.find(card => /dísz|nail art/i.test(String(card?.cim || '')));
+        if (decorationCard && /különleges 3D dekorációk/i.test(String(decorationCard.leiras || ''))) {
+            const defaultDecorationCard = defaultCards.find(card => /dísz|nail art/i.test(String(card?.cim || '')));
+            decorationCard.leiras = defaultDecorationCard?.leiras || decorationCard.leiras;
+            decorationCard.linkSzoveg = defaultDecorationCard?.linkSzoveg || 'Részletek';
+        }
         setPath(normalized, 'fooldal.szolgaltatasok.kartyak', serviceCards);
 
         normalized.galeria ||= {};
