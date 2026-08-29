@@ -614,8 +614,11 @@ function szolgaltatasKartyakRenderelese(szolgaltatasok) {
 
         const link = document.createElement('a');
         const galeriaKartya = /dísz|nail art/i.test(kartya.cim || '');
+        const epitesKartya = /építés|töltés/i.test(kartya.cim || '');
         const linkSzoveg = kartya.linkSzoveg || (galeriaKartya ? 'Inspirációk' : 'Részletek és árak');
-        link.href = galeriaKartya ? '/galeria/' : '/arlista/';
+        link.href = galeriaKartya
+            ? '/galeria/'
+            : (epitesKartya ? '/mukorom-epites-toltes/' : '/arlista/');
         link.innerHTML = `${html(linkSzoveg)} <span aria-hidden="true">→</span>`;
 
         doboz.append(fej, cim, leiras, link);
