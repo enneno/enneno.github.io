@@ -40,6 +40,19 @@ Ez a fájl a `D:\Asztal\LumiNails_Test` projektben végzett minden munkára köt
 - Generált fájl helyett az irányadó forrásfájlt kell módosítani.
 - Titkokat, kulcsokat, tokeneket és személyes adatokat tilos forráskódba vagy naplóba írni.
 
+## Arányos tesztelés
+
+- A tesztelés mértéke mindig igazodjon a módosítás tényleges hatóköréhez és kockázatához.
+- Kis, jól körülhatárolt változtatásnál a célzott ellenőrzés az alapértelmezés; ilyenkor tilos indok nélkül a teljes böngészős tesztcsomagot futtatni.
+- Adminfelületi módosításnál az admin alaptesztek fussanak, kiegészítve csak az érintett PWA-, elérhetőségi, tartalomkezelési vagy kommunikációs tesztekkel.
+- Publikus vagy foglalási módosításnál csak a publikus oldal, a foglalás, az ügyfélfiók és a CSS-architektúra releváns tesztjei fussanak.
+- Dokumentáció, fejlesztési szabályzat vagy kizárólag GitHub-workflow módosítása nem indokol böngészős tesztfuttatást és nem telepíti újra a TEST-oldalt.
+- Teljes tesztcsomag csak közös vagy több területet érintő fájl, buildrendszer, függőség, hitelesítés, Supabase-konfiguráció, service worker, ismeretlen hatókör vagy kifejezett felhasználói kérés esetén indokolt.
+- Ugyanazt a teljes tesztcsomagot helyben és a GitHubon egymás után megismételni tilos, hacsak egy konkrét hiba kivizsgálása ezt nem teszi szükségessé.
+- Fejlesztés közben rövid, célzott helyi ellenőrzés használható; a GitHub a változott fájlok alapján automatikusan választ célzott vagy teljes ellenőrzést.
+- Sikertelen ellenőrzés után csak a hibához kapcsolódó javítást és tesztet kell megismételni; változatlan, már sikeres ellenőrzéseket tilos indok nélkül újrafuttatni.
+- Az élesítés nem tesztel újra: kizárólag olyan TEST commit emelhető át, amelyhez már sikeres TEST GitHub Pages ellenőrzés és telepítés tartozik.
+
 ## Ellenőrzés és jelentés
 
 - Módosítás előtt ellenőrizni kell a Git-állapotot és a releváns fájlokat.
