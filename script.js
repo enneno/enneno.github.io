@@ -1708,9 +1708,9 @@ function szolgaltatasKartyakRenderelese(szolgaltatasok) {
         leiras.innerHTML = sortoresesSzoveg(kartya.leiras || '');
 
         const link = document.createElement('a');
-        const galeriaKartya = /dísz|nail art/i.test(kartya.cim || '');
+        const galeriaKartya = megjelenes.valtozat === 'diszites';
         const linkSzoveg = kartya.linkSzoveg || (galeriaKartya ? 'Inspirációk' : 'Részletek és árak');
-        link.href = szolgaltatasKartyaLinkje(kartya.cim);
+        link.href = szolgaltatasKartyaLinkje(megjelenes.valtozat);
         link.innerHTML = `${html(linkSzoveg)} <span aria-hidden="true">→</span>`;
 
         doboz.append(fej, cim, leiras, link);
@@ -1718,12 +1718,11 @@ function szolgaltatasKartyakRenderelese(szolgaltatasok) {
     });
 }
 
-function szolgaltatasKartyaLinkje(cim) {
-    const szoveg = String(cim || '');
-    if (/építés|töltés/i.test(szoveg)) return '/mukorom-epites-toltes/';
-    if (/dísz|nail art/i.test(szoveg)) return '/korom-diszites-nail-art-tatabanya/';
-    if (/gél\s*lakk/i.test(szoveg)) return '/gel-lakk-tatabanya/';
-    if (/manikűr/i.test(szoveg)) return '/manikur-tatabanya/';
+function szolgaltatasKartyaLinkje(valtozat) {
+    if (valtozat === 'epites') return '/mukorom-epites-toltes/';
+    if (valtozat === 'diszites') return '/korom-diszites-nail-art-tatabanya/';
+    if (valtozat === 'gel-lakk') return '/gel-lakk-tatabanya/';
+    if (valtozat === 'manikur') return '/manikur-tatabanya/';
     return '/arlista/';
 }
 
