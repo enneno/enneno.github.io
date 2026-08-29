@@ -1780,7 +1780,7 @@ test('az admin munkafelület asztali és mobil nézetben rendezett marad', async
                         <p class="admin-foglalas-idopont"><span class="admin-foglalas-datum">05/08/26</span><span class="admin-foglalas-ido">10:00 – 11:00</span></p>
                     </div>
                     <div class="admin-foglalas-vezerlok">
-                        <select class="admin-db-statusz" disabled><option>Visszaigazolva</option></select>
+                        <select class="admin-db-statusz admin-db-statusz--foglalas" disabled><option>Visszaigazolva</option></select>
                         <button type="button" class="admin-kis-gomb" data-foglalas-reszletek aria-expanded="false">Részletek</button>
                         <button type="button" class="admin-kis-gomb">Szerkesztés</button>
                     </div>
@@ -1798,7 +1798,7 @@ test('az admin munkafelület asztali és mobil nézetben rendezett marad', async
                         <p class="admin-foglalas-idopont"><span class="admin-foglalas-datum">05/08/26</span><span class="admin-foglalas-ido">10:00 – 11:00</span></p>
                     </div>
                     <div class="admin-foglalas-vezerlok">
-                        <select class="admin-db-statusz" disabled><option>Foglalt</option></select>
+                        <select class="admin-db-statusz admin-db-statusz--foglalas" disabled><option>Foglalt</option></select>
                         <button type="button" class="admin-kis-gomb">Naptárba</button>
                         <button type="button" class="admin-kis-gomb">Szerkesztés</button>
                     </div>
@@ -1852,7 +1852,7 @@ test('az admin munkafelület asztali és mobil nézetben rendezett marad', async
         return Object.fromEntries(statuszok.map((statusz) => {
             const kartya = document.createElement('article');
             kartya.className = `admin-foglalas-kartya admin-foglalas-statusz-${statusz}`;
-            kartya.innerHTML = '<select class="admin-db-statusz" disabled><option>Állapot</option></select>';
+            kartya.innerHTML = '<select class="admin-db-statusz admin-db-statusz--foglalas" disabled><option>Állapot</option></select>';
             lista.appendChild(kartya);
             const mezo = kartya.querySelector('select');
             const stilus = getComputedStyle(mezo);

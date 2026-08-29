@@ -11,13 +11,25 @@ function adminStyles(root) {
         .join('\n');
 }
 
+function publicStyle(root, file) {
+    return fs.readFileSync(path.join(root, 'src', 'styles', file), 'utf8');
+}
+
+function publicStyles(root) {
+    const directory = path.join(root, 'src', 'styles');
+    return fs.readdirSync(directory)
+        .filter(file => file.endsWith('.css'))
+        .sort((left, right) => left.localeCompare(right, 'en'))
+        .map(file => fs.readFileSync(path.join(directory, file), 'utf8'))
+        .join('\n');
+}
+
 test('a főoldali Szolgáltatások CSS a publikus komponensrétegben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '15-home-sections.css');
     const adminCss = adminStyles(root);
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
-    expect(publicCss).toContain('SZOLGÁLTATÁSOK');
     expect(publicCss).toContain('#szolgaltatasok {');
     expect(publicCss).toContain('.szolgaltatas-lista {');
     expect(adminCss).not.toContain('#szolgaltatasok {');
@@ -30,10 +42,10 @@ test('a főoldali Szolgáltatások CSS a publikus komponensrétegben él', async
 
 test('a külön Galéria oldal végleges layoutja a publikus komponensrétegben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '13-gallery-footer-navigation.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
-    expect(publicCss).toContain('GALÉRIA OLDAL');
+    expect(publicCss).toContain('Public gallery page, shared footer and responsive navigation shell.');
     expect(publicCss).toContain('column-count: 4');
     expect(publicCss).toContain('column-count: 3');
     expect(publicCss).toContain('column-count: 2');
@@ -43,10 +55,10 @@ test('a külön Galéria oldal végleges layoutja a publikus komponensrétegben 
 
 test('a lábléc végleges CSS-e a publikus komponensrétegben él', async ({ page }) => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '13-gallery-footer-navigation.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
-    expect(publicCss).toContain('Footer — végleges megjelenés (99-ből migrálva)');
+    expect(publicCss).toContain('shared footer and responsive navigation shell');
     expect(publicCss).toContain('.site-footer,');
     expect(publicCss).toContain('padding: 20px 20px calc(22px + env(safe-area-inset-bottom));');
     expect(unifiedCss).not.toContain('/* Footer */');
@@ -89,7 +101,7 @@ test('a lábléc végleges CSS-e a publikus komponensrétegben él', async ({ pa
 
 test('a jogi oldal végleges CSS-e a publikus komponensrétegben él', async ({ page }) => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '12-legal.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
     expect(publicCss).toContain('/* Legal */');
@@ -121,10 +133,10 @@ test('a jogi oldal végleges CSS-e a publikus komponensrétegben él', async ({ 
 
 test('a főoldali kupon banner végleges CSS-e a publikus komponensrétegben él', async ({ page }) => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '14-promotions.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
-    expect(publicCss).toContain('Coupon — végleges megjelenés (99-ből migrálva)');
+    expect(publicCss).toContain('Home-page promotion variant.');
     expect(publicCss).toContain('.fooldal .akcios-banner {');
     expect(publicCss).toContain('.fooldal .akcios-banner-belso {');
     expect(unifiedCss).not.toContain('/* Coupon */');
@@ -189,7 +201,7 @@ test('a főoldali kupon banner végleges CSS-e a publikus komponensrétegben él
 
 test('a főoldali Bemutatkozás CSS-e a publikus komponensrétegben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '15-home-sections.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
     expect(publicCss).toContain('Home introduction — végleges megjelenés (99-ből migrálva)');
@@ -202,7 +214,7 @@ test('a főoldali Bemutatkozás CSS-e a publikus komponensrétegben él', async 
 
 test('a főoldali Contact CSS-e a publikus komponensrétegben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '15-home-sections.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
     expect(publicCss).toContain('Home contact — végleges megjelenés (99-ből migrálva)');
@@ -215,7 +227,7 @@ test('a főoldali Contact CSS-e a publikus komponensrétegben él', async () => 
 
 test('a főoldali vendégértesítő CSS-e a publikus komponensrétegben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '15-home-sections.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
     expect(publicCss).toContain('Guest notice — végleges megjelenés (99-ből migrálva)');
@@ -226,12 +238,13 @@ test('a főoldali vendégértesítő CSS-e a publikus komponensrétegben él', a
 
 test('a közös publikus CSS helperek a komponensrétegben élnek', async ({ page }) => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '15-home-sections.css');
+    const baseCss = publicStyle(root, '00-base.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
     expect(publicCss).toContain('Public helpers — végleges megjelenés (99-ből migrálva)');
     expect(publicCss).toContain('.szoveges-link {');
-    expect(publicCss).toContain('.kiemelt-stilus-kartya img,');
+    expect(baseCss).toContain('.kiemelt-stilus-kartya img {');
     expect(unifiedCss).not.toContain('.szoveges-link');
     expect(unifiedCss).not.toContain('.kiemelt-stilus-kartya');
 
@@ -258,7 +271,7 @@ test('a közös publikus CSS helperek a komponensrétegben élnek', async ({ pag
 
 test('a főoldali galéria CSS-e a publikus komponensrétegben él', async () => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '16-home-gallery.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
 
     expect(publicCss).toContain('Home gallery — végleges megjelenés (99-ből migrálva)');
@@ -369,11 +382,11 @@ test('a booking űrlap kiegészítő CSS-e a booking rétegben él', async () =>
 
 test('a lebegő foglalás CTA CSS-e a publikus komponensrétegben él', async ({ page }) => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyle(root, '17-floating-cta.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
     const adminCss = adminStyles(root);
 
-    expect(publicCss).toContain('Floating booking CTA — végleges megjelenés (99-ből migrálva)');
+    expect(publicCss).toContain('Floating booking CTA.');
     expect(publicCss).toContain('.lebego-foglalas-gomb::after {');
     expect(publicCss).toContain('.lebego-foglalas-gomb.rejtve {');
     expect(unifiedCss).not.toContain('.lebego-foglalas-gomb');
@@ -394,15 +407,18 @@ test('a lebegő foglalás CTA CSS-e a publikus komponensrétegben él', async ({
 
 test('a publikus foundation és hero CSS a publikus rétegben él', async ({ page }) => {
     const root = path.resolve(__dirname, '..');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const baseCss = publicStyle(root, '00-base.css');
+    const heroCss = publicStyle(root, '18-hero-inner-pages.css');
+    const legalCss = publicStyle(root, '12-legal.css');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
     const adminCss = adminStyles(root);
 
-    expect(publicCss).toContain('Public foundation and hero — végleges megjelenés (99-ből migrálva)');
-    expect(publicCss).toContain('/* Home hero */');
-    expect(publicCss).toContain('#hero.hero-preview-refresh {');
-    expect(publicCss).toContain('.jogi-oldal {');
-    expect(publicCss).toContain('#fo-tartalom input:not([type="checkbox"])');
+    expect(baseCss).toContain('--ui-header-height: 82px;');
+    expect(baseCss).toContain('body:not(.admin-body) {');
+    expect(heroCss).toContain('/* Home hero */');
+    expect(heroCss).toContain('#hero.hero-preview-refresh {');
+    expect(heroCss).toContain('#fo-tartalom input:not([type="checkbox"])');
+    expect(legalCss).toContain('.jogi-oldal {');
     expect(unifiedCss).not.toContain('/* Home hero */');
     expect(unifiedCss).not.toContain('#hero.hero-preview-refresh');
     expect(unifiedCss).not.toContain('.jogi-oldal');
@@ -444,7 +460,7 @@ test('az admin alapstílus és belépési felület a külön admin rétegekben �
     const foundationCss = fs.readFileSync(path.join(root, 'src', 'admin-styles', '00-foundation.css'), 'utf8');
     const workspaceCss = fs.readFileSync(path.join(root, 'src', 'admin-styles', '20-workspace.css'), 'utf8');
     const unifiedCss = fs.readFileSync(path.join(root, 'src', 'styles', '99-unified-design.css'), 'utf8');
-    const publicCss = fs.readFileSync(path.join(root, 'src', 'styles', '10-public-components.css'), 'utf8');
+    const publicCss = publicStyles(root);
 
     expect(foundationCss).toContain('body.admin-body {');
     expect(workspaceCss).toContain('.admin-body.admin-v2 .admin-auth-panel {');
