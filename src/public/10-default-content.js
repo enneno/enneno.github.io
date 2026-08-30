@@ -284,10 +284,10 @@ function lumiAlapOldalAdatok() {
                     foglalasGomb: 'Online időpontfoglalás',
                     masodlagosGomb: 'Díszítési árak'
                 },
-                kepek: [
-                    { kep: '/galeria/optimized/large/image2.jpg', kepAlt: 'Finom körömdíszítés a Lumi Nails galériájából' },
-                    { kep: '/galeria/optimized/large/image8.jpg', kepAlt: 'Elegáns díszített köröm a Lumi Nails munkái közül' },
-                    { kep: '/galeria/optimized/large/image12.jpg', kepAlt: 'Visszafogott Nail Art részlet a Lumi Nails galériájából' }
+                kivalasztottKepek: [
+                    '/galeria/optimized/large/image2.jpg',
+                    '/galeria/optimized/large/image8.jpg',
+                    '/galeria/optimized/large/image12.jpg'
                 ]
             }
         },

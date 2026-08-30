@@ -303,17 +303,26 @@ function oldalAdatokNormalizalasa(adatok, alap) {
         adatok.fooldal.hero.kep = alap?.fooldal?.hero?.kep || '/kepek/hero-turkiz.jpg';
     }
 
-    const ervenyesKulcsok = new Set(
-        adatok.galeria.elemek
-            .filter(elem => elem?.kep)
-            .map(elem => elem.id || elem.kep)
-    );
     const kivalasztottKepek = Array.isArray(adatok.fooldal.galeriaAtvezeto.kivalasztottKepek)
         ? adatok.fooldal.galeriaAtvezeto.kivalasztottKepek
         : [];
-    adatok.fooldal.galeriaAtvezeto.kivalasztottKepek = kivalasztottKepek
-        .filter(kulcs => ervenyesKulcsok.has(kulcs))
-        .slice(0, 5);
+    adatok.fooldal.galeriaAtvezeto.kivalasztottKepek = galeriaKivalasztasNormalizalasa(
+        adatok.galeria.elemek,
+        kivalasztottKepek,
+        5
+    );
+
+    const nailArt = adatok.szolgaltatasOldalak?.nailArt;
+    if (nailArt) {
+        const nailArtKivalasztas = Array.isArray(nailArt.kivalasztottKepek)
+            ? nailArt.kivalasztottKepek
+            : [];
+        nailArt.kivalasztottKepek = galeriaKivalasztasNormalizalasa(
+            adatok.galeria.elemek,
+            nailArtKivalasztas,
+            4
+        );
+    }
 
     const diszitesKartya = adatok.fooldal.szolgaltatasok.kartyak?.find(kartya =>
         /dísz|nail art/i.test(String(kartya?.cim || ''))
@@ -326,6 +335,14 @@ function oldalAdatokNormalizalasa(adatok, alap) {
         diszitesKartya.linkSzoveg = alapKartya?.linkSzoveg || 'Részletek';
     }
     return adatok;
+}
+
+function galeriaKivalasztasNormalizalasa(elemek, kertKulcsok, limit) {
+    const kert = new Set(Array.isArray(kertKulcsok) ? kertKulcsok : []);
+    return (Array.isArray(elemek) ? elemek : [])
+        .filter(elem => elem?.kep && (kert.has(elem.id) || kert.has(elem.kep)))
+        .map(elem => elem.id || elem.kep)
+        .slice(0, limit);
 }
 
 function kapcsolatGyorsLinkekNormalizalasa(adatok) {
@@ -350,7 +367,7 @@ function oldalAdatokAlkalmazasa(adatok) {
     window.lumiAdatok = adatok;
     fejlecAdatokAlkalmazasa(adatok);
     fooldalAdatokAlkalmazasa(adatok.fooldal, adatok.galeria);
-    szolgaltatasOldalAdatokAlkalmazasa(adatok.szolgaltatasOldalak);
+    szolgaltatasOldalAdatokAlkalmazasa(adatok.szolgaltatasOldalak, adatok.galeria);
     arlistaAdatokAlkalmazasa(adatok.arlista);
     galeriaAdatokAlkalmazasa(adatok.galeria);
     foglalasAdatokAlkalmazasa(adatok.foglalas, adatok.arlista);
@@ -577,7 +594,7 @@ function kepBeallitasa(selector, src, alt) {
     if (alt) kep.alt = alt;
 }
 
-function szolgaltatasOldalAdatokAlkalmazasa(oldalak) {
+function szolgaltatasOldalAdatokAlkalmazasa(oldalak, galeria) {
     const kulcs = document.body?.dataset.szolgaltatasOldal;
     const oldal = kulcs ? oldalak?.[kulcs] : null;
     const gyoker = document.querySelector('.seo-szolgaltatas-oldal');
@@ -637,7 +654,7 @@ function szolgaltatasOldalAdatokAlkalmazasa(oldalak) {
 
     const kepSzekcio = gyoker.querySelector('.seo-szolgaltatas-kepek');
     const kepRacs = kepSzekcio?.querySelector('.seo-szolgaltatas-kepracs');
-    const kepek = Array.isArray(oldal.kepek) ? oldal.kepek.filter(kep => kep?.kep) : [];
+    const kepek = szolgaltatasOldalGaleriaKepei(oldal, galeria);
     if (kepSzekcio) kepSzekcio.hidden = !kepek.length;
     if (kepRacs && kepek.length) {
         szovegBeallitasa('.seo-szolgaltatas-kepek-fej .szekcio-kicker', oldal.kepekKicker, kepSzekcio);
@@ -658,6 +675,23 @@ function szolgaltatasOldalAdatokAlkalmazasa(oldalak) {
             masodlagosGomb.innerHTML = `${html(oldal.zaras.masodlagosGomb)} <span aria-hidden="true">→</span>`;
         }
     }
+}
+
+function szolgaltatasOldalGaleriaKepei(oldal, galeria) {
+    const galeriaElemek = Array.isArray(galeria?.elemek)
+        ? galeria.elemek.filter(elem => elem?.kep)
+        : [];
+    const kivalasztottKulcsok = Array.isArray(oldal?.kivalasztottKepek)
+        ? oldal.kivalasztottKepek
+        : [];
+    const kivalasztottKepek = kivalasztottKulcsok
+        .map(kulcs => galeriaElemek.find(elem => (elem.id || elem.kep) === kulcs))
+        .filter(Boolean)
+        .slice(0, 4)
+        .map(elem => ({ kep: elem.kep, kepAlt: elem.kepAlt }));
+
+    if (kivalasztottKepek.length) return kivalasztottKepek;
+    return Array.isArray(oldal?.kepek) ? oldal.kepek.filter(kep => kep?.kep).slice(0, 4) : [];
 }
 
 function szolgaltatasBekezdesekRenderelese(kontener, szoveg) {
