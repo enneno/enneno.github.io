@@ -103,6 +103,46 @@
     text-align: left;
 }
 
+/* Public gallery transition: the link keeps a 44px hit area while its visual
+   surface stays compact. This component intentionally owns its own public style. */
+.galeria-atvezeto-gomb {
+    position: relative;
+    isolation: isolate;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--ui-ink);
+    font-size: var(--lumi-font-caption);
+    letter-spacing: 0.02em;
+    text-transform: none;
+}
+
+.galeria-atvezeto-gomb::before {
+    position: absolute;
+    z-index: -1;
+    inset: 6px 0;
+    border: 1px solid var(--ui-line-strong);
+    border-radius: 3px;
+    background: var(--ui-surface);
+    content: "";
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.galeria-atvezeto-gomb:hover {
+    background: transparent;
+    box-shadow: none;
+    color: var(--ui-off-white);
+    transform: none;
+}
+
+.galeria-atvezeto-gomb:hover::before {
+    border-color: var(--ui-ink);
+    background: var(--ui-ink);
+}
+
 @media screen and (max-width: 768px) {
     .galeria-showcase-fej {
         grid-template-columns: 1fr;
@@ -441,7 +481,7 @@
         font-size: 40px;
     }
 
-    .galeria-atvezeto-szoveg .gomb {
+    .galeria-atvezeto-gomb {
         min-height: 44px;
         padding: 0 15px;
         font-size: var(--lumi-font-button);
