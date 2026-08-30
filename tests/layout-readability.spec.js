@@ -75,6 +75,47 @@ test.describe('célzott elrendezési és olvashatósági ellenőrzés', () => {
         expect(account.cardBackgroundImage).toBe('none');
     });
 
+    test('a főoldali Saját Lumi és bemutatkozás középre igazodik, az ellenőrző mezők két sorban vannak', async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        await page.goto('/', { waitUntil: 'domcontentloaded' });
+        await page.waitForSelector('#fiok-ajanlo');
+
+        const home = await page.evaluate(() => {
+            const account = document.querySelector('#fiok-ajanlo');
+            const accountInner = document.querySelector('.fiok-ajanlo-belso').getBoundingClientRect();
+            const introImage = document.querySelector('.bemutatkozas-kep').getBoundingClientRect();
+            const introCopy = document.querySelector('.bemutatkozas-szoveg').getBoundingClientRect();
+            return {
+                accountCenterDelta: Math.abs(accountInner.left + accountInner.width / 2 - window.innerWidth / 2),
+                accountBackgroundImage: getComputedStyle(account).backgroundImage,
+                introColumnDelta: Math.abs(introImage.width - introCopy.width),
+                removedIntroLink: !document.querySelector('.bemutatkozas-szoveg > .szoveges-link')
+            };
+        });
+
+        expect(home.accountCenterDelta).toBeLessThanOrEqual(1);
+        expect(home.accountBackgroundImage).toBe('none');
+        expect(home.introColumnDelta).toBeLessThanOrEqual(1);
+        expect(home.removedIntroLink).toBe(true);
+
+        await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+        await page.waitForSelector('#foglalas-elerhetoseg');
+        const fields = await page.evaluate(() => {
+            const reference = document.querySelector('#foglalas-azonosito').getBoundingClientRect();
+            const contact = document.querySelector('#foglalas-elerhetoseg');
+            const contactRect = contact.getBoundingClientRect();
+            return {
+                contactBelowReference: contactRect.top >= reference.bottom - 1,
+                placeholder: contact.placeholder,
+                columns: getComputedStyle(document.querySelector('.foglalas-kezelo-biztonsagi-mezok')).gridTemplateColumns.split(' ').length
+            };
+        });
+
+        expect(fields.contactBelowReference).toBe(true);
+        expect(fields.placeholder).toContain('pelda@email.hu');
+        expect(fields.columns).toBe(1);
+    });
+
     test('az árlista a típust és a szolgáltatást hangsúlyozza az idő helyett', async ({ page }) => {
         await page.setViewportSize({ width: 1440, height: 1000 });
         await page.goto('/arlista/', { waitUntil: 'domcontentloaded' });

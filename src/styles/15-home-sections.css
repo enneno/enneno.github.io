@@ -468,7 +468,7 @@
 
 #bemutatkozas .bemutatkozas-belso {
     display: grid;
-    grid-template-columns: minmax(340px, 0.88fr) minmax(0, 1.12fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(52px, 8vw, 110px);
     align-items: stretch;
     width: 100%;

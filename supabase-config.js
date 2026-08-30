@@ -38,7 +38,7 @@ window.lumiSupabaseClient = (() => {
     if (!isBookingPath || document.querySelector('script[data-lumi-secure-booking-manager]')) return;
 
     if (document.readyState === 'loading') {
-        document.write('<link rel="stylesheet" href="/booking-manage.css?v=1" data-lumi-secure-booking-manager-style>');
+        document.write('<link rel="stylesheet" href="/booking-manage.css?v=2" data-lumi-secure-booking-manager-style>');
         document.write('<script src="/booking-manage.js?v=1" data-lumi-secure-booking-manager><\/script>');
         return;
     }
@@ -46,7 +46,7 @@ window.lumiSupabaseClient = (() => {
     if (!document.querySelector('link[data-lumi-secure-booking-manager-style]')) {
         const style = document.createElement('link');
         style.rel = 'stylesheet';
-        style.href = '/booking-manage.css?v=1';
+        style.href = '/booking-manage.css?v=2';
         style.dataset.lumiSecureBookingManagerStyle = 'true';
         document.head.appendChild(style);
     }
@@ -64,7 +64,7 @@ window.lumiSupabaseClient = (() => {
     if (!document.querySelector('link[data-lumi-home-account-strip]')) {
         const style = document.createElement('link');
         style.rel = 'stylesheet';
-        style.href = '/home-account-strip.css?v=2';
+        style.href = '/home-account-strip.css?v=3';
         style.dataset.lumiHomeAccountStrip = 'true';
         document.head.appendChild(style);
     }
