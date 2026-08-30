@@ -1782,7 +1782,7 @@ function galeriaAtvezetoAlkalmazasa(galeria, teljesGaleria) {
     szovegBeallitasa('.galeria-atvezeto-szoveg .szekcio-kicker', galeria.belsoKicker, szekcio);
     szovegBeallitasa('.galeria-atvezeto-szoveg h2', galeria.cim, szekcio);
     szovegBeallitasa('.galeria-atvezeto-szoveg .szekcio-leiras', galeria.leiras, szekcio);
-    szovegBeallitasa('.galeria-atvezeto-gomb', galeria.gombSzoveg, szekcio);
+    szovegBeallitasa('.galeria-atvezeto-szoveg .gomb', galeria.gombSzoveg, szekcio);
 
     const kepek = szekcio.querySelectorAll('.galeria-atvezeto-kepek img');
     const galeriaElemek = Array.isArray(teljesGaleria?.elemek)
