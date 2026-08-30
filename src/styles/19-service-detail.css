@@ -1,15 +1,25 @@
 /* SEO/AEO service detail page: one owner for the public service article layout. */
 
 .seo-szolgaltatas-oldal {
+    --seo-tartalmi-terkoz: clamp(64px, 8vw, 96px);
     width: min(1180px, calc(100% - 48px));
     margin: 0 auto;
     padding: 0;
 }
 
+.seo-szolgaltatas-oldal :is(h1, h2, h3, p) {
+    hyphens: none;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.seo-szolgaltatas-oldal :is(h1, h2, h3) {
+    text-wrap: balance;
+}
+
 .seo-szolgaltatas-oldal p {
     text-align: justify;
     text-justify: inter-word;
-    hyphens: auto;
 }
 
 .seo-szolgaltatas-hero {
@@ -115,7 +125,7 @@
     display: grid;
     grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
     gap: clamp(36px, 7vw, 94px);
-    padding: clamp(68px, 8vw, 108px) 0;
+    padding: var(--seo-tartalmi-terkoz) 0;
 }
 
 .seo-szolgaltatas-bevezeto h2,
@@ -144,7 +154,7 @@
 }
 
 .seo-szolgaltatas-szekcio {
-    padding: clamp(58px, 7vw, 86px) 0;
+    padding: var(--seo-tartalmi-terkoz) 0;
     border-bottom: 1px solid var(--ui-line);
     scroll-margin-top: calc(var(--ui-header-height) + 24px);
 }
@@ -173,7 +183,7 @@
     grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
     align-items: center;
     gap: clamp(34px, 6vw, 84px);
-    margin: clamp(68px, 8vw, 110px) 0;
+    margin: var(--seo-tartalmi-terkoz) 0;
     padding: clamp(34px, 5vw, 58px);
     border-left: 3px solid var(--ui-primary);
     background: color-mix(in srgb, var(--ui-accent) 38%, transparent);
@@ -191,7 +201,7 @@
 }
 
 .seo-szolgaltatas-kepek {
-    padding: clamp(66px, 8vw, 108px) 0;
+    padding: var(--seo-tartalmi-terkoz) 0;
     border-top: 1px solid var(--ui-line-strong);
     scroll-margin-top: calc(var(--ui-header-height) + 24px);
 }
@@ -239,7 +249,7 @@
 }
 
 .seo-gyik {
-    padding: clamp(64px, 8vw, 108px) 0;
+    padding: var(--seo-tartalmi-terkoz) 0;
     border-top: 1px solid var(--ui-line-strong);
     scroll-margin-top: calc(var(--ui-header-height) + 24px);
 }
@@ -341,6 +351,7 @@
 
 @media screen and (max-width: 768px) {
     .seo-szolgaltatas-oldal {
+        --seo-tartalmi-terkoz: 52px;
         width: calc(100% - 32px);
     }
 
@@ -354,7 +365,7 @@
     }
 
     .seo-szolgaltatas-hero h1 {
-        font-size: clamp(52px, 15vw, 78px);
+        font-size: clamp(46px, 12vw, 72px);
     }
 
     .seo-szolgaltatas-hero-kep::after {
@@ -369,25 +380,11 @@
     .seo-szolgaltatas-bevezeto {
         grid-template-columns: 1fr;
         gap: 24px;
-        padding: 58px 0;
-    }
-
-    .seo-szolgaltatas-szekcio {
-        padding: 52px 0;
     }
 
     .seo-szolgaltatas-kiemeles {
         gap: 24px;
-        margin: 58px 0;
         padding: 30px 26px;
-    }
-
-    .seo-gyik {
-        padding: 58px 0;
-    }
-
-    .seo-szolgaltatas-kepek {
-        padding: 58px 0;
     }
 
     .seo-szolgaltatas-kepek-fej {
