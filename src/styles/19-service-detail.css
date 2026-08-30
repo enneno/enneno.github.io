@@ -66,7 +66,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 22px;
-    margin-top: 34px;
+    margin-top: 0;
 }
 
 .seo-szolgaltatas-hero-kep {
@@ -134,12 +134,18 @@
 .seo-gyik h2,
 .seo-szolgaltatas-zaras h2 {
     margin: 14px 0 0;
-    color: var(--ui-ink);
     font-family: "Cormorant Garamond", serif;
     font-size: clamp(42px, 5vw, 66px);
     font-weight: 600;
     letter-spacing: -0.035em;
     line-height: 1;
+}
+
+.seo-szolgaltatas-bevezeto h2,
+.seo-szolgaltatas-szekcio h2,
+.seo-szolgaltatas-kiemeles h2,
+.seo-gyik h2 {
+    color: var(--ui-ink);
 }
 
 .seo-szolgaltatas-bevezeto > p {
@@ -328,11 +334,30 @@
 
 .seo-szolgaltatas-zaras-akciok {
     justify-content: flex-end;
-    margin-top: 0;
 }
 
 .seo-szolgaltatas-zaras .szoveges-link {
     color: var(--ui-off-white);
+}
+
+@media screen and (min-width: 769px) {
+    .seo-szolgaltatas-szekcio > .seo-szolgaltatas-szekcio-szoveg {
+        display: grid;
+        grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
+        align-items: start;
+        gap: 0 clamp(48px, 7vw, 96px);
+        max-width: none;
+    }
+
+    .seo-szolgaltatas-szekcio-szoveg > h2 {
+        grid-column: 1;
+        grid-row: 1 / span 20;
+        margin-top: 0;
+    }
+
+    .seo-szolgaltatas-szekcio-szoveg > p {
+        grid-column: 2;
+    }
 }
 
 @media screen and (max-width: 900px) {
