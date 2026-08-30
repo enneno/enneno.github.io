@@ -124,7 +124,7 @@
 
 .seo-szolgaltatas-bevezeto {
     display: grid;
-    grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(36px, 7vw, 94px);
     padding: var(--seo-tartalmi-terkoz) 0;
 }
@@ -364,7 +364,7 @@
 
     .seo-szolgaltatas-szekcio > .seo-szolgaltatas-szekcio-szoveg {
         display: grid;
-        grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: start;
         gap: 0 clamp(48px, 7vw, 96px);
         max-width: none;
@@ -379,6 +379,7 @@
     .seo-szolgaltatas-szekcio-szoveg > h2 {
         grid-column: 1;
         grid-row: 2 / span 20;
+        min-width: 0;
         margin-top: 0;
     }
 
@@ -389,11 +390,22 @@
 
 @media screen and (max-width: 900px) {
     .seo-szolgaltatas-bevezeto,
+    .seo-szolgaltatas-szekcio > .seo-szolgaltatas-szekcio-szoveg,
     .seo-szolgaltatas-kiemeles,
     .seo-szolgaltatas-kepek-fej,
     .seo-gyik-fej,
     .seo-szolgaltatas-zaras {
         grid-template-columns: 1fr;
+    }
+
+    .seo-szolgaltatas-bevezeto > :is(.szekcio-kicker, h2, p),
+    .seo-szolgaltatas-szekcio-szoveg > :is(.szekcio-kicker, h2, p) {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .seo-szolgaltatas-bevezeto {
+        row-gap: 12px;
     }
 
     .seo-szolgaltatas-zaras-akciok {

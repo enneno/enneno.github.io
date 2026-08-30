@@ -36,6 +36,37 @@ test.describe('célzott elrendezési és olvashatósági ellenőrzés', () => {
         expect(metrics.copyBesideTitle).toBe(true);
     });
 
+    test('az új szolgáltatásoldalak címei nem nyúlnak a szövegoszlopba', async ({ page }) => {
+        const paths = [
+            '/mukorom-epites-toltes/',
+            '/gel-lakk-tatabanya/',
+            '/manikur-tatabanya/',
+            '/korom-diszites-nail-art-tatabanya/'
+        ];
+
+        for (const width of [1280, 820]) {
+            await page.setViewportSize({ width, height: 1000 });
+            for (const path of paths) {
+                const response = await page.goto(path, { waitUntil: 'domcontentloaded' });
+                expect(response.ok(), `${width}px ${path}`).toBe(true);
+                await page.evaluate(() => document.fonts.ready);
+                const smallestGap = await page.evaluate(() => Math.min(...Array.from(
+                    document.querySelectorAll('.seo-szolgaltatas-szekcio-szoveg')
+                ).map(block => {
+                    const heading = block.querySelector('h2');
+                    const copy = block.querySelector('p');
+                    const headingText = document.createRange();
+                    headingText.selectNodeContents(heading);
+                    const headingRect = headingText.getBoundingClientRect();
+                    const copyRect = copy.getBoundingClientRect();
+                    const verticallyBesideEachOther = headingRect.top < copyRect.bottom && headingRect.bottom > copyRect.top;
+                    return verticallyBesideEachOther ? copyRect.left - headingRect.right : Number.POSITIVE_INFINITY;
+                })));
+                expect(smallestGap, `${width}px ${path}`).toBeGreaterThanOrEqual(8);
+            }
+        }
+    });
+
     test('a foglalásellenőrző és a Saját Lumi asztali elrendezése rendezett', async ({ page }) => {
         await page.setViewportSize({ width: 1440, height: 1000 });
         await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
