@@ -1264,9 +1264,36 @@
 .foglalas-kezelo-kartya {
     padding: clamp(24px, 4vw, 42px);
     border: 1px solid var(--ui-line);
-    border-radius: 4px;
+    border-radius: 20px;
     background: var(--ui-surface);
     box-shadow: var(--ui-shadow);
+}
+
+@media (min-width: 769px) {
+    .foglalas-kezelo-szekcio {
+        grid-template-columns: minmax(300px, 0.78fr) minmax(460px, 1.22fr);
+        gap: clamp(46px, 6vw, 76px);
+        margin-bottom: clamp(72px, 8vw, 104px);
+        padding: clamp(46px, 6vw, 68px);
+        border: 1px solid var(--ui-line);
+        border-radius: 24px;
+        background: var(--ui-surface);
+    }
+
+    .foglalas-kezelo-bevezeto {
+        align-self: center;
+    }
+
+    .foglalas-kezelo-kartya {
+        padding: 34px;
+        background: var(--ui-bg);
+        box-shadow: none;
+    }
+
+    .foglalas-kezelo-bevitel :is(input, .gomb) {
+        height: 50px;
+        min-height: 50px;
+    }
 }
 
 .foglalas-kezelo-kartya > label,

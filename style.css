@@ -743,15 +743,14 @@ select.urlap-mezo:invalid {
 }
 
 .arlista-csoport h3 {
-    margin: 0 0 24px;
-    color: var(--ui-rose-dark);
-    font-family: "Manrope", sans-serif;
-    font-size: var(--lumi-font-caption);
-    font-weight: 750;
-    letter-spacing: 0.18em;
-    line-height: 1;
+    margin: 0 0 20px;
+    color: var(--ui-ink);
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(28px, 3vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
     text-align: left;
-    text-transform: uppercase;
 }
 
 .arlista-sor {
@@ -762,7 +761,7 @@ select.urlap-mezo:invalid {
     padding: 8px 0;
     color: var(--ui-ink);
     font-family: "Manrope", sans-serif;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.45;
 }
 
@@ -778,6 +777,7 @@ select.urlap-mezo:invalid {
 .arlista-sor > span {
     min-width: 0;
     order: 1;
+    font-weight: 600;
 }
 
 .arlista-sor strong {
@@ -793,12 +793,11 @@ select.urlap-mezo:invalid {
 }
 
 .arlista-ido {
-    color: var(--ui-muted);
+    color: color-mix(in srgb, var(--ui-muted) 72%, transparent);
     font-family: 'Manrope', sans-serif;
-    font-size: var(--lumi-font-caption);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
 }
 
 .arlista-megjegyzes {
@@ -4046,8 +4045,11 @@ select.urlap-mezo:invalid {
     display: flex;
     align-items: flex-end;
     width: 100vw;
+    max-width: none;
     min-height: clamp(640px, 76vh, 820px);
+    margin-right: calc(50% - 50vw);
     margin-left: calc(50% - 50vw);
+    padding: 0;
     overflow: hidden;
     border-bottom: 1px solid var(--ui-line-strong);
 }
@@ -4100,9 +4102,7 @@ select.urlap-mezo:invalid {
     position: absolute;
     z-index: 1;
     inset: 0;
-    background:
-        linear-gradient(90deg, rgba(24, 18, 17, 0.78) 0%, rgba(24, 18, 17, 0.54) 56%, rgba(24, 18, 17, 0.2) 100%),
-        linear-gradient(0deg, rgba(24, 18, 17, 0.44) 0%, transparent 58%);
+    background: rgba(24, 18, 17, 0.58);
     content: "";
 }
 
@@ -4359,6 +4359,26 @@ select.urlap-mezo:invalid {
 }
 
 @media screen and (min-width: 769px) {
+    .seo-szolgaltatas-bevezeto {
+        grid-template-rows: auto 1fr;
+        align-items: start;
+    }
+
+    .seo-szolgaltatas-bevezeto > .szekcio-kicker {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .seo-szolgaltatas-bevezeto > h2 {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .seo-szolgaltatas-bevezeto > p {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+
     .seo-szolgaltatas-szekcio > .seo-szolgaltatas-szekcio-szoveg {
         display: grid;
         grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
@@ -4367,9 +4387,15 @@ select.urlap-mezo:invalid {
         max-width: none;
     }
 
+    .seo-szolgaltatas-szekcio-szoveg > .szekcio-kicker {
+        grid-column: 1;
+        grid-row: 1;
+        margin-bottom: 14px;
+    }
+
     .seo-szolgaltatas-szekcio-szoveg > h2 {
         grid-column: 1;
-        grid-row: 1 / span 20;
+        grid-row: 2 / span 20;
         margin-top: 0;
     }
 
@@ -4412,8 +4438,7 @@ select.urlap-mezo:invalid {
     }
 
     .seo-szolgaltatas-hero-kep::after {
-        background:
-            linear-gradient(0deg, rgba(24, 18, 17, 0.82) 0%, rgba(24, 18, 17, 0.52) 66%, rgba(24, 18, 17, 0.18) 100%);
+        background: rgba(24, 18, 17, 0.62);
     }
 
     .seo-szolgaltatas-ugras {
@@ -4478,7 +4503,7 @@ select.urlap-mezo:invalid {
 }
 
 .fiok-main {
-    width: min(1180px, calc(100% - 40px));
+    width: min(1080px, calc(100% - 40px));
     min-height: 70vh;
     margin: 0 auto;
     padding: 58px 0 96px;
@@ -4562,8 +4587,11 @@ select.urlap-mezo:invalid {
 .fiok-auth-elrendezes {
     display: grid;
     grid-template-columns: minmax(260px, 0.72fr) minmax(420px, 1fr);
+    align-items: center;
+    width: min(100%, 980px);
+    min-height: calc(100svh - var(--ui-header-height) - 154px);
     gap: clamp(26px, 5vw, 72px);
-    margin-top: 0;
+    margin: 0 auto;
 }
 
 .fiok-auth-bevezeto {
@@ -4615,7 +4643,7 @@ select.urlap-mezo:invalid {
     box-sizing: border-box;
     border: 1px solid var(--ui-line, rgba(145, 118, 110, 0.18));
     border-radius: 20px;
-    background: color-mix(in srgb, var(--ui-surface, #fffaf4) 88%, transparent);
+    background: var(--ui-surface, #fffaf4);
     box-shadow: var(--lumi-soft-shadow);
 }
 
@@ -4708,10 +4736,10 @@ select.urlap-mezo:invalid {
 }
 
 .fiok-form select {
-    background-image: linear-gradient(45deg, transparent 50%, var(--ui-muted, #756a65) 50%), linear-gradient(135deg, var(--ui-muted, #756a65) 50%, transparent 50%);
-    background-position: calc(100% - 17px) 19px, calc(100% - 12px) 19px;
+    background-image: var(--lumi-select-arrow);
+    background-position: right 12px center;
     background-repeat: no-repeat;
-    background-size: 5px 5px, 5px 5px;
+    background-size: 14px 14px;
     padding-right: 36px;
 }
 
@@ -5165,6 +5193,7 @@ select.urlap-mezo:invalid {
 
     .fiok-auth-elrendezes,
     .fiok-dashboard {
+        min-height: 0;
         margin-top: 0;
     }
 
@@ -6504,9 +6533,36 @@ select.urlap-mezo:invalid {
 .foglalas-kezelo-kartya {
     padding: clamp(24px, 4vw, 42px);
     border: 1px solid var(--ui-line);
-    border-radius: 4px;
+    border-radius: 20px;
     background: var(--ui-surface);
     box-shadow: var(--ui-shadow);
+}
+
+@media (min-width: 769px) {
+    .foglalas-kezelo-szekcio {
+        grid-template-columns: minmax(300px, 0.78fr) minmax(460px, 1.22fr);
+        gap: clamp(46px, 6vw, 76px);
+        margin-bottom: clamp(72px, 8vw, 104px);
+        padding: clamp(46px, 6vw, 68px);
+        border: 1px solid var(--ui-line);
+        border-radius: 24px;
+        background: var(--ui-surface);
+    }
+
+    .foglalas-kezelo-bevezeto {
+        align-self: center;
+    }
+
+    .foglalas-kezelo-kartya {
+        padding: 34px;
+        background: var(--ui-bg);
+        box-shadow: none;
+    }
+
+    .foglalas-kezelo-bevitel :is(input, .gomb) {
+        height: 50px;
+        min-height: 50px;
+    }
 }
 
 .foglalas-kezelo-kartya > label,
