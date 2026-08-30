@@ -114,7 +114,7 @@
   line-height: 1.45;
 }
 
-.admin-body.admin-v2 .admin-db-kartya span {
+.admin-body.admin-v2 .admin-db-kartya span:not(.admin-allapot-jelzo) {
   font-size: 14px;
   line-height: 1.45;
 }
@@ -1044,6 +1044,6 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 @media screen and (max-width: 768px) {
   .admin-body .admin-allapot-jelzo--kompakt {
     padding-inline: 6px;
-    font-size: 7px;
+    font-size: 9px;
   }
 }

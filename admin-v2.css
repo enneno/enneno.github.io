@@ -381,7 +381,7 @@ body.admin-body [hidden] {
   line-height: 1.45;
 }
 
-.admin-body.admin-v2 .admin-db-kartya span {
+.admin-body.admin-v2 .admin-db-kartya span:not(.admin-allapot-jelzo) {
   font-size: 14px;
   line-height: 1.45;
 }
@@ -1294,7 +1294,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 @media screen and (max-width: 768px) {
   .admin-body .admin-allapot-jelzo--kompakt {
     padding-inline: 6px;
-    font-size: 7px;
+    font-size: 9px;
   }
 }
 
@@ -2986,6 +2986,11 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
     font-size: 14px;
   }
 
+  .admin-body.admin-v2 .admin-v2-subnav .admin-segmented-item {
+    padding-inline: 9px;
+    font-size: 12px;
+  }
+
   .admin-body.admin-v2 .admin-v2-page-actions {
     width: 100%;
     overflow-x: auto;
@@ -4575,6 +4580,7 @@ body.cms-image-lightbox-open { overflow: hidden; }
 @media (max-width: 768px) {
   .admin-body.admin-v2 #admin-panel-szovegek { max-width: none; }
   .admin-body.admin-v2 #admin-panel-szovegek .cms-view-tabs { margin-inline: -2px; }
+  .admin-body.admin-v2 #admin-panel-szovegek .cms-view-tab { font-size: 12px; }
   .admin-body.admin-v2 #admin-panel-szovegek .cms-section-picker {
     padding: 8px;
     border-radius: 13px 13px 0 0;
@@ -4582,7 +4588,7 @@ body.cms-image-lightbox-open { overflow: hidden; }
   .admin-body.admin-v2 #admin-panel-szovegek .cms-section-picker select {
     min-height: 44px;
     padding-left: 12px;
-    font-size: 14px;
+    font-size: 12px;
   }
   .admin-body.admin-v2 #admin-panel-szovegek .cms-editor-card { border-radius: 13px; }
   .admin-body.admin-v2 #admin-panel-szovegek #admin-cms-root:not([data-lumi-cms-gallery-context="images"]) .cms-editor-card {
@@ -4596,10 +4602,12 @@ body.cms-image-lightbox-open { overflow: hidden; }
     min-height: 48px;
     gap: 8px;
     padding: 7px 10px;
+    font-size: 13px;
   }
   .admin-body.admin-v2 #admin-panel-szovegek .cms-fieldset summary small {
     min-height: 22px;
     padding: 3px 7px;
+    font-size: 10px;
   }
   .admin-body.admin-v2 #admin-panel-szovegek .cms-image-field {
     display: grid;

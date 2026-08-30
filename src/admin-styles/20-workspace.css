@@ -1690,6 +1690,11 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
     font-size: 14px;
   }
 
+  .admin-body.admin-v2 .admin-v2-subnav .admin-segmented-item {
+    padding-inline: 9px;
+    font-size: 12px;
+  }
+
   .admin-body.admin-v2 .admin-v2-page-actions {
     width: 100%;
     overflow-x: auto;
