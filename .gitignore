@@ -4,6 +4,11 @@ server.out.log
 lan-server.log
 lan-server-error.log
 node_modules/
+
+# Codex project skills are installed separately on each machine.
+.agents/
+skills-lock.json
+
 local-backups/
 backups/
 local-previews/
