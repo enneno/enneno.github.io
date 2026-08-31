@@ -23,6 +23,10 @@ Ez a fájl a `C:\Users\llevi\OneDrive\Asztali gép\LumiNails_test` projektben v�
 - Kódtakarítás vizuális és funkcionális változás nélkül történjen, hacsak a felhasználó kifejezetten mást nem kér.
 - A módosítás maradjon a lehető legkisebb, jól körülhatárolt és könnyen ellenőrizhető.
 - Az alapstílus, a komponensvariáns és a környezeti eltérés felelőssége legyen világosan elkülönítve.
+- Forrás-CSS módosításakor le kell futtatni az `npm run lint:css` parancsot. Ez gyors statikus ellenőrzés, nem böngészős vagy teljes oldalas teszt.
+- A Stylelint kizárólag a forrás-CSS-t ellenőrzi; a generált `style.css` és `admin-v2.css` fájlokat nem szabad külön lintelni vagy közvetlenül javítani.
+- Stylelint-szabályt vagy egyedi lintjelzést csak dokumentált projektkompatibilitási okból szabad kikapcsolni. Tilos egy új hibát indoklás nélkül `stylelint-disable` megjegyzéssel elrejteni.
+- A Stylelint `--fix` kapcsolóját tilos ellenőrzés nélkül az egész projektre futtatni; automatikus javítás csak szűk fájlkörön és a diff kézi átnézésével használható.
 
 ## Normál weboldal és PWA
 

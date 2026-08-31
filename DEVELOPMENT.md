@@ -35,6 +35,7 @@ Az önálló `admin-content.js`, `supabase-config.js` és a HTML-fájlok tovább
 
 - `npm run build` – összeállítja a böngészőnek szánt CSS/JS fájlokat.
 - `npm run assets:version` – a fájlok tartalmából frissíti a cache-verziókat a HTML-ben.
+- `npm run lint:css` – gyors, helyi Stylelint-ellenőrzés a forrás-CSS fájlokra; CSS-módosítás után futtatandó.
 - `npm run check` – statikus ellenőrzések, szintaxis, hivatkozások, Supabase-kliens, CSS-szabályok és forrás/bundle egyezés.
 - `npm test` – a Playwright böngészős tesztcsomag; csak az `AGENTS.md` szerint indokolt esetben futtatandó teljes egészében.
 - `npm run verify` – a teljes helyi kiadási ellenőrzés; csak nagy kockázatú, több fontos folyamatot érintő változásnál vagy kifejezett kérésre futtatandó.
