@@ -119,7 +119,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   padding: 0;
 }
 
-.admin-body.admin-v2 .admin-auth-panel {
+.admin-body.admin-v2 .admin-auth-panel:not([hidden]) {
   --admin-ui-field-height: 44px;
   --admin-ui-button-height: 44px;
   --admin-ui-field-padding-x: 13px;
@@ -218,7 +218,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 }
 
 @media screen and (max-width: 768px) {
-  .admin-body.admin-v2 .admin-auth-panel {
+  .admin-body.admin-v2 .admin-auth-panel:not([hidden]) {
     display: block;
     width: calc(100% - 28px);
     min-height: 0;
