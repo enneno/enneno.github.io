@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "project": {
+    "name": "luminails",
+    "productType": null,
+    "stack": []
+  },
+  "sources": {
+    "tokens": [],
+    "components": [],
+    "assets": [],
+    "instructions": [
+      "AGENTS.md"
+    ]
+  },
+  "design": {
+    "colorMode": "unknown",
+    "colors": {},
+    "typography": {},
+    "spacing": {},
+    "radius": {},
+    "shadows": {},
+    "motion": {},
+    "density": "unknown"
+  },
+  "components": {
+    "installed": [],
+    "preferredPrimitives": [],
+    "patterns": []
+  },
+  "constraints": {
+    "must": [
+      "Edit source CSS and rebuild generated bundles",
+      "Keep public and admin CSS ownership separate",
+      "Use semantic tokens and visible focus states",
+      "Keep mobile controls at least 44x44px and fields at least 16px",
+      "Use risk-proportionate local checks",
+      "Read docs/design-system.md and docs/visual-audit.md before UI changes"
+    ],
+    "avoid": [
+      "Do not edit style.css or admin-v2.css directly",
+      "Do not use !important or duplicate override layers",
+      "Do not redesign existing pages without explicit approval",
+      "Do not enable zoom in standalone admin PWA",
+      "Do not run tests in GitHub Actions"
+    ]
+  },
+  "decisions": [],
+  "evidence": [
+    {
+      "fact": "project.instructions",
+      "source": "AGENTS.md"
+    }
+  ],
+  "generatedAt": "2026-09-01T03:15:18.667Z"
+}
