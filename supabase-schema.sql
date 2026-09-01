@@ -2729,6 +2729,7 @@ CREATE TABLE IF NOT EXISTS "public"."blocked_times" (
     "starts_at" timestamp with time zone NOT NULL,
     "ends_at" timestamp with time zone NOT NULL,
     "reason" "text" DEFAULT ''::"text",
+    "service_id" "uuid",
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "status" "text" DEFAULT 'blocked'::"text" NOT NULL,
     CONSTRAINT "blocked_times_check" CHECK (("ends_at" > "starts_at")),
@@ -2737,6 +2738,9 @@ CREATE TABLE IF NOT EXISTS "public"."blocked_times" (
 
 
 ALTER TABLE "public"."blocked_times" OWNER TO "postgres";
+
+
+COMMENT ON COLUMN "public"."blocked_times"."service_id" IS 'Optional service selected for a manually added occupied time. No customer email workflow is triggered.';
 
 
 CREATE TABLE IF NOT EXISTS "public"."booking_email_jobs" (
@@ -3121,6 +3125,10 @@ CREATE INDEX "bookings_customer_user_starts_at_idx" ON "public"."bookings" USING
 
 
 
+CREATE INDEX "blocked_times_service_id_idx" ON "public"."blocked_times" USING "btree" ("service_id") WHERE ("service_id" IS NOT NULL);
+
+
+
 CREATE UNIQUE INDEX "bookings_legacy_public_reference_key" ON "public"."bookings" USING "btree" ("legacy_public_reference") WHERE ("legacy_public_reference" IS NOT NULL);
 
 
@@ -3206,6 +3214,11 @@ ALTER TABLE ONLY "public"."bookings"
 
 ALTER TABLE ONLY "public"."bookings"
     ADD CONSTRAINT "bookings_service_id_fkey" FOREIGN KEY ("service_id") REFERENCES "public"."services"("id");
+
+
+
+ALTER TABLE ONLY "public"."blocked_times"
+    ADD CONSTRAINT "blocked_times_service_id_fkey" FOREIGN KEY ("service_id") REFERENCES "public"."services"("id") ON DELETE SET NULL;
 
 
 

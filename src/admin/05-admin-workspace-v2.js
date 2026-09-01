@@ -969,7 +969,7 @@
             return {
                 tipus: 'blocked',
                 cim,
-                leiras: 'Kézzel felvett idő',
+                leiras: keziSzolgaltatasNev(data) || 'Kézzel felvett idő',
                 kereses: cim,
                 starts_at: data.starts_at,
                 ends_at: data.ends_at,

@@ -104,6 +104,8 @@ function fixtures() {
                 starts_at: isoAt(0, 8),
                 ends_at: isoAt(0, 9),
                 reason: 'Adminisztracio',
+                service_id: 'service-1',
+                services: { name: 'Erositett gel lakk', description: '', price_text: '6 500 Ft', duration_minutes: 120 },
                 status: 'active',
                 created_at: isoAt(-1, 9)
             },
@@ -242,6 +244,11 @@ async function installSupabaseBoundaryMock(page) {
         contentType: 'text/javascript; charset=utf-8',
         body: ''
     }));
+    await page.route('https://fonts.googleapis.com/**', route => route.fulfill({
+        status: 200,
+        contentType: 'text/css; charset=utf-8',
+        body: ''
+    }));
 
     await page.addInitScript((seed) => {
         const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -259,7 +266,20 @@ async function installSupabaseBoundaryMock(page) {
             range() { return this; }
             abortSignal() { return this; }
             throwOnError() { return this; }
-            insert() { return this; }
+            insert(values) {
+                const records = (Array.isArray(values) ? values : [values]).map((value, index) => {
+                    const record = clone(value);
+                    if (!record.id) record.id = `mock-${this.table}-${Date.now()}-${index}`;
+                    if (this.table === 'blocked_times' && record.service_id) {
+                        const service = seed.services.find(item => item.id === record.service_id);
+                        if (service) record.services = clone(service);
+                    }
+                    return record;
+                });
+                seed[this.table] = [...(seed[this.table] || []), ...records];
+                window.__adminLastInsert = clone({ table: this.table, values });
+                return this;
+            }
             update() { return this; }
             upsert() { return this; }
             delete() { return this; }
@@ -520,6 +540,44 @@ test.describe('production admin redesign', () => {
         if (process.env.LUMI_CAPTURE_ADMIN_REDESIGN === '1') {
             await page.screenshot({ path: 'test-results/admin-redesign-desktop.png', fullPage: true });
         }
+        expect(browserErrors).toEqual([]);
+    });
+
+    test('manual occupied time stores the selected service and derives its end time on mobile', async ({ page }) => {
+        const browserErrors = await openAdmin(page, { width: 390, height: 844 });
+
+        await page.getByRole('button', { name: 'Navigáció megnyitása' }).click();
+        await page.locator('.admin-v2-sidebar [data-admin-v2-nav="munkaido"]').click();
+        await page.locator('#admin-panel-idosavok [data-admin-v2-panel="tiltasok"]').click();
+
+        const panel = page.locator('#admin-panel-tiltasok');
+        const service = panel.locator('#admin-tiltas-szolgaltatas');
+        await expect(service).toBeEnabled();
+        await expect(service.locator('option')).toHaveCount(5);
+
+        await panel.locator('#admin-tiltas-datum').fill(dateKey(10));
+        await panel.locator('#admin-tiltas-kezdes').fill('10:00');
+        await service.selectOption('service-1');
+        await expect(panel.locator('#admin-tiltas-vege')).toHaveValue('12:00');
+        await panel.locator('#admin-tiltas-ok').fill('Kézi vendég');
+
+        await panel.locator('[data-admin-v2-save]').click();
+        await expect(panel.locator('#admin-tiltas-lista .admin-db-kartya').filter({ hasText: 'Kézi vendég' }))
+            .toContainText('Erositett gel lakk');
+
+        const insert = await page.evaluate(() => window.__adminLastInsert);
+        expect(insert.table).toBe('blocked_times');
+        expect(insert.values.service_id).toBe('service-1');
+        expect(insert.values.reason).toBe('Kézi vendég');
+        expect(new Date(insert.values.ends_at) - new Date(insert.values.starts_at)).toBe(120 * 60 * 1000);
+
+        const overflow = await page.evaluate(() => ({
+            body: document.body.scrollWidth,
+            root: document.documentElement.scrollWidth,
+            viewport: window.innerWidth
+        }));
+        expect(overflow.body).toBeLessThanOrEqual(overflow.viewport);
+        expect(overflow.root).toBeLessThanOrEqual(overflow.viewport);
         expect(browserErrors).toEqual([]);
     });
 
@@ -784,7 +842,7 @@ test.describe('production admin redesign', () => {
         const onlineService = onlineCard.locator('.admin-foglalas-rovid-szolgaltatas');
 
         await expect(manualCard.locator('.admin-kartya-tipus')).toHaveText('Kézzel felvett idő');
-        await expect(manualService).toBeEmpty();
+        await expect(manualService).toHaveText('Erositett gel lakk');
         expect(await manualCard.locator('.admin-kartya-tipus').evaluate(
             element => getComputedStyle(element).textTransform
         )).toBe('uppercase');

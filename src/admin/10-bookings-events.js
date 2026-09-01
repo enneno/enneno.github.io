@@ -46,15 +46,29 @@
 
         let { data: tiltasok, error: tiltasHiba } = await allapot.kliens
             .from('blocked_times')
-            .select('id,starts_at,ends_at,reason,status,created_at')
+            .select('id,starts_at,ends_at,reason,status,created_at,service_id,services(name,description,price_text,duration_minutes)')
             .order('starts_at', { ascending: false })
             .limit(ADMIN_FOGLALAS_LIMIT);
 
-        if (tiltasHiba && adatbazisOszlopHiany(tiltasHiba, ['status'])) {
-            allapot.tiltasStatuszTamogatott = false;
+        if (tiltasHiba && adatbazisOszlopHiany(tiltasHiba, ['service_id'])) {
+            allapot.tiltasSzolgaltatasTamogatott = false;
             ({ data: tiltasok, error: tiltasHiba } = await allapot.kliens
                 .from('blocked_times')
-                .select('id,starts_at,ends_at,reason,created_at')
+                .select('id,starts_at,ends_at,reason,status,created_at')
+                .order('starts_at', { ascending: false })
+                .limit(ADMIN_FOGLALAS_LIMIT));
+        } else if (!tiltasHiba) {
+            allapot.tiltasSzolgaltatasTamogatott = true;
+        }
+
+        if (tiltasHiba && adatbazisOszlopHiany(tiltasHiba, ['status'])) {
+            allapot.tiltasStatuszTamogatott = false;
+            const szolgaltatasSelect = allapot.tiltasSzolgaltatasTamogatott
+                ? ',service_id,services(name,description,price_text,duration_minutes)'
+                : '';
+            ({ data: tiltasok, error: tiltasHiba } = await allapot.kliens
+                .from('blocked_times')
+                .select(`id,starts_at,ends_at,reason,created_at${szolgaltatasSelect}`)
                 .order('starts_at', { ascending: false })
                 .limit(ADMIN_FOGLALAS_LIMIT));
         } else if (!tiltasHiba) {
@@ -946,6 +960,8 @@
         kartya.dataset.tipus = 'blocked';
         kartya.dataset.eredetiStatusz = statusz;
         const megjegyzes = tiltas.reason?.trim() || 'Kézi foglalás';
+        const szolgaltatas = keziSzolgaltatasNev(tiltas);
+        kartya.dataset.szolgaltatasNev = szolgaltatas;
         kartya.dataset.eredetiDatum = datumInputErtek(tiltas.starts_at);
         kartya.dataset.eredetiKezdes = idoInputErtek(tiltas.starts_at);
         kartya.dataset.eredetiVege = idoInputErtek(tiltas.ends_at);
@@ -956,7 +972,7 @@
                     <div class="admin-foglalas-nev-blokk">
                         <p class="admin-kartya-tipus admin-foglalas-azonosito" aria-label="Kézzel felvett idő"><code>Kézzel felvett idő</code></p>
                         <h3>${html(megjegyzes)}</h3>
-                        <p class="admin-foglalas-rovid-szolgaltatas" aria-hidden="true">&nbsp;</p>
+                        <p class="admin-foglalas-rovid-szolgaltatas">${szolgaltatas ? html(szolgaltatas) : '&nbsp;'}</p>
                     </div>
                     ${foglalasKartyaIdopont(tiltas.starts_at, tiltas.ends_at)}
                 </div>
@@ -986,6 +1002,7 @@
     function keziIdoNaptarMegnyitasa(kartya) {
         const adatok = idopontModositasAdatok(kartya);
         const cim = idopontMezo(kartya, 'reason')?.value.trim() || 'Kézi foglalás';
+        const szolgaltatas = kartya.dataset.szolgaltatasNev || '';
 
         if (adatok.hiba) {
             onlineStatusz(adatok.hiba, true);
@@ -1008,7 +1025,7 @@
             `DTSTAMP:${adminIcsDatum(most)}`,
             `DTSTART:${adminIcsDatum(kezdes)}`,
             `DTEND:${adminIcsDatum(vege)}`,
-            `SUMMARY:${adminIcsSzoveg(cim)}`,
+            `SUMMARY:${adminIcsSzoveg([cim, szolgaltatas].filter(Boolean).join(' – '))}`,
             'STATUS:CONFIRMED',
             'TRANSP:OPAQUE',
             'END:VEVENT',

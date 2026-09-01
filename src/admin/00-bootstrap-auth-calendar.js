@@ -28,7 +28,8 @@
         tiltasOldal: 1,
         tiltasOldalMeret: 10,
         tiltasElemek: [],
-        tiltasStatuszTamogatott: true
+        tiltasStatuszTamogatott: true,
+        tiltasSzolgaltatasTamogatott: true
     };
 
     window.LumiAdminExportData = Object.freeze({
@@ -77,6 +78,8 @@
         elemek.tiltasForm?.addEventListener('submit', event => {
             event.preventDefault();
         });
+        elemek.tiltasSzolgaltatas?.addEventListener('change', keziIdoVegeFrissitese);
+        elemek.tiltasKezdes?.addEventListener('change', keziIdoVegeFrissitese);
 
         document.querySelectorAll('.admin-tab').forEach(gomb => {
             gomb.addEventListener('click', () => adminTabValtas(gomb.dataset.adminTab));
@@ -190,6 +193,7 @@
             tiltasDatum: document.getElementById('admin-tiltas-datum'),
             tiltasKezdes: document.getElementById('admin-tiltas-kezdes'),
             tiltasVege: document.getElementById('admin-tiltas-vege'),
+            tiltasSzolgaltatas: document.getElementById('admin-tiltas-szolgaltatas'),
             tiltasOk: document.getElementById('admin-tiltas-ok'),
             tiltasLapozo: document.getElementById('admin-tiltas-lapozo'),
             tiltasLista: document.getElementById('admin-tiltas-lista'),
