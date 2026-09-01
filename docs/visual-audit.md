@@ -2,30 +2,38 @@
 
 Audit dátuma: 2026-09-01. Vizsgált TEST nézetek: kezdőlap 1440 × 1000 és 390 × 844, foglalás 390 × 844, admin belépés 1440 × 1000 és 390 × 844.
 
+## Áttervezési frissítés — 2026-09-01
+
+- A felhasználó külön engedélyével a kritikus TEST-nézetek megkapták az új „quiet luxury” vizuális irányt; a LIVE nem változott.
+- A mobil „Bemutatkozás” és „Online időpontfoglalás” címek új, tartományra korlátozott méretezést, kiegyensúlyozott törést és szükség esetén biztonságos `overflow-wrap` viselkedést kaptak. A 390 px-es ellenőrzésben nincs dokumentumszintű vízszintes görgetés.
+- A primary, surface, muted és elválasztó tokenek kontrasztosabb, meleg neutrális palettára változtak. Az admin belépési gomb mély brand hátteret kapott.
+- A footer szöveges linkjeinek kattintható magassága legalább 44 px lett.
+- Az accessibility ratchet a kezdőlap, foglalás és admin mobil nézetén sikeres. A korábbi nyers axe-darabszámok történeti alapértékek; az új felület aktuális hibaszámaként nem értelmezhetők.
+
 Módszer: forrás- és CSS-felelősség-ellenőrzés, teljes oldalas Playwright-képernyőkép, DOM overflow-mérés, axe WCAG 2 A/AA–2.2 AA audit, `ui-ux-pro-max` célzott UX/typography/color keresés, valamint a 21st determinisztikus review. A 21st 33 fájlban 0 error, 0 warning és 563 információs `design-hardcoded-color` javaslatot adott; ezek nem automatikusan hibák, mert token-definíciókat és témaértékeket is számol.
 
 Az audit során egy determinisztikus HTML-hiba célzottan javítva lett: a rejtett „Naptárba mentés” elem placeholder `href="#"` attribútuma megszűnt. A foglalási JavaScript továbbra is csak a valódi `.ics` objektum-URL létrehozása után állítja be a `href`-et és teszi láthatóvá az elemet.
 
 ## Tényleges hibák
 
-### P1 — mobil címszövegek túlnyúlnak
+### Megoldva — mobil címszövegek túlnyúlása
 
 - A kezdőlapi „Bemutatkozás” `h2` 390 px-es viewporton 350 px széles dobozban 387 px tartalomszélességet igényel. A forrás: `src/styles/15-home-sections.css` mobil címszabálya 580. sor körül.
 - A foglalási „Online időpontfoglalás” `h2` 358 px széles dobozban 482 px tartalomszélességet igényel. A forrás: `src/styles/30-booking.css` mobil címszabálya 1133. sor körül.
-- Következmény: a teljes oldalas mobil képek 407, illetve 498 px szélesre nőnek, a címek jobb oldala levágottnak hat. Javítás külön, célzott CSS-feladatban történjen, a címek tipográfiai karakterének megtartásával.
+- A javítás az irányadó feature-fájlokban történt; a tipográfiai karakter megmaradt, de a címek 390 px-en már nem növelik a dokumentum szélességét.
 
-### P1 — bizonyított szövegkontraszt-eltérések
+### Kezelve — bizonyított szövegkontraszt-eltérések
 
 - Kezdőlap mobil: axe szerint 30 `color-contrast` elem. A legnagyobb csoport a hero, a szolgáltatásblokk és a footer világos szövege a `#91766e` brand háttéren; mért arányok több helyen 2.46–4.11:1.
 - Foglalás mobil: 22 `color-contrast` elem. Érintett a kicker, a választók címe/leírása/gombszövege, a kezelőcímkék és a közös footer.
 - Admin mobil: a belépés gomb fehér szövege `#b9858f` háttéren 2.96:1.
-- A javításnál szemantikus tokenértéket kell módosítani vagy kontrasztos variánst létrehozni az egyetlen tulajdonosrétegben; komponensenkénti hex override nem elfogadható.
+- A javítás szemantikus tokenek és az admin közös gombtulajdonosának módosításával történt, komponensenkénti felülíró réteg nélkül. A célzott accessibility ratchet sikeres.
 
-### P2 — két footer link mobil érintési célja kicsi
+### Megoldva — két footer link mobil érintési célja
 
 - Az e-mail link és az adatkezelési link magassága körülbelül 18–20 px, a környező szabad terület sem éri el az axe 24 px-es minimumát.
 - Forrás: `src/styles/13-gallery-footer-navigation.css`, a mobil footer és `.footer-jogi-link` szabályai.
-- Célérték a projektben 44 × 44 px érintési zóna; a vizuális szöveg ennél kisebb maradhat, ha a kattintható terület nő.
+- A vizuális szöveg mérete megmaradt, a kattintható magasság 44 px-re nőtt.
 
 ## Következetlenségek és fenntartási kockázatok
 

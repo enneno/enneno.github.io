@@ -1,6 +1,6 @@
 # LumiNails design system
 
-Ez a dokumentum a jelenlegi TEST felületből levezetett, projekt-specifikus vizuális szerződés. Nem újratervezési terv: az új komponenseknek és a célzott javításoknak ehhez kell igazodniuk, a meglévő oldalak pedig csak külön feladatban változhatnak.
+Ez a dokumentum a TEST felületen 2026-09-01-én kiválasztott „quiet luxury” vizuális irány projekt-specifikus szerződése. Az új komponenseknek és a további oldalfrissítéseknek ehhez kell igazodniuk; a LIVE felület csak külön élesítési jóváhagyással veheti át.
 
 ## Források és CSS-felelősség
 
@@ -18,17 +18,17 @@ A publikus felület világos, meleg, visszafogott palettát használ. Komponensb
 
 | Szerep | Token | Érték | Használat |
 | --- | --- | --- | --- |
-| Elsődleges brand | `--ui-primary` | `#91766e` | hangsúly, brand felület |
-| Elsődleges felületi szöveg | `--ui-on-primary` | `#fff9f5` | primary háttéren, kontrasztmérés után |
-| Lágy accent | `--ui-accent` | `#f0d7d5` | kiemelt, de nem veszélyes felület |
-| Accent szöveg | `--ui-on-accent` | `#211b19` | accent háttéren |
-| Oldalháttér | `--ui-bg` | `#f3ece3` | publikus canvas |
-| Kártyafelület | `--ui-surface` | `#fff9f5` | mező, kártya, panel |
-| Lágy felület | `--ui-soft` | `#e7d8d3` | másodlagos elkülönítés |
-| Erős szöveg | `--ui-off-black` | `#211b19` | címek, fontos szöveg |
-| Halk szöveg | `--ui-muted` | `#6f5e58` | csak megfelelő kontrasztnál |
-| Elválasztó | `--ui-line` | `rgba(145, 118, 110, 0.16)` | finom border |
-| Erős elválasztó | `--ui-line-strong` | `rgba(145, 118, 110, 0.30)` | aktív vagy hangsúlyos border |
+| Elsődleges brand | `--ui-primary` | `#5d3d36` | CTA, brand felület, kiválasztott állapot |
+| Elsődleges felületi szöveg | `--ui-on-primary` | `#fffaf6` | primary háttéren |
+| Lágy accent | `--ui-accent` | `#e8c9c3` | finom kiemelés, nem elsődleges CTA |
+| Accent szöveg | `--ui-on-accent` | `#2c211e` | accent háttéren |
+| Oldalháttér | `--ui-bg` | `#f8f3ed` | publikus canvas |
+| Kártyafelület | `--ui-surface` | `#fffcf8` | mező, kártya, panel |
+| Lágy felület | `--ui-soft` | `#ede2da` | másodlagos elkülönítés |
+| Erős szöveg | `--ui-off-black` | `#2c211e` | címek, szolgáltatásblokk, footer |
+| Halk szöveg | `--ui-muted` | `#695a55` | másodlagos szöveg világos felületen |
+| Elválasztó | `--ui-line` | `rgba(93, 61, 54, 0.14)` | finom border |
+| Erős elválasztó | `--ui-line-strong` | `rgba(93, 61, 54, 0.28)` | aktív vagy hangsúlyos border |
 
 Az admin v2 külön szemantikus tokeneket használ (`--admin-v2-bg`, `surface`, `ink`, `muted`, `brand`, `border`). Állapotokhoz kizárólag a `success`, `warning`, `danger` és `info`, illetve a hozzájuk tartozó `*-soft` párok használhatók. A sötét mód értékei ugyanabban a `20-workspace.css` fájlban, `html[data-admin-theme="dark"]` alatt élnek.
 
@@ -60,11 +60,11 @@ A preferált alaprács 4 px; komponenseken belül 4/8/12/16/24/32, szekciók kö
 ## Lekerekítések és árnyékok
 
 - Pill: `--lumi-radius-pill: 999px`.
-- Publikus kártya: `--lumi-radius-card: 28px`.
-- Mező és alap vezérlő: `--lumi-radius-control: 16px`.
+- Publikus kártya: `--lumi-radius-card: 24px`.
+- Mező és alap vezérlő: `--lumi-radius-control: 14px`.
 - Admin kompakt vezérlő: `--admin-ui-control-radius: 11px`; auth felületen 12 px.
-- Lágy általános árnyék: `--lumi-soft-shadow: 0 14px 34px rgba(70, 48, 42, 0.10)`.
-- Publikus gombárnyék: `--lumi-button-shadow: 0 12px 26px rgba(185, 133, 143, 0.22)`.
+- Lágy általános árnyék: `--lumi-soft-shadow: 0 16px 38px rgba(44, 33, 30, 0.10)`.
+- Publikus gombárnyék: `--lumi-button-shadow: 0 14px 30px rgba(93, 61, 54, 0.18)`.
 - Admin munkaterület árnyék: `--admin-v2-shadow`, témafüggő értékkel.
 
 Egy felületi szinten egy radius- és egy árnyékhierarchia használható. A shadow nem helyettesíti a bordert, ha az állapot vagy a felülethatár kontrasztja szükséges.
@@ -87,7 +87,7 @@ Egy felületi szinten egy radius- és egy árnyékhierarchia használható. A sh
 
 ### Kártyák
 
-- Publikus tartalomkártya: meleg surface, 28 px-es alapradius vagy a már létező editorial szögletes variáns.
+- Publikus tartalomkártya: meleg surface, 24 px-es alapradius; kompakt választók 12–14 px-es radiust használhatnak.
 - Foglalási választók alapfelelőse a `30-booking.css`.
 - Admin kártya és panel alapja a `10-components.css`; foglalás-, kupon-, elérhetőség- vagy CMS-fájl csak saját belső layoutját adhatja hozzá.
 

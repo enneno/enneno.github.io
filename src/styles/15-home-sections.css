@@ -13,7 +13,7 @@
     max-width: none;
     margin-bottom: 0;
     padding: clamp(72px, 8vw, 112px) var(--ui-gutter);
-    background: var(--ui-primary);
+    background: var(--ui-off-black);
 }
 
 .szolgaltatasok-belso {
@@ -72,7 +72,7 @@
 .szolgaltatas-lista {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
     width: var(--lumi-container-width);
     max-width: 1400px;
     box-sizing: border-box;
@@ -80,9 +80,9 @@
     padding: 0;
     overflow: visible;
     border: 0;
-    border-radius: var(--lumi-radius-card);
+    border-radius: 0;
     background: transparent;
-    box-shadow: 0 18px 46px rgba(78, 54, 48, 0.075);
+    box-shadow: none;
 }
 
 .szolgaltatas-kartya {
@@ -94,20 +94,20 @@
     align-items: flex-start;
     gap: clamp(14px, 2.4vw, 30px);
     margin: 0;
-    padding: 30px;
+    padding: 32px;
     overflow: hidden;
-    border: 2px solid var(--ui-accent);
-    border-radius: 4px;
+    border: 1px solid rgba(255, 250, 246, 0.22);
+    border-radius: 22px;
     isolation: isolate;
-    background: var(--ui-primary);
-    box-shadow: 0 22px 48px rgba(145, 118, 110, 0.22);
+    background: var(--ui-off-black);
+    box-shadow: 0 22px 48px rgba(20, 14, 12, 0.18);
     transform: none;
     transition:
         box-shadow 220ms ease-out,
         transform 220ms ease-out;
 }
 .szolgaltatas-lista > .szolgaltatas-kartya {
-    border: 2px solid var(--ui-accent);
+    border: 1px solid rgba(255, 250, 246, 0.22);
 }
 
 
@@ -121,7 +121,7 @@
     background-position: var(--service-position, center);
     background-repeat: no-repeat;
     background-size: cover;
-    filter: brightness(0.64) saturate(0.82);
+    filter: brightness(0.56) saturate(0.78);
     content: "";
     pointer-events: none;
     transform: scale(1);
@@ -134,7 +134,7 @@
     border-radius: inherit;
     z-index: 0;
     display: block;
-    background: linear-gradient(135deg, rgba(33, 27, 25, 0.8), rgba(145, 118, 110, 0.64));
+    background: linear-gradient(135deg, rgba(31, 22, 20, 0.88), rgba(93, 61, 54, 0.68));
     content: "";
     pointer-events: none;
 }
@@ -481,7 +481,7 @@
     height: auto;
     margin: 0;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: var(--lumi-radius-card);
     background: var(--ui-soft);
     transform: none;
 }
@@ -514,7 +514,7 @@
     height: 98px;
     border: 1px solid rgba(255, 249, 245, 0.4);
     border-radius: 50%;
-    background: rgba(45, 38, 35, 0.68);
+    background: rgba(44, 33, 30, 0.78);
     color: var(--ui-off-white);
     transform: none;
     backdrop-filter: blur(12px);
@@ -536,10 +536,11 @@
     margin: 16px 0 30px;
     color: var(--ui-ink);
     font-family: "Cormorant Garamond", serif;
-    font-size: clamp(64px, 7vw, 94px);
+    font-size: clamp(60px, 6.4vw, 86px);
     font-weight: 600;
     letter-spacing: -0.045em;
-    line-height: 0.9;
+    line-height: 0.94;
+    text-wrap: balance;
 }
 
 .bemutatkozas-szoveg p {
@@ -567,7 +568,7 @@
     }
 
     #bemutatkozas .bemutatkozas-kep {
-        border-radius: 3px;
+        border-radius: 20px;
     }
 
     .bemutatkozas-kep-jelveny {
@@ -580,10 +581,10 @@
     .bemutatkozas-szoveg h2 {
         max-width: 100%;
         margin: 13px 0 24px;
-        font-size: calc(clamp(42px, 12vw, 52px) + 2px);
+        font-size: clamp(38px, 10.4vw, 43px);
         letter-spacing: -0.04em;
         line-height: 0.98;
-        overflow-wrap: normal;
+        overflow-wrap: anywhere;
         word-break: normal;
     }
 
@@ -604,7 +605,7 @@
     padding: clamp(70px, 8vw, 110px) var(--ui-gutter);
     border: 0;
     border-radius: 0;
-    background: var(--ui-warm);
+    background: var(--ui-highlight);
 }
 
 .fooldal #kapcsolat h2 {
@@ -613,7 +614,8 @@
     color: var(--ui-off-black);
     font-family: "Cormorant Garamond", serif;
     font-size: clamp(54px, 7vw, 88px);
-    line-height: 0.92;
+    line-height: 0.96;
+    text-wrap: balance;
 }
 
 .fooldal .kapcsolat-tartalom,
@@ -661,10 +663,10 @@
     .fooldal #kapcsolat h2 {
         max-width: 100%;
         margin: 11px 0 18px;
-        font-size: calc(clamp(34px, 9.4vw, 42px) + 2px);
+        font-size: clamp(36px, 10vw, 44px);
         letter-spacing: -0.045em;
         line-height: 0.98;
-        overflow-wrap: normal;
+        overflow-wrap: anywhere;
         white-space: normal;
         word-break: normal;
     }

@@ -180,8 +180,9 @@
 }
 
 .admin-body .admin-gomb {
+  border-color: var(--admin-v2-brand-dark);
   color: #fffaf4;
-  background: var(--akcentus);
+  background: var(--admin-v2-brand-dark);
 }
 
 .admin-body .admin-hozzaadas:hover,

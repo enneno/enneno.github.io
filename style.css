@@ -1,36 +1,36 @@
 /* Generated from src/styles by npm run build. Edit the source parts, not this file. */
 
 :root {
-    --akcentus: #b9858f;
-    --akcentus-vilagos: #d9aaa7;
-    --tinta: #2b2521;
-    --barna: #5d4d46;
-    --krem: #fdf4e2;
-    --kartya: #fffaf4;
-    --szoveg: #655e57;
-    --rozsa-halvany: #f1ded9;
+    --akcentus: #7a4d44;
+    --akcentus-vilagos: #c99f96;
+    --tinta: #2c211e;
+    --barna: #5c4b46;
+    --krem: #f8f3ed;
+    --kartya: #fffcf8;
+    --szoveg: #695a55;
+    --rozsa-halvany: #ead2cc;
     --zsalyaszurke: #a7b7a1;
 
     /* Public semantic design tokens. */
-    --ui-primary: #91766e;
-    --ui-on-primary: #fff9f5;
-    --ui-accent: #f0d7d5;
-    --ui-on-accent: #211b19;
-    --ui-bg: #f3ece3;
-    --ui-surface: #fff9f5;
-    --ui-soft: #e7d8d3;
-    --ui-highlight: #f3ece3;
-    --ui-warm: #f0d7d5;
-    --ui-off-black: #211b19;
-    --ui-off-white: #fff9f5;
+    --ui-primary: #5d3d36;
+    --ui-on-primary: #fffaf6;
+    --ui-accent: #e8c9c3;
+    --ui-on-accent: #2c211e;
+    --ui-bg: #f8f3ed;
+    --ui-surface: #fffcf8;
+    --ui-soft: #ede2da;
+    --ui-highlight: #f5e6e1;
+    --ui-warm: #ead2cc;
+    --ui-off-black: #2c211e;
+    --ui-off-white: #fffaf6;
     --ui-header-bg: var(--ui-bg);
     --ui-ink: var(--ui-primary);
-    --ui-muted: #6f5e58;
+    --ui-muted: #695a55;
     --ui-rose: var(--ui-accent);
     --ui-rose-dark: var(--ui-primary);
-    --ui-line: rgba(145, 118, 110, 0.16);
-    --ui-line-strong: rgba(145, 118, 110, 0.3);
-    --ui-shadow: 0 18px 55px rgba(33, 27, 25, 0.1);
+    --ui-line: rgba(93, 61, 54, 0.14);
+    --ui-line-strong: rgba(93, 61, 54, 0.28);
+    --ui-shadow: 0 24px 64px rgba(44, 33, 30, 0.1);
     --ui-gutter: clamp(20px, 5vw, 76px);
     --ui-header-height: 82px;
     --lumi-section-gap: clamp(72px, 8vw, 112px);
@@ -40,8 +40,8 @@
     --lumi-price-heading-content-gap: 18px;
     --lumi-container-width: min(1400px, calc(100% - 40px));
     --lumi-radius-pill: 999px;
-    --lumi-radius-card: 28px;
-    --lumi-radius-control: 16px;
+    --lumi-radius-card: 24px;
+    --lumi-radius-control: 14px;
     --lumi-button-height: 44px;
     --lumi-button-width: min(calc(100% - 16px), 360px);
     --lumi-button-padding: 30px;
@@ -57,12 +57,12 @@
     --lumi-font-button-compact: 12px;
     --lumi-font-control: 18px;
     --lumi-font-calendar: 11px;
-    --lumi-button-shadow: 0 12px 26px rgba(185, 133, 143, 0.22);
-    --lumi-control-bg: rgba(255, 250, 244, 0.92);
-    --lumi-control-border: rgba(185, 133, 143, 0.24);
-    --lumi-control-border-strong: rgba(185, 133, 143, 0.5);
-    --lumi-control-focus: 0 0 0 3px rgba(185, 133, 143, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.75);
-    --lumi-soft-shadow: 0 14px 34px rgba(70, 48, 42, 0.1);
+    --lumi-button-shadow: 0 14px 30px rgba(93, 61, 54, 0.18);
+    --lumi-control-bg: rgba(255, 252, 248, 0.96);
+    --lumi-control-border: rgba(93, 61, 54, 0.2);
+    --lumi-control-border-strong: rgba(93, 61, 54, 0.48);
+    --lumi-control-focus: 0 0 0 3px rgba(122, 77, 68, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    --lumi-soft-shadow: 0 16px 38px rgba(44, 33, 30, 0.1);
     --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%2364524d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
@@ -149,9 +149,9 @@ textarea:focus-visible {
     border: 0;
     border-bottom: 1px solid var(--ui-line, rgba(145, 118, 110, 0.18));
     border-radius: 0;
-    background: var(--ui-header-bg, rgba(240, 215, 213, 0.96));
-    box-shadow: none;
-    backdrop-filter: blur(18px);
+    background: color-mix(in srgb, var(--ui-header-bg) 92%, transparent);
+    box-shadow: 0 8px 30px rgba(44, 33, 30, 0.05);
+    backdrop-filter: blur(16px);
 }
 
 .logo {
@@ -240,7 +240,7 @@ textarea:focus-visible {
 .menu-pontok a:last-child {
     min-height: 40px;
     padding: 0 18px;
-    border-radius: 3px;
+    border-radius: 12px;
     background: var(--ui-ink, #91766e);
     color: var(--ui-on-primary, #fff9f5);
 }
@@ -412,8 +412,8 @@ h2 {
 }
 
 .urlap-mezo {
-    background-color: #fffaf4;
-    border: 1px solid rgba(185, 133, 143, 0.28);
+    background-color: var(--ui-surface);
+    border: 1px solid var(--ui-line-strong);
     color: var(--tinta);
     padding: 15px;
     font-family: 'Manrope', sans-serif;
@@ -447,8 +447,8 @@ select.urlap-mezo:invalid {
 .tel-csoport {
     display: flex;
     align-items: center;
-    background-color: #fffaf4;
-    border: 1px solid rgba(185, 133, 143, 0.28);
+    background-color: var(--ui-surface);
+    border: 1px solid var(--ui-line-strong);
     border-radius: var(--lumi-radius-control);
     overflow: hidden;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -491,9 +491,9 @@ select.urlap-mezo:invalid {
     margin: 0;
     padding: 0 22px;
     border: 1px solid transparent;
-    border-radius: 3px;
-    background: var(--ui-rose-dark, #91766e);
-    box-shadow: none;
+    border-radius: 12px;
+    background: var(--ui-primary);
+    box-shadow: var(--lumi-button-shadow);
     color: var(--ui-on-primary, #fff9f5);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-button);
@@ -508,10 +508,10 @@ select.urlap-mezo:invalid {
 }
 
 .gomb:hover {
-    background: var(--ui-ink, #91766e);
+    background: var(--ui-off-black);
     color: var(--ui-on-primary, #fff9f5);
     transform: translateY(-1px);
-    box-shadow: inset 0 -3px 0 var(--ui-warm, #f0d7d5), 0 12px 28px rgba(145, 118, 110, 0.18);
+    box-shadow: 0 16px 34px rgba(44, 33, 30, 0.2);
 }
 
 .oldal-foglalas-cta {
@@ -1531,7 +1531,7 @@ select.urlap-mezo:invalid {
     box-sizing: border-box;
     border: 0;
     border-radius: 0;
-    background: var(--ui-primary);
+    background: var(--ui-off-black);
     color: rgba(255, 253, 249, 0.72);
 }
 
@@ -1611,6 +1611,8 @@ select.urlap-mezo:invalid {
     display: inline-flex;
     width: fit-content;
     max-width: 100%;
+    min-height: 44px;
+    align-items: center;
     color: rgba(255, 253, 249, 0.76);
     text-decoration: none;
     overflow-wrap: anywhere;
@@ -1683,7 +1685,7 @@ select.urlap-mezo:invalid {
     height: 44px;
     padding: 0;
     border: 1px solid var(--ui-line-strong, rgba(145, 118, 110, 0.3));
-    border-radius: 3px;
+    border-radius: 12px;
     background: var(--ui-accent, #f0d7d5);
     box-shadow: 0 8px 24px rgba(55, 40, 35, 0.06);
     color: var(--ui-off-black, #211b19);
@@ -1802,7 +1804,7 @@ select.urlap-mezo:invalid {
     margin-top: 20px;
     padding: 0 18px;
     border: 0;
-    border-radius: 3px;
+    border-radius: 12px;
     background: var(--ui-ink, #91766e);
     color: var(--ui-off-white, #fff9f5);
     font-family: "Manrope", sans-serif;
@@ -2385,7 +2387,7 @@ select.urlap-mezo:invalid {
     max-width: none;
     margin-bottom: 0;
     padding: clamp(72px, 8vw, 112px) var(--ui-gutter);
-    background: var(--ui-primary);
+    background: var(--ui-off-black);
 }
 
 .szolgaltatasok-belso {
@@ -2444,7 +2446,7 @@ select.urlap-mezo:invalid {
 .szolgaltatas-lista {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
     width: var(--lumi-container-width);
     max-width: 1400px;
     box-sizing: border-box;
@@ -2452,9 +2454,9 @@ select.urlap-mezo:invalid {
     padding: 0;
     overflow: visible;
     border: 0;
-    border-radius: var(--lumi-radius-card);
+    border-radius: 0;
     background: transparent;
-    box-shadow: 0 18px 46px rgba(78, 54, 48, 0.075);
+    box-shadow: none;
 }
 
 .szolgaltatas-kartya {
@@ -2466,20 +2468,20 @@ select.urlap-mezo:invalid {
     align-items: flex-start;
     gap: clamp(14px, 2.4vw, 30px);
     margin: 0;
-    padding: 30px;
+    padding: 32px;
     overflow: hidden;
-    border: 2px solid var(--ui-accent);
-    border-radius: 4px;
+    border: 1px solid rgba(255, 250, 246, 0.22);
+    border-radius: 22px;
     isolation: isolate;
-    background: var(--ui-primary);
-    box-shadow: 0 22px 48px rgba(145, 118, 110, 0.22);
+    background: var(--ui-off-black);
+    box-shadow: 0 22px 48px rgba(20, 14, 12, 0.18);
     transform: none;
     transition:
         box-shadow 220ms ease-out,
         transform 220ms ease-out;
 }
 .szolgaltatas-lista > .szolgaltatas-kartya {
-    border: 2px solid var(--ui-accent);
+    border: 1px solid rgba(255, 250, 246, 0.22);
 }
 
 
@@ -2493,7 +2495,7 @@ select.urlap-mezo:invalid {
     background-position: var(--service-position, center);
     background-repeat: no-repeat;
     background-size: cover;
-    filter: brightness(0.64) saturate(0.82);
+    filter: brightness(0.56) saturate(0.78);
     content: "";
     pointer-events: none;
     transform: scale(1);
@@ -2506,7 +2508,7 @@ select.urlap-mezo:invalid {
     border-radius: inherit;
     z-index: 0;
     display: block;
-    background: linear-gradient(135deg, rgba(33, 27, 25, 0.8), rgba(145, 118, 110, 0.64));
+    background: linear-gradient(135deg, rgba(31, 22, 20, 0.88), rgba(93, 61, 54, 0.68));
     content: "";
     pointer-events: none;
 }
@@ -2853,7 +2855,7 @@ select.urlap-mezo:invalid {
     height: auto;
     margin: 0;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: var(--lumi-radius-card);
     background: var(--ui-soft);
     transform: none;
 }
@@ -2886,7 +2888,7 @@ select.urlap-mezo:invalid {
     height: 98px;
     border: 1px solid rgba(255, 249, 245, 0.4);
     border-radius: 50%;
-    background: rgba(45, 38, 35, 0.68);
+    background: rgba(44, 33, 30, 0.78);
     color: var(--ui-off-white);
     transform: none;
     backdrop-filter: blur(12px);
@@ -2908,10 +2910,11 @@ select.urlap-mezo:invalid {
     margin: 16px 0 30px;
     color: var(--ui-ink);
     font-family: "Cormorant Garamond", serif;
-    font-size: clamp(64px, 7vw, 94px);
+    font-size: clamp(60px, 6.4vw, 86px);
     font-weight: 600;
     letter-spacing: -0.045em;
-    line-height: 0.9;
+    line-height: 0.94;
+    text-wrap: balance;
 }
 
 .bemutatkozas-szoveg p {
@@ -2939,7 +2942,7 @@ select.urlap-mezo:invalid {
     }
 
     #bemutatkozas .bemutatkozas-kep {
-        border-radius: 3px;
+        border-radius: 20px;
     }
 
     .bemutatkozas-kep-jelveny {
@@ -2952,10 +2955,10 @@ select.urlap-mezo:invalid {
     .bemutatkozas-szoveg h2 {
         max-width: 100%;
         margin: 13px 0 24px;
-        font-size: calc(clamp(42px, 12vw, 52px) + 2px);
+        font-size: clamp(38px, 10.4vw, 43px);
         letter-spacing: -0.04em;
         line-height: 0.98;
-        overflow-wrap: normal;
+        overflow-wrap: anywhere;
         word-break: normal;
     }
 
@@ -2976,7 +2979,7 @@ select.urlap-mezo:invalid {
     padding: clamp(70px, 8vw, 110px) var(--ui-gutter);
     border: 0;
     border-radius: 0;
-    background: var(--ui-warm);
+    background: var(--ui-highlight);
 }
 
 .fooldal #kapcsolat h2 {
@@ -2985,7 +2988,8 @@ select.urlap-mezo:invalid {
     color: var(--ui-off-black);
     font-family: "Cormorant Garamond", serif;
     font-size: clamp(54px, 7vw, 88px);
-    line-height: 0.92;
+    line-height: 0.96;
+    text-wrap: balance;
 }
 
 .fooldal .kapcsolat-tartalom,
@@ -3033,10 +3037,10 @@ select.urlap-mezo:invalid {
     .fooldal #kapcsolat h2 {
         max-width: 100%;
         margin: 11px 0 18px;
-        font-size: calc(clamp(34px, 9.4vw, 42px) + 2px);
+        font-size: clamp(36px, 10vw, 44px);
         letter-spacing: -0.045em;
         line-height: 0.98;
-        overflow-wrap: normal;
+        overflow-wrap: anywhere;
         white-space: normal;
         word-break: normal;
     }
@@ -3162,7 +3166,8 @@ select.urlap-mezo:invalid {
     font-size: clamp(48px, 5.7vw, 78px);
     letter-spacing: -0.035em;
     line-height: 0.92;
-    white-space: nowrap;
+    text-wrap: balance;
+    white-space: normal;
 }
 
 .galeria-showcase-fej h2 em {
@@ -3328,7 +3333,7 @@ select.urlap-mezo:invalid {
     margin: 0;
     padding: 8px;
     border: 1px solid var(--ui-line);
-    border-radius: 5px;
+    border-radius: 18px;
     background: var(--ui-surface);
     box-shadow: 0 22px 52px rgba(55, 40, 35, 0.12);
     object-fit: contain;
@@ -3381,7 +3386,7 @@ select.urlap-mezo:invalid {
     min-height: 54px;
     padding: 6px 8px;
     border: 1px solid rgba(67, 49, 43, 0.16);
-    border-radius: 4px;
+    border-radius: 14px;
     background: rgba(255, 253, 249, 0.82);
     box-shadow: 0 14px 34px rgba(55, 40, 35, 0.08);
     transform: translateX(-50%);
@@ -3410,7 +3415,7 @@ select.urlap-mezo:invalid {
     height: 30px;
     place-items: center;
     border: 1px solid var(--ui-line-strong);
-    border-radius: 3px;
+    border-radius: 10px;
     background: transparent;
     font-size: 14px;
     line-height: 1;
@@ -3693,17 +3698,19 @@ select.urlap-mezo:invalid {
 #hero.hero-preview-refresh {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(380px, 0.9fr) minmax(500px, 1.1fr);
-    width: 100%;
-    max-width: none;
-    height: 540px;
+    grid-template-columns: minmax(380px, 0.88fr) minmax(500px, 1.12fr);
+    width: min(1400px, calc(100% - 32px));
+    max-width: 1400px;
+    height: clamp(560px, 66vh, 680px);
     min-height: 0;
-    margin: 0;
+    margin: 18px auto 0;
     aspect-ratio: auto;
     padding: 0;
     overflow: clip;
-    border-radius: 0;
-    background: var(--ui-soft);
+    border: 1px solid var(--ui-line);
+    border-radius: 30px;
+    background: var(--ui-surface);
+    box-shadow: var(--ui-shadow);
 }
 
 .hero-content {
@@ -3716,7 +3723,7 @@ select.urlap-mezo:invalid {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: clamp(44px, 5.5vw, 76px);
+    padding: clamp(48px, 6vw, 88px);
     text-align: left;
 }
 
@@ -3733,10 +3740,10 @@ select.urlap-mezo:invalid {
     margin: 22px 0 24px;
     color: var(--ui-ink);
     font-family: "Cormorant Garamond", serif;
-    font-size: clamp(76px, 9vw, 132px);
+    font-size: clamp(78px, 8vw, 122px);
     font-weight: 600;
     letter-spacing: -0.055em;
-    line-height: 0.82;
+    line-height: 0.84;
     text-align: left;
     text-shadow: none;
     text-transform: none;
@@ -3761,20 +3768,28 @@ select.urlap-mezo:invalid {
     margin-top: 34px;
 }
 .hero-actions .hero-primary {
-    border-color: var(--ui-accent);
-    background: var(--ui-accent);
-    color: var(--ui-on-accent);
+    border-color: var(--ui-primary);
+    background: var(--ui-primary);
+    color: var(--ui-on-primary);
 }
 
 .hero-actions .hero-primary:hover {
-    border-color: var(--ui-accent);
-    background: var(--ui-accent);
-    color: var(--ui-on-accent);
+    border-color: var(--ui-off-black);
+    background: var(--ui-off-black);
+    color: var(--ui-on-primary);
 }
 
 .hero-secondary {
     border: 1px solid var(--ui-line-strong);
-    background: transparent;
+    background: var(--ui-surface);
+    box-shadow: none;
+    color: var(--ui-ink);
+}
+
+.hero-secondary:hover {
+    border-color: var(--ui-primary);
+    background: var(--ui-highlight);
+    box-shadow: none;
     color: var(--ui-ink);
 }
 
@@ -3792,11 +3807,12 @@ select.urlap-mezo:invalid {
 .hero-visual {
     position: relative;
     min-width: 0;
-    height: 540px;
+    height: 100%;
     min-height: 0;
     overflow: hidden;
-    border-radius: 0;
-    clip-path: polygon(9% 0, 100% 0, 100% 100%, 0 100%);
+    margin: 10px 10px 10px 0;
+    border-radius: 24px;
+    clip-path: none;
 }
 
 .hero-visual::after {
@@ -3827,7 +3843,7 @@ select.urlap-mezo:invalid {
     gap: 3px;
     padding: 0;
     border: 1px solid rgba(255, 249, 245, 0.38);
-    border-radius: 4px;
+    border-radius: 18px;
     background: rgba(247, 240, 233, 0.18);
     box-shadow: inset 0 0 28px rgba(255, 249, 245, 0.08), 0 22px 54px rgba(31, 24, 22, 0.18);
     color: rgba(255, 249, 245, 0.94);
@@ -3849,6 +3865,8 @@ select.urlap-mezo:invalid {
     justify-content: space-between;
     gap: 20px;
     padding: 18px 20px;
+    border: 1px solid rgba(255, 250, 246, 0.18);
+    border-radius: 14px;
     background: rgba(35, 28, 25, 0.72);
     color: var(--ui-off-white);
     backdrop-filter: blur(12px);
@@ -3888,11 +3906,13 @@ select.urlap-mezo:invalid {
         height: auto;
         min-height: 0;
         flex-direction: column;
-        gap: 28px;
+        gap: 24px;
         margin-top: 0;
-        padding: 28px 18px 0;
-        background: var(--ui-ink);
-        box-shadow: 0 12px 30px rgba(78, 54, 48, 0.11);
+        padding: 32px 18px 18px;
+        border: 0;
+        border-radius: 0;
+        background: var(--ui-off-black);
+        box-shadow: none;
     }
 
     .hero-content {
@@ -3921,13 +3941,22 @@ select.urlap-mezo:invalid {
     }
 
     .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
         width: 100%;
         margin-top: 26px;
     }
 
-    .hero-actions .hero-primary {
+    .hero-actions .hero-primary,
+    .hero-actions .hero-secondary {
         width: 100%;
         min-height: 52px;
+    }
+
+    .hero-actions .hero-secondary {
+        border-color: rgba(255, 250, 246, 0.3);
+        background: transparent;
+        color: var(--ui-off-white);
     }
 
     .hero-bizalom {
@@ -3956,8 +3985,9 @@ select.urlap-mezo:invalid {
         height: auto;
         min-height: 0;
         flex-direction: column;
-        overflow: visible;
-        border-radius: 0;
+        margin: 0;
+        overflow: hidden;
+        border-radius: 22px;
         background: rgba(255, 249, 245, 0.04);
         clip-path: none;
     }
@@ -3966,7 +3996,7 @@ select.urlap-mezo:invalid {
         width: 100%;
         height: auto;
         min-height: 0;
-        border-radius: 2px 2px 0 0;
+        border-radius: 0;
         background: #e9e3dc;
         object-fit: contain;
         object-position: center;
@@ -3978,7 +4008,7 @@ select.urlap-mezo:invalid {
         left: 14px;
         width: 76px;
         height: 76px;
-        border-radius: 3px;
+        border-radius: 14px;
         font-size: 25px;
         transform: none;
     }
@@ -5450,8 +5480,13 @@ select.urlap-mezo:invalid {
 
 .foglalas-kepfeltoltes input {
     position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
     opacity: 0;
     pointer-events: none;
+    white-space: nowrap;
 }
 
 .foglalas-kepfeltoltes-ikon {
@@ -5831,7 +5866,7 @@ select.urlap-mezo:invalid {
 
 /* Booking — végleges megjelenés (99-ből migrálva) */
 .foglalas-oldal {
-    width: min(1120px, calc(100% - 48px));
+    width: min(1180px, calc(100% - 48px));
     margin: 0 auto;
     padding: clamp(72px, 8vw, 116px) 0 0;
 }
@@ -5861,11 +5896,14 @@ select.urlap-mezo:invalid {
     margin: 16px 0 24px;
     color: var(--ui-ink);
     font-family: "Cormorant Garamond", serif;
-    font-size: clamp(54px, 6vw, 78px);
+    max-width: 12ch;
+    font-size: clamp(52px, 5.7vw, 76px);
     font-weight: 600;
     letter-spacing: -0.045em;
-    line-height: 0.92;
+    line-height: 0.96;
     text-align: left;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
 }
 
 .foglalas-nyito .szekcio-leiras {
@@ -5879,11 +5917,11 @@ select.urlap-mezo:invalid {
 .foglalas-utak {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1px;
-    overflow: hidden;
-    border: 1px solid var(--ui-line);
-    border-radius: 4px;
-    background: var(--ui-line);
+    gap: 12px;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
 }
 
 .foglalas-ut-kartya {
@@ -5891,12 +5929,12 @@ select.urlap-mezo:invalid {
     grid-template-rows: auto auto 1fr auto;
     align-content: start;
     gap: 14px;
-    min-height: 236px;
-    padding: 28px;
-    border: 0;
-    border-radius: 0;
+    min-height: 228px;
+    padding: 26px;
+    border: 1px solid var(--ui-line);
+    border-radius: 20px;
     background: var(--ui-surface);
-    box-shadow: none;
+    box-shadow: 0 12px 34px rgba(44, 33, 30, 0.06);
     color: var(--ui-ink);
     text-decoration: none;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
@@ -5968,11 +6006,12 @@ select.urlap-mezo:invalid {
     z-index: 1;
     transform: none;
     background: var(--ui-off-white);
-    box-shadow: 0 12px 32px rgba(55, 40, 35, 0.08);
+    box-shadow: 0 18px 38px rgba(44, 33, 30, 0.1);
 }
 
 .foglalas-ut-kartya-kiemelt {
-    background: var(--ui-ink);
+    border-color: var(--ui-primary);
+    background: var(--ui-primary);
     color: var(--ui-off-white);
 }
 
@@ -5988,7 +6027,7 @@ select.urlap-mezo:invalid {
 
 .foglalas-ut-kartya-kiemelt:hover,
 .foglalas-ut-kartya-kiemelt:focus-visible {
-    background: var(--ui-rose-dark);
+    background: var(--ui-off-black);
     color: var(--ui-off-white);
 }
 
@@ -6007,12 +6046,11 @@ select.urlap-mezo:invalid {
     position: relative;
     overflow: visible;
     margin: 0;
-    padding: 56px 0 0;
-    border: 0;
-    border-top: 1px solid var(--ui-line-strong);
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
+    padding: clamp(44px, 6vw, 72px);
+    border: 1px solid var(--ui-line);
+    border-radius: 28px;
+    background: var(--ui-surface);
+    box-shadow: var(--ui-shadow);
     scroll-margin-top: calc(var(--ui-header-height) + 24px);
 }
 
@@ -6033,7 +6071,7 @@ select.urlap-mezo:invalid {
 }
 
 .foglalas-asszisztens {
-    gap: 0;
+    gap: 16px;
     max-width: 100%;
     overflow: visible;
     border: 0;
@@ -6044,17 +6082,16 @@ select.urlap-mezo:invalid {
 
 .foglalas-lepes {
     margin: 0;
-    padding: clamp(38px, 5vw, 62px) 0;
-    border: 0;
-    border-bottom: 1px solid var(--ui-line);
-    border-radius: 0;
-    background: transparent;
+    padding: clamp(28px, 4vw, 42px);
+    border: 1px solid var(--ui-line);
+    border-radius: 22px;
+    background: var(--ui-bg);
     box-shadow: none;
     scroll-margin-top: calc(var(--ui-header-height) + 24px);
 }
 
 .foglalas-lepes:last-child {
-    border-bottom: 0;
+    border-bottom: 1px solid var(--ui-line);
 }
 
 .foglalas-lepes-fej {
@@ -6074,14 +6111,13 @@ select.urlap-mezo:invalid {
 
 .foglalas-lepes-szam {
     flex: 0 0 auto;
-    width: 52px;
-    height: 28px;
-    justify-content: flex-start;
-    border: 0;
-    border-top: 1px solid var(--ui-rose);
-    border-radius: 0;
-    background: transparent;
-    color: var(--ui-rose-dark);
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    border: 1px solid var(--ui-line-strong);
+    border-radius: 50%;
+    background: var(--ui-surface);
+    color: var(--ui-primary);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     letter-spacing: 0.12em;
@@ -6177,9 +6213,14 @@ select.urlap-mezo:invalid {
 .foglalas-idopont-gomb,
 .foglalas-datum-chip {
     border-color: var(--ui-line);
-    border-radius: 3px;
-    background: rgba(255, 253, 249, 0.76);
+    background: var(--ui-surface);
     box-shadow: none;
+}
+
+.foglalas-valaszto-kartya,
+.foglalas-stilus-kartya,
+.foglalas-datum-chip {
+    border-radius: 14px;
 }
 
 .foglalas-valaszto-kartya:hover,
@@ -6198,8 +6239,8 @@ select.urlap-mezo:invalid {
 .foglalas-mini-kartya.aktiv,
 .foglalas-idopont-gomb.aktiv,
 .foglalas-datum-chip.aktiv {
-    border-color: var(--ui-ink);
-    background: var(--ui-ink);
+    border-color: var(--ui-primary);
+    background: var(--ui-primary);
     box-shadow: none;
     color: var(--ui-off-white);
 }
@@ -6269,7 +6310,7 @@ select.urlap-mezo:invalid {
 .foglalas-mini-kartya,
 .foglalas-idopont-gomb {
     min-height: 48px;
-    border-radius: 3px;
+    border-radius: 12px;
 }
 
 .foglalas-kepfeltoltes,
@@ -6277,14 +6318,14 @@ select.urlap-mezo:invalid {
 .foglalas-osszefoglalo,
 .foglalas-kupon-blokk {
     border-color: var(--ui-line);
-    border-radius: 3px;
-    background: rgba(255, 253, 249, 0.72);
+    border-radius: 14px;
+    background: var(--ui-surface);
     box-shadow: none;
 }
 
 .foglalas-kepfeltoltes-ikon {
-    border-radius: 3px;
-    background: var(--ui-ink);
+    border-radius: 10px;
+    background: var(--ui-primary);
 }
 
 .foglalas-osszefoglalo {
@@ -6324,7 +6365,7 @@ select.urlap-mezo:invalid {
 .foglalas-oldal .tel-csoport {
     min-height: 48px;
     border: 1px solid var(--ui-line-strong);
-    border-radius: 3px;
+    border-radius: 14px;
     background: var(--ui-off-white);
     box-shadow: none;
 }
@@ -6366,7 +6407,7 @@ select.urlap-mezo:invalid {
 
 @media screen and (max-width: 768px) {
     .foglalas-asszisztens-fej h2 {
-        font-size: calc(clamp(54px, 6vw, 78px) + 2px);
+        font-size: clamp(42px, 11vw, 50px);
     }
 
     .foglalas-oldal {
@@ -6393,7 +6434,8 @@ select.urlap-mezo:invalid {
 
     .foglalas-asszisztens-szekcio {
         margin-bottom: 0;
-        padding-top: 32px;
+        padding: 32px 20px;
+        border-radius: 22px;
     }
 
     .foglalas-asszisztens-fej {
@@ -6407,27 +6449,28 @@ select.urlap-mezo:invalid {
 
 @media screen and (max-width: 480px) {
     .foglalas-nyito h1 {
-        font-size: clamp(42px, 12.5vw, 54px);
-        line-height: 0.96;
+        font-size: clamp(42px, 11.5vw, 48px);
+        line-height: 1;
     }
 
     .foglalas-asszisztens-fej h2 {
-        font-size: calc(clamp(42px, 12.5vw, 54px) + 2px);
-        line-height: 0.96;
+        font-size: clamp(40px, 10.8vw, 46px);
+        line-height: 1;
     }
 
     .foglalas-lepes {
-        padding: 26px 0;
+        padding: 24px 18px;
     }
 
     .foglalas-lepes-fej {
-        grid-template-columns: 42px minmax(0, 1fr);
+        grid-template-columns: 40px minmax(0, 1fr);
         gap: 14px;
         margin-bottom: 22px;
     }
 
     .foglalas-lepes-szam {
-        width: 42px;
+        width: 40px;
+        height: 40px;
     }
 
     .foglalas-kartya-racs,

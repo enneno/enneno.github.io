@@ -1,32 +1,75 @@
 {
   "version": 1,
   "project": {
-    "name": "luminails",
-    "productType": null,
-    "stack": []
+    "name": "LumiNails",
+    "productType": "beauty salon service and booking website",
+    "stack": ["static HTML", "CSS", "vanilla JavaScript"]
   },
   "sources": {
-    "tokens": [],
-    "components": [],
-    "assets": [],
-    "instructions": [
-      "AGENTS.md"
-    ]
+    "tokens": [
+      "src/styles/00-base.css",
+      "src/admin-styles/00-foundation.css",
+      "src/admin-styles/20-workspace.css"
+    ],
+    "components": [
+      "src/styles/18-hero-inner-pages.css",
+      "src/styles/30-booking.css",
+      "src/admin-styles/10-components.css"
+    ],
+    "assets": ["kepek/"],
+    "instructions": ["AGENTS.md", "DEVELOPMENT.md", "docs/design-system.md"]
   },
   "design": {
-    "colorMode": "unknown",
-    "colors": {},
-    "typography": {},
-    "spacing": {},
-    "radius": {},
-    "shadows": {},
-    "motion": {},
-    "density": "unknown"
+    "colorMode": "light public UI; light and dark admin UI",
+    "colors": {
+      "primary": "#5d3d36",
+      "onPrimary": "#fffaf6",
+      "accent": "#e8c9c3",
+      "background": "#f8f3ed",
+      "surface": "#fffcf8",
+      "foreground": "#2c211e",
+      "mutedForeground": "#695a55"
+    },
+    "typography": {
+      "display": "Cormorant Garamond",
+      "body": "Manrope",
+      "character": "editorial serif with clear functional sans-serif UI"
+    },
+    "spacing": {
+      "base": "4px",
+      "component": ["8px", "12px", "16px", "24px", "32px"],
+      "section": ["48px", "64px", "72px", "96px", "112px"]
+    },
+    "radius": {
+      "control": "14px",
+      "card": "24px",
+      "hero": "30px",
+      "pill": "999px only for semantic pills"
+    },
+    "shadows": {
+      "soft": "0 16px 38px rgba(44, 33, 30, 0.10)",
+      "elevated": "0 24px 64px rgba(44, 33, 30, 0.10)"
+    },
+    "motion": {
+      "level": "subtle",
+      "rule": "transform and opacity only; respect prefers-reduced-motion"
+    },
+    "density": "spacious public UI; compact admin workspace"
   },
   "components": {
     "installed": [],
-    "preferredPrimitives": [],
-    "patterns": []
+    "preferredPrimitives": [
+      "existing .gomb button",
+      "existing .urlap-mezo field",
+      "existing booking choice cards",
+      "existing admin v2 controls"
+    ],
+    "patterns": [
+      "split editorial hero",
+      "dark service showcase",
+      "progressive booking step cards",
+      "split branded admin authentication"
+    ]
   },
   "constraints": {
     "must": [
@@ -40,17 +83,29 @@
     "avoid": [
       "Do not edit style.css or admin-v2.css directly",
       "Do not use !important or duplicate override layers",
-      "Do not redesign existing pages without explicit approval",
       "Do not enable zoom in standalone admin PWA",
-      "Do not run tests in GitHub Actions"
+      "Do not run tests in GitHub Actions",
+      "Do not use decorative glass or gradients without a functional reason",
+      "Do not introduce a new font family or radius tier"
     ]
   },
-  "decisions": [],
-  "evidence": [
+  "decisions": [
     {
-      "fact": "project.instructions",
-      "source": "AGENTS.md"
+      "date": "2026-09-01",
+      "decision": "Adopt a quiet-luxury editorial redesign for the TEST critical views.",
+      "reason": "The user explicitly approved a redesign; the direction preserves LumiNails imagery and typography while improving hierarchy, booking clarity, contrast and responsive behavior."
+    },
+    {
+      "date": "2026-09-01",
+      "decision": "Use deep cacao as the primary action and dark showcase color, with warm ivory surfaces and muted blush accents.",
+      "reason": "This keeps the beauty-studio character while providing stronger text and control contrast than the previous dusty rose primary."
     }
   ],
-  "generatedAt": "2026-09-01T03:15:18.667Z"
+  "evidence": [
+    { "fact": "project.instructions", "source": "AGENTS.md" },
+    { "fact": "design.system", "source": "docs/design-system.md" },
+    { "fact": "visual.audit", "source": "docs/visual-audit.md" },
+    { "fact": "implemented.critical.views", "source": "index.html, foglalas/index.html, admin/index.html" }
+  ],
+  "generatedAt": "2026-09-01T00:00:00+02:00"
 }

@@ -24,7 +24,8 @@
     font-size: clamp(48px, 5.7vw, 78px);
     letter-spacing: -0.035em;
     line-height: 0.92;
-    white-space: nowrap;
+    text-wrap: balance;
+    white-space: normal;
 }
 
 .galeria-showcase-fej h2 em {
@@ -190,7 +191,7 @@
     margin: 0;
     padding: 8px;
     border: 1px solid var(--ui-line);
-    border-radius: 5px;
+    border-radius: 18px;
     background: var(--ui-surface);
     box-shadow: 0 22px 52px rgba(55, 40, 35, 0.12);
     object-fit: contain;
@@ -243,7 +244,7 @@
     min-height: 54px;
     padding: 6px 8px;
     border: 1px solid rgba(67, 49, 43, 0.16);
-    border-radius: 4px;
+    border-radius: 14px;
     background: rgba(255, 253, 249, 0.82);
     box-shadow: 0 14px 34px rgba(55, 40, 35, 0.08);
     transform: translateX(-50%);
@@ -272,7 +273,7 @@
     height: 30px;
     place-items: center;
     border: 1px solid var(--ui-line-strong);
-    border-radius: 3px;
+    border-radius: 10px;
     background: transparent;
     font-size: 14px;
     line-height: 1;

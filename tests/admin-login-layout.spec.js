@@ -27,7 +27,7 @@ test('mobile login is a centered compact card with accessible controls', async (
   expect(Math.abs((box.x * 2 + box.width) - 390)).toBeLessThanOrEqual(2);
 
   const titleSize = parseFloat(await page.locator('.admin-cim').evaluate(el => getComputedStyle(el).fontSize));
-  expect(titleSize).toBeLessThanOrEqual(36);
+  expect(titleSize).toBeLessThanOrEqual(42);
   expect(titleSize).toBeGreaterThanOrEqual(30);
 
   const inputBox = await page.locator('.urlap-mezo').boundingBox();
