@@ -30,6 +30,7 @@ function fixtures() {
                 ends_at: isoAt(0, 12),
                 status: 'confirmed',
                 created_at: isoAt(-4, 12),
+                paid_amount: 6500,
                 coupon_code: '',
                 coupon_title: '',
                 nail_style: 'Francia',
@@ -377,6 +378,7 @@ async function installSupabaseBoundaryMock(page) {
                     return { data: clone(seed.admin_registered_customer_profiles), error: null };
                 }
                 if (name === 'apply_admin_booking_changes') {
+                    window.__adminLastRpc = clone({ name, args });
                     for (const change of args?.p_changes || []) {
                         const rows = change.type === 'blocked' ? seed.blocked_times : seed.bookings;
                         const row = rows.find(item => item.id === change.id);
@@ -384,6 +386,7 @@ async function installSupabaseBoundaryMock(page) {
                         row.status = change.status;
                         row.starts_at = change.starts_at;
                         row.ends_at = change.ends_at;
+                        row.paid_amount = change.paid_amount;
                         if (change.type === 'blocked') row.reason = change.reason;
                     }
                     return { data: { email_jobs: [] }, error: null };
@@ -578,6 +581,74 @@ test.describe('production admin redesign', () => {
         }));
         expect(overflow.body).toBeLessThanOrEqual(overflow.viewport);
         expect(overflow.root).toBeLessThanOrEqual(overflow.viewport);
+        expect(browserErrors).toEqual([]);
+    });
+
+    test('paid amounts can be reviewed and saved for online and manual bookings on mobile', async ({ page }) => {
+        const browserErrors = await openAdmin(page, { width: 390, height: 844 });
+
+        await page.getByRole('button', { name: 'Navigáció megnyitása' }).click();
+        await page.locator('.admin-v2-sidebar [data-admin-v2-nav="foglalasok"]').click();
+        const panel = page.locator('#admin-panel-foglalasok');
+        const saveButton = panel.getByRole('button', { name: 'Módosítások mentése' });
+
+        let onlineCard = panel.locator('.admin-foglalas-kartya').filter({ hasText: 'Nagy Anna' });
+        await onlineCard.locator('h3').click();
+        await expect(onlineCard.locator('.admin-foglalas-meta-fizetett')).toContainText('6 500 Ft');
+        await onlineCard.getByRole('button', { name: 'Szerkesztés' }).click();
+        const onlineAmount = onlineCard.locator('[data-idopont-mezo="paid_amount"]');
+        await expect(onlineAmount).toBeEnabled();
+        await onlineAmount.fill('7000');
+        await onlineAmount.blur();
+        await expect(onlineAmount).toHaveAttribute('aria-invalid', 'false');
+        await saveButton.click();
+
+        let lastRpc = await page.evaluate(() => window.__adminLastRpc);
+        expect(lastRpc.name).toBe('apply_admin_booking_changes');
+        expect(lastRpc.args.p_changes).toEqual(expect.arrayContaining([
+            expect.objectContaining({
+                id: '00000000-0000-4000-8000-000000000001',
+                type: 'booking',
+                paid_amount: 7000
+            })
+        ]));
+
+        onlineCard = panel.locator('.admin-foglalas-kartya').filter({ hasText: 'Nagy Anna' });
+        await onlineCard.locator('h3').click();
+        await expect(onlineCard.locator('.admin-foglalas-meta-fizetett')).toContainText('7 000 Ft');
+
+        let manualCard = panel.locator('.admin-foglalas-kartya').filter({ hasText: 'Adminisztracio' });
+        await manualCard.locator('h3').click();
+        await expect(manualCard.locator('.admin-foglalas-meta-fizetett')).toContainText('Nincs rögzítve');
+        await manualCard.getByRole('button', { name: 'Szerkesztés' }).click();
+        const manualAmount = manualCard.locator('[data-idopont-mezo="paid_amount"]');
+        await manualAmount.fill('-1');
+        await manualAmount.blur();
+        await expect(manualAmount).toHaveAttribute('aria-invalid', 'true');
+        await expect(manualCard.locator('.admin-fizetett-osszeg-hiba')).toContainText('0 vagy annál nagyobb');
+        await manualAmount.fill('5000');
+        await saveButton.click();
+
+        lastRpc = await page.evaluate(() => window.__adminLastRpc);
+        expect(lastRpc.args.p_changes).toEqual(expect.arrayContaining([
+            expect.objectContaining({
+                id: '00000000-0000-4000-8000-000000000100',
+                type: 'blocked',
+                paid_amount: 5000
+            })
+        ]));
+
+        manualCard = panel.locator('.admin-foglalas-kartya').filter({ hasText: 'Adminisztracio' });
+        await manualCard.locator('h3').click();
+        await expect(manualCard.locator('.admin-foglalas-meta-fizetett')).toContainText('5 000 Ft');
+
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        expect(overflow).toBeLessThanOrEqual(1);
+
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        const desktopOverflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        expect(desktopOverflow).toBeLessThanOrEqual(1);
+        await expect(manualCard.locator('.admin-foglalas-meta-fizetett')).toContainText('5 000 Ft');
         expect(browserErrors).toEqual([]);
     });
 

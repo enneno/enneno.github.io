@@ -67,6 +67,7 @@
             jelszoModositasa();
         });
         elemek.foglalasFrissites?.addEventListener('click', foglalasokBetoltese);
+        elemek.foglalasLista?.addEventListener('focusout', foglalasListaFokuszElhagyas);
         elemek.vendegLemondasMegnyitas?.addEventListener('click', vendegLemondasokMegnyitasa);
         elemek.vendegLemondasTudomasulvetel?.addEventListener('click', vendegLemondasokTudomasulvetele);
         elemek.esemenynaploFrissites?.addEventListener('click', esemenynaploBetoltese);

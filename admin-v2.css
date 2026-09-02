@@ -3713,6 +3713,19 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   border-radius: 12px;
   resize: vertical;
 }
+.admin-body.admin-v2 #admin-panel-foglalasok .admin-fizetett-osszeg-seged {
+  margin: 0;
+  color: var(--admin-v2-subtle);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.admin-body.admin-v2 #admin-panel-foglalasok [data-idopont-mezo="paid_amount"][aria-invalid="true"] {
+  border-color: var(--admin-v2-danger);
+}
+.admin-body.admin-v2 #admin-panel-foglalasok .admin-fizetett-osszeg-hiba {
+  color: var(--admin-v2-danger);
+}
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-db-akciok {
   margin-top: 7px;
   padding: 7px 0 12px;
