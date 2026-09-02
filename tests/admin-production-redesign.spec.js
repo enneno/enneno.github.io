@@ -593,18 +593,6 @@ test.describe('production admin redesign', () => {
         const saveButton = panel.getByRole('button', { name: 'Módosítások mentése' });
 
         let onlineCard = panel.locator('.admin-foglalas-kartya').filter({ hasText: 'Nagy Anna' });
-        const nameMetrics = await onlineCard.locator('h3').evaluate(element => {
-            const style = getComputedStyle(element);
-            return {
-                fontSize: Number.parseFloat(style.fontSize),
-                lineHeight: Number.parseFloat(style.lineHeight),
-                paddingBottom: Number.parseFloat(style.paddingBottom),
-                height: element.getBoundingClientRect().height
-            };
-        });
-        expect(nameMetrics.lineHeight).toBeGreaterThanOrEqual(nameMetrics.fontSize * 1.29);
-        expect(nameMetrics.paddingBottom).toBeGreaterThanOrEqual(2);
-        expect(nameMetrics.height).toBeGreaterThanOrEqual(nameMetrics.lineHeight + nameMetrics.paddingBottom - 0.5);
         await onlineCard.locator('h3').click();
         await expect(onlineCard.locator('.admin-foglalas-meta-fizetett')).toContainText('6 500 Ft');
         await onlineCard.getByRole('button', { name: 'Szerkesztés' }).click();
@@ -679,6 +667,44 @@ test.describe('production admin redesign', () => {
         const desktopOverflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         expect(desktopOverflow).toBeLessThanOrEqual(1);
         await expect(manualCard.locator('.admin-foglalas-meta-fizetett')).toContainText('5 000 Ft');
+        expect(browserErrors).toEqual([]);
+    });
+
+    test('mobile booking card names keep descenders visible', async ({ page }) => {
+        const browserErrors = await openAdmin(page, { width: 390, height: 844 });
+
+        await page.getByRole('button', { name: 'Navigáció megnyitása' }).click();
+        await page.locator('.admin-v2-sidebar [data-admin-v2-nav="foglalasok"]').click();
+        const headings = page.locator('#admin-panel-foglalasok .admin-foglalas-nev-blokk h3');
+        await expect(headings).toHaveCount(6);
+
+        const metrics = await headings.evaluateAll(elements => elements.map(element => {
+            const style = getComputedStyle(element);
+            const elementRect = element.getBoundingClientRect();
+            const textRange = document.createRange();
+            textRange.selectNodeContents(element);
+            const textRect = textRange.getBoundingClientRect();
+            return {
+                text: element.textContent.trim(),
+                fontSize: Number.parseFloat(style.fontSize),
+                lineHeight: Number.parseFloat(style.lineHeight),
+                paddingBottom: Number.parseFloat(style.paddingBottom),
+                height: elementRect.height,
+                textBottomClearance: elementRect.bottom - textRect.bottom
+            };
+        }));
+
+        expect(metrics.some(metric => metric.text === 'Nagy Anna')).toBe(true);
+        for (const metric of metrics) {
+            expect(metric.lineHeight, `${metric.text}: line-height`).toBeGreaterThanOrEqual(metric.fontSize * 1.29);
+            expect(metric.paddingBottom, `${metric.text}: bottom padding`).toBeGreaterThanOrEqual(2);
+            expect(metric.height, `${metric.text}: element height`)
+                .toBeGreaterThanOrEqual(metric.lineHeight + metric.paddingBottom - 0.5);
+            expect(metric.textBottomClearance, `${metric.text}: text bottom clearance`).toBeGreaterThanOrEqual(1.5);
+        }
+
+        expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth))
+            .toBeLessThanOrEqual(1);
         expect(browserErrors).toEqual([]);
     });
 
