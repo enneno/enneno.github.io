@@ -703,10 +703,12 @@
             : `${inputErtek.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} Ft`;
     }
 
-    function fizetettOsszegMezoHtml(azonosito, ertek) {
+    function fizetettOsszegMezoHtml(azonosito, ertek, opciok = {}) {
         const hibaId = `admin-fizetett-osszeg-hiba-${azonosito}`;
-        return `<label class="admin-mezo admin-mezo-szeles admin-fizetett-osszeg-mezo">
-            Fizetett összeg (Ft)
+        const szelesOsztaly = opciok.szeles === false ? '' : ' admin-mezo-szeles';
+        const cimke = opciok.cimke || 'Fizetett összeg (Ft)';
+        return `<label class="admin-mezo${szelesOsztaly} admin-fizetett-osszeg-mezo">
+            ${html(cimke)}
             <input type="number" min="0" max="2147483647" step="1" inputmode="numeric" data-idopont-mezo="paid_amount" value="${attr(fizetettOsszegInputErtek(ertek))}" aria-describedby="${attr(hibaId)}" disabled>
             <small id="${attr(hibaId)}" class="admin-fizetett-osszeg-seged">Üresen hagyva nincs még fizetés rögzítve.</small>
         </label>`;
@@ -1045,8 +1047,10 @@
                 <label class="admin-mezo">Dátum<input type="date" data-idopont-mezo="date" value="${attr(datumInputErtek(tiltas.starts_at))}" disabled></label>
                 <label class="admin-mezo">Kezdés<input type="time" data-idopont-mezo="start_time" value="${attr(idoInputErtek(tiltas.starts_at))}" disabled></label>
                 <label class="admin-mezo">Vége<input type="time" data-idopont-mezo="end_time" value="${attr(idoInputErtek(tiltas.ends_at))}" disabled></label>
-                ${fizetettOsszegMezoHtml(tiltas.id, tiltas.paid_amount)}
-                <label class="admin-mezo admin-mezo-szeles">Név / megjegyzés<input type="text" data-idopont-mezo="reason" value="${attr(megjegyzes)}" required disabled></label>
+                <div class="admin-kezi-foglalas-also-sor">
+                    <label class="admin-mezo">Név / megjegyzés<input type="text" data-idopont-mezo="reason" value="${attr(megjegyzes)}" required disabled></label>
+                    ${fizetettOsszegMezoHtml(tiltas.id, tiltas.paid_amount, { szeles: false, cimke: 'Összeg (Ft)' })}
+                </div>
             </div>
             <div class="admin-db-akciok">
                 <button type="button" class="admin-kis-gomb admin-veszely-gomb" data-foglalas-torles>Eltávolítás</button>

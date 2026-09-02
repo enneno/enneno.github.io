@@ -593,6 +593,18 @@ test.describe('production admin redesign', () => {
         const saveButton = panel.getByRole('button', { name: 'Módosítások mentése' });
 
         let onlineCard = panel.locator('.admin-foglalas-kartya').filter({ hasText: 'Nagy Anna' });
+        const nameMetrics = await onlineCard.locator('h3').evaluate(element => {
+            const style = getComputedStyle(element);
+            return {
+                fontSize: Number.parseFloat(style.fontSize),
+                lineHeight: Number.parseFloat(style.lineHeight),
+                paddingBottom: Number.parseFloat(style.paddingBottom),
+                height: element.getBoundingClientRect().height
+            };
+        });
+        expect(nameMetrics.lineHeight).toBeGreaterThanOrEqual(nameMetrics.fontSize * 1.29);
+        expect(nameMetrics.paddingBottom).toBeGreaterThanOrEqual(2);
+        expect(nameMetrics.height).toBeGreaterThanOrEqual(nameMetrics.lineHeight + nameMetrics.paddingBottom - 0.5);
         await onlineCard.locator('h3').click();
         await expect(onlineCard.locator('.admin-foglalas-meta-fizetett')).toContainText('6 500 Ft');
         await onlineCard.getByRole('button', { name: 'Szerkesztés' }).click();
@@ -622,11 +634,29 @@ test.describe('production admin redesign', () => {
         await expect(manualCard.locator('.admin-foglalas-meta-fizetett')).toContainText('Nincs rögzítve');
         await manualCard.getByRole('button', { name: 'Szerkesztés' }).click();
         const manualAmount = manualCard.locator('[data-idopont-mezo="paid_amount"]');
+        const manualReason = manualCard.locator('[data-idopont-mezo="reason"]');
+        const lowerRowMetrics = await manualCard.locator('.admin-kezi-foglalas-also-sor').evaluate(element => {
+            const reason = element.querySelector('[data-idopont-mezo="reason"]')?.closest('label');
+            const amount = element.querySelector('[data-idopont-mezo="paid_amount"]')?.closest('label');
+            const reasonRect = reason.getBoundingClientRect();
+            const amountRect = amount.getBoundingClientRect();
+            return {
+                topDifference: Math.abs(reasonRect.top - amountRect.top),
+                widthRatio: reasonRect.width / amountRect.width
+            };
+        });
+        expect(lowerRowMetrics.topDifference).toBeLessThanOrEqual(1);
+        expect(lowerRowMetrics.widthRatio).toBeGreaterThan(1.45);
+        expect(lowerRowMetrics.widthRatio).toBeLessThan(1.55);
+        await expect(manualReason).toBeEnabled();
         await manualAmount.fill('-1');
         await manualAmount.blur();
         await expect(manualAmount).toHaveAttribute('aria-invalid', 'true');
         await expect(manualCard.locator('.admin-fizetett-osszeg-hiba')).toContainText('0 vagy annál nagyobb');
         await manualAmount.fill('5000');
+        if (process.env.LUMI_CAPTURE_ADMIN_REDESIGN === '1') {
+            await page.screenshot({ path: 'test-results/admin-paid-amount-layout-mobile.png', fullPage: true });
+        }
         await saveButton.click();
 
         lastRpc = await page.evaluate(() => window.__adminLastRpc);
