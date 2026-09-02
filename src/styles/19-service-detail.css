@@ -49,7 +49,7 @@
     max-width: 920px;
     margin: 18px 0 26px;
     color: var(--ui-off-white);
-    font-family: "Cormorant Garamond", serif;
+    font-family: "Playfair Display", serif;
     font-size: clamp(62px, 7.5vw, 104px);
     font-weight: 600;
     letter-spacing: -0.052em;
@@ -111,7 +111,7 @@
 
 .seo-szolgaltatas-ugras a {
     color: var(--ui-muted);
-    font-family: "Manrope", sans-serif;
+    font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-label);
     font-weight: 700;
     text-decoration-color: var(--ui-line-strong);
@@ -135,7 +135,7 @@
 .seo-gyik h2,
 .seo-szolgaltatas-zaras h2 {
     margin: 14px 0 0;
-    font-family: "Cormorant Garamond", serif;
+    font-family: "Playfair Display", serif;
     font-size: clamp(42px, 5vw, 66px);
     font-weight: 600;
     letter-spacing: -0.035em;
@@ -228,7 +228,7 @@
 .seo-szolgaltatas-kepek h2 {
     margin: 0;
     color: var(--ui-ink);
-    font-family: "Cormorant Garamond", serif;
+    font-family: "Playfair Display", serif;
     font-size: clamp(42px, 5vw, 66px);
     font-weight: 600;
     letter-spacing: -0.035em;
@@ -298,7 +298,7 @@
 .seo-gyik-lista h3 {
     margin: 0 0 14px;
     color: var(--ui-ink);
-    font-family: "Cormorant Garamond", serif;
+    font-family: "Playfair Display", serif;
     font-size: 28px;
     font-weight: 600;
     line-height: 1.15;

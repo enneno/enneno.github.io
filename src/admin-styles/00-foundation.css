@@ -1,39 +1,40 @@
 /* Admin foundation: tokens, reset and shared brand primitives only. */
 :root {
-  --akcentus: #7a4d44;
-  --akcentus-vilagos: #c99f96;
-  --tinta: #2c211e;
-  --barna: #5c4b46;
-  --krem: #f8f3ed;
-  --kartya: #fffcf8;
-  --szoveg: #695a55;
-  --rozsa-halvany: #ead2cc;
+  --akcentus: #dd8ea4;
+  --akcentus-vilagos: #e8afbf;
+  --tinta: #31383f;
+  --barna: #596067;
+  --krem: #e3dcd2;
+  --kartya: #f2e9eb;
+  --szoveg: #62686d;
+  --rozsa-halvany: #ead4da;
   --zsalyaszurke: #a7b7a1;
 
-  --ui-primary: #5d3d36;
-  --ui-on-primary: #fffaf6;
-  --ui-accent: #e8c9c3;
-  --ui-on-accent: #2c211e;
-  --ui-bg: #f8f3ed;
-  --ui-surface: #fffcf8;
-  --ui-soft: #ede2da;
-  --ui-highlight: #f5e6e1;
-  --ui-warm: #ead2cc;
-  --ui-off-black: #2c211e;
-  --ui-off-white: #fffaf6;
+  --ui-primary: #dd8ea4;
+  --ui-on-primary: #31383f;
+  --ui-accent: #dd8ea4;
+  --ui-on-accent: #31383f;
+  --ui-bg: #e3dcd2;
+  --ui-surface: #f2e9eb;
+  --ui-soft: #e9dfe1;
+  --ui-highlight: #dd8ea4;
+  --ui-warm: #cc8b65;
+  --ui-off-black: #31383f;
+  --ui-off-white: #f2e9eb;
+  --ui-on-dark: #f2e9eb;
   --ui-ink: var(--ui-primary);
-  --ui-muted: #695a55;
+  --ui-muted: #62686d;
   --ui-rose: var(--ui-accent);
-  --ui-rose-dark: var(--ui-primary);
-  --ui-line: rgba(93, 61, 54, 0.14);
-  --ui-line-strong: rgba(93, 61, 54, 0.28);
+  --ui-rose-dark: #cc8b65;
+  --ui-line: rgba(221, 142, 164, 0.19);
+  --ui-line-strong: rgba(49, 56, 63, 0.28);
   --ui-header-height: 82px;
 
   --lumi-radius-pill: 999px;
-  --lumi-radius-card: 24px;
-  --lumi-radius-control: 14px;
+  --lumi-radius-card: 4px;
+  --lumi-radius-control: 3px;
   --lumi-button-height: 44px;
-  --lumi-button-font: 'Outfit', 'Montserrat', sans-serif;
+  --lumi-button-font: 'DM Sans', sans-serif;
   --lumi-font-micro: 11px;
   --lumi-font-caption: 13px;
   --lumi-font-label: 14px;
@@ -44,15 +45,15 @@
   --lumi-font-button-compact: 12px;
   --lumi-font-control: 18px;
   --lumi-font-calendar: 11px;
-  --lumi-control-bg: rgba(255, 252, 248, 0.96);
-  --lumi-control-border: rgba(93, 61, 54, 0.2);
-  --lumi-control-border-strong: rgba(93, 61, 54, 0.48);
-  --lumi-control-focus: 0 0 0 3px rgba(122, 77, 68, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.78);
-  --lumi-soft-shadow: 0 16px 38px rgba(44, 33, 30, 0.1);
+  --lumi-control-bg: #f2e9eb;
+  --lumi-control-border: rgba(49, 56, 63, 0.2);
+  --lumi-control-border-strong: rgba(49, 56, 63, 0.44);
+  --lumi-control-focus: 0 0 0 3px rgba(221, 142, 164, 0.24);
+  --lumi-soft-shadow: 0 16px 38px rgba(49, 56, 63, 0.1);
   --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%2364524d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
   --szin-szoveg: var(--ui-ink);
   --szin-szoveg-halvany: var(--ui-muted);
   --szin-kiemeles: var(--ui-primary);
@@ -80,6 +81,7 @@ html[data-admin-theme="dark"] {
   --ui-warm: #3a2a27;
   --ui-off-black: #f4ece8;
   --ui-off-white: #fff9f5;
+  --ui-on-dark: #fff9f5;
   --ui-ink: #eee5e1;
   --ui-muted: #b5a8a2;
   --ui-rose: #4b3531;
@@ -100,7 +102,7 @@ html[data-admin-theme="dark"] {
 }
 
 html {
-  --admin-page-bg: #f7f4f1;
+  --admin-page-bg: #e3dcd2;
   --admin-native-color-scheme: light;
   --lumi-control-inset: inset 0 1px 0 rgba(255, 255, 255, 0.75);
   min-width: 100%;
@@ -129,7 +131,7 @@ body.admin-body {
   overflow-x: hidden;
   color: var(--tinta);
   background: var(--admin-page-bg);
-  font-family: 'Manrope', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -163,7 +165,7 @@ body.admin-body [hidden] {
 }
 
 .logo-lumi {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 34px;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -173,7 +175,7 @@ body.admin-body [hidden] {
 .logo-nails {
   position: relative;
   padding-left: 11px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: var(--lumi-font-micro);
   font-weight: 600;
   letter-spacing: 0.28em;
@@ -206,7 +208,7 @@ body.admin-body [hidden] {
   border-radius: 3px;
   color: var(--ui-on-primary);
   background: var(--ui-rose-dark);
-  font-family: 'Manrope', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: var(--lumi-font-button);
   font-weight: 600;
   line-height: 1.15;
@@ -230,7 +232,7 @@ body.admin-body [hidden] {
   border-radius: var(--lumi-radius-control);
   color: var(--tinta);
   background: var(--lumi-control-bg);
-  font-family: 'Manrope', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: var(--lumi-font-control);
   color-scheme: var(--admin-native-color-scheme);
 }

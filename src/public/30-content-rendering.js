@@ -423,6 +423,15 @@ function galeriaAdatokAlkalmazasa(galeria) {
         kep.decoding = 'async';
         if (index === 0) kep.fetchPriority = 'high';
         gomb.appendChild(kep);
+
+        const felirat = document.createElement('span');
+        felirat.className = 'galeria-kep-felirat';
+        const cim = document.createElement('strong');
+        cim.textContent = elem.kepAlt || 'Lumi Nails köröm munka';
+        const meta = document.createElement('small');
+        meta.textContent = 'Lumi Nails · Tatabánya';
+        felirat.append(cim, meta);
+        gomb.appendChild(felirat);
         racs.appendChild(gomb);
     });
 }
@@ -484,7 +493,13 @@ function fooldalAdatokAlkalmazasa(fooldal, teljesGaleria) {
 
     const heroAdatok = fooldal.hero || {};
     szovegBeallitasa('.hero-kicker', heroAdatok.kicker);
-    szovegBeallitasa('.hero-content h1', heroAdatok.cim);
+    const heroCim = document.querySelector('.hero-content h1');
+    if (heroCim && heroAdatok.cim !== undefined) {
+        const cimReszek = String(heroAdatok.cim || '').trim().split(/\s+/).filter(Boolean);
+        heroCim.innerHTML = cimReszek.length > 1
+            ? `<span class="hero-title-line">${html(cimReszek.slice(0, -1).join(' '))}</span><span class="hero-title-line">${html(cimReszek.at(-1))}</span>`
+            : `<span class="hero-title-line">${html(cimReszek[0] || '')}</span>`;
+    }
     szovegBeallitasa('.hero-content > p', heroAdatok.leiras);
     szovegBeallitasa('.hero-primary', heroAdatok.gombSzoveg);
 

@@ -9,17 +9,17 @@
   --admin-v2-workspace-top-gap: 28px;
   --admin-v2-workspace-inline-gap: 42px;
   --admin-v2-workspace-bottom-gap: 50px;
-  --admin-v2-bg: #f4eee8;
-  --admin-v2-surface: #fffcf8;
-  --admin-v2-surface-soft: #f9f4ee;
-  --admin-v2-border: #e4d8d0;
-  --admin-v2-border-strong: #cdbdb4;
-  --admin-v2-ink: #2c211e;
-  --admin-v2-muted: #6d5e59;
-  --admin-v2-subtle: #8d7e78;
-  --admin-v2-brand: #7a4d44;
-  --admin-v2-brand-dark: #5d3d36;
-  --admin-v2-brand-soft: #ead8d2;
+  --admin-v2-bg: #e3dcd2;
+  --admin-v2-surface: #f2e9eb;
+  --admin-v2-surface-soft: #e9dfe1;
+  --admin-v2-border: rgba(49, 56, 63, 0.16);
+  --admin-v2-border-strong: rgba(49, 56, 63, 0.3);
+  --admin-v2-ink: #31383f;
+  --admin-v2-muted: #62686d;
+  --admin-v2-subtle: #7a7f83;
+  --admin-v2-brand: #dd8ea4;
+  --admin-v2-brand-dark: #31383f;
+  --admin-v2-brand-soft: #ead4da;
   --admin-v2-success: #446f58;
   --admin-v2-success-soft: #e8f1eb;
   --admin-v2-warning: #916329;
@@ -28,11 +28,11 @@
   --admin-v2-danger-soft: #f7e7e7;
   --admin-v2-info: #4e667b;
   --admin-v2-info-soft: #e9eff4;
-  --admin-v2-shadow: 0 22px 60px rgba(44, 33, 30, 0.1);
-  --admin-v2-glass: rgba(255, 252, 248, 0.94);
-  --admin-v2-auth-glass: #fffcf8;
-  --admin-v2-neutral-soft: #eeeae7;
-  --admin-v2-divider-soft: #f0eae6;
+  --admin-v2-shadow: 0 22px 60px rgba(49, 56, 63, 0.1);
+  --admin-v2-glass: rgba(242, 233, 235, 0.94);
+  --admin-v2-auth-glass: #f2e9eb;
+  --admin-v2-neutral-soft: #ded6d4;
+  --admin-v2-divider-soft: #e5dadd;
   --admin-v2-switch-knob: #ffffff;
   --lumi-font-body: 16px;
   --lumi-font-body-small: 14px;
@@ -133,7 +133,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   padding: 0;
   overflow: hidden;
   border: 1px solid var(--admin-v2-border);
-  border-radius: 28px;
+  border-radius: var(--lumi-radius-card);
   background: var(--admin-v2-auth-glass);
   box-shadow: var(--admin-v2-shadow);
 }
@@ -225,7 +225,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
     margin-top: max(56px, calc(env(safe-area-inset-top, 0px) + 24px));
     margin-bottom: 32px;
     padding: 30px 24px;
-    border-radius: 22px;
+    border-radius: var(--lumi-radius-card);
   }
 
   .admin-body.admin-v2 .admin-auth-brand {

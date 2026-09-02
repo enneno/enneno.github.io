@@ -20,7 +20,7 @@
 .galeria-showcase-fej h2 {
     margin: 14px 0 0;
     color: var(--ui-off-black);
-    font-family: "Cormorant Garamond", serif;
+    font-family: "Playfair Display", serif;
     font-size: clamp(48px, 5.7vw, 78px);
     letter-spacing: -0.035em;
     line-height: 0.92;
@@ -328,7 +328,7 @@
 .galeria-kartya-allapot {
     min-width: 34px;
     color: var(--ui-muted);
-    font-family: "Manrope", sans-serif;
+    font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-micro);
     font-weight: 700;
     letter-spacing: 0.06em;

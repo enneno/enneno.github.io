@@ -1,5 +1,14 @@
 # LumiNails vizuális audit
 
+## Figma implementáció — 2026-09-02
+
+- A megadott Figma-fájl hat fő frame-je (Homepage, Galéria, Árlista, Fiókom, Időpontfoglalás és Admin) össze lett vetve a TEST komponenseivel.
+- A domináns, ismétlődő rendszer lett irányadó: `#e3dcd2` canvas, `#f2e9eb` surface, `#31383f` tinta, `#dd8ea4` rózsaszín és `#cc8b65` terrakotta; Playfair Display + DM Sans.
+- A Figma eltérő footer-változatai tervezési inkonzisztenciának minősültek. A kódban minden publikus oldal ugyanazt a homepage footer-komponenst használja.
+- A Figma frame-ek alján látható üres terület nem lett implementálva. Rövid oldalon a fő tartalom tölti ki a viewportot, a footer után nincs külön felület.
+- A főoldali galéria meglévő képei és sorrendje megmaradt. A galériaoldalon minden képkártya ugyanazt a felirat-hátteret kapja, kijavítva azt az eltérést, hogy csak az első kártyán szerepelt.
+- A véletlen font-, radius- és padding-eltérések egységesítve lettek; az admin funkcionális állapotszínei és a standalone PWA nagyítási szabálya megmaradt.
+
 Audit dátuma: 2026-09-01. Vizsgált TEST nézetek: kezdőlap 1440 × 1000 és 390 × 844, foglalás 390 × 844, admin belépés 1440 × 1000 és 390 × 844.
 
 ## Áttervezési frissítés — 2026-09-01

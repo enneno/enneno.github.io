@@ -2,32 +2,27 @@
 
 ## Direction
 
-The TEST UI uses a quiet-luxury editorial direction: warm ivory canvas, deep cacao primary actions and showcase surfaces, muted blush accents, large Cormorant Garamond headings, and Manrope for functional text.
+The TEST UI follows the supplied Figma file: a light editorial beauty-salon system using a dusty pink accent, slate ink, warm greige canvas, pale pink surfaces, and a restrained terracotta secondary accent.
 
 ## Core tokens
 
-- Primary: `#5d3d36`; on-primary: `#fffaf6`.
-- Background: `#f8f3ed`; surface: `#fffcf8`; foreground: `#2c211e`.
-- Accent: `#e8c9c3`; muted text: `#695a55`.
-- Control radius: `14px`; card radius: `24px`; the desktop home hero is full-bleed, while its mobile image card uses `22px`.
-- Shared public content width: `1240px`; responsive section padding comes from `--lumi-section-padding-inline` and `--lumi-section-padding-block`.
-- Public layout is spacious. Admin workspace remains compact and supports its existing dark theme.
+- Primary `#dd8ea4`; ink/footer `#31383f`.
+- Background `#e3dcd2`; surface `#f2e9eb`; warm accent `#cc8b65`.
+- Display typography: Playfair Display. Functional typography: DM Sans.
+- Card radius 4px; control radius 3px; pill only for semantic pills/circular controls.
+- Shared content width 1200px and responsive `--ui-gutter`.
 
 ## Patterns
 
-- Full-bleed split editorial home hero with one primary booking CTA; mobile keeps the same ivory color hierarchy.
-- Dark service showcase with readable image overlays.
-- Progressive booking steps use lightly tinted blush panels, ivory cards and deep cacao active actions.
-- Split branded admin authentication on desktop and a compact single card on mobile.
+- Full-width split homepage hero with existing homepage imagery.
+- Full-width split introduction, dark service showcase, and pink account/booking CTA.
+- Two-column desktop gallery with consistent caption backgrounds on every image; one column on mobile.
+- One shared dark footer across all public pages, pinned after the page content without trailing canvas.
+- Compact admin workspace using the same light palette while preserving its functional dark theme.
 
 ## Constraints
 
-- Edit source CSS and rebuild generated bundles.
-- Preserve public/admin CSS ownership and existing flows.
-- Use semantic tokens, visible focus, 44 px touch targets, and 16 px mobile inputs.
-- Do not use `!important`, duplicate override layers, decorative glass, or ungrounded gradients.
-- Do not add tests to GitHub Actions or change the LIVE project without separate approval.
-
-## Decision record
-
-The user explicitly approved this redesign on 2026-09-01. The original quiet-luxury palette was restored on 2026-09-02 while retaining the later layout and responsive fixes. The component direction is recorded in `.21st/design.json` and detailed in `docs/design-system.md`.
+- Source CSS only; rebuild generated bundles.
+- Preserve existing flows, gallery image files and admin PWA zoom policy.
+- No `!important`, duplicate override layers or GitHub test jobs.
+- Visible focus, minimum 44px touch targets and minimum 16px mobile form text.

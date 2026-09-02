@@ -92,7 +92,7 @@ test.describe('kritikus vizuális nézetek', () => {
             };
         });
 
-        expect(metrics.cardRadius).toBe(22);
+        expect(metrics.cardRadius).toBe(4);
         expect(metrics.cardBorderWidth).toBe(1);
         expect(metrics.labelTopRadius).toBe(0);
         expect(metrics.labelBottomRadius).toBe(0);
@@ -128,9 +128,12 @@ test.describe('kritikus vizuális nézetek', () => {
                 heroRadius: Number.parseFloat(getComputedStyle(hero).borderRadius),
                 visualInsideHero: visualRect.top >= heroRect.top - 1
                     && visualRect.bottom <= heroRect.bottom + 1,
-                sharedLeftEdges: [intro, services, gallery].every((element) =>
-                    Math.abs(element.getBoundingClientRect().left - introRect.left) <= 1),
-                introParagraphUsesTextColumn: Math.abs(paragraphRect.width - introTextRect.width) <= 1,
+                introIsFullWidth: Math.round(introRect.width) === window.innerWidth,
+                introTextHasBreathingRoom: introTextRect.left > introRect.left + 40,
+                sharedContentLeftEdges: Math.abs(
+                    services.getBoundingClientRect().left - gallery.getBoundingClientRect().left
+                ) <= 1,
+                introParagraphIsReadable: paragraphRect.width <= 760,
                 documentWidth: document.documentElement.scrollWidth
             };
         });
@@ -138,8 +141,10 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(desktop.heroWidth).toBe(1440);
         expect(desktop.heroRadius).toBe(0);
         expect(desktop.visualInsideHero).toBe(true);
-        expect(desktop.sharedLeftEdges).toBe(true);
-        expect(desktop.introParagraphUsesTextColumn).toBe(true);
+        expect(desktop.introIsFullWidth).toBe(true);
+        expect(desktop.introTextHasBreathingRoom).toBe(true);
+        expect(desktop.sharedContentLeftEdges).toBe(true);
+        expect(desktop.introParagraphIsReadable).toBe(true);
         expect(desktop.documentWidth).toBe(1440);
 
         await page.setViewportSize({ width: 390, height: 844 });
@@ -149,7 +154,9 @@ test.describe('kritikus vizuális nézetek', () => {
             const lines = Array.from(hamburger.querySelectorAll('span'));
             return {
                 heroBackground: getComputedStyle(hero).backgroundColor,
+                surfaceToken: getComputedStyle(document.documentElement).getPropertyValue('--ui-surface').trim(),
                 hamburgerColor: getComputedStyle(hamburger).color,
+                inkToken: getComputedStyle(document.documentElement).getPropertyValue('--ui-off-black').trim(),
                 linesVisible: lines.every((line) => {
                     const rect = line.getBoundingClientRect();
                     return rect.width >= 18 && rect.height >= 1;
@@ -158,8 +165,10 @@ test.describe('kritikus vizuális nézetek', () => {
             };
         });
 
-        expect(mobile.heroBackground).toBe('rgb(248, 243, 237)');
-        expect(mobile.hamburgerColor).toBe('rgb(44, 33, 30)');
+        expect(mobile.heroBackground).toBe('rgb(242, 233, 235)');
+        expect(mobile.surfaceToken).toBe('#f2e9eb');
+        expect(mobile.hamburgerColor).toBe('rgb(49, 56, 63)');
+        expect(mobile.inkToken).toBe('#31383f');
         expect(mobile.linesVisible).toBe(true);
         expect(mobile.documentWidth).toBe(390);
     });
@@ -199,7 +208,7 @@ test.describe('kritikus vizuális nézetek', () => {
                 documentWidth: document.documentElement.scrollWidth
             };
         });
-        expect(booking.cardBackground).toBe('rgb(255, 252, 248)');
+        expect(booking.cardBackground).toBe('rgb(242, 233, 235)');
         expect(booking.surfacesAreDistinct).toBe(true);
         expect(booking.inputWidth).toBeGreaterThanOrEqual(280);
         expect(booking.placeholderFits).toBe(true);
