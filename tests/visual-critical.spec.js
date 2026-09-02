@@ -51,6 +51,47 @@ async function waitForImages(page) {
 }
 
 test.describe('kritikus vizuális nézetek', () => {
+    test('home-mobile hero image and gallery label form one card without duplicate account promotion', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto('/', { waitUntil: 'domcontentloaded' });
+        await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+
+        const metrics = await page.evaluate(() => {
+            const card = document.querySelector('.hero-visual');
+            const image = card.querySelector('.hero-kep');
+            const label = card.querySelector('.hero-visual-cimke');
+            const cardRect = card.getBoundingClientRect();
+            const imageRect = image.getBoundingClientRect();
+            const labelRect = label.getBoundingClientRect();
+            const cardStyle = getComputedStyle(card);
+            const labelStyle = getComputedStyle(label);
+            return {
+                cardRadius: Number.parseFloat(cardStyle.borderTopLeftRadius),
+                cardBorderWidth: Number.parseFloat(cardStyle.borderTopWidth),
+                labelTopRadius: Number.parseFloat(labelStyle.borderTopLeftRadius),
+                labelBottomRadius: Number.parseFloat(labelStyle.borderBottomLeftRadius),
+                labelTopBorderWidth: Number.parseFloat(labelStyle.borderTopWidth),
+                imageAlignedToCard: Math.abs(imageRect.left - cardRect.left) <= 1,
+                labelAlignedToCard: Math.abs(labelRect.left - cardRect.left) <= 1
+                    && Math.abs(labelRect.right - cardRect.right) <= 1,
+                labelClosesCard: Math.abs(labelRect.bottom - cardRect.bottom) <= 1,
+                accountRecommendationAbsent: !document.querySelector('#fiok-ajanlo'),
+                overflow: document.documentElement.scrollWidth - window.innerWidth
+            };
+        });
+
+        expect(metrics.cardRadius).toBe(22);
+        expect(metrics.cardBorderWidth).toBe(1);
+        expect(metrics.labelTopRadius).toBe(0);
+        expect(metrics.labelBottomRadius).toBe(0);
+        expect(metrics.labelTopBorderWidth).toBe(1);
+        expect(metrics.imageAlignedToCard).toBe(true);
+        expect(metrics.labelAlignedToCard).toBe(true);
+        expect(metrics.labelClosesCard).toBe(true);
+        expect(metrics.accountRecommendationAbsent).toBe(true);
+        expect(metrics.overflow).toBeLessThanOrEqual(1);
+    });
+
     for (const view of criticalViews) {
         test(view.name, async ({ page }, testInfo) => {
             const pageErrors = [];

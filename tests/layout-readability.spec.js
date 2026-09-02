@@ -106,26 +106,21 @@ test.describe('célzott elrendezési és olvashatósági ellenőrzés', () => {
         expect(account.cardBackgroundImage).toBe('none');
     });
 
-    test('a főoldali Saját Lumi és bemutatkozás középre igazodik, az ellenőrző mezők két sorban vannak', async ({ page }) => {
+    test('a főoldali bemutatkozás középre igazodik, az ellenőrző mezők két sorban vannak', async ({ page }) => {
         await page.setViewportSize({ width: 1440, height: 1000 });
         await page.goto('/', { waitUntil: 'domcontentloaded' });
-        await page.waitForSelector('#fiok-ajanlo');
 
         const home = await page.evaluate(() => {
-            const account = document.querySelector('#fiok-ajanlo');
-            const accountInner = document.querySelector('.fiok-ajanlo-belso').getBoundingClientRect();
             const introImage = document.querySelector('.bemutatkozas-kep').getBoundingClientRect();
             const introCopy = document.querySelector('.bemutatkozas-szoveg').getBoundingClientRect();
             return {
-                accountCenterDelta: Math.abs(accountInner.left + accountInner.width / 2 - window.innerWidth / 2),
-                accountBackgroundImage: getComputedStyle(account).backgroundImage,
+                accountRecommendationAbsent: !document.querySelector('#fiok-ajanlo'),
                 introColumnDelta: Math.abs(introImage.width - introCopy.width),
                 removedIntroLink: !document.querySelector('.bemutatkozas-szoveg > .szoveges-link')
             };
         });
 
-        expect(home.accountCenterDelta).toBeLessThanOrEqual(1);
-        expect(home.accountBackgroundImage).toBe('none');
+        expect(home.accountRecommendationAbsent).toBe(true);
         expect(home.introColumnDelta).toBeLessThanOrEqual(1);
         expect(home.removedIntroLink).toBe(true);
 

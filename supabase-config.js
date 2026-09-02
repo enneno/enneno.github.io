@@ -71,7 +71,7 @@ window.lumiSupabaseClient = (() => {
 
     if (!document.querySelector('script[data-lumi-home-account-strip]')) {
         const script = document.createElement('script');
-        script.src = '/home-account-strip.js?v=1';
+        script.src = '/home-account-strip.js?v=2';
         script.dataset.lumiHomeAccountStrip = 'true';
         document.head.appendChild(script);
     }

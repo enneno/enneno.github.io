@@ -99,6 +99,11 @@
       "date": "2026-09-01",
       "decision": "Use deep cacao as the primary action and dark showcase color, with warm ivory surfaces and muted blush accents.",
       "reason": "This keeps the beauty-studio character while providing stronger text and control contrast than the previous dusty rose primary."
+    },
+    {
+      "date": "2026-09-02",
+      "decision": "Treat the mobile hero image and gallery label as one framed card, and suppress the account recommendation when the hero already includes an account action.",
+      "reason": "A single radius owner prevents broken nested corners, while removing the adjacent duplicate account promotion restores a clear homepage action hierarchy."
     }
   ],
   "evidence": [

@@ -853,7 +853,6 @@ test('a publikus H2-k mobilon két pixellel nőnek, desktopon változatlanok mar
         (cim) => Number.parseFloat(getComputedStyle(cim).fontSize)
     ));
     expect(desktopFooldalH2Meretek).toEqual([94, 78, 78, 78, 88]);
-    await expect(page.locator('#fiok-ajanlo-cim')).toHaveCSS('font-size', '48.96px');
     expect(await akciosH2Meret()).toBe(52);
 
     await page.goto('/adatkezeles/', { waitUntil: 'domcontentloaded' });
@@ -868,7 +867,6 @@ test('a publikus H2-k mobilon két pixellel nőnek, desktopon változatlanok mar
         (cim) => Number.parseFloat(getComputedStyle(cim).fontSize)
     ));
     expect(mobilFooldalH2Meretek).toEqual([48.8, 44.9, 42.95, 40, 38.66]);
-    await expect(page.locator('#fiok-ajanlo-cim')).toHaveCSS('font-size', '36.66px');
     expect(await akciosH2Meret()).toBe(36);
 
     await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
@@ -2185,16 +2183,13 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
     const asztaliIllesztes = await page.evaluate(() => {
         const hero = document.querySelector('#hero').getBoundingClientRect();
         const heroKep = document.querySelector('.hero-visual').getBoundingClientRect();
-        const fiokAjanlo = document.querySelector('#fiok-ajanlo').getBoundingClientRect();
         return {
-            heroEsFiokAjanlo: Math.abs(hero.bottom - fiokAjanlo.top),
-            heroUtanFiokAjanloJon: document.querySelector('#hero').nextElementSibling?.id === 'fiok-ajanlo',
+            fiokAjanloHianyzik: !document.querySelector('#fiok-ajanlo'),
             heroKepTeteje: Math.abs(hero.top - heroKep.top),
             heroKepAlja: Math.abs(hero.bottom - heroKep.bottom)
         };
     });
-    expect(asztaliIllesztes.heroEsFiokAjanlo).toBeLessThanOrEqual(0.1);
-    expect(asztaliIllesztes.heroUtanFiokAjanloJon).toBe(true);
+    expect(asztaliIllesztes.fiokAjanloHianyzik).toBe(true);
     expect(asztaliIllesztes.heroKepTeteje).toBeLessThanOrEqual(0.1);
     expect(asztaliIllesztes.heroKepAlja).toBeLessThanOrEqual(0.1);
 
@@ -2206,14 +2201,13 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
         const hero = document.querySelector('#hero').getBoundingClientRect();
         const heroKep = document.querySelector('.hero-visual').getBoundingClientRect();
         const monogram = document.querySelector('.hero-monogram').getBoundingClientRect();
-        const fiokAjanlo = document.querySelector('#fiok-ajanlo').getBoundingClientRect();
         return {
-            heroEsFiokAjanlo: Math.abs(hero.bottom - fiokAjanlo.top),
+            fiokAjanloHianyzik: !document.querySelector('#fiok-ajanlo'),
             heroKepEsHeroAlja: Math.abs(hero.bottom - heroKep.bottom),
             monogramBalTavolsag: Math.abs((monogram.left - heroKep.left) - 14)
         };
     });
-    expect(mobilIllesztes.heroEsFiokAjanlo).toBeLessThanOrEqual(0.1);
+    expect(mobilIllesztes.fiokAjanloHianyzik).toBe(true);
     expect(mobilIllesztes.heroKepEsHeroAlja).toBeLessThanOrEqual(0.1);
     expect(mobilIllesztes.monogramBalTavolsag).toBeLessThanOrEqual(0.1);
     await page.locator('.hamburger').click();
