@@ -61,7 +61,7 @@
   display: block;
   visibility: hidden;
   opacity: 0;
-  background: rgba(42, 31, 28, 0.46);
+  background: rgba(128, 99, 83, 0.46);
   transition: opacity 190ms ease, visibility 190ms ease;
 }
 
@@ -96,7 +96,7 @@
   border: 1px solid var(--admin-v2-border);
   border-radius: 20px;
   background: color-mix(in srgb, var(--admin-v2-surface) 90%, transparent);
-  box-shadow: 0 14px 36px rgba(54, 39, 34, 0.16);
+  box-shadow: 0 14px 36px rgba(128, 99, 83, 0.16);
   backdrop-filter: blur(20px) saturate(140%);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   transform: translateX(-50%);
@@ -134,14 +134,14 @@
 .admin-body.admin-v2.lumi-admin-standalone .pwa-admin-toolbar-button.is-open {
   color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-brand-soft);
-  box-shadow: inset 0 0 0 1px rgba(122, 77, 68, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(128, 99, 83, 0.08);
 }
 
 .admin-body.admin-v2.lumi-admin-standalone .pwa-admin-toolbar-button.is-active {
   z-index: 2;
   color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-brand-soft);
-  box-shadow: 0 8px 18px rgba(71, 47, 41, 0.15), inset 0 0 0 1px rgba(122, 77, 68, 0.11);
+  box-shadow: 0 8px 18px rgba(128, 99, 83, 0.15), inset 0 0 0 1px rgba(128, 99, 83, 0.11);
   transform: translateY(-4px) scale(1.12);
 }
 
@@ -171,18 +171,18 @@
 
 .admin-body.admin-v2.lumi-admin-standalone .pwa-admin-toolbar-save {
   color: var(--admin-v2-brand-dark);
-  background: rgba(122, 77, 68, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(122, 77, 68, 0.2);
+  background: rgba(128, 99, 83, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(128, 99, 83, 0.2);
 }
 
 .admin-body.admin-v2.lumi-admin-standalone .pwa-admin-toolbar-save:is(:hover, :focus-visible) {
   color: var(--admin-v2-brand-dark);
-  background: rgba(122, 77, 68, 0.13);
+  background: rgba(128, 99, 83, 0.13);
 }
 
 .admin-body.admin-v2.lumi-admin-standalone .pwa-admin-toolbar-save:disabled {
   opacity: 0.42;
-  box-shadow: inset 0 0 0 1px rgba(122, 77, 68, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(128, 99, 83, 0.12);
   cursor: default;
 }
 
@@ -202,7 +202,7 @@
   place-items: center;
   border: 2px solid var(--admin-v2-surface);
   border-radius: 999px;
-  color: #fff;
+  color: #f1edea;
   background: var(--admin-v2-danger);
   font-size: 8px;
   font-weight: 600;
@@ -236,7 +236,7 @@
 
   .admin-body.admin-v2.lumi-admin-standalone .pwa-admin-toolbar-save:not(:disabled):hover {
     color: var(--admin-v2-brand-dark);
-    background: rgba(122, 77, 68, 0.13);
+    background: rgba(128, 99, 83, 0.13);
   }
 }
 

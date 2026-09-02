@@ -85,7 +85,7 @@
     position: absolute;
     z-index: 1;
     inset: 0;
-    background: rgba(24, 18, 17, 0.58);
+    background: rgba(128, 99, 83, 0.58);
     content: "";
 }
 
@@ -433,7 +433,7 @@
     }
 
     .seo-szolgaltatas-hero-kep::after {
-        background: rgba(24, 18, 17, 0.62);
+        background: rgba(128, 99, 83, 0.62);
     }
 
     .seo-szolgaltatas-ugras {

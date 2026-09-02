@@ -6,14 +6,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(128, 99, 83, 0.85);
     z-index: 2000;
     justify-content: center;
     align-items: center;
 }
 
 .popup-doboz {
-    background-color: #111;
+    background-color: #806353;
     border: 1px solid var(--akcentus);
     padding: 40px;
     border-radius: var(--lumi-radius-card);
@@ -30,7 +30,7 @@
 }
 
 .popup-szoveg {
-    color: rgba(255, 253, 247, 0.68);
+    color: rgba(241, 237, 234, 0.68);
     font-size: var(--lumi-font-body-small);
     font-weight: 300;
     line-height: 1.6;
@@ -43,9 +43,9 @@
     margin-top: 18px;
     padding: 12px;
     box-sizing: border-box;
-    border: 1px solid rgba(185, 133, 143, 0.35);
+    border: 1px solid rgba(179, 145, 120, 0.35);
     border-radius: var(--lumi-radius-control);
-    background-color: #fffaf4;
+    background-color: #f1edea;
     color: var(--tinta);
     font-family: 'Manrope', sans-serif;
     font-size: var(--lumi-font-caption);
@@ -68,18 +68,18 @@
 .popup-gomb {
     margin: 0;
     background-color: transparent;
-    color: #fffaf4;
-    border-color: rgba(255, 250, 244, 0.55);
+    color: #f1edea;
+    border-color: rgba(241, 237, 234, 0.55);
 }
 
 .popup-gomb:hover {
-    background-color: #fffaf4;
+    background-color: #f1edea;
     color: var(--tinta);
-    border-color: #fffaf4;
+    border-color: #f1edea;
 }
 
 .bezaro-link {
-    color: #a0a0a0;
+    color: #b39178;
     background: transparent;
     border: none;
     font-family: 'Manrope', sans-serif;

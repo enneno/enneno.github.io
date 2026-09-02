@@ -3,9 +3,9 @@
     max-width: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid rgba(185, 133, 143, 0.14);
-    border-bottom: 1px solid rgba(185, 133, 143, 0.16);
-    background: #f6e8e5;
+    border-top: 1px solid rgba(179, 145, 120, 0.14);
+    border-bottom: 1px solid rgba(179, 145, 120, 0.16);
+    background: #f1edea;
 }
 
 .fooldal .fiok-ajanlo-belso {
@@ -25,7 +25,7 @@
 .fooldal .fiok-ajanlo-kicker {
     display: inline-block;
     margin-bottom: 10px;
-    color: #9d6878;
+    color: #b39178;
     font-family: 'Manrope', sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 700;
@@ -35,7 +35,7 @@
 
 .fooldal .fiok-ajanlo h2 {
     margin: 0;
-    color: #4e3630;
+    color: #806353;
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(34px, 3.4vw, 52px);
     font-weight: 600;
@@ -47,7 +47,7 @@
 .fooldal .fiok-ajanlo-szoveg > p {
     max-width: 590px;
     margin: 14px 0 0;
-    color: rgba(78, 54, 48, 0.72);
+    color: rgba(128, 99, 83, 0.72);
     font-family: 'Manrope', sans-serif;
     font-size: clamp(14px, 1.1vw, 16px);
     line-height: 1.68;
@@ -63,7 +63,7 @@
 .fooldal .fiok-ajanlo-elonyok > span {
     min-width: 0;
     padding: 4px 20px;
-    border-left: 1px solid rgba(157, 104, 120, 0.18);
+    border-left: 1px solid rgba(179, 145, 120, 0.18);
 }
 
 .fooldal .fiok-ajanlo-elonyok strong,
@@ -72,7 +72,7 @@
 }
 
 .fooldal .fiok-ajanlo-elonyok strong {
-    color: #4e3630;
+    color: #806353;
     font-family: 'Outfit', sans-serif;
     font-size: var(--lumi-font-label);
     font-weight: 500;
@@ -81,7 +81,7 @@
 
 .fooldal .fiok-ajanlo-elonyok small {
     margin-top: 5px;
-    color: rgba(78, 54, 48, 0.64);
+    color: rgba(128, 99, 83, 0.64);
     font-family: 'Manrope', sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 500;
@@ -120,25 +120,25 @@
 }
 
 .fooldal .fiok-ajanlo-gomb-kiemelt {
-    background: #4e3630;
-    color: #fffaf6;
-    border-color: #4e3630;
+    background: #806353;
+    color: #f1edea;
+    border-color: #806353;
 }
 
 .fooldal .fiok-ajanlo-gomb-kiemelt:hover {
-    background: #382722;
-    border-color: #382722;
+    background: #806353;
+    border-color: #806353;
 }
 
 .fooldal .fiok-ajanlo-gomb-masodlagos {
-    background: rgba(255, 250, 246, 0.48);
-    color: #6f4a56;
-    border-color: rgba(157, 104, 120, 0.28);
+    background: rgba(241, 237, 234, 0.48);
+    color: #806353;
+    border-color: rgba(179, 145, 120, 0.28);
 }
 
 .fooldal .fiok-ajanlo-gomb-masodlagos:hover {
-    background: rgba(255, 250, 246, 0.76);
-    border-color: rgba(157, 104, 120, 0.42);
+    background: rgba(241, 237, 234, 0.76);
+    border-color: rgba(179, 145, 120, 0.42);
 }
 
 @media (max-width: 1100px) {
@@ -187,8 +187,8 @@
         grid-row: auto;
         grid-template-columns: 1fr;
         gap: 0;
-        border-top: 1px solid rgba(157, 104, 120, 0.14);
-        border-bottom: 1px solid rgba(157, 104, 120, 0.14);
+        border-top: 1px solid rgba(179, 145, 120, 0.14);
+        border-bottom: 1px solid rgba(179, 145, 120, 0.14);
     }
 
     .fooldal .fiok-ajanlo-elonyok > span {
@@ -201,7 +201,7 @@
     }
 
     .fooldal .fiok-ajanlo-elonyok > span + span {
-        border-top: 1px solid rgba(157, 104, 120, 0.11);
+        border-top: 1px solid rgba(179, 145, 120, 0.11);
     }
 
     .fooldal .fiok-ajanlo-elonyok small {

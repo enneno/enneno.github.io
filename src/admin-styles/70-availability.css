@@ -13,9 +13,9 @@
   min-width: 0;
   margin-bottom: 20px;
   padding: 14px;
-  border: 1px solid rgba(185, 133, 143, .16);
+  border: 1px solid rgba(179, 145, 120, .16);
   border-radius: 16px;
-  background: rgba(185, 133, 143, .06);
+  background: rgba(179, 145, 120, .06);
 }
 .admin-body.admin-v2 .admin-naptar-fej,
 .admin-body.admin-v2 .admin-naptar-lista-fej {
@@ -41,7 +41,7 @@
 }
 .admin-body.admin-v2 .admin-naptar-nap {
   min-height: 48px;
-  border: 1px solid rgba(185, 133, 143, .18);
+  border: 1px solid rgba(179, 145, 120, .18);
   border-radius: 12px;
   color: var(--tinta);
   background: var(--admin-v2-surface);
@@ -52,12 +52,12 @@
   user-select: none;
 }
 .admin-body.admin-v2 .admin-naptar-nap:hover {
-  border-color: rgba(185, 133, 143, .42);
-  background: rgba(185, 133, 143, .08);
+  border-color: rgba(179, 145, 120, .42);
+  background: rgba(179, 145, 120, .08);
 }
 .admin-body.admin-v2 .admin-naptar-nap.kijelolt {
   border-color: var(--akcentus);
-  color: #fffaf4;
+  color: #f1edea;
   background: var(--akcentus);
 }
 .admin-body.admin-v2 .admin-naptar-ures { min-height: 48px; }
@@ -72,7 +72,7 @@
   align-items: end;
   gap: 8px;
   padding: 9px 10px;
-  border: 1px solid rgba(185, 133, 143, .16);
+  border: 1px solid rgba(179, 145, 120, .16);
   border-radius: 12px;
   background: var(--admin-v2-surface);
 }

@@ -1,6 +1,6 @@
 # LumiNails design system
 
-Ez a dokumentum a TEST felületen 2026-09-01-én kiválasztott „quiet luxury” vizuális irány projekt-specifikus szerződése. Az új komponenseknek és a további oldalfrissítéseknek ehhez kell igazodniuk; a LIVE felület csak külön élesítési jóváhagyással veheti át.
+Ez a dokumentum a TEST felületen 2026-09-01-én kiválasztott „quiet luxury” vizuális irány és a 2026-09-02-én jóváhagyott ötszínű paletta projekt-specifikus szerződése. Az új komponenseknek és a további oldalfrissítéseknek ehhez kell igazodniuk; a LIVE felület csak külön élesítési jóváhagyással veheti át.
 
 ## Források és CSS-felelősség
 
@@ -14,25 +14,33 @@ Ez a dokumentum a TEST felületen 2026-09-01-én kiválasztott „quiet luxury�
 
 ## Színek
 
-A publikus felület világos, meleg, visszafogott palettát használ. Komponensben elsőként a szemantikus `--ui-*` tokeneket kell használni; a régi magyar nevű változók kompatibilitási tokenek.
+A publikus és admin felület kizárólag a felhasználó által megadott öt alapszínt, valamint ezek áttetsző változatait használja. Komponensben elsőként a szemantikus `--ui-*` vagy `--admin-v2-*` tokeneket kell használni; a régi magyar nevű változók kompatibilitási tokenek.
+
+| Palettaszín | Token | Érték | Elsődleges szerep |
+| --- | --- | --- | --- |
+| Elefántcsont | `--lumi-palette-ivory` | `#f1edea` | canvas, kártya, sötét felületi szöveg |
+| Púder | `--lumi-palette-blush` | `#e3d0ca` | lágy panel, finom elválasztó |
+| Agyag | `--lumi-palette-clay` | `#d0b4a8` | dekoratív kiemelés |
+| Karamell | `--lumi-palette-caramel` | `#b39178` | hangsúlyosabb keret, másodlagos kiemelés |
+| Kakaó | `--lumi-palette-cacao` | `#806353` | fő szöveg, CTA, sötét felület |
 
 | Szerep | Token | Érték | Használat |
 | --- | --- | --- | --- |
-| Elsődleges brand | `--ui-primary` | `#5d3d36` | CTA, brand felület, kiválasztott állapot |
-| Elsődleges felületi szöveg | `--ui-on-primary` | `#fffaf6` | primary háttéren |
-| Lágy accent | `--ui-accent` | `#e8c9c3` | finom kiemelés, nem elsődleges CTA |
-| Accent szöveg | `--ui-on-accent` | `#2c211e` | accent háttéren |
-| Oldalháttér | `--ui-bg` | `#f8f3ed` | publikus canvas |
-| Kártyafelület | `--ui-surface` | `#fffcf8` | mező, kártya, panel |
-| Lágy felület | `--ui-soft` | `#ede2da` | másodlagos elkülönítés |
-| Erős szöveg | `--ui-off-black` | `#2c211e` | címek, szolgáltatásblokk, footer |
-| Halk szöveg | `--ui-muted` | `#695a55` | másodlagos szöveg világos felületen |
-| Elválasztó | `--ui-line` | `rgba(93, 61, 54, 0.14)` | finom border |
-| Erős elválasztó | `--ui-line-strong` | `rgba(93, 61, 54, 0.28)` | aktív vagy hangsúlyos border |
+| Elsődleges brand | `--ui-primary` | `#806353` | CTA, brand felület, kiválasztott állapot |
+| Elsődleges felületi szöveg | `--ui-on-primary` | `#f1edea` | primary háttéren |
+| Accent | `--ui-accent` | `#806353` | interaktív kiemelés megfelelő kontraszttal |
+| Accent szöveg | `--ui-on-accent` | `#f1edea` | accent háttéren |
+| Oldalháttér | `--ui-bg` | `#f1edea` | publikus canvas |
+| Kártyafelület | `--ui-surface` | `#f1edea` | mező, kártya, panel |
+| Lágy felület | `--ui-soft` | `#e3d0ca` | másodlagos elkülönítés |
+| Erős szöveg | `--ui-off-black` | `#806353` | címek, szolgáltatásblokk, footer |
+| Halk szöveg | `--ui-muted` | `#806353` | másodlagos szöveg világos felületen |
+| Elválasztó | `--ui-line` | `rgba(128, 99, 83, 0.14)` | finom border |
+| Erős elválasztó | `--ui-line-strong` | `rgba(128, 99, 83, 0.28)` | aktív vagy hangsúlyos border |
 
-Az admin v2 külön szemantikus tokeneket használ (`--admin-v2-bg`, `surface`, `ink`, `muted`, `brand`, `border`). Állapotokhoz kizárólag a `success`, `warning`, `danger` és `info`, illetve a hozzájuk tartozó `*-soft` párok használhatók. A sötét mód értékei ugyanabban a `20-workspace.css` fájlban, `html[data-admin-theme="dark"]` alatt élnek.
+Az admin v2 külön szemantikus tokeneket használ (`--admin-v2-bg`, `surface`, `ink`, `muted`, `brand`, `border`). Állapotokhoz továbbra is a `success`, `warning`, `danger` és `info`, illetve a hozzájuk tartozó `*-soft` párok használhatók, de ezek értékei is az öt jóváhagyott alapszínből származnak. A státuszok megkülönböztetését ezért a felirat és az ikon is hordozza. A sötét mód értékei ugyanabban a `20-workspace.css` fájlban, `html[data-admin-theme="dark"]` alatt élnek.
 
-Színnel önmagában nem jelölünk állapotot. Minden normál szöveg célértéke legalább 4.5:1, nagy szövegé és nem szöveges vezérlőé legalább 3:1. A jelenlegi eltéréseket a vizuális audit követi; új eltérés nem adható hozzá.
+Színnel önmagában nem jelölünk állapotot. Normál szövegnél alapértelmezett páros a kakaó `#806353` és az elefántcsont `#f1edea` (4.71:1); a köztes három árnyalat elsősorban nem szöveges felület, border vagy dekoráció. Minden normál szöveg célértéke legalább 4.5:1, nagy szövegé és nem szöveges vezérlőé legalább 3:1.
 
 ## Tipográfia
 
@@ -63,8 +71,8 @@ A preferált alaprács 4 px; komponenseken belül 4/8/12/16/24/32, szekciók kö
 - Publikus kártya: `--lumi-radius-card: 24px`.
 - Mező és alap vezérlő: `--lumi-radius-control: 14px`.
 - Admin kompakt vezérlő: `--admin-ui-control-radius: 11px`; auth felületen 12 px.
-- Lágy általános árnyék: `--lumi-soft-shadow: 0 16px 38px rgba(44, 33, 30, 0.10)`.
-- Publikus gombárnyék: `--lumi-button-shadow: 0 14px 30px rgba(93, 61, 54, 0.18)`.
+- Lágy általános árnyék: `--lumi-soft-shadow: 0 16px 38px rgba(128, 99, 83, 0.10)`.
+- Publikus gombárnyék: `--lumi-button-shadow: 0 14px 30px rgba(128, 99, 83, 0.18)`.
 - Admin munkaterület árnyék: `--admin-v2-shadow`, témafüggő értékkel.
 
 Egy felületi szinten egy radius- és egy árnyékhierarchia használható. A shadow nem helyettesíti a bordert, ha az állapot vagy a felülethatár kontrasztja szükséges.

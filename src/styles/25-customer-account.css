@@ -15,7 +15,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
     gap: clamp(32px, 6vw, 80px);
     padding-bottom: 42px;
-    border-bottom: 1px solid var(--ui-line-strong, rgba(145, 118, 110, 0.28));
+    border-bottom: 1px solid var(--ui-line-strong, rgba(128, 99, 83, 0.28));
 }
 
 .fiok-hero {
@@ -28,7 +28,7 @@
 .fiok-egyszeru-panel h2,
 .fiok-auth-bevezeto h2 {
     margin: 0;
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-family: "Cormorant Garamond", serif;
     font-weight: 600;
     line-height: 1.02;
@@ -44,7 +44,7 @@
 .fiok-egyszeru-panel > p,
 .fiok-auth-bevezeto li {
     margin: 0;
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-body-small);
     line-height: 1.72;
@@ -52,7 +52,7 @@
 
 .fiok-kicker {
     margin: 0 0 12px;
-    color: var(--ui-rose-dark, #91766e);
+    color: var(--ui-rose-dark, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-micro);
     font-weight: 700;
@@ -64,10 +64,10 @@
 .fiok-statuszuzenet {
     margin: 22px 0 0;
     padding: 13px 16px;
-    border: 1px solid rgba(91, 130, 111, 0.28);
+    border: 1px solid rgba(128, 99, 83, 0.28);
     border-radius: 12px;
-    background: rgba(222, 236, 228, 0.54);
-    color: #395c4c;
+    background: rgba(241, 237, 234, 0.54);
+    color: #806353;
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     line-height: 1.55;
@@ -75,9 +75,9 @@
 
 .fiok-statuszuzenet.fiok-hiba,
 .fiok-hiba {
-    border-color: rgba(151, 71, 78, 0.28);
-    background: rgba(248, 226, 228, 0.58);
-    color: #87424b;
+    border-color: rgba(128, 99, 83, 0.28);
+    background: rgba(241, 237, 234, 0.58);
+    color: #806353;
 }
 
 .fiok-auth-elrendezes {
@@ -103,7 +103,7 @@
 .fiok-auth-bevezeto > p:not(.fiok-kicker) {
     max-width: 430px;
     margin: 18px 0 0;
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-body-small);
     line-height: 1.65;
@@ -130,16 +130,16 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--ui-primary, #b9858f);
+    background: var(--ui-primary, #b39178);
 }
 
 .fiok-auth-kartya,
 .fiok-panel,
 .fiok-egyszeru-panel {
     box-sizing: border-box;
-    border: 1px solid var(--ui-line, rgba(145, 118, 110, 0.18));
+    border: 1px solid var(--ui-line, rgba(128, 99, 83, 0.18));
     border-radius: 20px;
-    background: var(--ui-surface, #fffaf4);
+    background: var(--ui-surface, #f1edea);
     box-shadow: var(--lumi-soft-shadow);
 }
 
@@ -153,9 +153,9 @@
     gap: 4px;
     margin-bottom: 34px;
     padding: 4px;
-    border: 1px solid var(--ui-line, rgba(145, 118, 110, 0.18));
+    border: 1px solid var(--ui-line, rgba(128, 99, 83, 0.18));
     border-radius: 12px;
-    background: rgba(145, 118, 110, 0.06);
+    background: rgba(128, 99, 83, 0.06);
 }
 
 .fiok-auth-valto button {
@@ -164,7 +164,7 @@
     border: 0;
     border-radius: 9px;
     background: transparent;
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 700;
@@ -172,9 +172,9 @@
 }
 
 .fiok-auth-valto button.aktiv {
-    background: var(--ui-surface, #fffaf4);
-    box-shadow: 0 5px 14px rgba(70, 48, 42, 0.08);
-    color: var(--ui-ink, #64524d);
+    background: var(--ui-surface, #f1edea);
+    box-shadow: 0 5px 14px rgba(128, 99, 83, 0.08);
+    color: var(--ui-ink, #806353);
 }
 
 .fiok-panel-fej {
@@ -203,7 +203,7 @@
 .fiok-form label:not(.fiok-jelolonegyzet) {
     display: grid;
     gap: 8px;
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 700;
@@ -221,7 +221,7 @@
     outline: none;
     appearance: none;
     background: var(--lumi-control-bg);
-    color: var(--ui-off-black, #211b19);
+    color: var(--ui-off-black, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-body-small);
 }
@@ -268,7 +268,7 @@
     align-self: stretch;
     justify-content: center;
     border-right: 1px solid var(--lumi-control-border);
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-weight: 600;
 }
 
@@ -292,7 +292,7 @@
 
 .fiok-mezo-tipp {
     margin: -7px 0 0;
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-micro);
     line-height: 1.55;
@@ -303,7 +303,7 @@
     grid-template-columns: 18px minmax(0, 1fr);
     align-items: start;
     gap: 10px;
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     line-height: 1.55;
@@ -313,13 +313,13 @@
     width: 18px;
     height: 18px;
     margin: 2px 0 0;
-    accent-color: var(--ui-primary, #b9858f);
+    accent-color: var(--ui-primary, #b39178);
 }
 
 .fiok-jelolonegyzet a,
 .fiok-regi-foglalas a,
 .fiok-szoveges-link {
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-weight: 700;
     text-underline-offset: 3px;
 }
@@ -332,10 +332,10 @@
     min-height: 42px;
     box-sizing: border-box;
     padding: 9px 18px;
-    border: 1px solid var(--ui-line-strong, rgba(145, 118, 110, 0.28));
+    border: 1px solid var(--ui-line-strong, rgba(128, 99, 83, 0.28));
     border-radius: 10px;
-    background: var(--ui-surface, #fffaf4);
-    color: var(--ui-ink, #64524d);
+    background: var(--ui-surface, #f1edea);
+    color: var(--ui-ink, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 700;
@@ -345,13 +345,13 @@
 }
 
 .fiok-gomb-kiemelt {
-    border-color: var(--ui-ink, #91766e);
-    background: var(--ui-ink, #91766e);
-    color: var(--ui-on-primary, #fff9f5);
+    border-color: var(--ui-ink, #806353);
+    background: var(--ui-ink, #806353);
+    color: var(--ui-on-primary, #f1edea);
 }
 
 .fiok-gomb:hover:not(:disabled) {
-    border-color: var(--ui-primary, #b9858f);
+    border-color: var(--ui-primary, #b39178);
     transform: translateY(-1px);
 }
 
@@ -370,7 +370,7 @@
     padding: 0;
     border: 0;
     background: transparent;
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 700;
@@ -382,8 +382,8 @@
 .fiok-regi-foglalas {
     margin: 30px 0 0;
     padding-top: 22px;
-    border-top: 1px solid var(--ui-line, rgba(145, 118, 110, 0.18));
-    color: var(--ui-muted, #756a65);
+    border-top: 1px solid var(--ui-line, rgba(128, 99, 83, 0.18));
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     line-height: 1.55;
@@ -446,7 +446,7 @@
 }
 
 #fiok-kovetkezo-emlekezteto {
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-weight: 600;
 }
 
@@ -461,7 +461,7 @@
 
 .fiok-foglalas-kartya {
     padding: 18px 0;
-    border-top: 1px solid var(--ui-line, rgba(145, 118, 110, 0.18));
+    border-top: 1px solid var(--ui-line, rgba(128, 99, 83, 0.18));
 }
 
 .fiok-foglalas-kartya:first-child {
@@ -478,7 +478,7 @@
 
 .fiok-foglalas-fej h3 {
     margin: 0;
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-family: "Cormorant Garamond", serif;
     font-size: 25px;
     font-weight: 600;
@@ -488,7 +488,7 @@
 .fiok-foglalas-fej p,
 .fiok-ures {
     margin: 5px 0 0;
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     line-height: 1.55;
@@ -500,8 +500,8 @@
     min-height: 28px;
     padding: 4px 9px;
     border-radius: 999px;
-    background: rgba(145, 118, 110, 0.1);
-    color: var(--ui-ink, #64524d);
+    background: rgba(128, 99, 83, 0.1);
+    color: var(--ui-ink, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-micro);
     font-weight: 700;
@@ -511,19 +511,19 @@
 
 .fiok-statusz-confirmed,
 .fiok-statusz-done {
-    background: rgba(202, 224, 212, 0.58);
-    color: #3d6853;
+    background: rgba(227, 208, 202, 0.58);
+    color: #806353;
 }
 
 .fiok-statusz-pending {
-    background: rgba(243, 223, 179, 0.6);
-    color: #765c28;
+    background: rgba(227, 208, 202, 0.6);
+    color: #806353;
 }
 
 .fiok-statusz-cancelled,
 .fiok-statusz-cancelled_by_customer {
-    background: rgba(238, 211, 214, 0.58);
-    color: #87424b;
+    background: rgba(227, 208, 202, 0.58);
+    color: #806353;
 }
 
 .fiok-foglalas-meta {
@@ -539,7 +539,7 @@
 }
 
 .fiok-foglalas-meta span {
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-micro);
     font-weight: 700;
@@ -548,7 +548,7 @@
 }
 
 .fiok-foglalas-meta strong {
-    color: var(--ui-off-black, #211b19);
+    color: var(--ui-off-black, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 600;
@@ -557,14 +557,14 @@
 .fiok-foglalas-kartya-kiemelt {
     margin: 0 -14px;
     padding: 18px 14px;
-    border: 1px solid rgba(185, 133, 143, 0.24);
+    border: 1px solid rgba(179, 145, 120, 0.24);
     border-radius: 14px;
-    background: rgba(185, 133, 143, 0.06);
+    background: rgba(179, 145, 120, 0.06);
 }
 
 .fiok-foglalas-kartya-kiemelt:first-child {
     padding-top: 18px;
-    border-top: 1px solid rgba(185, 133, 143, 0.24);
+    border-top: 1px solid rgba(179, 145, 120, 0.24);
 }
 
 .fiok-foglalas-akciok {
@@ -590,11 +590,11 @@
 }
 
 .fiok-foglalas-akciok .fiok-szoveges-link {
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
 }
 
 .fiok-foglalas-akciok button {
-    color: #87424b;
+    color: #806353;
 }
 
 .fiok-lemondas-form {
@@ -602,15 +602,15 @@
     gap: 12px;
     margin-top: 18px;
     padding: 16px;
-    border: 1px solid rgba(151, 71, 78, 0.2);
+    border: 1px solid rgba(128, 99, 83, 0.2);
     border-radius: 12px;
-    background: rgba(248, 226, 228, 0.34);
+    background: rgba(241, 237, 234, 0.34);
 }
 
 .fiok-lemondas-form label {
     display: grid;
     gap: 7px;
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 700;
@@ -625,7 +625,7 @@
     border-radius: 10px;
     outline: none;
     background: var(--lumi-control-bg);
-    color: var(--ui-off-black, #211b19);
+    color: var(--ui-off-black, #806353);
     font: inherit;
     font-weight: 400;
     resize: vertical;
@@ -647,14 +647,14 @@
 .foglalas-fiok-jelzes {
     grid-column: 1 / -1;
     margin: 2px 0 0;
-    color: var(--ui-muted, #756a65);
+    color: var(--ui-muted, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-caption);
     line-height: 1.5;
 }
 
 .foglalas-fiok-jelzes a {
-    color: var(--ui-ink, #64524d);
+    color: var(--ui-ink, #806353);
     font-weight: 700;
     text-underline-offset: 3px;
 }

@@ -80,7 +80,7 @@
 .foglalas-stilus-kartya {
     box-sizing: border-box;
     color: var(--tinta);
-    border: 1px solid rgba(185, 133, 143, 0.22);
+    border: 1px solid rgba(179, 145, 120, 0.22);
     font-family: "Manrope", sans-serif;
     transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
@@ -100,7 +100,7 @@
 }
 
 .foglalas-kartya-meta {
-    color: rgba(83, 67, 59, 0.72);
+    color: rgba(128, 99, 83, 0.72);
     font-size: var(--lumi-font-caption);
     line-height: 1.35;
 }
@@ -139,7 +139,7 @@
 }
 
 .foglalas-stilus-kartya small {
-    color: rgba(83, 67, 59, 0.76);
+    color: rgba(128, 99, 83, 0.76);
     line-height: 1.45;
 }
 
@@ -163,7 +163,7 @@
     align-items: center;
     gap: 14px;
     padding: 17px;
-    border: 1px dashed rgba(185, 133, 143, 0.45);
+    border: 1px dashed rgba(179, 145, 120, 0.45);
     cursor: pointer;
 }
 
@@ -185,7 +185,7 @@
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    color: #fffaf4;
+    color: #f1edea;
     font-size: 24px;
     line-height: 1;
 }
@@ -201,7 +201,7 @@
 
 .foglalas-kepfeltoltes small {
     margin-top: 2px;
-    color: rgba(83, 67, 59, 0.72);
+    color: rgba(128, 99, 83, 0.72);
     line-height: 1.45;
 }
 
@@ -212,7 +212,7 @@
     align-items: center;
     margin-top: 12px;
     padding: 12px;
-    border: 1px solid rgba(185, 133, 143, 0.18);
+    border: 1px solid rgba(179, 145, 120, 0.18);
 }
 
 .foglalas-kep-elonezet[hidden] {
@@ -250,7 +250,7 @@
 }
 
 .foglalas-osszefoglalo {
-    border: 1px solid rgba(185, 133, 143, 0.22);
+    border: 1px solid rgba(179, 145, 120, 0.22);
 }
 
 .foglalas-osszefoglalo h3 {
@@ -306,8 +306,8 @@
 .foglalas-kep-mini {
     margin: 0;
     overflow: hidden;
-    background: rgba(255, 250, 244, 0.9);
-    border: 1px solid rgba(185, 133, 143, 0.18);
+    background: rgba(241, 237, 234, 0.9);
+    border: 1px solid rgba(179, 145, 120, 0.18);
     border-radius: 14px;
 }
 
@@ -328,7 +328,7 @@
 }
 
 .foglalas-kep-mini small {
-    color: rgba(83, 67, 59, 0.68);
+    color: rgba(128, 99, 83, 0.68);
     font-weight: 600;
 }
 
@@ -379,7 +379,7 @@
 }
 
 .foglalas-datum-csik::-webkit-scrollbar-thumb {
-    background: rgba(185, 133, 143, 0.28);
+    background: rgba(179, 145, 120, 0.28);
     border-radius: var(--lumi-radius-pill);
 }
 
@@ -388,7 +388,7 @@
     align-items: center;
     width: 100%;
     color: var(--tinta);
-    border: 1px solid rgba(185, 133, 143, 0.22);
+    border: 1px solid rgba(179, 145, 120, 0.22);
     cursor: pointer;
     font-family: 'Manrope', sans-serif;
     transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
@@ -467,25 +467,25 @@
    BOOKING VALIDATION STATES
    ========================================= */
 .foglalas-hiba-szekcio {
-    border-color: rgba(155, 52, 52, 0.55);
-    box-shadow: 0 0 0 3px rgba(155, 52, 52, 0.08), 0 12px 28px rgba(155, 52, 52, 0.08);
+    border-color: rgba(128, 99, 83, 0.55);
+    box-shadow: 0 0 0 3px rgba(128, 99, 83, 0.08), 0 12px 28px rgba(128, 99, 83, 0.08);
 }
 
 .foglalas-hibas-mezo {
-    outline: 2px solid rgba(155, 52, 52, 0.72);
+    outline: 2px solid rgba(128, 99, 83, 0.72);
     outline-offset: 4px;
     scroll-margin-top: 120px;
 }
 
 .urlap-mezo.foglalas-hibas-mezo,
 .tel-csoport.foglalas-hibas-mezo {
-    border-color: rgba(155, 52, 52, 0.72);
-    box-shadow: 0 0 0 4px rgba(155, 52, 52, 0.08);
+    border-color: rgba(128, 99, 83, 0.72);
+    box-shadow: 0 0 0 4px rgba(128, 99, 83, 0.08);
 }
 
 .foglalas-hibas-mezo .foglalas-kartya-uzenet,
 .foglalas-hiba-szekcio .foglalas-kartya-uzenet {
-    color: #9b3434;
+    color: #806353;
 }
 
 @media screen and (max-width: 768px) {
@@ -496,9 +496,9 @@
 }
 
 .urlap-status.foglalas-statusz-kiemelt {
-    border: 1px solid rgba(155, 52, 52, 0.32);
+    border: 1px solid rgba(128, 99, 83, 0.32);
     border-radius: 18px;
-    background: rgba(155, 52, 52, 0.08);
+    background: rgba(128, 99, 83, 0.08);
     padding: 12px 14px;
 }
 
@@ -506,13 +506,13 @@
 .foglalas-kupon-blokk {
     margin: 18px 0;
     padding: 16px;
-    border: 1px solid rgba(185, 133, 143, 0.22);
+    border: 1px solid rgba(179, 145, 120, 0.22);
 }
 
 .foglalas-kupon-cimke {
     display: block;
     margin-bottom: 8px;
-    color: #6b5f58;
+    color: #806353;
     font-weight: 700;
 }
 
@@ -531,24 +531,24 @@
 .foglalas-kupon-status {
     min-height: 1.4em;
     margin: 8px 0 0;
-    color: #7f8b6c;
+    color: #806353;
     font-size: var(--lumi-font-body-small);
     font-weight: 700;
 }
 
 .foglalas-kupon-status.hiba {
-    color: #a35b65;
+    color: #806353;
 }
 
 .foglalas-osszefoglalo .foglalas-vegosszeg-sor {
     margin-top: 6px;
     padding-top: 12px;
-    border-top: 1px solid rgba(185, 133, 143, 0.22);
+    border-top: 1px solid rgba(179, 145, 120, 0.22);
 }
 
 .foglalas-osszefoglalo .foglalas-vegosszeg-sor dt,
 .foglalas-osszefoglalo .foglalas-vegosszeg-sor dd {
-    color: #2f2926;
+    color: #806353;
     font-size: 1.05rem;
     font-weight: 800;
 }
@@ -623,7 +623,7 @@
     border: 1px solid var(--ui-line);
     border-radius: 20px;
     background: var(--ui-surface);
-    box-shadow: 0 12px 34px rgba(44, 33, 30, 0.06);
+    box-shadow: 0 12px 34px rgba(128, 99, 83, 0.06);
     color: var(--ui-ink);
     text-decoration: none;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
@@ -695,7 +695,7 @@
     z-index: 1;
     transform: none;
     background: var(--ui-off-white);
-    box-shadow: 0 18px 38px rgba(44, 33, 30, 0.1);
+    box-shadow: 0 18px 38px rgba(128, 99, 83, 0.1);
 }
 
 .foglalas-ut-kartya-kiemelt {
@@ -711,7 +711,7 @@
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-leiras {
-    color: rgba(255, 249, 245, 0.74);
+    color: rgba(241, 237, 234, 0.74);
 }
 
 .foglalas-ut-kartya-kiemelt:hover,
@@ -920,7 +920,7 @@
     transform: none;
     border-color: var(--ui-rose);
     background: var(--ui-off-white);
-    box-shadow: 0 9px 24px rgba(55, 40, 35, 0.06);
+    box-shadow: 0 9px 24px rgba(128, 99, 83, 0.06);
 }
 
 .foglalas-valaszto-kartya.aktiv,
@@ -1429,20 +1429,20 @@
 }
 
 .foglalas-statusz-pending {
-    background: #f5ead8;
-    color: #8a622b;
+    background: #f1edea;
+    color: #806353;
 }
 
 .foglalas-statusz-confirmed {
-    background: #e5f0e7;
-    color: #4c7357;
+    background: #f1edea;
+    color: #806353;
 }
 
 .foglalas-statusz-cancelled,
 .foglalas-statusz-cancelled_by_customer,
 .foglalas-statusz-done {
-    background: #efedeb;
-    color: #6e6661;
+    background: #f1edea;
+    color: #806353;
 }
 
 .foglalas-lemondas-hatarido {
@@ -1454,9 +1454,9 @@
 
 .foglalas-lemondas-gomb {
     width: 100%;
-    border-color: #a45d65;
+    border-color: #806353;
     background: transparent;
-    color: #8b3f49;
+    color: #806353;
 }
 
 .foglalas-lemondas-gomb[hidden] {
@@ -1466,16 +1466,16 @@
 .foglalas-popup-azonosito {
     margin: 22px 0 0;
     padding: 18px;
-    border: 1px solid rgba(255, 250, 244, 0.22);
+    border: 1px solid rgba(241, 237, 234, 0.22);
     border-radius: 3px;
-    background: rgba(255, 250, 244, 0.08);
+    background: rgba(241, 237, 234, 0.08);
 }
 
 .foglalas-popup-azonosito > span,
 .foglalas-popup-azonosito strong,
 .foglalas-popup-azonosito p,
 .foglalas-popup-azonosito a {
-    color: #fffaf4;
+    color: #f1edea;
 }
 
 .foglalas-popup-azonosito strong {
@@ -1555,14 +1555,14 @@
 }
 
 .foglalas-ut-kartya:not(.foglalas-ut-kartya-kiemelt) .foglalas-ut-ikon {
-    border-color: rgba(145, 118, 110, 0.28);
-    background: rgba(145, 118, 110, 0.08);
+    border-color: rgba(128, 99, 83, 0.28);
+    background: rgba(128, 99, 83, 0.08);
     color: var(--ui-rose-dark);
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-ikon {
-    border-color: rgba(255, 249, 245, 0.24);
-    background: rgba(255, 249, 245, 0.14);
+    border-color: rgba(241, 237, 234, 0.24);
+    background: rgba(241, 237, 234, 0.14);
     color: var(--ui-off-white);
 }
 
@@ -1624,7 +1624,7 @@
 
 .foglalas-oldal .urlap-mezo:focus,
 .foglalas-oldal .tel-csoport:focus-within {
-    outline: 3px solid rgba(145, 118, 110, 0.34);
+    outline: 3px solid rgba(128, 99, 83, 0.34);
     outline-offset: 2px;
 }
 

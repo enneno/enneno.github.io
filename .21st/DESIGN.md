@@ -2,13 +2,13 @@
 
 ## Direction
 
-The TEST UI uses a quiet-luxury editorial direction: warm ivory canvas, deep cacao primary actions and showcase surfaces, muted blush accents, large Cormorant Garamond headings, and Manrope for functional text.
+The TEST UI uses a quiet-luxury editorial direction built only from the user-approved five-color earth-neutral palette: warm ivory canvas, deep cacao text and primary actions, plus blush, clay and caramel supporting surfaces. Large Cormorant Garamond headings and Manrope functional text remain unchanged.
 
 ## Core tokens
 
-- Primary: `#5d3d36`; on-primary: `#fffaf6`.
-- Background: `#f8f3ed`; surface: `#fffcf8`; foreground: `#2c211e`.
-- Accent: `#e8c9c3`; muted text: `#695a55`.
+- Approved palette: ivory `#f1edea`, blush `#e3d0ca`, clay `#d0b4a8`, caramel `#b39178`, cacao `#806353`.
+- Primary and foreground: `#806353`; on-primary, background and surface: `#f1edea`.
+- Normal text uses the cacao/ivory extremes; the three middle tones are mainly for supporting surfaces, borders and decoration.
 - Control radius: `14px`; card radius: `24px`; hero radius: `30px`.
 - Public layout is spacious. Admin workspace remains compact and supports its existing dark theme.
 
@@ -29,4 +29,4 @@ The TEST UI uses a quiet-luxury editorial direction: warm ivory canvas, deep cac
 
 ## Decision record
 
-The user explicitly approved this redesign on 2026-09-01. The palette and component direction are recorded in `.21st/design.json` and detailed in `docs/design-system.md`.
+The user explicitly approved this redesign on 2026-09-01 and supplied the final five-color palette on 2026-09-02. The palette and component direction are recorded in `.21st/design.json` and detailed in `docs/design-system.md`.

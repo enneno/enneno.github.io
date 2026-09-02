@@ -22,13 +22,20 @@
   "design": {
     "colorMode": "light public UI; light and dark admin UI",
     "colors": {
-      "primary": "#5d3d36",
-      "onPrimary": "#fffaf6",
-      "accent": "#e8c9c3",
-      "background": "#f8f3ed",
-      "surface": "#fffcf8",
-      "foreground": "#2c211e",
-      "mutedForeground": "#695a55"
+      "primary": "#806353",
+      "onPrimary": "#f1edea",
+      "accent": "#806353",
+      "background": "#f1edea",
+      "surface": "#f1edea",
+      "foreground": "#806353",
+      "mutedForeground": "#806353",
+      "palette": {
+        "ivory": "#f1edea",
+        "blush": "#e3d0ca",
+        "clay": "#d0b4a8",
+        "caramel": "#b39178",
+        "cacao": "#806353"
+      }
     },
     "typography": {
       "display": "Cormorant Garamond",
@@ -47,8 +54,8 @@
       "pill": "999px only for semantic pills"
     },
     "shadows": {
-      "soft": "0 16px 38px rgba(44, 33, 30, 0.10)",
-      "elevated": "0 24px 64px rgba(44, 33, 30, 0.10)"
+      "soft": "0 16px 38px rgba(128, 99, 83, 0.10)",
+      "elevated": "0 24px 64px rgba(128, 99, 83, 0.10)"
     },
     "motion": {
       "level": "subtle",
@@ -104,6 +111,11 @@
       "date": "2026-09-02",
       "decision": "Treat the mobile hero image and gallery label as one framed card, and suppress the account recommendation when the hero already includes an account action.",
       "reason": "A single radius owner prevents broken nested corners, while removing the adjacent duplicate account promotion restores a clear homepage action hierarchy."
+    },
+    {
+      "date": "2026-09-02",
+      "decision": "Recolor the complete public and admin UI from the user-supplied five-color earth-neutral palette only.",
+      "reason": "Cacao and ivory provide the accessible text/background extremes; blush, clay and caramel provide surfaces, borders and decorative hierarchy without changing layout or interaction."
     }
   ],
   "evidence": [
@@ -112,5 +124,5 @@
     { "fact": "visual.audit", "source": "docs/visual-audit.md" },
     { "fact": "implemented.critical.views", "source": "index.html, foglalas/index.html, admin/index.html" }
   ],
-  "generatedAt": "2026-09-01T00:00:00+02:00"
+  "generatedAt": "2026-09-02T00:00:00+02:00"
 }

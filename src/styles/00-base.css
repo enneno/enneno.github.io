@@ -1,34 +1,39 @@
 :root {
-    --akcentus: #7a4d44;
-    --akcentus-vilagos: #c99f96;
-    --tinta: #2c211e;
-    --barna: #5c4b46;
-    --krem: #f8f3ed;
-    --kartya: #fffcf8;
-    --szoveg: #695a55;
-    --rozsa-halvany: #ead2cc;
-    --zsalyaszurke: #a7b7a1;
+    --lumi-palette-ivory: #f1edea;
+    --lumi-palette-blush: #e3d0ca;
+    --lumi-palette-clay: #d0b4a8;
+    --lumi-palette-caramel: #b39178;
+    --lumi-palette-cacao: #806353;
+    --akcentus: #806353;
+    --akcentus-vilagos: #d0b4a8;
+    --tinta: #806353;
+    --barna: #806353;
+    --krem: #f1edea;
+    --kartya: #f1edea;
+    --szoveg: #806353;
+    --rozsa-halvany: #e3d0ca;
+    --zsalyaszurke: #d0b4a8;
 
     /* Public semantic design tokens. */
-    --ui-primary: #5d3d36;
-    --ui-on-primary: #fffaf6;
-    --ui-accent: #e8c9c3;
-    --ui-on-accent: #2c211e;
-    --ui-bg: #f8f3ed;
-    --ui-surface: #fffcf8;
-    --ui-soft: #ede2da;
-    --ui-highlight: #f5e6e1;
-    --ui-warm: #ead2cc;
-    --ui-off-black: #2c211e;
-    --ui-off-white: #fffaf6;
+    --ui-primary: #806353;
+    --ui-on-primary: #f1edea;
+    --ui-accent: #806353;
+    --ui-on-accent: #f1edea;
+    --ui-bg: #f1edea;
+    --ui-surface: #f1edea;
+    --ui-soft: #e3d0ca;
+    --ui-highlight: #f1edea;
+    --ui-warm: #b39178;
+    --ui-off-black: #806353;
+    --ui-off-white: #f1edea;
     --ui-header-bg: var(--ui-bg);
     --ui-ink: var(--ui-primary);
-    --ui-muted: #695a55;
+    --ui-muted: #806353;
     --ui-rose: var(--ui-accent);
     --ui-rose-dark: var(--ui-primary);
-    --ui-line: rgba(93, 61, 54, 0.14);
-    --ui-line-strong: rgba(93, 61, 54, 0.28);
-    --ui-shadow: 0 24px 64px rgba(44, 33, 30, 0.1);
+    --ui-line: rgba(128, 99, 83, 0.14);
+    --ui-line-strong: rgba(128, 99, 83, 0.28);
+    --ui-shadow: 0 24px 64px rgba(128, 99, 83, 0.1);
     --ui-gutter: clamp(20px, 5vw, 76px);
     --ui-header-height: 82px;
     --lumi-section-gap: clamp(72px, 8vw, 112px);
@@ -55,13 +60,13 @@
     --lumi-font-button-compact: 12px;
     --lumi-font-control: 18px;
     --lumi-font-calendar: 11px;
-    --lumi-button-shadow: 0 14px 30px rgba(93, 61, 54, 0.18);
-    --lumi-control-bg: rgba(255, 252, 248, 0.96);
-    --lumi-control-border: rgba(93, 61, 54, 0.2);
-    --lumi-control-border-strong: rgba(93, 61, 54, 0.48);
-    --lumi-control-focus: 0 0 0 3px rgba(122, 77, 68, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.78);
-    --lumi-soft-shadow: 0 16px 38px rgba(44, 33, 30, 0.1);
-    --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%2364524d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --lumi-button-shadow: 0 14px 30px rgba(128, 99, 83, 0.18);
+    --lumi-control-bg: rgba(241, 237, 234, 0.96);
+    --lumi-control-border: rgba(128, 99, 83, 0.2);
+    --lumi-control-border-strong: rgba(128, 99, 83, 0.48);
+    --lumi-control-focus: 0 0 0 3px rgba(128, 99, 83, 0.16), inset 0 1px 0 rgba(241, 237, 234, 0.78);
+    --lumi-soft-shadow: 0 16px 38px rgba(128, 99, 83, 0.1);
+    --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 * {
@@ -145,10 +150,10 @@ textarea:focus-visible {
     box-sizing: border-box;
     padding: 0 var(--ui-gutter, clamp(20px, 4vw, 56px));
     border: 0;
-    border-bottom: 1px solid var(--ui-line, rgba(145, 118, 110, 0.18));
+    border-bottom: 1px solid var(--ui-line, rgba(128, 99, 83, 0.18));
     border-radius: 0;
     background: color-mix(in srgb, var(--ui-header-bg) 92%, transparent);
-    box-shadow: 0 8px 30px rgba(44, 33, 30, 0.05);
+    box-shadow: 0 8px 30px rgba(128, 99, 83, 0.05);
     backdrop-filter: blur(16px);
 }
 
@@ -160,7 +165,7 @@ textarea:focus-visible {
     min-width: 138px;
     max-width: none;
     height: 44px;
-    color: var(--ui-off-black, #211b19);
+    color: var(--ui-off-black, #806353);
     text-decoration: none;
     transition: color 0.25s ease;
 }
@@ -197,7 +202,7 @@ textarea:focus-visible {
 }
 
 .logo:hover {
-    color: var(--ui-rose-dark, #91766e);
+    color: var(--ui-rose-dark, #806353);
 }
 
 /* Az asztali szöveges menü */
@@ -217,7 +222,7 @@ textarea:focus-visible {
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-    color: var(--ui-off-black, #211b19);
+    color: var(--ui-off-black, #806353);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-button-compact);
     font-weight: 700;
@@ -231,22 +236,22 @@ textarea:focus-visible {
 .menu-pontok a:hover,
 .menu-pontok a.aktiv {
     background: transparent;
-    box-shadow: inset 0 -2px 0 var(--ui-rose, #f0d7d5);
-    color: var(--ui-off-black, #211b19);
+    box-shadow: inset 0 -2px 0 var(--ui-rose, #e3d0ca);
+    color: var(--ui-off-black, #806353);
 }
 
 .menu-pontok a:last-child {
     min-height: 40px;
     padding: 0 18px;
     border-radius: 12px;
-    background: var(--ui-ink, #91766e);
-    color: var(--ui-on-primary, #fff9f5);
+    background: var(--ui-ink, #806353);
+    color: var(--ui-on-primary, #f1edea);
 }
 
 .menu-pontok a:last-child:hover {
-    background: var(--ui-rose-dark, #91766e);
-    box-shadow: inset 0 -3px 0 var(--ui-warm, #f0d7d5);
-    color: var(--ui-on-primary, #fff9f5);
+    background: var(--ui-rose-dark, #806353);
+    box-shadow: inset 0 -3px 0 var(--ui-warm, #e3d0ca);
+    color: var(--ui-on-primary, #f1edea);
 }
 
 @media screen and (max-width: 768px) {
@@ -344,7 +349,7 @@ body.fooldal > section[hidden] {
 /* FŐCÍM STÍLUSA */
 h1 {
     font-family: 'Cormorant Garamond', serif;
-    color: #ffffff;
+    color: #f1edea;
     font-size: 6.5em;
     margin-bottom: 10px;
     font-weight: 700;
@@ -367,7 +372,7 @@ h2 {
 .szekcio-leiras {
     max-width: 620px;
     margin: 0 auto 34px;
-    color: rgba(23, 19, 13, 0.62);
+    color: rgba(128, 99, 83, 0.62);
     font-size: var(--lumi-font-lead);
     font-weight: 400;
     line-height: 1.7;
@@ -424,17 +429,17 @@ h2 {
 }
 
 .urlap-mezo::placeholder {
-    color: rgba(43, 37, 33, 0.52);
+    color: rgba(128, 99, 83, 0.52);
     opacity: 1;
 }
 
 select.urlap-mezo:invalid {
-    color: rgba(43, 37, 33, 0.58);
+    color: rgba(128, 99, 83, 0.58);
 }
 
 .urlap-mezo option {
     color: var(--tinta);
-    background-color: #fffaf4;
+    background-color: #f1edea;
 }
 
 .urlap-mezo:focus {
@@ -463,11 +468,11 @@ select.urlap-mezo:invalid {
     align-items: center;
     flex: 0 0 auto;
     padding: 15px;
-    color: var(--ui-off-black, #211b19);
+    color: var(--ui-off-black, #806353);
     font-weight: 600;
     font-size: var(--lumi-font-control);
-    border-right: 1px solid var(--ui-line-strong, rgba(145, 118, 110, 0.3));
-    background-color: var(--ui-bg, #f3ece3);
+    border-right: 1px solid var(--ui-line-strong, rgba(128, 99, 83, 0.3));
+    background-color: var(--ui-bg, #f1edea);
     user-select: none;
 }
 
@@ -492,7 +497,7 @@ select.urlap-mezo:invalid {
     border-radius: 12px;
     background: var(--ui-primary);
     box-shadow: var(--lumi-button-shadow);
-    color: var(--ui-on-primary, #fff9f5);
+    color: var(--ui-on-primary, #f1edea);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-button);
     font-weight: 700;
@@ -507,9 +512,9 @@ select.urlap-mezo:invalid {
 
 .gomb:hover {
     background: var(--ui-off-black);
-    color: var(--ui-on-primary, #fff9f5);
+    color: var(--ui-on-primary, #f1edea);
     transform: translateY(-1px);
-    box-shadow: 0 16px 34px rgba(44, 33, 30, 0.2);
+    box-shadow: 0 16px 34px rgba(128, 99, 83, 0.2);
 }
 
 .oldal-foglalas-cta {
@@ -567,7 +572,7 @@ select.urlap-mezo:invalid {
 }
 
 .urlap-status.hiba {
-    color: #9b3434;
+    color: #806353;
 }
 
 .urlap-mezo:disabled,

@@ -2,6 +2,14 @@
 
 Audit dátuma: 2026-09-01. Vizsgált TEST nézetek: kezdőlap 1440 × 1000 és 390 × 844, foglalás 390 × 844, admin belépés 1440 × 1000 és 390 × 844.
 
+## Palettafrissítés — 2026-09-02
+
+- A felhasználó által küldött referencia alapján a teljes publikus és admin UI öt alapszínre állt át: `#f1edea`, `#e3d0ca`, `#d0b4a8`, `#b39178`, `#806353`.
+- A változtatás kizárólag színeket és a hozzájuk tartozó szemantikus tokeneket érinti; tipográfia, méret, térköz, lekerekítés, elrendezés és működés nem változott.
+- A normál szövegek fő párosa a kakaó és az elefántcsont, mert a két végpont 4.71:1 kontrasztot ad. A köztes árnyalatok főleg felületi, border- és dekorációs szerepet kapnak.
+- A forrás-CSS-hez paletta-regressziós ellenőrzés készült, hogy későbbi módosításkor ne kerülhessen vissza idegen alapszín a publikus vagy admin bundle-be.
+- A sötét admin naptár apró eseményszövege elefántcsont színt használ a kakaó háttéren; ezzel megmarad az olvashatóság az ötszínű korláton belül.
+
 ## Áttervezési frissítés — 2026-09-01
 
 - A felhasználó külön engedélyével a kritikus TEST-nézetek megkapták az új „quiet luxury” vizuális irányt; a LIVE nem változott.
