@@ -22,7 +22,7 @@
     --ui-bg: #f1edea;
     --ui-surface: #f1edea;
     --ui-soft: #e3d0ca;
-    --ui-highlight: #f1edea;
+    --ui-highlight: color-mix(in srgb, #e3d0ca 15%, #f1edea);
     --ui-warm: #b39178;
     --ui-off-black: #806353;
     --ui-off-white: #f1edea;
@@ -31,12 +31,15 @@
     --ui-muted: #806353;
     --ui-rose: var(--ui-accent);
     --ui-rose-dark: var(--ui-primary);
-    --ui-line: rgba(128, 99, 83, 0.14);
-    --ui-line-strong: rgba(128, 99, 83, 0.28);
+    --ui-line: rgba(179, 145, 120, 0.42);
+    --ui-line-strong: rgba(128, 99, 83, 0.34);
     --ui-shadow: 0 24px 64px rgba(128, 99, 83, 0.1);
     --ui-gutter: clamp(20px, 5vw, 76px);
     --ui-header-height: 82px;
-    --lumi-section-gap: clamp(72px, 8vw, 112px);
+    --lumi-content-width: 1240px;
+    --lumi-section-padding-inline: var(--ui-gutter);
+    --lumi-section-padding-block: clamp(72px, 8vw, 112px);
+    --lumi-section-gap: var(--lumi-section-padding-block);
     --lumi-section-gap-mobile: 64px;
     --lumi-section-gap-small: 52px;
     --lumi-heading-description-gap: 28px;
@@ -75,6 +78,8 @@
 
 @media screen and (max-width: 768px) {
     :root {
+        --lumi-section-padding-inline: 20px;
+        --lumi-section-padding-block: 58px;
         --lumi-font-micro: 10px;
         --lumi-font-caption: 12px;
         --lumi-font-label: 13px;
@@ -315,35 +320,10 @@ section {
     box-sizing: border-box;
 }
 
-body.fooldal > section {
-    margin-top: var(--lumi-section-gap);
-    margin-bottom: 0;
-}
-
-body.fooldal > section:first-of-type {
-    margin-top: 8px;
-}
-
-body.fooldal > section[hidden] {
+body.fooldal #fo-tartalom > section[hidden] {
     display: none;
     margin: 0;
     padding: 0;
-}
-
-@media screen and (max-width: 768px) {
-    body.fooldal > section {
-        margin-top: var(--lumi-section-gap-mobile);
-    }
-
-    body.fooldal > section:first-of-type {
-        margin-top: 0;
-    }
-}
-
-@media screen and (max-width: 380px) {
-    body.fooldal > section {
-        margin-top: var(--lumi-section-gap-small);
-    }
 }
 
 /* FŐCÍM STÍLUSA */

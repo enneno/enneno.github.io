@@ -2,6 +2,15 @@
 
 Audit dátuma: 2026-09-01. Vizsgált TEST nézetek: kezdőlap 1440 × 1000 és 390 × 844, foglalás 390 × 844, admin belépés 1440 × 1000 és 390 × 844.
 
+## Reszponzív és palettaszerep-korrekció — 2026-09-02
+
+- **Tényleges hibák:** a desktop hero rögzített magassága és a kép külön margója miatt a vizuál alja kilógott; a mobil hamburger vonalai a gomb hátterével azonos színt kaptak; a foglalás-ellenőrzés desktop beviteli oszlopa túl szűk lehetett.
+- **Következetlenségek:** a bemutatkozás, szolgáltatások és galéria eltérő vagy halott külső padding-szabályokat használt; a mobil hero sötét, az asztali világos felület volt; a vendégfiók desktop nézete túl keskeny elrendezést örökölt.
+- **Palettahiba:** az előző színcsere túl sok szemantikus tokent ugyanarra a kakaóra kötött, ezért különösen az admin felület és több kártyarendszer egyszínűvé lapult.
+- **Megoldás:** az elefántcsont és a nagyon enyhe blush-tint olvasható tartalomfelület, a clay és caramel elválasztó/kiemelő, a kakaó pedig szöveg- és fő műveleti szerepet kapott. A normál szövegek továbbra is legalább a kakaó–elefántcsont közeli kontrasztpáron maradnak.
+- **Elrendezés:** közös `1240px` tartalomszélesség és reszponzív section-padding tokenek készültek. A hero desktopon teljes szélességű, mobilon elefántcsont; a bemutatkozás, szolgáltatások és galéria belső élei azonosak; a vendégfiók és a foglalás-ellenőrzés desktop arányai szélesebbek.
+- **Opcionális ötlet:** a teljes publikus oldal többi, régebbi szekciója később ugyanarra a közös content-width tokenre migrálható, de ez most nem része a célzott javításnak.
+
 ## Palettafrissítés — 2026-09-02
 
 - A felhasználó által küldött referencia alapján a teljes publikus és admin UI öt alapszínre állt át: `#f1edea`, `#e3d0ca`, `#d0b4a8`, `#b39178`, `#806353`.

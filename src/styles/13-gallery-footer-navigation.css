@@ -466,7 +466,7 @@
     border-radius: 12px;
     background: var(--ui-accent, #e3d0ca);
     box-shadow: 0 8px 24px rgba(128, 99, 83, 0.06);
-    color: var(--ui-off-black, #806353);
+    color: var(--ui-on-accent, #f1edea);
     cursor: pointer;
     transition: background-color 0.2s ease;
 }

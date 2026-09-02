@@ -443,9 +443,11 @@ test('a publikus foundation és hero CSS a publikus rétegben él', async ({ pag
 
     expect(baseCss).toContain('--ui-header-height: 82px;');
     expect(baseCss).toContain('body:not(.admin-body) {');
+    expect(baseCss).toContain('--lumi-section-padding-inline: var(--ui-gutter);');
+    expect(baseCss).toContain('--lumi-content-width: 1240px;');
     expect(heroCss).toContain('/* Home hero */');
     expect(heroCss).toContain('#hero.hero-preview-refresh {');
-    expect(heroCss).toContain('#fo-tartalom input:not([type="checkbox"])');
+    expect(heroCss).toContain('.hero-visual {');
     expect(legalCss).toContain('.jogi-oldal {');
     expect(unifiedCss).not.toContain('/* Home hero */');
     expect(unifiedCss).not.toContain('#hero.hero-preview-refresh');
@@ -462,9 +464,19 @@ test('a publikus foundation és hero CSS a publikus rétegben él', async ({ pag
         display: getComputedStyle(hero).display,
         columns: getComputedStyle(hero).gridTemplateColumns.split(' ').filter(Boolean).length,
         width: Math.round(hero.getBoundingClientRect().width),
-        height: Math.round(hero.getBoundingClientRect().height)
+        height: Math.round(hero.getBoundingClientRect().height),
+        radius: getComputedStyle(hero).borderRadius,
+        visualInside: hero.querySelector('.hero-visual').getBoundingClientRect().bottom
+            <= hero.getBoundingClientRect().bottom + 1
     }));
-    expect(desktop).toEqual({ display: 'grid', columns: 2, width: 1440, height: 540 });
+    expect(desktop).toMatchObject({
+        display: 'grid',
+        columns: 2,
+        width: 1440,
+        radius: '0px',
+        visualInside: true
+    });
+    expect(desktop.height).toBeGreaterThanOrEqual(620);
 
     await page.setViewportSize({ width: 390, height: 844 });
     const mobile = await page.locator('#hero.hero-preview-refresh').evaluate((hero) => ({
@@ -477,7 +489,7 @@ test('a publikus foundation és hero CSS a publikus rétegben él', async ({ pag
     expect(mobile).toEqual({
         display: 'flex',
         direction: 'column',
-        background: 'rgb(128, 99, 83)',
+        background: 'rgb(241, 237, 234)',
         imageFit: 'contain',
         documentWidth: 390
     });

@@ -1,8 +1,8 @@
 .fiok-main {
-    width: min(1080px, calc(100% - 40px));
+    width: min(1360px, 100%);
     min-height: 70vh;
     margin: 0 auto;
-    padding: 58px 0 96px;
+    padding: 58px var(--lumi-section-padding-inline) 96px;
 }
 
 .fiok-main [hidden] {
@@ -82,9 +82,9 @@
 
 .fiok-auth-elrendezes {
     display: grid;
-    grid-template-columns: minmax(260px, 0.72fr) minmax(420px, 1fr);
+    grid-template-columns: minmax(340px, 0.88fr) minmax(500px, 1.12fr);
     align-items: center;
-    width: min(100%, 980px);
+    width: min(100%, 1160px);
     min-height: calc(100svh - var(--ui-header-height) - 154px);
     gap: clamp(26px, 5vw, 72px);
     margin: 0 auto;
@@ -426,7 +426,7 @@
 
 .fiok-dashboard-racs {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
     gap: 22px;
     margin-top: 34px;
@@ -672,8 +672,8 @@
 
 @media screen and (max-width: 768px) {
     .fiok-main {
-        width: min(100% - 28px, 680px);
-        padding: 24px 0 64px;
+        width: min(100%, 680px);
+        padding: 24px 14px 64px;
     }
 
     .fiok-hero,
@@ -729,7 +729,8 @@
 
 @media screen and (max-width: 480px) {
     .fiok-main {
-        width: calc(100% - 24px);
+        width: 100%;
+        padding-inline: 12px;
     }
 
     .fiok-auth-kartya,

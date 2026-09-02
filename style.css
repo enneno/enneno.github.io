@@ -24,7 +24,7 @@
     --ui-bg: #f1edea;
     --ui-surface: #f1edea;
     --ui-soft: #e3d0ca;
-    --ui-highlight: #f1edea;
+    --ui-highlight: color-mix(in srgb, #e3d0ca 15%, #f1edea);
     --ui-warm: #b39178;
     --ui-off-black: #806353;
     --ui-off-white: #f1edea;
@@ -33,12 +33,15 @@
     --ui-muted: #806353;
     --ui-rose: var(--ui-accent);
     --ui-rose-dark: var(--ui-primary);
-    --ui-line: rgba(128, 99, 83, 0.14);
-    --ui-line-strong: rgba(128, 99, 83, 0.28);
+    --ui-line: rgba(179, 145, 120, 0.42);
+    --ui-line-strong: rgba(128, 99, 83, 0.34);
     --ui-shadow: 0 24px 64px rgba(128, 99, 83, 0.1);
     --ui-gutter: clamp(20px, 5vw, 76px);
     --ui-header-height: 82px;
-    --lumi-section-gap: clamp(72px, 8vw, 112px);
+    --lumi-content-width: 1240px;
+    --lumi-section-padding-inline: var(--ui-gutter);
+    --lumi-section-padding-block: clamp(72px, 8vw, 112px);
+    --lumi-section-gap: var(--lumi-section-padding-block);
     --lumi-section-gap-mobile: 64px;
     --lumi-section-gap-small: 52px;
     --lumi-heading-description-gap: 28px;
@@ -77,6 +80,8 @@
 
 @media screen and (max-width: 768px) {
     :root {
+        --lumi-section-padding-inline: 20px;
+        --lumi-section-padding-block: 58px;
         --lumi-font-micro: 10px;
         --lumi-font-caption: 12px;
         --lumi-font-label: 13px;
@@ -317,35 +322,10 @@ section {
     box-sizing: border-box;
 }
 
-body.fooldal > section {
-    margin-top: var(--lumi-section-gap);
-    margin-bottom: 0;
-}
-
-body.fooldal > section:first-of-type {
-    margin-top: 8px;
-}
-
-body.fooldal > section[hidden] {
+body.fooldal #fo-tartalom > section[hidden] {
     display: none;
     margin: 0;
     padding: 0;
-}
-
-@media screen and (max-width: 768px) {
-    body.fooldal > section {
-        margin-top: var(--lumi-section-gap-mobile);
-    }
-
-    body.fooldal > section:first-of-type {
-        margin-top: 0;
-    }
-}
-
-@media screen and (max-width: 380px) {
-    body.fooldal > section {
-        margin-top: var(--lumi-section-gap-small);
-    }
 }
 
 /* FŐCÍM STÍLUSA */
@@ -1693,7 +1673,7 @@ select.urlap-mezo:invalid {
     border-radius: 12px;
     background: var(--ui-accent, #e3d0ca);
     box-shadow: 0 8px 24px rgba(128, 99, 83, 0.06);
-    color: var(--ui-off-black, #806353);
+    color: var(--ui-on-accent, #f1edea);
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
@@ -2391,12 +2371,12 @@ select.urlap-mezo:invalid {
     width: 100%;
     max-width: none;
     margin-bottom: 0;
-    padding: clamp(72px, 8vw, 112px) var(--ui-gutter);
+    padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
     background: var(--ui-off-black);
 }
 
 .szolgaltatasok-belso {
-    width: min(1160px, 100%);
+    width: min(var(--lumi-content-width), 100%);
     margin-inline: auto;
 }
 
@@ -2452,8 +2432,8 @@ select.urlap-mezo:invalid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
-    width: var(--lumi-container-width);
-    max-width: 1400px;
+    width: 100%;
+    max-width: none;
     box-sizing: border-box;
     margin: 0 auto;
     padding: 0;
@@ -2475,7 +2455,7 @@ select.urlap-mezo:invalid {
     margin: 0;
     padding: 32px;
     overflow: hidden;
-    border: 1px solid rgba(241, 237, 234, 0.22);
+    border: 1px solid rgba(241, 237, 234, 0.42);
     border-radius: 22px;
     isolation: isolate;
     background: var(--ui-off-black);
@@ -2486,7 +2466,7 @@ select.urlap-mezo:invalid {
         transform 220ms ease-out;
 }
 .szolgaltatas-lista > .szolgaltatas-kartya {
-    border: 1px solid rgba(241, 237, 234, 0.22);
+    border: 1px solid rgba(241, 237, 234, 0.42);
 }
 
 
@@ -2500,7 +2480,7 @@ select.urlap-mezo:invalid {
     background-position: var(--service-position, center);
     background-repeat: no-repeat;
     background-size: cover;
-    filter: brightness(0.56) saturate(0.78);
+    filter: brightness(0.62) saturate(0.8);
     content: "";
     pointer-events: none;
     transform: scale(1);
@@ -2513,7 +2493,7 @@ select.urlap-mezo:invalid {
     border-radius: inherit;
     z-index: 0;
     display: block;
-    background: linear-gradient(135deg, rgba(128, 99, 83, 0.88), rgba(128, 99, 83, 0.68));
+    background: linear-gradient(135deg, rgba(128, 99, 83, 0.84), rgba(128, 99, 83, 0.64));
     content: "";
     pointer-events: none;
 }
@@ -2701,7 +2681,7 @@ select.urlap-mezo:invalid {
 @media screen and (max-width: 768px) {
     #szolgaltatasok {
         width: 100%;
-        padding: 58px 20px 60px;
+        padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
     }
 
     .szolgaltatasok-belso {
@@ -2837,21 +2817,22 @@ select.urlap-mezo:invalid {
 
 /* Home introduction — végleges megjelenés (99-ből migrálva) */
 #bemutatkozas {
-    width: min(1120px, calc(100% - 48px));
+    width: 100%;
+    max-width: none;
     margin-right: auto;
     margin-bottom: 0;
     margin-left: auto;
-    padding: 0;
+    padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
     background: transparent;
 }
 
 #bemutatkozas .bemutatkozas-belso {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(360px, 0.82fr) minmax(0, 1.18fr);
     gap: clamp(52px, 8vw, 110px);
     align-items: stretch;
-    width: 100%;
-    margin: 0;
+    width: min(var(--lumi-content-width), 100%);
+    margin: 0 auto;
 }
 
 .bemutatkozas-kep {
@@ -2861,7 +2842,7 @@ select.urlap-mezo:invalid {
     margin: 0;
     overflow: hidden;
     border-radius: var(--lumi-radius-card);
-    background: var(--ui-soft);
+    background: var(--ui-highlight);
     transform: none;
 }
 
@@ -2903,6 +2884,7 @@ select.urlap-mezo:invalid {
     position: static;
     align-self: center;
     min-width: 0;
+    width: 100%;
     color: var(--ui-ink);
 }
 
@@ -2923,7 +2905,7 @@ select.urlap-mezo:invalid {
 }
 
 .bemutatkozas-szoveg p {
-    max-width: 580px;
+    max-width: 100%;
     color: var(--ui-muted);
     font-family: "Manrope", sans-serif;
     font-size: var(--lumi-font-body);
@@ -2938,7 +2920,7 @@ select.urlap-mezo:invalid {
 @media screen and (max-width: 768px) {
     #bemutatkozas {
         width: 100%;
-        padding: 0 20px;
+        padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
     }
 
     #bemutatkozas .bemutatkozas-belso {
@@ -2981,7 +2963,7 @@ select.urlap-mezo:invalid {
     gap: 50px;
     align-items: end;
     width: 100%;
-    padding: clamp(70px, 8vw, 110px) var(--ui-gutter);
+    padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
     border: 0;
     border-radius: 0;
     background: var(--ui-highlight);
@@ -3035,7 +3017,7 @@ select.urlap-mezo:invalid {
 @media screen and (max-width: 768px) {
     .fooldal #kapcsolat {
         gap: 24px;
-        padding: 32px 20px 40px;
+        padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
         border-top: 1px solid var(--ui-line);
     }
 
@@ -3147,12 +3129,12 @@ select.urlap-mezo:invalid {
 
 /* Home gallery — végleges megjelenés (99-ből migrálva) */
 #galeria-atvezeto {
-    width: min(1380px, calc(100% - 32px));
+    width: 100%;
     max-width: none;
     margin-right: auto;
     margin-bottom: 0;
     margin-left: auto;
-    padding: 0;
+    padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
 }
 
 .galeria-showcase-fej {
@@ -3160,7 +3142,7 @@ select.urlap-mezo:invalid {
     grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
     gap: 50px;
     align-items: end;
-    width: min(1160px, calc(100% - 40px));
+    width: min(var(--lumi-content-width), 100%);
     margin: 0 auto 36px;
 }
 
@@ -3185,8 +3167,9 @@ select.urlap-mezo:invalid {
     grid-template-columns: minmax(720px, 1.04fr) minmax(340px, 0.48fr);
     align-items: center;
     gap: clamp(32px, 4vw, 62px);
-    width: 100%;
-    max-width: none;
+    width: min(var(--lumi-content-width), 100%);
+    max-width: var(--lumi-content-width);
+    margin-inline: auto;
 }
 
 .galeria-atvezeto-kepek {
@@ -3226,7 +3209,7 @@ select.urlap-mezo:invalid {
     align-items: center;
     justify-content: space-between;
     gap: 30px;
-    width: min(1160px, calc(100% - 40px));
+    width: 100%;
     margin: 34px auto 0;
 }
 
@@ -3538,13 +3521,13 @@ select.urlap-mezo:invalid {
         margin-right: 0;
         margin-bottom: 0;
         margin-left: 0;
-        padding: 24px 0 20px;
+        padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
         overflow: hidden;
         background: var(--ui-surface);
     }
 
     .galeria-showcase-fej {
-        width: calc(100% - 40px);
+        width: 100%;
         gap: 16px;
         margin: 0 auto 16px;
     }
@@ -3572,7 +3555,7 @@ select.urlap-mezo:invalid {
 
     .galeria-atvezeto-szoveg {
         display: flex;
-        width: calc(100% - 40px);
+        width: 100%;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
@@ -3704,18 +3687,18 @@ select.urlap-mezo:invalid {
     position: relative;
     display: grid;
     grid-template-columns: minmax(380px, 0.88fr) minmax(500px, 1.12fr);
-    width: min(1400px, calc(100% - 32px));
-    max-width: 1400px;
-    height: clamp(560px, 66vh, 680px);
-    min-height: 0;
-    margin: 18px auto 0;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: clamp(560px, 66vh, 680px);
+    margin: 0;
     aspect-ratio: auto;
     padding: 0;
-    overflow: clip;
-    border: 1px solid var(--ui-line);
-    border-radius: 30px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
     background: var(--ui-surface);
-    box-shadow: var(--ui-shadow);
+    box-shadow: none;
 }
 
 .hero-content {
@@ -3728,7 +3711,7 @@ select.urlap-mezo:invalid {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: clamp(48px, 6vw, 88px);
+    padding: clamp(48px, 6vw, 88px) var(--lumi-section-padding-inline);
     text-align: left;
 }
 
@@ -3812,11 +3795,12 @@ select.urlap-mezo:invalid {
 .hero-visual {
     position: relative;
     min-width: 0;
-    height: 100%;
+    height: auto;
     min-height: 0;
+    align-self: stretch;
     overflow: hidden;
-    margin: 10px 10px 10px 0;
-    border-radius: 24px;
+    margin: 0;
+    border-radius: 0;
     clip-path: none;
 }
 
@@ -3913,26 +3897,26 @@ select.urlap-mezo:invalid {
         flex-direction: column;
         gap: 24px;
         margin-top: 0;
-        padding: 32px 18px 18px;
+        padding: 32px var(--lumi-section-padding-inline) 20px;
         border: 0;
         border-radius: 0;
-        background: var(--ui-off-black);
+        background: var(--ui-bg);
         box-shadow: none;
     }
 
     .hero-content {
         order: 1;
-        padding: 18px 6px 0;
+        padding: 18px 0 0;
     }
 
     .hero-content .hero-kicker {
-        color: var(--ui-highlight);
+        color: var(--ui-primary);
     }
 
     .hero-content h1 {
         max-width: 100%;
         margin: 15px 0 18px;
-        color: #f1edea;
+        color: var(--ui-ink);
         font-size: clamp(66px, 19vw, 86px);
         letter-spacing: -0.055em;
         line-height: 0.9;
@@ -3940,7 +3924,7 @@ select.urlap-mezo:invalid {
 
     .hero-content > p {
         max-width: 34ch;
-        color: rgba(241, 237, 234, 0.72);
+        color: var(--ui-muted);
         font-size: var(--lumi-font-body);
         line-height: 1.65;
     }
@@ -3959,9 +3943,9 @@ select.urlap-mezo:invalid {
     }
 
     .hero-actions .hero-secondary {
-        border-color: rgba(241, 237, 234, 0.3);
-        background: transparent;
-        color: var(--ui-off-white);
+        border-color: var(--ui-line-strong);
+        background: var(--ui-surface);
+        color: var(--ui-ink);
     }
 
     .hero-bizalom {
@@ -3971,15 +3955,15 @@ select.urlap-mezo:invalid {
         width: 100%;
         margin-top: 28px;
         padding-top: 18px;
-        border-top-color: rgba(241, 237, 234, 0.16);
-        color: rgba(241, 237, 234, 0.58);
+        border-top-color: var(--ui-line);
+        color: var(--ui-muted);
         font-size: var(--lumi-font-micro);
         line-height: 1.45;
     }
 
     .hero-bizalom strong {
         display: block;
-        color: #f1edea;
+        color: var(--ui-ink);
         font-size: var(--lumi-font-micro);
         font-weight: 700;
     }
@@ -3992,9 +3976,9 @@ select.urlap-mezo:invalid {
         flex-direction: column;
         margin: 0;
         overflow: hidden;
-        border: 1px solid rgba(241, 237, 234, 0.16);
+        border: 1px solid var(--ui-line);
         border-radius: 22px;
-        background: rgba(241, 237, 234, 0.04);
+        background: var(--ui-surface);
         clip-path: none;
     }
 
@@ -4028,10 +4012,10 @@ select.urlap-mezo:invalid {
         width: 100%;
         padding: 15px 16px;
         border: 0;
-        border-top: 1px solid rgba(241, 237, 234, 0.12);
+        border-top: 1px solid var(--ui-line);
         border-radius: 0;
-        background: rgba(241, 237, 234, 0.06);
-        color: rgba(241, 237, 234, 0.76);
+        background: var(--ui-primary);
+        color: var(--ui-on-primary);
         font-size: var(--lumi-font-caption);
         backdrop-filter: none;
     }
@@ -4040,7 +4024,7 @@ select.urlap-mezo:invalid {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        color: #f1edea;
+        color: var(--ui-on-primary);
         font-weight: 700;
         text-decoration: none;
     }
@@ -4553,10 +4537,10 @@ select.urlap-mezo:invalid {
 }
 
 .fiok-main {
-    width: min(1080px, calc(100% - 40px));
+    width: min(1360px, 100%);
     min-height: 70vh;
     margin: 0 auto;
-    padding: 58px 0 96px;
+    padding: 58px var(--lumi-section-padding-inline) 96px;
 }
 
 .fiok-main [hidden] {
@@ -4636,9 +4620,9 @@ select.urlap-mezo:invalid {
 
 .fiok-auth-elrendezes {
     display: grid;
-    grid-template-columns: minmax(260px, 0.72fr) minmax(420px, 1fr);
+    grid-template-columns: minmax(340px, 0.88fr) minmax(500px, 1.12fr);
     align-items: center;
-    width: min(100%, 980px);
+    width: min(100%, 1160px);
     min-height: calc(100svh - var(--ui-header-height) - 154px);
     gap: clamp(26px, 5vw, 72px);
     margin: 0 auto;
@@ -4980,7 +4964,7 @@ select.urlap-mezo:invalid {
 
 .fiok-dashboard-racs {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
     gap: 22px;
     margin-top: 34px;
@@ -5226,8 +5210,8 @@ select.urlap-mezo:invalid {
 
 @media screen and (max-width: 768px) {
     .fiok-main {
-        width: min(100% - 28px, 680px);
-        padding: 24px 0 64px;
+        width: min(100%, 680px);
+        padding: 24px 14px 64px;
     }
 
     .fiok-hero,
@@ -5283,7 +5267,8 @@ select.urlap-mezo:invalid {
 
 @media screen and (max-width: 480px) {
     .fiok-main {
-        width: calc(100% - 24px);
+        width: 100%;
+        padding-inline: 12px;
     }
 
     .fiok-auth-kartya,
@@ -5874,6 +5859,11 @@ select.urlap-mezo:invalid {
 
 /* Booking — végleges megjelenés (99-ből migrálva) */
 .foglalas-oldal {
+    --booking-panel-bg: color-mix(in srgb, var(--lumi-palette-blush) 15%, var(--lumi-palette-ivory));
+    --booking-card-bg: var(--lumi-palette-ivory);
+    --booking-choice-bg: color-mix(in srgb, var(--lumi-palette-clay) 8%, var(--lumi-palette-ivory));
+    --booking-choice-hover-bg: color-mix(in srgb, var(--lumi-palette-clay) 12%, var(--lumi-palette-ivory));
+    --booking-summary-bg: color-mix(in srgb, var(--lumi-palette-caramel) 7%, var(--lumi-palette-ivory));
     width: min(1180px, calc(100% - 48px));
     margin: 0 auto;
     padding: clamp(72px, 8vw, 116px) 0 0;
@@ -5941,7 +5931,7 @@ select.urlap-mezo:invalid {
     padding: 26px;
     border: 1px solid var(--ui-line);
     border-radius: 20px;
-    background: var(--ui-surface);
+    background: var(--booking-panel-bg);
     box-shadow: 0 12px 34px rgba(128, 99, 83, 0.06);
     color: var(--ui-ink);
     text-decoration: none;
@@ -6013,7 +6003,7 @@ select.urlap-mezo:invalid {
 .foglalas-ut-kartya:hover {
     z-index: 1;
     transform: none;
-    background: var(--ui-off-white);
+    background: var(--booking-choice-hover-bg);
     box-shadow: 0 18px 38px rgba(128, 99, 83, 0.1);
 }
 
@@ -6057,7 +6047,7 @@ select.urlap-mezo:invalid {
     padding: clamp(44px, 6vw, 72px);
     border: 1px solid var(--ui-line);
     border-radius: 28px;
-    background: var(--ui-surface);
+    background: var(--booking-panel-bg);
     box-shadow: var(--ui-shadow);
     scroll-margin-top: calc(var(--ui-header-height) + 24px);
 }
@@ -6093,7 +6083,7 @@ select.urlap-mezo:invalid {
     padding: clamp(28px, 4vw, 42px);
     border: 1px solid var(--ui-line);
     border-radius: 22px;
-    background: var(--ui-bg);
+    background: var(--booking-card-bg);
     box-shadow: none;
     scroll-margin-top: calc(var(--ui-header-height) + 24px);
 }
@@ -6221,7 +6211,7 @@ select.urlap-mezo:invalid {
 .foglalas-idopont-gomb,
 .foglalas-datum-chip {
     border-color: var(--ui-line);
-    background: var(--ui-surface);
+    background: var(--booking-choice-bg);
     box-shadow: none;
 }
 
@@ -6238,7 +6228,7 @@ select.urlap-mezo:invalid {
 .foglalas-datum-chip:hover {
     transform: none;
     border-color: var(--ui-rose);
-    background: var(--ui-off-white);
+    background: var(--booking-choice-hover-bg);
     box-shadow: 0 9px 24px rgba(128, 99, 83, 0.06);
 }
 
@@ -6327,7 +6317,7 @@ select.urlap-mezo:invalid {
 .foglalas-kupon-blokk {
     border-color: var(--ui-line);
     border-radius: 14px;
-    background: var(--ui-surface);
+    background: var(--booking-summary-bg);
     box-shadow: none;
 }
 
@@ -6597,19 +6587,19 @@ select.urlap-mezo:invalid {
     padding: clamp(24px, 4vw, 42px);
     border: 1px solid var(--ui-line);
     border-radius: 20px;
-    background: var(--ui-surface);
+    background: var(--booking-panel-bg);
     box-shadow: var(--ui-shadow);
 }
 
 @media (min-width: 769px) {
     .foglalas-kezelo-szekcio {
-        grid-template-columns: minmax(300px, 0.78fr) minmax(460px, 1.22fr);
+        grid-template-columns: minmax(280px, 0.68fr) minmax(0, 1.32fr);
         gap: clamp(46px, 6vw, 76px);
         margin-bottom: clamp(72px, 8vw, 104px);
         padding: clamp(46px, 6vw, 68px);
         border: 1px solid var(--ui-line);
         border-radius: 24px;
-        background: var(--ui-surface);
+        background: var(--booking-panel-bg);
     }
 
     .foglalas-kezelo-bevezeto {
@@ -6618,7 +6608,7 @@ select.urlap-mezo:invalid {
 
     .foglalas-kezelo-kartya {
         padding: 34px;
-        background: var(--ui-bg);
+        background: var(--booking-card-bg);
         box-shadow: none;
     }
 
@@ -6644,13 +6634,14 @@ select.urlap-mezo:invalid {
 
 .foglalas-kezelo-bevitel {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(170px, 1fr) minmax(170px, max-content);
     gap: 10px;
 }
 
 .foglalas-kezelo-bevitel input {
     min-width: 0;
     font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.045em;
     text-transform: uppercase;

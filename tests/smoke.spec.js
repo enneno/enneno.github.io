@@ -967,7 +967,7 @@ test('a főoldali szolgáltatásrész a jóváhagyott ötszínű palettában asz
     expect(asztali).toMatchObject({
         primary: '#806353',
         accent: '#806353',
-        highlight: '#f1edea',
+        highlight: 'color-mix(in srgb, #e3d0ca 15%, #f1edea)',
         warm: '#b39178',
         hatter: 'rgb(128, 99, 83)',
         listaOverflow: 'visible',
@@ -978,8 +978,8 @@ test('a főoldali szolgáltatásrész a jóváhagyott ötszínű palettában asz
     expect(hatterKepSzelessegek.every((szelesseg) => szelesseg > 0)).toBe(true);
     expect(asztali.kepHatters.every((kep) => kep !== 'none')).toBe(true);
     expect(asztali.fedoretegek.every((reteg) => reteg.includes('linear-gradient'))).toBe(true);
-    expect(asztali.keretSzinek.every((szin) => szin === 'rgba(241, 237, 234, 0.22)')).toBe(true);
-    expect(asztali.keretSzelessegek.every((szelesseg) => szelesseg === '2px')).toBe(true);
+    expect(asztali.keretSzinek.every((szin) => szin === 'rgba(241, 237, 234, 0.42)')).toBe(true);
+    expect(asztali.keretSzelessegek.every((szelesseg) => szelesseg === '1px')).toBe(true);
     expect(asztali.keretIvek.every(({ kartya, keret }) => kartya === keret)).toBe(true);
     expect(asztali.szamok).toBe(0);
     expect(asztali.cimSzinek.every((szin) => szin === 'rgb(241, 237, 234)')).toBe(true);
@@ -2195,6 +2195,7 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
 
     await page.setViewportSize({ width: 390, height: 844 });
     await expect(page.locator('.hamburger')).toHaveCSS('background-color', 'rgb(128, 99, 83)');
+    await expect(page.locator('.hamburger')).toHaveCSS('color', 'rgb(241, 237, 234)');
     await expect(page.locator('.hero-primary')).toHaveCSS('background-color', 'rgb(128, 99, 83)');
 
     const mobilIllesztes = await page.evaluate(() => {
@@ -2208,8 +2209,9 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
         };
     });
     expect(mobilIllesztes.fiokAjanloHianyzik).toBe(true);
-    expect(mobilIllesztes.heroKepEsHeroAlja).toBeLessThanOrEqual(0.1);
-    expect(mobilIllesztes.monogramBalTavolsag).toBeLessThanOrEqual(0.1);
+    expect(mobilIllesztes.heroKepEsHeroAlja).toBeGreaterThanOrEqual(19);
+    expect(mobilIllesztes.heroKepEsHeroAlja).toBeLessThanOrEqual(21);
+    expect(mobilIllesztes.monogramBalTavolsag).toBeLessThanOrEqual(1.1);
     await page.locator('.hamburger').click();
     await expect(page.locator('.mobile-menu.open a').first()).toHaveCSS('color', 'rgb(128, 99, 83)');
 

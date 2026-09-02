@@ -111,17 +111,17 @@ test.describe('célzott elrendezési és olvashatósági ellenőrzés', () => {
         await page.goto('/', { waitUntil: 'domcontentloaded' });
 
         const home = await page.evaluate(() => {
-            const introImage = document.querySelector('.bemutatkozas-kep').getBoundingClientRect();
             const introCopy = document.querySelector('.bemutatkozas-szoveg').getBoundingClientRect();
+            const introParagraph = document.querySelector('.bemutatkozas-szoveg p').getBoundingClientRect();
             return {
                 accountRecommendationAbsent: !document.querySelector('#fiok-ajanlo'),
-                introColumnDelta: Math.abs(introImage.width - introCopy.width),
+                paragraphColumnDelta: Math.abs(introParagraph.width - introCopy.width),
                 removedIntroLink: !document.querySelector('.bemutatkozas-szoveg > .szoveges-link')
             };
         });
 
         expect(home.accountRecommendationAbsent).toBe(true);
-        expect(home.introColumnDelta).toBeLessThanOrEqual(1);
+        expect(home.paragraphColumnDelta).toBeLessThanOrEqual(1);
         expect(home.removedIntroLink).toBe(true);
 
         await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
@@ -130,15 +130,21 @@ test.describe('célzott elrendezési és olvashatósági ellenőrzés', () => {
             const reference = document.querySelector('#foglalas-azonosito').getBoundingClientRect();
             const contact = document.querySelector('#foglalas-elerhetoseg');
             const contactRect = contact.getBoundingClientRect();
+            const style = getComputedStyle(contact);
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            context.font = style.font;
             return {
                 contactBelowReference: contactRect.top >= reference.bottom - 1,
                 placeholder: contact.placeholder,
+                placeholderFits: context.measureText(contact.placeholder).width + 32 <= contact.clientWidth,
                 columns: getComputedStyle(document.querySelector('.foglalas-kezelo-biztonsagi-mezok')).gridTemplateColumns.split(' ').length
             };
         });
 
         expect(fields.contactBelowReference).toBe(true);
         expect(fields.placeholder).toContain('pelda@email.hu');
+        expect(fields.placeholderFits).toBe(true);
         expect(fields.columns).toBe(1);
     });
 

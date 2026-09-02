@@ -20,6 +20,18 @@ const criticalViews = [
         ready: '#foglalas-urlap'
     },
     {
+        name: 'booking-desktop',
+        path: '/foglalas/',
+        viewport: { width: 1440, height: 1000 },
+        ready: '#foglalas-azonosito'
+    },
+    {
+        name: 'account-desktop',
+        path: '/fiokom/',
+        viewport: { width: 1440, height: 1000 },
+        ready: '#fiok-auth-panel'
+    },
+    {
         name: 'admin-desktop',
         path: '/admin/',
         viewport: { width: 1440, height: 1000 },
@@ -90,6 +102,108 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.labelClosesCard).toBe(true);
         expect(metrics.accountRecommendationAbsent).toBe(true);
         expect(metrics.overflow).toBeLessThanOrEqual(1);
+    });
+
+    test('homepage layout uses one gutter system and keeps the hero inside its section', async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        await page.goto('/', { waitUntil: 'domcontentloaded' });
+        await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+
+        const desktop = await page.evaluate(() => {
+            const hero = document.querySelector('#hero');
+            const visual = hero.querySelector('.hero-visual');
+            const intro = document.querySelector('.bemutatkozas-belso');
+            const introText = intro.querySelector('.bemutatkozas-szoveg');
+            const introParagraph = introText.querySelector('p');
+            const services = document.querySelector('.szolgaltatasok-belso');
+            const gallery = document.querySelector('.galeria-showcase-fej');
+            const heroRect = hero.getBoundingClientRect();
+            const visualRect = visual.getBoundingClientRect();
+            const introRect = intro.getBoundingClientRect();
+            const introTextRect = introText.getBoundingClientRect();
+            const paragraphRect = introParagraph.getBoundingClientRect();
+
+            return {
+                heroWidth: Math.round(heroRect.width),
+                heroRadius: Number.parseFloat(getComputedStyle(hero).borderRadius),
+                visualInsideHero: visualRect.top >= heroRect.top - 1
+                    && visualRect.bottom <= heroRect.bottom + 1,
+                sharedLeftEdges: [intro, services, gallery].every((element) =>
+                    Math.abs(element.getBoundingClientRect().left - introRect.left) <= 1),
+                introParagraphUsesTextColumn: Math.abs(paragraphRect.width - introTextRect.width) <= 1,
+                documentWidth: document.documentElement.scrollWidth
+            };
+        });
+
+        expect(desktop.heroWidth).toBe(1440);
+        expect(desktop.heroRadius).toBe(0);
+        expect(desktop.visualInsideHero).toBe(true);
+        expect(desktop.sharedLeftEdges).toBe(true);
+        expect(desktop.introParagraphUsesTextColumn).toBe(true);
+        expect(desktop.documentWidth).toBe(1440);
+
+        await page.setViewportSize({ width: 390, height: 844 });
+        const mobile = await page.evaluate(() => {
+            const hero = document.querySelector('#hero');
+            const hamburger = document.querySelector('.hamburger');
+            const lines = Array.from(hamburger.querySelectorAll('span'));
+            return {
+                heroBackground: getComputedStyle(hero).backgroundColor,
+                hamburgerColor: getComputedStyle(hamburger).color,
+                linesVisible: lines.every((line) => {
+                    const rect = line.getBoundingClientRect();
+                    return rect.width >= 18 && rect.height >= 1;
+                }),
+                documentWidth: document.documentElement.scrollWidth
+            };
+        });
+
+        expect(mobile.heroBackground).toBe('rgb(241, 237, 234)');
+        expect(mobile.hamburgerColor).toBe('rgb(241, 237, 234)');
+        expect(mobile.linesVisible).toBe(true);
+        expect(mobile.documentWidth).toBe(390);
+    });
+
+    test('desktop account and booking verification retain desktop proportions', async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        await page.goto('/fiokom/', { waitUntil: 'domcontentloaded' });
+        await expect(page.locator('#fiok-auth-panel')).toBeVisible();
+
+        const account = await page.locator('#fiok-auth-panel').evaluate((panel) => ({
+            columns: getComputedStyle(panel).gridTemplateColumns.split(' ').filter(Boolean).length,
+            width: Math.round(panel.getBoundingClientRect().width),
+            documentWidth: document.documentElement.scrollWidth
+        }));
+        expect(account.columns).toBe(2);
+        expect(account.width).toBeGreaterThanOrEqual(1100);
+        expect(account.documentWidth).toBe(1440);
+
+        await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
+        await page.waitForSelector('#foglalas-elerhetoseg');
+        const booking = await page.evaluate(() => {
+            const section = document.querySelector('#foglalas-ellenorzes');
+            const input = document.querySelector('#foglalas-elerhetoseg');
+            const card = input.closest('.foglalas-kezelo-kartya');
+            const inputStyle = getComputedStyle(input);
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            context.font = inputStyle.font;
+            const placeholderWidth = context.measureText(input.placeholder).width;
+            return {
+                sectionBackground: getComputedStyle(section).backgroundColor,
+                cardBackground: getComputedStyle(card).backgroundColor,
+                surfacesAreDistinct: getComputedStyle(section).backgroundColor
+                    !== getComputedStyle(card).backgroundColor,
+                inputWidth: input.clientWidth,
+                placeholderFits: placeholderWidth + 32 <= input.clientWidth,
+                documentWidth: document.documentElement.scrollWidth
+            };
+        });
+        expect(booking.cardBackground).toBe('rgb(241, 237, 234)');
+        expect(booking.surfacesAreDistinct).toBe(true);
+        expect(booking.inputWidth).toBeGreaterThanOrEqual(280);
+        expect(booking.placeholderFits).toBe(true);
+        expect(booking.documentWidth).toBe(1440);
     });
 
     for (const view of criticalViews) {

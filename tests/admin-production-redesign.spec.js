@@ -484,8 +484,8 @@ test.describe('production admin redesign', () => {
         const darkTokens = await collectThemeTokens();
         expect(darkTokens.every(color => approved.has(color))).toBe(true);
         const darkPrimaryAction = page.locator('.admin-v2-page-actions .admin-v2-button-primary').first();
-        await expect(darkPrimaryAction).toHaveCSS('background-color', 'rgb(241, 237, 234)');
-        await expect(darkPrimaryAction).toHaveCSS('color', 'rgb(128, 99, 83)');
+        await expect(darkPrimaryAction).toHaveCSS('background-color', 'rgb(128, 99, 83)');
+        await expect(darkPrimaryAction).toHaveCSS('color', 'rgb(241, 237, 234)');
         await page.screenshot({ path: testInfo.outputPath('admin-workspace-dark-desktop.png'), fullPage: true });
 
         await page.evaluate(() => { document.documentElement.dataset.adminTheme = 'light'; });

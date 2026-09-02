@@ -5,18 +5,18 @@
     position: relative;
     display: grid;
     grid-template-columns: minmax(380px, 0.88fr) minmax(500px, 1.12fr);
-    width: min(1400px, calc(100% - 32px));
-    max-width: 1400px;
-    height: clamp(560px, 66vh, 680px);
-    min-height: 0;
-    margin: 18px auto 0;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: clamp(560px, 66vh, 680px);
+    margin: 0;
     aspect-ratio: auto;
     padding: 0;
-    overflow: clip;
-    border: 1px solid var(--ui-line);
-    border-radius: 30px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
     background: var(--ui-surface);
-    box-shadow: var(--ui-shadow);
+    box-shadow: none;
 }
 
 .hero-content {
@@ -29,7 +29,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: clamp(48px, 6vw, 88px);
+    padding: clamp(48px, 6vw, 88px) var(--lumi-section-padding-inline);
     text-align: left;
 }
 
@@ -113,11 +113,12 @@
 .hero-visual {
     position: relative;
     min-width: 0;
-    height: 100%;
+    height: auto;
     min-height: 0;
+    align-self: stretch;
     overflow: hidden;
-    margin: 10px 10px 10px 0;
-    border-radius: 24px;
+    margin: 0;
+    border-radius: 0;
     clip-path: none;
 }
 
@@ -214,26 +215,26 @@
         flex-direction: column;
         gap: 24px;
         margin-top: 0;
-        padding: 32px 18px 18px;
+        padding: 32px var(--lumi-section-padding-inline) 20px;
         border: 0;
         border-radius: 0;
-        background: var(--ui-off-black);
+        background: var(--ui-bg);
         box-shadow: none;
     }
 
     .hero-content {
         order: 1;
-        padding: 18px 6px 0;
+        padding: 18px 0 0;
     }
 
     .hero-content .hero-kicker {
-        color: var(--ui-highlight);
+        color: var(--ui-primary);
     }
 
     .hero-content h1 {
         max-width: 100%;
         margin: 15px 0 18px;
-        color: #f1edea;
+        color: var(--ui-ink);
         font-size: clamp(66px, 19vw, 86px);
         letter-spacing: -0.055em;
         line-height: 0.9;
@@ -241,7 +242,7 @@
 
     .hero-content > p {
         max-width: 34ch;
-        color: rgba(241, 237, 234, 0.72);
+        color: var(--ui-muted);
         font-size: var(--lumi-font-body);
         line-height: 1.65;
     }
@@ -260,9 +261,9 @@
     }
 
     .hero-actions .hero-secondary {
-        border-color: rgba(241, 237, 234, 0.3);
-        background: transparent;
-        color: var(--ui-off-white);
+        border-color: var(--ui-line-strong);
+        background: var(--ui-surface);
+        color: var(--ui-ink);
     }
 
     .hero-bizalom {
@@ -272,15 +273,15 @@
         width: 100%;
         margin-top: 28px;
         padding-top: 18px;
-        border-top-color: rgba(241, 237, 234, 0.16);
-        color: rgba(241, 237, 234, 0.58);
+        border-top-color: var(--ui-line);
+        color: var(--ui-muted);
         font-size: var(--lumi-font-micro);
         line-height: 1.45;
     }
 
     .hero-bizalom strong {
         display: block;
-        color: #f1edea;
+        color: var(--ui-ink);
         font-size: var(--lumi-font-micro);
         font-weight: 700;
     }
@@ -293,9 +294,9 @@
         flex-direction: column;
         margin: 0;
         overflow: hidden;
-        border: 1px solid rgba(241, 237, 234, 0.16);
+        border: 1px solid var(--ui-line);
         border-radius: 22px;
-        background: rgba(241, 237, 234, 0.04);
+        background: var(--ui-surface);
         clip-path: none;
     }
 
@@ -329,10 +330,10 @@
         width: 100%;
         padding: 15px 16px;
         border: 0;
-        border-top: 1px solid rgba(241, 237, 234, 0.12);
+        border-top: 1px solid var(--ui-line);
         border-radius: 0;
-        background: rgba(241, 237, 234, 0.06);
-        color: rgba(241, 237, 234, 0.76);
+        background: var(--ui-primary);
+        color: var(--ui-on-primary);
         font-size: var(--lumi-font-caption);
         backdrop-filter: none;
     }
@@ -341,7 +342,7 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        color: #f1edea;
+        color: var(--ui-on-primary);
         font-weight: 700;
         text-decoration: none;
     }

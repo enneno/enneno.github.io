@@ -45,12 +45,15 @@
     "spacing": {
       "base": "4px",
       "component": ["8px", "12px", "16px", "24px", "32px"],
-      "section": ["48px", "64px", "72px", "96px", "112px"]
+      "section": ["48px", "64px", "72px", "96px", "112px"],
+      "contentWidth": "1240px",
+      "sectionInline": "var(--ui-gutter), 20px on mobile",
+      "sectionBlock": "clamp(72px, 8vw, 112px), 58px on mobile"
     },
     "radius": {
       "control": "14px",
       "card": "24px",
-      "hero": "30px",
+      "hero": "full-bleed desktop; 22px image card on mobile",
       "pill": "999px only for semantic pills"
     },
     "shadows": {
@@ -72,7 +75,7 @@
       "existing admin v2 controls"
     ],
     "patterns": [
-      "split editorial hero",
+      "full-bleed split editorial hero",
       "dark service showcase",
       "progressive booking step cards",
       "split branded admin authentication"
@@ -116,6 +119,16 @@
       "date": "2026-09-02",
       "decision": "Recolor the complete public and admin UI from the user-supplied five-color earth-neutral palette only.",
       "reason": "Cacao and ivory provide the accessible text/background extremes; blush, clay and caramel provide surfaces, borders and decorative hierarchy without changing layout or interaction."
+    },
+    {
+      "date": "2026-09-02",
+      "decision": "Assign the five palette colors distinct semantic roles instead of mapping most UI tokens to cacao.",
+      "reason": "Ivory and lightly tinted blush carry readable content surfaces, clay and caramel define borders and supporting emphasis, and cacao remains the text and primary-action anchor."
+    },
+    {
+      "date": "2026-09-02",
+      "decision": "Use one shared 1240px content width and responsive section padding, while keeping the desktop home hero full-bleed.",
+      "reason": "Introduction, services and gallery now align to the same gutters; the hero no longer clips its visual, and account and booking utility layouts retain desktop proportions."
     }
   ],
   "evidence": [

@@ -9,14 +9,16 @@ The TEST UI uses a quiet-luxury editorial direction built only from the user-app
 - Approved palette: ivory `#f1edea`, blush `#e3d0ca`, clay `#d0b4a8`, caramel `#b39178`, cacao `#806353`.
 - Primary and foreground: `#806353`; on-primary, background and surface: `#f1edea`.
 - Normal text uses the cacao/ivory extremes; the three middle tones are mainly for supporting surfaces, borders and decoration.
-- Control radius: `14px`; card radius: `24px`; hero radius: `30px`.
+- Control radius: `14px`; card radius: `24px`; the desktop home hero is full-bleed, while its mobile image card uses `22px`.
+- Shared public content width: `1240px`; responsive section padding comes from `--lumi-section-padding-inline` and `--lumi-section-padding-block`.
+- Ivory and a light blush tint carry readable content surfaces; clay and caramel separate borders and supporting emphasis; cacao anchors text, navigation and primary actions.
 - Public layout is spacious. Admin workspace remains compact and supports its existing dark theme.
 
 ## Patterns
 
-- Split editorial home hero with one primary booking CTA.
+- Full-bleed split editorial home hero with one primary booking CTA; mobile keeps the same ivory color hierarchy.
 - Dark service showcase with readable image overlays.
-- Progressive booking steps presented as clear surface cards.
+- Progressive booking steps use lightly tinted blush panels, ivory cards, clay-tinted choices and cacao active actions.
 - Split branded admin authentication on desktop and a compact single card on mobile.
 
 ## Constraints

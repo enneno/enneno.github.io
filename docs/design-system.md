@@ -58,12 +58,16 @@ A nagy editorial címek `clamp()`-et használhatnak, de hosszú magyar szó eset
 A preferált alaprács 4 px; komponenseken belül 4/8/12/16/24/32, szekciók között 48/64/72/96/112 px használható. Meglévő közös tokenek:
 
 - `--ui-gutter: clamp(20px, 5vw, 76px)`;
-- `--lumi-container-width: min(1400px, calc(100% - 40px))`;
-- `--lumi-section-gap: clamp(72px, 8vw, 112px)`;
-- mobil szekcióköz 64 px, kis szekcióköz 52 px;
+- `--lumi-content-width: 1240px` a kezdőlap közös belső tartalomszélessége;
+- `--lumi-section-padding-inline: var(--ui-gutter)`, mobilon 20 px;
+- `--lumi-section-padding-block: clamp(72px, 8vw, 112px)`, mobilon 58 px;
+- `--lumi-container-width: min(1400px, calc(100% - 40px))` a régebbi, nem kezdőlapi konténerekhez;
+- `--lumi-section-gap` a közös szekció-padding függőleges értékét követi; kis szekcióköz 52 px;
 - cím–leírás távolság 28 px.
 
 Új nyers spacingérték csak valódi feature-eltéréshez kerülhet a feature-fájlba. Ismétlődő értéknél előbb közös tokent kell választani vagy létrehozni a megfelelő foundation rétegben.
+
+A kezdőlap teljes szélességű szekciói a saját háttérszínüket birtokolják, belső tartalmuk pedig a közös `--lumi-content-width` és section-padding tokenekhez igazodik. A desktop hero kivételként teljes szélességű split felület; mobilon ugyanazt az elefántcsont színhierarchiát tartja meg, a kép és galériacímke pedig egyetlen lekerekített kártya.
 
 ## Lekerekítések és árnyékok
 
