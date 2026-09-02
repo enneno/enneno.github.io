@@ -3,58 +3,58 @@
 
 .admin-body.admin-v2 #admin-panel-foglalasok {
   --booking-status-width: 150px;
-  --booking-calendar-header-bg: #f1edea;
---booking-calendar-cell-bg: #f1edea;
---booking-calendar-empty-bg: #f1edea;
---booking-calendar-hover-bg: #f1edea;
---booking-calendar-selected-bg: #f1edea;
---booking-calendar-count-bg: #f1edea;
---booking-calendar-event-bg: #f1edea;
---booking-calendar-event-border: #b39178;
+  --booking-calendar-header-bg: #f4efeb;
+--booking-calendar-cell-bg: #fff9f5;
+--booking-calendar-empty-bg: #f7f3ef;
+--booking-calendar-hover-bg: #faf6f2;
+--booking-calendar-selected-bg: #f8ecef;
+--booking-calendar-count-bg: #eee7e2;
+--booking-calendar-event-bg: #f3eeea;
+--booking-calendar-event-border: #a99488;
 --booking-calendar-event-text: var(--admin-ink);
---booking-calendar-pending-border: #806353;
---booking-calendar-pending-bg: #f1edea;
---booking-calendar-confirmed-border: #806353;
---booking-calendar-confirmed-bg: #f1edea;
---booking-calendar-done-border: #806353;
---booking-calendar-done-bg: #f1edea;
---booking-calendar-cancelled-border: #806353;
---booking-calendar-cancelled-bg: #806353;
---booking-calendar-cancelled-customer-border: #806353;
---booking-calendar-cancelled-customer-bg: #806353;
---booking-calendar-day-row-bg: #f1edea;
---booking-calendar-day-status-bg: rgba(241, 237, 234, .66);
-  --booking-icon-pencil: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E");
-  --booking-icon-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E");
-  --booking-icon-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
-  --booking-icon-clock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
-  --booking-icon-list: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 6h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 18h13'/%3E%3Cpath d='M3 6h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 18h.01'/%3E%3C/svg%3E");
+--booking-calendar-pending-border: #783e53;
+--booking-calendar-pending-bg: #f4e4e9;
+--booking-calendar-confirmed-border: #31566c;
+--booking-calendar-confirmed-bg: #e4eef4;
+--booking-calendar-done-border: #2f603f;
+--booking-calendar-done-bg: #e2efe5;
+--booking-calendar-cancelled-border: #2e2927;
+--booking-calendar-cancelled-bg: #2e2927;
+--booking-calendar-cancelled-customer-border: #62404c;
+--booking-calendar-cancelled-customer-bg: #62404c;
+--booking-calendar-day-row-bg: #fff9f5;
+--booking-calendar-day-status-bg: rgba(255, 249, 245, .66);
+  --booking-icon-pencil: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E");
+  --booking-icon-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E");
+  --booking-icon-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
+  --booking-icon-clock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+  --booking-icon-list: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 6h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 18h13'/%3E%3Cpath d='M3 6h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 18h.01'/%3E%3C/svg%3E");
   max-width: 1280px;
   margin-inline: auto;
 }
 
 html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
-  --booking-calendar-header-bg: #806353;
-  --booking-calendar-cell-bg: #806353;
-  --booking-calendar-empty-bg: #806353;
-  --booking-calendar-hover-bg: #806353;
-  --booking-calendar-selected-bg: #806353;
-  --booking-calendar-count-bg: #806353;
-  --booking-calendar-event-bg: #806353;
-  --booking-calendar-event-border: #b39178;
-  --booking-calendar-event-text: #f1edea;
-  --booking-calendar-pending-border: #b39178;
-  --booking-calendar-pending-bg: #806353;
-  --booking-calendar-confirmed-border: #d0b4a8;
-  --booking-calendar-confirmed-bg: #806353;
-  --booking-calendar-done-border: #b39178;
-  --booking-calendar-done-bg: #806353;
-  --booking-calendar-cancelled-border: #806353;
-  --booking-calendar-cancelled-bg: #806353;
-  --booking-calendar-cancelled-customer-border: #b39178;
-  --booking-calendar-cancelled-customer-bg: #806353;
-  --booking-calendar-day-row-bg: #806353;
-  --booking-calendar-day-status-bg: #806353;
+  --booking-calendar-header-bg: #2a2421;
+  --booking-calendar-cell-bg: #211d1b;
+  --booking-calendar-empty-bg: #1c1917;
+  --booking-calendar-hover-bg: #2d2724;
+  --booking-calendar-selected-bg: #382729;
+  --booking-calendar-count-bg: #332b28;
+  --booking-calendar-event-bg: #2f2926;
+  --booking-calendar-event-border: #9a8177;
+  --booking-calendar-event-text: #eadeda;
+  --booking-calendar-pending-border: #c78397;
+  --booking-calendar-pending-bg: #3a252d;
+  --booking-calendar-confirmed-border: #79a7bd;
+  --booking-calendar-confirmed-bg: #22313a;
+  --booking-calendar-done-border: #7ba68a;
+  --booking-calendar-done-bg: #24362b;
+  --booking-calendar-cancelled-border: #7c716d;
+  --booking-calendar-cancelled-bg: #302a27;
+  --booking-calendar-cancelled-customer-border: #b07c8e;
+  --booking-calendar-cancelled-customer-bg: #3a2930;
+  --booking-calendar-day-row-bg: #24201e;
+  --booking-calendar-day-status-bg: #332c29;
 }
 
 /* Toolbar and search */
@@ -318,7 +318,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-foglalas-kartya-kattinthato:not(.szerkeszt):hover,
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-foglalas-kartya-kattinthato:focus-visible { background: var(--admin-v2-surface-soft); }
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-foglalas-kartya-kattinthato:focus-visible {
-  outline: 2px solid rgba(128, 99, 83, .34);
+  outline: 2px solid rgba(137, 88, 77, .34);
   outline-offset: -2px;
 }
 
@@ -523,7 +523,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   gap: 10px;
   margin: 7px 0 0;
   padding: 7px 0 0;
-  border-top: 1px solid rgba(128, 99, 83, .09);
+  border-top: 1px solid rgba(73, 58, 52, .09);
   color: var(--admin-v2-ink);
   background: transparent;
   font-size: 13px;
@@ -548,7 +548,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   gap: 10px;
   margin: 7px 0 0;
   padding: 7px 0 0;
-  border-top: 1px solid rgba(128, 99, 83, .09);
+  border-top: 1px solid rgba(73, 58, 52, .09);
   color: var(--admin-v2-ink);
   background: transparent;
   font-size: 10.5px;
@@ -571,7 +571,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   margin-top: 8px;
   padding: 9px 0 0;
   border: 0;
-  border-top: 1px solid rgba(227, 208, 202, .72);
+  border-top: 1px solid rgba(240, 215, 213, .72);
   border-radius: 0;
   background: transparent;
 }
@@ -618,7 +618,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   margin-top: 7px;
   padding: 7px 0 12px;
   align-items: center;
-  border-top: 1px solid rgba(128, 99, 83, .09);
+  border-top: 1px solid rgba(73, 58, 52, .09);
 }
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-db-akciok [data-foglalas-torles] {
   padding-inline: 10px;
@@ -637,10 +637,10 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   justify-content: center;
   min-height: 30px;
   padding: 0 12px;
-  border: 1px solid rgba(179, 145, 120, .28);
+  border: 1px solid rgba(185, 133, 143, .28);
   border-radius: var(--lumi-radius-pill);
   color: var(--akcentus);
-  background: rgba(179, 145, 120, .08);
+  background: rgba(185, 133, 143, .08);
   font-family: 'Manrope', sans-serif;
   font-size: var(--lumi-font-button-compact);
   font-weight: 600;
@@ -654,7 +654,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   align-items: center;
   justify-content: center;
   padding: 18px;
-  background: rgba(128, 99, 83, .58);
+  background: rgba(43, 37, 33, .58);
   backdrop-filter: blur(6px);
 }
 .admin-inspiracio-modal[hidden] { display: none; }
@@ -664,10 +664,10 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   width: min(980px, 100%);
   max-height: min(86vh, 900px);
   overflow: hidden;
-  border: 1px solid rgba(179, 145, 120, .28);
+  border: 1px solid rgba(185, 133, 143, .28);
   border-radius: 26px;
   background: var(--admin-v2-surface);
-  box-shadow: 0 22px 60px rgba(128, 99, 83, .24);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .24);
 }
 .admin-inspiracio-modal-fejlec {
   display: flex;
@@ -676,7 +676,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   justify-content: space-between;
   gap: 16px;
   padding: clamp(18px, 3vw, 28px);
-  border-bottom: 1px solid rgba(179, 145, 120, .16);
+  border-bottom: 1px solid rgba(185, 133, 143, .16);
   background: var(--admin-v2-surface);
 }
 .admin-inspiracio-modal-doboz h3 {
@@ -690,10 +690,10 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   flex: 0 0 auto;
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(179, 145, 120, .22);
+  border: 1px solid rgba(185, 133, 143, .22);
   border-radius: var(--lumi-radius-pill);
   color: var(--tinta);
-  background: rgba(241, 237, 234, .55);
+  background: rgba(241, 222, 217, .55);
   font-size: 28px;
   line-height: 1;
   cursor: pointer;
@@ -714,7 +714,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   max-height: 70vh;
   object-fit: contain;
   border-radius: 18px;
-  background: rgba(241, 237, 234, .22);
+  background: rgba(241, 222, 217, .22);
 }
 .admin-inspiracio-modal-racs figcaption {
   margin-top: 7px;

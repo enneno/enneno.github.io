@@ -459,41 +459,6 @@ function expectHeadingTopsAligned(tops) {
 }
 
 test.describe('production admin redesign', () => {
-    test('logged-in workspace keeps the approved palette in light and dark mode', async ({ page }, testInfo) => {
-        const browserErrors = await openAdmin(page, { width: 1440, height: 1000 });
-        const approved = new Set(['#f1edea', '#e3d0ca', '#d0b4a8', '#b39178', '#806353']);
-        const collectThemeTokens = () => page.locator('body').evaluate(body => {
-            const style = getComputedStyle(body);
-            return [
-                '--admin-v2-bg',
-                '--admin-v2-surface',
-                '--admin-v2-border',
-                '--admin-v2-border-strong',
-                '--admin-v2-ink',
-                '--admin-v2-muted',
-                '--admin-v2-brand',
-                '--admin-v2-on-brand'
-            ].map(token => style.getPropertyValue(token).trim().toLowerCase());
-        });
-
-        const lightTokens = await collectThemeTokens();
-        expect(lightTokens.every(color => approved.has(color))).toBe(true);
-        await page.screenshot({ path: testInfo.outputPath('admin-workspace-light-desktop.png'), fullPage: true });
-
-        await page.evaluate(() => { document.documentElement.dataset.adminTheme = 'dark'; });
-        const darkTokens = await collectThemeTokens();
-        expect(darkTokens.every(color => approved.has(color))).toBe(true);
-        const darkPrimaryAction = page.locator('.admin-v2-page-actions .admin-v2-button-primary').first();
-        await expect(darkPrimaryAction).toHaveCSS('background-color', 'rgb(128, 99, 83)');
-        await expect(darkPrimaryAction).toHaveCSS('color', 'rgb(241, 237, 234)');
-        await page.screenshot({ path: testInfo.outputPath('admin-workspace-dark-desktop.png'), fullPage: true });
-
-        await page.evaluate(() => { document.documentElement.dataset.adminTheme = 'light'; });
-        await page.setViewportSize({ width: 390, height: 844 });
-        await page.screenshot({ path: testInfo.outputPath('admin-workspace-light-mobile.png'), fullPage: true });
-        expect(browserErrors).toEqual([]);
-    });
-
     test('desktop: the new information architecture is compact and usable', async ({ page }) => {
         const browserErrors = await openAdmin(page, { width: 1440, height: 1000 });
 

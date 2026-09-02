@@ -2,23 +2,6 @@
 
 Audit dátuma: 2026-09-01. Vizsgált TEST nézetek: kezdőlap 1440 × 1000 és 390 × 844, foglalás 390 × 844, admin belépés 1440 × 1000 és 390 × 844.
 
-## Reszponzív és palettaszerep-korrekció — 2026-09-02
-
-- **Tényleges hibák:** a desktop hero rögzített magassága és a kép külön margója miatt a vizuál alja kilógott; a mobil hamburger vonalai a gomb hátterével azonos színt kaptak; a foglalás-ellenőrzés desktop beviteli oszlopa túl szűk lehetett.
-- **Következetlenségek:** a bemutatkozás, szolgáltatások és galéria eltérő vagy halott külső padding-szabályokat használt; a mobil hero sötét, az asztali világos felület volt; a vendégfiók desktop nézete túl keskeny elrendezést örökölt.
-- **Palettahiba:** az előző színcsere túl sok szemantikus tokent ugyanarra a kakaóra kötött, ezért különösen az admin felület és több kártyarendszer egyszínűvé lapult.
-- **Megoldás:** az elefántcsont és a nagyon enyhe blush-tint olvasható tartalomfelület, a clay és caramel elválasztó/kiemelő, a kakaó pedig szöveg- és fő műveleti szerepet kapott. A normál szövegek továbbra is legalább a kakaó–elefántcsont közeli kontrasztpáron maradnak.
-- **Elrendezés:** közös `1240px` tartalomszélesség és reszponzív section-padding tokenek készültek. A hero desktopon teljes szélességű, mobilon elefántcsont; a bemutatkozás, szolgáltatások és galéria belső élei azonosak; a vendégfiók és a foglalás-ellenőrzés desktop arányai szélesebbek.
-- **Opcionális ötlet:** a teljes publikus oldal többi, régebbi szekciója később ugyanarra a közös content-width tokenre migrálható, de ez most nem része a célzott javításnak.
-
-## Palettafrissítés — 2026-09-02
-
-- A felhasználó által küldött referencia alapján a teljes publikus és admin UI öt alapszínre állt át: `#f1edea`, `#e3d0ca`, `#d0b4a8`, `#b39178`, `#806353`.
-- A változtatás kizárólag színeket és a hozzájuk tartozó szemantikus tokeneket érinti; tipográfia, méret, térköz, lekerekítés, elrendezés és működés nem változott.
-- A normál szövegek fő párosa a kakaó és az elefántcsont, mert a két végpont 4.71:1 kontrasztot ad. A köztes árnyalatok főleg felületi, border- és dekorációs szerepet kapnak.
-- A forrás-CSS-hez paletta-regressziós ellenőrzés készült, hogy későbbi módosításkor ne kerülhessen vissza idegen alapszín a publikus vagy admin bundle-be.
-- A sötét admin naptár apró eseményszövege elefántcsont színt használ a kakaó háttéren; ezzel megmarad az olvashatóság az ötszínű korláton belül.
-
 ## Áttervezési frissítés — 2026-09-01
 
 - A felhasználó külön engedélyével a kritikus TEST-nézetek megkapták az új „quiet luxury” vizuális irányt; a LIVE nem változott.
@@ -74,3 +57,10 @@ Az audit során egy determinisztikus HTML-hiba célzottan javítva lett: a rejte
 - Következetes Cormorant Garamond + Manrope editorial/UI párosítás; a `ui-ux-pro-max` elegáns serif + olvasható sans ajánlásával összhangban.
 - Admin világos/sötét szemantikus állapottokenek, külön success/warning/danger/info párokkal.
 - Reduced-motion szabályok és meglévő, kockázatalapúan futtatható célzott Playwright-tesztek.
+
+## Reszponzív javítások és paletta-visszaállítás — 2026-09-02
+
+- A desktop hero teljes szélességű, a kép nem lóg ki a szekcióból; a bemutatkozás, szolgáltatások és galéria ugyanazt a közös tartalomszélességet és belső paddinget használja.
+- A mobil hero világos elrendezése, az egybefüggő kép–galériacímke kártya és a látható hamburger ikon megmaradt.
+- A vendégfiók desktop arányai és a foglalás-ellenőrzés szélesebb desktop beviteli sora megmaradt.
+- A felhasználói kérésre a teljes publikus és admin felület visszakapta az eredeti quiet-luxury szemantikus színeket. Az ötszínű earth-tone kísérlet és annak paletta-specifikus ellenőrzései megszűntek; elrendezés, méret, térköz, lekerekítés és működés nem lett visszavonva.

@@ -158,8 +158,8 @@ test.describe('kritikus vizuális nézetek', () => {
             };
         });
 
-        expect(mobile.heroBackground).toBe('rgb(241, 237, 234)');
-        expect(mobile.hamburgerColor).toBe('rgb(241, 237, 234)');
+        expect(mobile.heroBackground).toBe('rgb(248, 243, 237)');
+        expect(mobile.hamburgerColor).toBe('rgb(44, 33, 30)');
         expect(mobile.linesVisible).toBe(true);
         expect(mobile.documentWidth).toBe(390);
     });
@@ -199,7 +199,7 @@ test.describe('kritikus vizuális nézetek', () => {
                 documentWidth: document.documentElement.scrollWidth
             };
         });
-        expect(booking.cardBackground).toBe('rgb(241, 237, 234)');
+        expect(booking.cardBackground).toBe('rgb(255, 252, 248)');
         expect(booking.surfacesAreDistinct).toBe(true);
         expect(booking.inputWidth).toBeGreaterThanOrEqual(280);
         expect(booking.placeholderFits).toBe(true);

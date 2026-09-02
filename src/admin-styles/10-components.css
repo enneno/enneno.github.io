@@ -36,7 +36,7 @@
 }
 
 .admin-body .admin-mezo span {
-  color: rgba(128, 99, 83, 0.62);
+  color: rgba(93, 77, 70, 0.62);
   font-size: var(--lumi-font-caption);
   font-weight: 600;
 }
@@ -96,7 +96,7 @@
   border: 1px solid var(--admin-v2-border);
   border-radius: 11px;
   background: var(--admin-v2-surface);
-  box-shadow: 0 2px 10px rgba(128, 99, 83, 0.035);
+  box-shadow: 0 2px 10px rgba(67, 42, 35, 0.035);
 }
 
 .admin-body .admin-db-kartya h3 {
@@ -169,7 +169,7 @@
 .admin-body .admin-gomb,
 .admin-body .admin-hozzaadas,
 .admin-body .admin-kis-gomb {
-  border: 1px solid rgba(179, 145, 120, 0.24);
+  border: 1px solid rgba(185, 133, 143, 0.24);
   color: var(--tinta);
   background: color-mix(in srgb, var(--admin-v2-surface) 80%, transparent);
   font-family: var(--lumi-button-font);
@@ -181,27 +181,27 @@
 
 .admin-body .admin-gomb {
   border-color: var(--admin-v2-brand-dark);
-  color: #f1edea;
+  color: #fffaf4;
   background: var(--admin-v2-brand-dark);
 }
 
 .admin-body .admin-hozzaadas:hover,
 .admin-body .admin-kis-gomb:hover {
   border-color: transparent;
-  color: #f1edea;
+  color: #fffaf4;
   background: var(--akcentus);
 }
 
 .admin-body .admin-veszely-gomb {
-  border-color: rgba(128, 99, 83, 0.3);
-  color: #806353;
-  background: rgba(128, 99, 83, 0.08);
+  border-color: rgba(143, 60, 72, 0.3);
+  color: #8f3c48;
+  background: rgba(143, 60, 72, 0.08);
 }
 
 .admin-body .admin-veszely-gomb:hover {
-  border-color: #806353;
-  color: #f1edea;
-  background: #806353;
+  border-color: #9b4e5c;
+  color: #fffaf4;
+  background: #9b4e5c;
 }
 
 .admin-body .admin-kis-gomb:disabled,
@@ -218,7 +218,7 @@
   border: 1px solid var(--admin-v2-border);
   border-radius: 12px;
   background: var(--admin-v2-surface-soft);
-  box-shadow: inset 0 1px 2px rgba(128, 99, 83, .035);
+  box-shadow: inset 0 1px 2px rgba(67, 42, 35, .035);
 }
 
 .admin-body.admin-v2 .admin-segmented-item {
@@ -246,7 +246,7 @@
 ) {
   color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-surface);
-  box-shadow: 0 1px 4px rgba(128, 99, 83, .12);
+  box-shadow: 0 1px 4px rgba(67, 42, 35, .12);
 }
 
 /* Shared compact icon button. Visual size stays compact; the pseudo element keeps a 44px touch target. */
@@ -265,7 +265,7 @@
   border-radius: var(--admin-ui-icon-radius);
   color: var(--admin-v2-brand);
   background: var(--admin-v2-surface);
-  box-shadow: 0 1px 3px rgba(128, 99, 83, .06);
+  box-shadow: 0 1px 3px rgba(67, 42, 35, .06);
   font-size: 0;
   line-height: 1;
   cursor: pointer;
@@ -280,10 +280,10 @@
 }
 
 .admin-body.admin-v2 .admin-control-icon-button:not(:disabled):hover {
-  border-color: rgba(128, 99, 83, .34);
+  border-color: rgba(163, 93, 117, .34);
   color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-brand-soft);
-  box-shadow: 0 3px 10px rgba(128, 99, 83, .075);
+  box-shadow: 0 3px 10px rgba(67, 42, 35, .075);
   transform: translateY(-1px);
 }
 
@@ -390,13 +390,13 @@
   --admin-ui-picker-icon-size: 13px;
   --admin-ui-picker-icon-gap: 4px;
   --admin-ui-picker-icon-zone: calc(var(--admin-ui-picker-icon-size) + (2 * var(--admin-ui-picker-icon-gap)));
-  --admin-ui-date-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
-  --admin-ui-time-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+  --admin-ui-date-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
+  --admin-ui-time-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
 }
 
 html[data-admin-theme="dark"] .admin-body.admin-v2 {
-  --admin-ui-date-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d0ca' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
-  --admin-ui-time-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d0ca' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+  --admin-ui-date-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d8cac4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
+  --admin-ui-time-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d8cac4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
 }
 
 .admin-body.admin-v2 :is(#admin-tartalom, #admin-bejelentkezes-panel) :is(input[type="date"], input[type="time"], input[type="month"]) {
@@ -422,7 +422,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   background-position: right var(--admin-ui-picker-icon-gap) center;
   background-repeat: no-repeat;
   background-size: var(--admin-ui-picker-icon-size) var(--admin-ui-picker-icon-size);
-  box-shadow: 0 1px 2px rgba(128, 99, 83, .04);
+  box-shadow: 0 1px 2px rgba(67, 42, 35, .04);
   font-family: inherit;
   font-size: 20px;
   font-weight: 600;
@@ -722,7 +722,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 .admin-body .admin-pagination-button:not(:disabled):hover {
   color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-surface);
-  box-shadow: 0 1px 3px rgba(128, 99, 83, .09);
+  box-shadow: 0 1px 3px rgba(67, 42, 35, .09);
 }
 
 .admin-body .admin-pagination-button:disabled {
@@ -739,7 +739,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   border-radius: 9px;
   color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-surface);
-  box-shadow: 0 1px 3px rgba(128, 99, 83, .08);
+  box-shadow: 0 1px 3px rgba(67, 42, 35, .08);
   font-size: 14px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -852,8 +852,8 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   min-height: 26px;
   padding: 0 8px;
   border-radius: 7px;
-  color: #806353;
-  background: #f1edea;
+  color: #56715e;
+  background: #e8f0e9;
   font-size: var(--lumi-font-caption);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -863,7 +863,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 .admin-body .admin-allapot-jelzo.inaktiv {
   color: var(--admin-muted);
-  background: #f1edea;
+  background: #efedeb;
 }
 
 .admin-body .admin-ikonos-gomb {
@@ -889,11 +889,11 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   display: none;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(227, 208, 202, 0.68);
+  border-top: 1px solid rgba(240, 215, 213, 0.68);
 }
 
 .admin-body .admin-szerkesztheto-kartya.szerkeszt {
-  background: #f1edea;
+  background: #fbf6f2;
 }
 
 .admin-body .admin-szerkesztheto-kartya.szerkeszt .admin-kompakt-szerkeszto {
@@ -904,7 +904,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   justify-content: flex-end;
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px solid rgba(128, 99, 83, 0.09);
+  border-top: 1px solid rgba(73, 58, 52, 0.09);
 }
 
 @media screen and (max-width: 768px) {
@@ -944,7 +944,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   border-radius: 11px;
   color: var(--admin-v2-brand);
   background: var(--admin-v2-surface);
-  box-shadow: 0 1px 3px rgba(128, 99, 83, .06);
+  box-shadow: 0 1px 3px rgba(67, 42, 35, .06);
 }
 .admin-body.admin-v2 #admin-tartalom #admin-foglalas-frissites.admin-frissites-ikon-gomb svg {
   width: 18px;
@@ -1003,7 +1003,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-foglalas-kartya.szerkeszt .admin-db-statusz--foglalas {
   padding: 0 28px 0 12px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f5f59' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
   background-position: right 9px center;
   background-size: 14px 14px;
   cursor: pointer;

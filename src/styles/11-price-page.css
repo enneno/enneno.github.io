@@ -77,7 +77,7 @@
     min-width: 18px;
     order: 2;
     margin-top: 0;
-    border-bottom: 1px dotted rgba(128, 99, 83, 0.38);
+    border-bottom: 1px dotted rgba(67, 49, 43, 0.38);
 }
 
 .arlista-sor > span {
@@ -110,7 +110,7 @@
     margin: 32px 0 0;
     padding: 18px 20px;
     border-left: 2px solid var(--ui-rose);
-    background: rgba(241, 237, 234, 0.7);
+    background: rgba(255, 253, 249, 0.7);
     color: var(--ui-muted);
     font-size: var(--lumi-font-body-small);
     font-style: normal;

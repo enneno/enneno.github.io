@@ -1,37 +1,32 @@
 /* Admin foundation: tokens, reset and shared brand primitives only. */
 :root {
-  --lumi-palette-ivory: #f1edea;
-  --lumi-palette-blush: #e3d0ca;
-  --lumi-palette-clay: #d0b4a8;
-  --lumi-palette-caramel: #b39178;
-  --lumi-palette-cacao: #806353;
-  --akcentus: #806353;
-  --akcentus-vilagos: #d0b4a8;
-  --tinta: #806353;
-  --barna: #806353;
-  --krem: #f1edea;
-  --kartya: #f1edea;
-  --szoveg: #806353;
-  --rozsa-halvany: #e3d0ca;
-  --zsalyaszurke: #d0b4a8;
+  --akcentus: #7a4d44;
+  --akcentus-vilagos: #c99f96;
+  --tinta: #2c211e;
+  --barna: #5c4b46;
+  --krem: #f8f3ed;
+  --kartya: #fffcf8;
+  --szoveg: #695a55;
+  --rozsa-halvany: #ead2cc;
+  --zsalyaszurke: #a7b7a1;
 
-  --ui-primary: #806353;
-  --ui-on-primary: #f1edea;
-  --ui-accent: #806353;
-  --ui-on-accent: #f1edea;
-  --ui-bg: #f1edea;
-  --ui-surface: #f1edea;
-  --ui-soft: #e3d0ca;
-  --ui-highlight: #f1edea;
-  --ui-warm: #b39178;
-  --ui-off-black: #806353;
-  --ui-off-white: #f1edea;
+  --ui-primary: #5d3d36;
+  --ui-on-primary: #fffaf6;
+  --ui-accent: #e8c9c3;
+  --ui-on-accent: #2c211e;
+  --ui-bg: #f8f3ed;
+  --ui-surface: #fffcf8;
+  --ui-soft: #ede2da;
+  --ui-highlight: #f5e6e1;
+  --ui-warm: #ead2cc;
+  --ui-off-black: #2c211e;
+  --ui-off-white: #fffaf6;
   --ui-ink: var(--ui-primary);
-  --ui-muted: #806353;
+  --ui-muted: #695a55;
   --ui-rose: var(--ui-accent);
   --ui-rose-dark: var(--ui-primary);
-  --ui-line: rgba(179, 145, 120, 0.42);
-  --ui-line-strong: rgba(128, 99, 83, 0.34);
+  --ui-line: rgba(93, 61, 54, 0.14);
+  --ui-line-strong: rgba(93, 61, 54, 0.28);
   --ui-header-height: 82px;
 
   --lumi-radius-pill: 999px;
@@ -49,12 +44,12 @@
   --lumi-font-button-compact: 12px;
   --lumi-font-control: 18px;
   --lumi-font-calendar: 11px;
-  --lumi-control-bg: rgba(241, 237, 234, 0.96);
-  --lumi-control-border: rgba(128, 99, 83, 0.2);
-  --lumi-control-border-strong: rgba(128, 99, 83, 0.48);
-  --lumi-control-focus: 0 0 0 3px rgba(128, 99, 83, 0.16), inset 0 1px 0 rgba(241, 237, 234, 0.78);
-  --lumi-soft-shadow: 0 16px 38px rgba(128, 99, 83, 0.1);
-  --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --lumi-control-bg: rgba(255, 252, 248, 0.96);
+  --lumi-control-border: rgba(93, 61, 54, 0.2);
+  --lumi-control-border-strong: rgba(93, 61, 54, 0.48);
+  --lumi-control-focus: 0 0 0 3px rgba(122, 77, 68, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --lumi-soft-shadow: 0 16px 38px rgba(44, 33, 30, 0.1);
+  --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%2364524d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -64,50 +59,50 @@
 }
 
 html[data-admin-theme="dark"] {
-  --akcentus: #806353;
-  --akcentus-vilagos: #d0b4a8;
-  --tinta: #806353;
-  --barna: #806353;
-  --krem: #f1edea;
-  --kartya: #f1edea;
-  --szoveg: #806353;
-  --rozsa-halvany: #e3d0ca;
-  --zsalyaszurke: #d0b4a8;
+  --akcentus: #c7969f;
+  --akcentus-vilagos: #ddb1ad;
+  --tinta: #f2e9e5;
+  --barna: #d7c9c3;
+  --krem: #2d2724;
+  --kartya: #28221f;
+  --szoveg: #bfb1ab;
+  --rozsa-halvany: #493332;
+  --zsalyaszurke: #869680;
 
-  --ui-primary: #806353;
-  --ui-on-primary: #f1edea;
-  --ui-accent: #806353;
-  --ui-on-accent: #f1edea;
-  --ui-bg: #f1edea;
-  --ui-surface: #f1edea;
-  --ui-soft: #e3d0ca;
-  --ui-highlight: color-mix(in srgb, #e3d0ca 15%, #f1edea);
-  --ui-warm: #b39178;
-  --ui-off-black: #806353;
-  --ui-off-white: #f1edea;
-  --ui-ink: #806353;
-  --ui-muted: #806353;
-  --ui-rose: #806353;
-  --ui-rose-dark: #806353;
-  --ui-line: rgba(179, 145, 120, 0.42);
-  --ui-line-strong: rgba(128, 99, 83, 0.34);
+  --ui-primary: #d4a49a;
+  --ui-on-primary: #211917;
+  --ui-accent: #4b3531;
+  --ui-on-accent: #f5ece8;
+  --ui-bg: #181514;
+  --ui-surface: #24201e;
+  --ui-soft: #302a27;
+  --ui-highlight: #2b2522;
+  --ui-warm: #3a2a27;
+  --ui-off-black: #f4ece8;
+  --ui-off-white: #fff9f5;
+  --ui-ink: #eee5e1;
+  --ui-muted: #b5a8a2;
+  --ui-rose: #4b3531;
+  --ui-rose-dark: #a96f78;
+  --ui-line: rgba(235, 220, 214, 0.14);
+  --ui-line-strong: rgba(235, 220, 214, 0.28);
 
-  --lumi-control-bg: rgba(241, 237, 234, 0.96);
-  --lumi-control-border: rgba(179, 145, 120, 0.52);
-  --lumi-control-border-strong: rgba(128, 99, 83, 0.48);
-  --lumi-control-focus: 0 0 0 3px rgba(208, 180, 168, 0.42), inset 0 1px 0 rgba(241, 237, 234, 0.78);
-  --lumi-control-inset: inset 0 1px 0 rgba(241, 237, 234, 0.75);
-  --lumi-soft-shadow: 0 14px 34px rgba(128, 99, 83, 0.14);
-  --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%23806353' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --lumi-control-bg: #2c2623;
+  --lumi-control-border: rgba(212, 164, 154, 0.24);
+  --lumi-control-border-strong: rgba(212, 164, 154, 0.52);
+  --lumi-control-focus: 0 0 0 3px rgba(212, 164, 154, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --lumi-control-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --lumi-soft-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+  --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%23d8cac4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 
-  --admin-page-bg: #e3d0ca;
+  --admin-page-bg: #181514;
   --admin-native-color-scheme: dark;
 }
 
 html {
-  --admin-page-bg: #f1edea;
+  --admin-page-bg: #f7f4f1;
   --admin-native-color-scheme: light;
-  --lumi-control-inset: inset 0 1px 0 rgba(241, 237, 234, 0.75);
+  --lumi-control-inset: inset 0 1px 0 rgba(255, 255, 255, 0.75);
   min-width: 100%;
   min-height: 100%;
   margin: 0;

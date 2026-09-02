@@ -921,7 +921,7 @@ test('minden publikus mobil szöveg ugyanazt az egyetlen mesterskálát örökli
     expect(adminSkala).toBe('100%');
 });
 
-test('a főoldali szolgáltatásrész a jóváhagyott ötszínű palettában asztalon és mobilon is rendezett', async ({ page }) => {
+test('a főoldali szolgáltatásrész a Barna-Beige-Rosy rendszerben asztalon és mobilon is rendezett', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     const hatterKepSzelessegek = await page.locator('.szolgaltatas-kartya').evaluateAll(async (kartyak) =>
@@ -965,11 +965,11 @@ test('a főoldali szolgáltatásrész a jóváhagyott ötszínű palettában asz
     });
 
     expect(asztali).toMatchObject({
-        primary: '#806353',
-        accent: '#806353',
-        highlight: 'color-mix(in srgb, #e3d0ca 15%, #f1edea)',
-        warm: '#b39178',
-        hatter: 'rgb(128, 99, 83)',
+        primary: '#5d3d36',
+        accent: '#e8c9c3',
+        highlight: '#f5e6e1',
+        warm: '#ead2cc',
+        hatter: 'rgb(44, 33, 30)',
         listaOverflow: 'visible',
         oszlopok: 2,
         kartyak: 4
@@ -978,11 +978,11 @@ test('a főoldali szolgáltatásrész a jóváhagyott ötszínű palettában asz
     expect(hatterKepSzelessegek.every((szelesseg) => szelesseg > 0)).toBe(true);
     expect(asztali.kepHatters.every((kep) => kep !== 'none')).toBe(true);
     expect(asztali.fedoretegek.every((reteg) => reteg.includes('linear-gradient'))).toBe(true);
-    expect(asztali.keretSzinek.every((szin) => szin === 'rgba(241, 237, 234, 0.42)')).toBe(true);
+    expect(asztali.keretSzinek.every((szin) => szin === 'rgba(255, 250, 246, 0.22)')).toBe(true);
     expect(asztali.keretSzelessegek.every((szelesseg) => szelesseg === '1px')).toBe(true);
     expect(asztali.keretIvek.every(({ kartya, keret }) => kartya === keret)).toBe(true);
     expect(asztali.szamok).toBe(0);
-    expect(asztali.cimSzinek.every((szin) => szin === 'rgb(241, 237, 234)')).toBe(true);
+    expect(asztali.cimSzinek.every((szin) => szin === 'rgb(255, 250, 246)')).toBe(true);
 
     const elsoKartya = page.locator('.szolgaltatas-kartya').first();
     await elsoKartya.hover();
@@ -2171,12 +2171,12 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.locator('.site-header')).toHaveCSS('background-color', 'color(srgb 0.945098 0.929412 0.917647 / 0.92)');
-    await expect(page.locator('.menu-pontok a').first()).toHaveCSS('color', 'rgb(128, 99, 83)');
-    await expect(page.locator('#kapcsolat h2')).toHaveCSS('color', 'rgb(128, 99, 83)');
-    await expect(page.locator('#kapcsolat .szekcio-leiras')).toHaveCSS('color', 'rgb(128, 99, 83)');
-    await expect(page.locator('.hero-primary')).toHaveCSS('background-color', 'rgb(128, 99, 83)');
-    await expect(page.locator('.hero-primary')).toHaveCSS('color', 'rgb(241, 237, 234)');
+    await expect(page.locator('.site-header')).toHaveCSS('background-color', 'color(srgb 0.972549 0.952941 0.929412 / 0.92)');
+    await expect(page.locator('.menu-pontok a').first()).toHaveCSS('color', 'rgb(44, 33, 30)');
+    await expect(page.locator('#kapcsolat h2')).toHaveCSS('color', 'rgb(44, 33, 30)');
+    await expect(page.locator('#kapcsolat .szekcio-leiras')).toHaveCSS('color', 'rgb(44, 33, 30)');
+    await expect(page.locator('.hero-primary')).toHaveCSS('background-color', 'rgb(93, 61, 54)');
+    await expect(page.locator('.hero-primary')).toHaveCSS('color', 'rgb(255, 250, 246)');
     await expect(page.locator('.bemutatkozas-szoveg p').first()).toHaveCSS('text-align', 'justify');
     await expect(page.locator('.bemutatkozas-szoveg p').first()).toHaveCSS('hyphens', 'none');
 
@@ -2194,9 +2194,8 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
     expect(asztaliIllesztes.heroKepAlja).toBeLessThanOrEqual(0.1);
 
     await page.setViewportSize({ width: 390, height: 844 });
-    await expect(page.locator('.hamburger')).toHaveCSS('background-color', 'rgb(128, 99, 83)');
-    await expect(page.locator('.hamburger')).toHaveCSS('color', 'rgb(241, 237, 234)');
-    await expect(page.locator('.hero-primary')).toHaveCSS('background-color', 'rgb(128, 99, 83)');
+    await expect(page.locator('.hamburger')).toHaveCSS('background-color', 'rgb(232, 201, 195)');
+    await expect(page.locator('.hero-primary')).toHaveCSS('background-color', 'rgb(93, 61, 54)');
 
     const mobilIllesztes = await page.evaluate(() => {
         const hero = document.querySelector('#hero').getBoundingClientRect();
@@ -2213,7 +2212,7 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
     expect(mobilIllesztes.heroKepEsHeroAlja).toBeLessThanOrEqual(21);
     expect(mobilIllesztes.monogramBalTavolsag).toBeLessThanOrEqual(1.1);
     await page.locator('.hamburger').click();
-    await expect(page.locator('.mobile-menu.open a').first()).toHaveCSS('color', 'rgb(128, 99, 83)');
+    await expect(page.locator('.mobile-menu.open a').first()).toHaveCSS('color', 'rgb(44, 33, 30)');
 
     for (const url of ['/arlista/', '/galeria/']) {
         await page.goto(url, { waitUntil: 'domcontentloaded' });
@@ -2240,8 +2239,8 @@ test('a header, CTA es telefonszam komponens egyseges', async ({ page }) => {
     }
 
     await page.goto('/foglalas/', { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('.tel-prefix')).toHaveCSS('color', 'rgb(128, 99, 83)');
-    await expect(page.locator('.tel-prefix')).toHaveCSS('background-color', 'rgb(241, 237, 234)');
+    await expect(page.locator('.tel-prefix')).toHaveCSS('color', 'rgb(44, 33, 30)');
+    await expect(page.locator('.tel-prefix')).toHaveCSS('background-color', 'rgb(248, 243, 237)');
 });
 test('az adatkezelési oldal asztali és mobil elrendezése áttekinthető', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });

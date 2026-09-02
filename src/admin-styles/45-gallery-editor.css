@@ -14,7 +14,7 @@
 .admin-body.admin-v2 #admin-panel-szovegek .cms-view-tab-gallery[aria-selected="true"] {
   color: var(--admin-v2-ink);
   background: var(--admin-v2-surface);
-  box-shadow: 0 5px 14px rgba(128, 99, 83, 0.08);
+  box-shadow: 0 5px 14px rgba(65, 45, 39, 0.08);
 }
 
 .admin-body.admin-v2 #admin-panel-szovegek #admin-cms-root[data-lumi-cms-gallery-context="images"] .cms-editor-card-header {

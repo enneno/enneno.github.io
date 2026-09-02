@@ -58,7 +58,7 @@ test('dark theme changes the shared surfaces, controls, switch and PWA dock', as
 });
 
 
-test('booking calendar uses only the approved palette in dark mode', async ({ page }) => {
+test('booking calendar uses dark surfaces and dark status colors', async ({ page }) => {
   const css = read('admin-v2.css');
   await page.setContent(`<!doctype html><html data-admin-theme="dark"><head><style>${css}</style></head><body class="admin-body admin-v2"><main id="admin-tartalom"><section id="admin-panel-foglalasok"><div class="admin-foglalas-naptar"><div class="admin-foglalas-naptar-hetfej"><span>H</span><span>K</span><span>SZE</span><span>CS</span><span>P</span><span>SZO</span><span>V</span></div><div class="admin-foglalas-naptar-racs"><div class="admin-foglalas-naptar-cella"><button class="admin-foglalas-naptar-nap kijelolt"><span class="admin-foglalas-naptar-napszam">28</span><span class="admin-foglalas-naptar-darab">2</span><span class="admin-foglalas-naptar-esemeny admin-foglalas-naptar-statusz-done"><time>10:00</time></span></button></div><div class="admin-foglalas-naptar-cella admin-foglalas-naptar-ures"></div></div><div class="admin-foglalas-napi-panel"><button class="admin-foglalas-napi-sor"><span class="admin-foglalas-napi-ido">10:00</span><span class="admin-foglalas-napi-adat"><strong>Teszt</strong></span><span class="admin-foglalas-napi-statusz">Kész</span></button></div></div></section></main></body></html>`);
 
@@ -78,17 +78,13 @@ test('booking calendar uses only the approved palette in dark mode', async ({ pa
     };
   });
 
-  const approvedPalette = new Set([
-    'rgb(241, 237, 234)',
-    'rgb(227, 208, 202)',
-    'rgb(208, 180, 168)',
-    'rgb(179, 145, 120)',
-    'rgb(128, 99, 83)'
-  ]);
-
-  for (const value of Object.values(metrics)) {
-    expect(approvedPalette.has(value), `${value} is outside the approved palette`).toBe(true);
-  }
-  expect(metrics.header).toBe('rgb(128, 99, 83)');
-  expect(metrics.doneText).toBe('rgb(241, 237, 234)');
+  expect(metrics.header).toBe('rgb(42, 36, 33)');
+  expect(metrics.cell).toBe('rgb(33, 29, 27)');
+  expect(metrics.empty).toBe('rgb(28, 25, 23)');
+  expect(metrics.selected).toBe('rgb(56, 39, 41)');
+  expect(metrics.count).toBe('rgb(51, 43, 40)');
+  expect(metrics.done).toBe('rgb(36, 54, 43)');
+  expect(metrics.doneText).toBe('rgb(234, 222, 218)');
+  expect(metrics.dayRow).toBe('rgb(36, 32, 30)');
+  expect(metrics.dayStatus).toBe('rgb(51, 44, 41)');
 });
