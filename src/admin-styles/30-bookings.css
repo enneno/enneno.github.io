@@ -34,27 +34,27 @@
 }
 
 html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
-  --booking-calendar-header-bg: #2a2421;
-  --booking-calendar-cell-bg: #211d1b;
-  --booking-calendar-empty-bg: #1c1917;
-  --booking-calendar-hover-bg: #2d2724;
-  --booking-calendar-selected-bg: #382729;
-  --booking-calendar-count-bg: #332b28;
-  --booking-calendar-event-bg: #2f2926;
-  --booking-calendar-event-border: #9a8177;
-  --booking-calendar-event-text: #eadeda;
-  --booking-calendar-pending-border: #c78397;
-  --booking-calendar-pending-bg: #3a252d;
-  --booking-calendar-confirmed-border: #79a7bd;
-  --booking-calendar-confirmed-bg: #22313a;
-  --booking-calendar-done-border: #7ba68a;
-  --booking-calendar-done-bg: #24362b;
-  --booking-calendar-cancelled-border: #7c716d;
-  --booking-calendar-cancelled-bg: #302a27;
-  --booking-calendar-cancelled-customer-border: #b07c8e;
-  --booking-calendar-cancelled-customer-bg: #3a2930;
-  --booking-calendar-day-row-bg: #24201e;
-  --booking-calendar-day-status-bg: #332c29;
+  --booking-calendar-header-bg: #3a4249;
+  --booking-calendar-cell-bg: #31383f;
+  --booking-calendar-empty-bg: #293036;
+  --booking-calendar-hover-bg: #414a52;
+  --booking-calendar-selected-bg: #4d3942;
+  --booking-calendar-count-bg: #444c54;
+  --booking-calendar-event-bg: #3d454c;
+  --booking-calendar-event-border: #9aa3aa;
+  --booking-calendar-event-text: #f2e9eb;
+  --booking-calendar-pending-border: #dd8ea4;
+  --booking-calendar-pending-bg: #503440;
+  --booking-calendar-confirmed-border: #8db5ca;
+  --booking-calendar-confirmed-bg: #304853;
+  --booking-calendar-done-border: #8fb99c;
+  --booking-calendar-done-bg: #2f4437;
+  --booking-calendar-cancelled-border: #92999f;
+  --booking-calendar-cancelled-bg: #414950;
+  --booking-calendar-cancelled-customer-border: #d293a5;
+  --booking-calendar-cancelled-customer-bg: #513a44;
+  --booking-calendar-day-row-bg: #31383f;
+  --booking-calendar-day-status-bg: #444c54;
 }
 
 /* Toolbar and search */

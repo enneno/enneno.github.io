@@ -292,7 +292,7 @@
     flex: 0 0 auto;
     border-color: var(--ui-warm);
     background: var(--ui-highlight);
-    color: var(--ui-primary);
+    color: var(--ui-off-black);
 }
 
 .szolgaltatas-zaras .gomb:hover {

@@ -78,13 +78,13 @@ test('booking calendar uses dark surfaces and dark status colors', async ({ page
     };
   });
 
-  expect(metrics.header).toBe('rgb(42, 36, 33)');
-  expect(metrics.cell).toBe('rgb(33, 29, 27)');
-  expect(metrics.empty).toBe('rgb(28, 25, 23)');
-  expect(metrics.selected).toBe('rgb(56, 39, 41)');
-  expect(metrics.count).toBe('rgb(51, 43, 40)');
-  expect(metrics.done).toBe('rgb(36, 54, 43)');
-  expect(metrics.doneText).toBe('rgb(234, 222, 218)');
-  expect(metrics.dayRow).toBe('rgb(36, 32, 30)');
-  expect(metrics.dayStatus).toBe('rgb(51, 44, 41)');
+  expect(metrics.header).toBe('rgb(58, 66, 73)');
+  expect(metrics.cell).toBe('rgb(49, 56, 63)');
+  expect(metrics.empty).toBe('rgb(41, 48, 54)');
+  expect(metrics.selected).toBe('rgb(77, 57, 66)');
+  expect(metrics.count).toBe('rgb(68, 76, 84)');
+  expect(metrics.done).toBe('rgb(47, 68, 55)');
+  expect(metrics.doneText).toBe('rgb(242, 233, 235)');
+  expect(metrics.dayRow).toBe('rgb(49, 56, 63)');
+  expect(metrics.dayStatus).toBe('rgb(68, 76, 84)');
 });

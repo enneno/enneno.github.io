@@ -173,6 +173,61 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(mobile.documentWidth).toBe(390);
     });
 
+    test('mobile service pages keep their content inside the viewport', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto('/korom-diszites-nail-art-tatabanya/', { waitUntil: 'domcontentloaded' });
+        await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+
+        const metrics = await page.evaluate(() => {
+            const main = document.querySelector('.seo-szolgaltatas-oldal');
+            const hero = document.querySelector('.seo-szolgaltatas-hero');
+            const mainRect = main.getBoundingClientRect();
+            const heroRect = hero.getBoundingClientRect();
+            const contentFits = Array.from(main.querySelectorAll('h1, h2, h3, p, a'))
+                .every(element => {
+                    const rect = element.getBoundingClientRect();
+                    return rect.left >= -1 && rect.right <= window.innerWidth + 1;
+                });
+            return {
+                documentWidth: document.documentElement.scrollWidth,
+                mainLeft: Math.round(mainRect.left),
+                mainRight: Math.round(mainRect.right),
+                heroLeft: Math.round(heroRect.left),
+                heroRight: Math.round(heroRect.right),
+                contentFits
+            };
+        });
+
+        expect(metrics.documentWidth).toBe(390);
+        expect(metrics.mainLeft).toBe(16);
+        expect(metrics.mainRight).toBe(374);
+        expect(metrics.heroLeft).toBe(0);
+        expect(metrics.heroRight).toBe(390);
+        expect(metrics.contentFits).toBe(true);
+    });
+
+    test('mobile homepage CTA stays readable and footer stays compact', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto('/', { waitUntil: 'domcontentloaded' });
+        await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+
+        const metrics = await page.evaluate(() => {
+            const cta = document.querySelector('.szolgaltatas-zaras .gomb');
+            const footer = document.querySelector('.site-footer');
+            const styles = getComputedStyle(cta);
+            return {
+                ctaText: cta.textContent.trim(),
+                ctaColor: styles.color,
+                ctaBackground: styles.backgroundColor,
+                footerHeight: footer.getBoundingClientRect().height
+            };
+        });
+
+        expect(metrics.ctaText).not.toBe('');
+        expect(metrics.ctaColor).not.toBe(metrics.ctaBackground);
+        expect(metrics.footerHeight).toBeLessThan(300);
+    });
+
     test('desktop account and booking verification retain desktop proportions', async ({ page }) => {
         await page.setViewportSize({ width: 1440, height: 1000 });
         await page.goto('/fiokom/', { waitUntil: 'domcontentloaded' });

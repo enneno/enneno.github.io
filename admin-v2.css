@@ -61,44 +61,44 @@
 }
 
 html[data-admin-theme="dark"] {
-  --akcentus: #c7969f;
-  --akcentus-vilagos: #ddb1ad;
-  --tinta: #f2e9e5;
-  --barna: #d7c9c3;
-  --krem: #2d2724;
-  --kartya: #28221f;
-  --szoveg: #bfb1ab;
-  --rozsa-halvany: #493332;
-  --zsalyaszurke: #869680;
+  --akcentus: #dd8ea4;
+  --akcentus-vilagos: #e8afbf;
+  --tinta: #f2e9eb;
+  --barna: #c9c3c5;
+  --krem: #242a2f;
+  --kartya: #31383f;
+  --szoveg: #c9c3c5;
+  --rozsa-halvany: #4d3942;
+  --zsalyaszurke: #9eb29a;
 
-  --ui-primary: #d4a49a;
-  --ui-on-primary: #211917;
-  --ui-accent: #4b3531;
-  --ui-on-accent: #f5ece8;
-  --ui-bg: #181514;
-  --ui-surface: #24201e;
-  --ui-soft: #302a27;
-  --ui-highlight: #2b2522;
-  --ui-warm: #3a2a27;
-  --ui-off-black: #f4ece8;
-  --ui-off-white: #fff9f5;
-  --ui-on-dark: #fff9f5;
-  --ui-ink: #eee5e1;
-  --ui-muted: #b5a8a2;
-  --ui-rose: #4b3531;
-  --ui-rose-dark: #a96f78;
-  --ui-line: rgba(235, 220, 214, 0.14);
-  --ui-line-strong: rgba(235, 220, 214, 0.28);
+  --ui-primary: #dd8ea4;
+  --ui-on-primary: #31383f;
+  --ui-accent: #4d3942;
+  --ui-on-accent: #f2e9eb;
+  --ui-bg: #242a2f;
+  --ui-surface: #31383f;
+  --ui-soft: #3a4249;
+  --ui-highlight: #e8afbf;
+  --ui-warm: #cc8b65;
+  --ui-off-black: #171b1e;
+  --ui-off-white: #f2e9eb;
+  --ui-on-dark: #f2e9eb;
+  --ui-ink: #f2e9eb;
+  --ui-muted: #c9c3c5;
+  --ui-rose: #dd8ea4;
+  --ui-rose-dark: #b86f83;
+  --ui-line: rgba(242, 233, 235, 0.14);
+  --ui-line-strong: rgba(242, 233, 235, 0.28);
 
-  --lumi-control-bg: #2c2623;
-  --lumi-control-border: rgba(212, 164, 154, 0.24);
-  --lumi-control-border-strong: rgba(212, 164, 154, 0.52);
-  --lumi-control-focus: 0 0 0 3px rgba(212, 164, 154, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --lumi-control-bg: #3a4249;
+  --lumi-control-border: rgba(232, 175, 191, 0.28);
+  --lumi-control-border-strong: rgba(232, 175, 191, 0.56);
+  --lumi-control-focus: 0 0 0 3px rgba(221, 142, 164, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --lumi-control-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --lumi-soft-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
-  --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%23d8cac4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%23f2e9eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 
-  --admin-page-bg: #181514;
+  --admin-page-bg: #242a2f;
   --admin-native-color-scheme: dark;
 }
 
@@ -449,14 +449,14 @@ body.admin-body [hidden] {
 
 .admin-body .admin-gomb {
   border-color: var(--admin-v2-brand-dark);
-  color: #fffaf4;
+  color: var(--admin-v2-on-brand);
   background: var(--admin-v2-brand-dark);
 }
 
 .admin-body .admin-hozzaadas:hover,
 .admin-body .admin-kis-gomb:hover {
   border-color: transparent;
-  color: #fffaf4;
+  color: var(--admin-v2-on-brand);
   background: var(--akcentus);
 }
 
@@ -656,8 +656,8 @@ body.admin-body [hidden] {
 }
 
 html[data-admin-theme="dark"] .admin-body.admin-v2 {
-  --admin-ui-date-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d8cac4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
-  --admin-ui-time-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d8cac4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+  --admin-ui-date-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f2e9eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
+  --admin-ui-time-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f2e9eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
 }
 
 .admin-body.admin-v2 :is(#admin-tartalom, #admin-bejelentkezes-panel) :is(input[type="date"], input[type="time"], input[type="month"]) {
@@ -1325,6 +1325,8 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   --admin-v2-brand: #dd8ea4;
   --admin-v2-brand-dark: #31383f;
   --admin-v2-brand-soft: #ead4da;
+  --admin-v2-on-brand: #fffaf4;
+  --admin-v2-navigation: #31383f;
   --admin-v2-success: #446f58;
   --admin-v2-success-soft: #e8f1eb;
   --admin-v2-warning: #916329;
@@ -1355,30 +1357,32 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 html[data-admin-theme="dark"] .admin-body.admin-v2 {
   --admin-v2-bg: var(--admin-page-bg);
-  --admin-v2-surface: #24201e;
-  --admin-v2-surface-soft: #2c2724;
-  --admin-v2-border: #413936;
-  --admin-v2-border-strong: #5a4d48;
-  --admin-v2-ink: #f3eae6;
-  --admin-v2-muted: #b9aaa4;
-  --admin-v2-subtle: #93847f;
-  --admin-v2-brand: #cf9e92;
-  --admin-v2-brand-dark: #e1b4a9;
-  --admin-v2-brand-soft: #3a2b27;
+  --admin-v2-surface: #31383f;
+  --admin-v2-surface-soft: #3a4249;
+  --admin-v2-border: #505960;
+  --admin-v2-border-strong: #68727a;
+  --admin-v2-ink: #f2e9eb;
+  --admin-v2-muted: #c9c3c5;
+  --admin-v2-subtle: #aab0b5;
+  --admin-v2-brand: #dd8ea4;
+  --admin-v2-brand-dark: #e8afbf;
+  --admin-v2-brand-soft: #4d3942;
+  --admin-v2-on-brand: #31383f;
+  --admin-v2-navigation: #31383f;
   --admin-v2-success: #8fb99c;
-  --admin-v2-success-soft: #24352a;
-  --admin-v2-warning: #d1a667;
-  --admin-v2-warning-soft: #3a3021;
-  --admin-v2-danger: #d4878c;
-  --admin-v2-danger-soft: #3d2729;
-  --admin-v2-info: #8eacc2;
-  --admin-v2-info-soft: #26333b;
+  --admin-v2-success-soft: #2f4437;
+  --admin-v2-warning: #d6aa72;
+  --admin-v2-warning-soft: #4a3c2c;
+  --admin-v2-danger: #e29aa1;
+  --admin-v2-danger-soft: #503438;
+  --admin-v2-info: #9db9cc;
+  --admin-v2-info-soft: #324550;
   --admin-v2-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
-  --admin-v2-glass: rgba(36, 32, 30, 0.93);
-  --admin-v2-auth-glass: rgba(36, 32, 30, 0.94);
-  --admin-v2-neutral-soft: #312b28;
-  --admin-v2-divider-soft: #342e2b;
-  --admin-v2-switch-knob: #fff7f2;
+  --admin-v2-glass: rgba(49, 56, 63, 0.94);
+  --admin-v2-auth-glass: rgba(49, 56, 63, 0.96);
+  --admin-v2-neutral-soft: #3d454c;
+  --admin-v2-divider-soft: #414950;
+  --admin-v2-switch-knob: #f2e9eb;
 }
 
 .admin-body.admin-v2 *,
@@ -1404,7 +1408,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   left: 50%;
   padding: 9px 14px;
   border-radius: 8px;
-  color: #fff;
+  color: var(--admin-v2-on-brand);
   background: var(--admin-v2-brand-dark);
   font-size: 13px;
   font-weight: 600;
@@ -1448,7 +1452,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   align-items: flex-end;
   padding: 48px 38px;
   background: var(--admin-v2-brand-dark);
-  color: #fffaf6;
+  color: var(--admin-v2-on-brand);
   font-family: var(--font-display);
   font-size: 72px;
   font-weight: 600;
@@ -1583,7 +1587,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   border: 0;
   border-radius: 0;
   color: #fff;
-  background: #342925;
+  background: var(--admin-v2-navigation);
   box-shadow: 8px 0 28px rgba(45, 31, 27, 0.08);
 }
 
@@ -1718,8 +1722,8 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   padding: 0 6px;
   place-items: center;
   border-radius: 999px;
-  color: #4b302b;
-  background: #e7c1b6;
+  color: #31383f;
+  background: #e8afbf;
   font-size: 12px;
   font-weight: 600;
 }
@@ -2153,13 +2157,13 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 .admin-body.admin-v2 .admin-v2-button-primary {
   border-color: var(--admin-v2-brand);
-  color: #fff;
+  color: var(--admin-v2-on-brand);
   background: var(--admin-v2-brand);
 }
 
 .admin-body.admin-v2 .admin-v2-button-primary:hover {
   border-color: var(--admin-v2-brand-dark);
-  color: #fff;
+  color: var(--admin-v2-on-brand);
   background: var(--admin-v2-brand-dark);
 }
 
@@ -2933,7 +2937,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
     visibility: hidden;
     border: 0;
     opacity: 0;
-    background: rgba(42, 31, 28, 0.46);
+    background: rgba(18, 22, 25, 0.56);
     transition: opacity 190ms ease, visibility 190ms ease;
   }
 
@@ -3163,27 +3167,27 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 }
 
 html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
-  --booking-calendar-header-bg: #2a2421;
-  --booking-calendar-cell-bg: #211d1b;
-  --booking-calendar-empty-bg: #1c1917;
-  --booking-calendar-hover-bg: #2d2724;
-  --booking-calendar-selected-bg: #382729;
-  --booking-calendar-count-bg: #332b28;
-  --booking-calendar-event-bg: #2f2926;
-  --booking-calendar-event-border: #9a8177;
-  --booking-calendar-event-text: #eadeda;
-  --booking-calendar-pending-border: #c78397;
-  --booking-calendar-pending-bg: #3a252d;
-  --booking-calendar-confirmed-border: #79a7bd;
-  --booking-calendar-confirmed-bg: #22313a;
-  --booking-calendar-done-border: #7ba68a;
-  --booking-calendar-done-bg: #24362b;
-  --booking-calendar-cancelled-border: #7c716d;
-  --booking-calendar-cancelled-bg: #302a27;
-  --booking-calendar-cancelled-customer-border: #b07c8e;
-  --booking-calendar-cancelled-customer-bg: #3a2930;
-  --booking-calendar-day-row-bg: #24201e;
-  --booking-calendar-day-status-bg: #332c29;
+  --booking-calendar-header-bg: #3a4249;
+  --booking-calendar-cell-bg: #31383f;
+  --booking-calendar-empty-bg: #293036;
+  --booking-calendar-hover-bg: #414a52;
+  --booking-calendar-selected-bg: #4d3942;
+  --booking-calendar-count-bg: #444c54;
+  --booking-calendar-event-bg: #3d454c;
+  --booking-calendar-event-border: #9aa3aa;
+  --booking-calendar-event-text: #f2e9eb;
+  --booking-calendar-pending-border: #dd8ea4;
+  --booking-calendar-pending-bg: #503440;
+  --booking-calendar-confirmed-border: #8db5ca;
+  --booking-calendar-confirmed-bg: #304853;
+  --booking-calendar-done-border: #8fb99c;
+  --booking-calendar-done-bg: #2f4437;
+  --booking-calendar-cancelled-border: #92999f;
+  --booking-calendar-cancelled-bg: #414950;
+  --booking-calendar-cancelled-customer-border: #d293a5;
+  --booking-calendar-cancelled-customer-bg: #513a44;
+  --booking-calendar-day-row-bg: #31383f;
+  --booking-calendar-day-status-bg: #444c54;
 }
 
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-panel-akciok-keresessel {
@@ -6278,7 +6282,7 @@ body.cms-image-lightbox-open { overflow: hidden; }
   display: block;
   visibility: hidden;
   opacity: 0;
-  background: rgba(42, 31, 28, 0.46);
+  background: rgba(18, 22, 25, 0.56);
   transition: opacity 190ms ease, visibility 190ms ease;
 }
 
