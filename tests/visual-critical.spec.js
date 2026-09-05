@@ -122,6 +122,7 @@ test.describe('kritikus vizuális nézetek', () => {
             const introRect = intro.getBoundingClientRect();
             const introTextRect = introText.getBoundingClientRect();
             const paragraphRect = introParagraph.getBoundingClientRect();
+            const introImage = intro.querySelector('.bemutatkozas-kep img');
 
             return {
                 heroWidth: Math.round(heroRect.width),
@@ -130,6 +131,7 @@ test.describe('kritikus vizuális nézetek', () => {
                     && visualRect.bottom <= heroRect.bottom + 1,
                 introIsFullWidth: Math.round(introRect.width) === window.innerWidth,
                 introMatchesTextHeight: Math.abs(introRect.height - introTextRect.height) <= 1,
+                introImageShowsFullFrame: getComputedStyle(introImage).objectFit === 'contain',
                 introTextHasBreathingRoom: introTextRect.left > introRect.left + 40,
                 sharedContentLeftEdges: Math.abs(
                     services.getBoundingClientRect().left - gallery.getBoundingClientRect().left
@@ -144,6 +146,7 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(desktop.visualInsideHero).toBe(true);
         expect(desktop.introIsFullWidth).toBe(true);
         expect(desktop.introMatchesTextHeight).toBe(true);
+        expect(desktop.introImageShowsFullFrame).toBe(true);
         expect(desktop.introTextHasBreathingRoom).toBe(true);
         expect(desktop.sharedContentLeftEdges).toBe(true);
         expect(desktop.introParagraphIsReadable).toBe(true);
@@ -154,11 +157,13 @@ test.describe('kritikus vizuális nézetek', () => {
             const hero = document.querySelector('#hero');
             const hamburger = document.querySelector('.hamburger');
             const lines = Array.from(hamburger.querySelectorAll('span'));
+            const introImage = document.querySelector('#bemutatkozas .bemutatkozas-kep img');
             return {
                 heroBackground: getComputedStyle(hero).backgroundColor,
                 surfaceToken: getComputedStyle(document.documentElement).getPropertyValue('--ui-surface').trim(),
                 hamburgerColor: getComputedStyle(hamburger).color,
                 inkToken: getComputedStyle(document.documentElement).getPropertyValue('--ui-off-black').trim(),
+                introImageShowsFullFrame: getComputedStyle(introImage).objectFit === 'contain',
                 linesVisible: lines.every((line) => {
                     const rect = line.getBoundingClientRect();
                     return rect.width >= 18 && rect.height >= 1;
@@ -171,6 +176,7 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(mobile.surfaceToken).toBe('#f2e9eb');
         expect(mobile.hamburgerColor).toBe('rgb(49, 56, 63)');
         expect(mobile.inkToken).toBe('#31383f');
+        expect(mobile.introImageShowsFullFrame).toBe(true);
         expect(mobile.linesVisible).toBe(true);
         expect(mobile.documentWidth).toBe(390);
     });

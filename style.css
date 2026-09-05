@@ -2901,7 +2901,7 @@ select.urlap-mezo:invalid {
     margin: 0;
     overflow: hidden;
     border-radius: 0;
-    background: var(--ui-highlight);
+    background: var(--ui-bg);
     transform: none;
 }
 
@@ -2917,7 +2917,7 @@ select.urlap-mezo:invalid {
     height: 100%;
     min-height: 0;
     aspect-ratio: auto;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     filter: none;
     transform: none;
