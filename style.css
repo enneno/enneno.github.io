@@ -1,7 +1,7 @@
 /* Generated from src/styles by npm run build. Edit the source parts, not this file. */
 
 :root {
-    --akcentus: #dd8ea4;
+    --akcentus: #ffd1dc;
     --akcentus-vilagos: #e8afbf;
     --tinta: #31383f;
     --barna: #596067;
@@ -12,14 +12,14 @@
     --zsalyaszurke: #aeb8af;
 
     /* Public semantic design tokens. */
-    --ui-primary: #dd8ea4;
+    --ui-primary: #ffd1dc;
     --ui-on-primary: #31383f;
-    --ui-accent: #dd8ea4;
+    --ui-accent: #ffd1dc;
     --ui-on-accent: #31383f;
     --ui-bg: #e3dcd2;
     --ui-surface: #f2e9eb;
     --ui-soft: #e9dfe1;
-    --ui-highlight: #dd8ea4;
+    --ui-highlight: #ffd1dc;
     --ui-warm: #cc8b65;
     --ui-off-black: #31383f;
     --ui-off-white: #f2e9eb;
@@ -29,7 +29,7 @@
     --ui-muted: #62686d;
     --ui-rose: var(--ui-accent);
     --ui-rose-dark: #cc8b65;
-    --ui-line: rgba(221, 142, 164, 0.19);
+    --ui-line: rgba(255, 209, 220, 0.19);
     --ui-line-strong: rgba(49, 56, 63, 0.28);
     --ui-shadow: 0 18px 40px rgba(49, 56, 63, 0.1);
     --ui-gutter: clamp(20px, 4.3vw, 80px);
@@ -65,7 +65,7 @@
     --lumi-control-bg: #fff9f5;
     --lumi-control-border: rgba(49, 56, 63, 0.19);
     --lumi-control-border-strong: rgba(49, 56, 63, 0.38);
-    --lumi-control-focus: 0 0 0 3px rgba(221, 142, 164, 0.24);
+    --lumi-control-focus: 0 0 0 3px rgba(255, 209, 220, 0.24);
     --lumi-soft-shadow: 0 16px 38px rgba(49, 56, 63, 0.1);
     --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%2364524d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
@@ -253,7 +253,7 @@ textarea:focus-visible {
 
 body:not(.fooldal):not(.admin-body) .site-header {
     --ui-header-bg: #31383f;
-    border-bottom-color: rgba(221, 142, 164, 0.19);
+    border-bottom-color: rgba(255, 209, 220, 0.19);
 }
 
 body:not(.fooldal):not(.admin-body) .site-header :is(.logo, .menu-pontok a) {
@@ -266,7 +266,7 @@ body:not(.fooldal):not(.admin-body) .site-header .menu-pontok a.aktiv {
 }
 
 body:not(.fooldal):not(.admin-body) .site-header .menu-pontok a:last-child {
-    background: #dd8ea4;
+    background: #ffd1dc;
     color: #31383f;
 }
 
@@ -1898,14 +1898,14 @@ select.urlap-mezo:invalid {
 
     .site-footer,
     .fooldal .site-footer {
-        padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+        padding: 10px 20px calc(10px + env(safe-area-inset-bottom));
     }
 
     .footer-belso {
         grid-template-columns: minmax(0, 1fr) auto;
-        gap: 10px 14px;
+        gap: 6px 14px;
         align-items: start;
-        padding-bottom: 14px;
+        padding-bottom: 8px;
         text-align: left;
     }
 
@@ -1921,8 +1921,8 @@ select.urlap-mezo:invalid {
         display: grid;
         grid-template-columns: 1fr;
         align-items: start;
-        gap: 2px 14px;
-        padding-top: 10px;
+        gap: 0 14px;
+        padding-top: 8px;
         border-top: 1px solid rgba(185, 133, 143, 0.18);
     }
 
@@ -1938,9 +1938,9 @@ select.urlap-mezo:invalid {
     }
 
     .footer-brand p {
-        margin-top: 3px;
-        font-size: var(--lumi-font-caption);
-        line-height: 1.35;
+        margin-top: 2px;
+        font-size: var(--lumi-font-micro);
+        line-height: 1.25;
     }
 
     .footer-kapcsolat h3 {
@@ -1954,7 +1954,7 @@ select.urlap-mezo:invalid {
         margin: 0;
         gap: 0 12px;
         font-size: var(--lumi-font-caption);
-        line-height: 1.35;
+        line-height: 1.25;
     }
 
     .footer-kapcsolat a {
@@ -1967,7 +1967,7 @@ select.urlap-mezo:invalid {
     }
 
     .footer-jogok {
-        margin-top: 12px;
+        margin-top: 8px;
     }
 
     .social-linkek {
@@ -2910,6 +2910,8 @@ select.urlap-mezo:invalid {
 }
 
 .bemutatkozas-kep img {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
@@ -2944,7 +2946,7 @@ select.urlap-mezo:invalid {
     align-self: center;
     min-width: 0;
     width: 100%;
-    padding: clamp(64px, 7vw, 132px) clamp(54px, 8vw, 150px) clamp(64px, 7vw, 112px) clamp(48px, 5.2vw, 96px);
+    padding: clamp(48px, 5vw, 72px) clamp(54px, 8vw, 150px) clamp(48px, 5vw, 72px) clamp(48px, 5.2vw, 96px);
     color: var(--ui-ink);
 }
 
@@ -2989,6 +2991,7 @@ select.urlap-mezo:invalid {
     }
 
     #bemutatkozas .bemutatkozas-kep {
+        aspect-ratio: 4 / 5;
         border-radius: 4px;
     }
 

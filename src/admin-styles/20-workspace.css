@@ -17,7 +17,7 @@
   --admin-v2-ink: #31383f;
   --admin-v2-muted: #62686d;
   --admin-v2-subtle: #7a7f83;
-  --admin-v2-brand: #dd8ea4;
+  --admin-v2-brand: #ffd1dc;
   --admin-v2-brand-dark: #31383f;
   --admin-v2-brand-soft: #ead4da;
   --admin-v2-on-brand: #fffaf4;
@@ -59,7 +59,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   --admin-v2-ink: #f2e9eb;
   --admin-v2-muted: #c9c3c5;
   --admin-v2-subtle: #aab0b5;
-  --admin-v2-brand: #dd8ea4;
+  --admin-v2-brand: #ffd1dc;
   --admin-v2-brand-dark: #e8afbf;
   --admin-v2-brand-soft: #4d3942;
   --admin-v2-on-brand: #31383f;

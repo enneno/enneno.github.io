@@ -6,7 +6,7 @@ The TEST UI follows the supplied Figma file: a light editorial beauty-salon syst
 
 ## Core tokens
 
-- Primary `#dd8ea4`; ink/footer `#31383f`.
+- Primary `#FFD1DC`; ink/footer `#31383f`.
 - Background `#e3dcd2`; surface `#f2e9eb`; warm accent `#cc8b65`.
 - Display typography: Playfair Display. Functional typography: DM Sans.
 - Card radius 4px; control radius 3px; pill only for semantic pills/circular controls.

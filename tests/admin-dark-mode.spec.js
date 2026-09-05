@@ -52,7 +52,7 @@ test('dark theme changes the shared surfaces, controls, switch and PWA dock', as
   expect(metrics.cardBg).not.toBe('rgb(255, 255, 255)');
   expect(metrics.inputBg).not.toBe('rgb(255, 250, 244)');
   expect(metrics.inputColor).not.toBe('rgb(43, 37, 33)');
-  expect(metrics.toggleBg).not.toBe('rgb(44, 39, 36)');
+  expect(metrics.toggleBg).toBe('rgb(255, 209, 220)');
   expect(metrics.dockBg).not.toBe('rgba(255, 252, 249, 0.9)');
   expect(metrics.notificationBg).not.toBe('rgb(255, 255, 255)');
 });

@@ -129,6 +129,7 @@ test.describe('kritikus vizuális nézetek', () => {
                 visualInsideHero: visualRect.top >= heroRect.top - 1
                     && visualRect.bottom <= heroRect.bottom + 1,
                 introIsFullWidth: Math.round(introRect.width) === window.innerWidth,
+                introMatchesTextHeight: Math.abs(introRect.height - introTextRect.height) <= 1,
                 introTextHasBreathingRoom: introTextRect.left > introRect.left + 40,
                 sharedContentLeftEdges: Math.abs(
                     services.getBoundingClientRect().left - gallery.getBoundingClientRect().left
@@ -142,6 +143,7 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(desktop.heroRadius).toBe(0);
         expect(desktop.visualInsideHero).toBe(true);
         expect(desktop.introIsFullWidth).toBe(true);
+        expect(desktop.introMatchesTextHeight).toBe(true);
         expect(desktop.introTextHasBreathingRoom).toBe(true);
         expect(desktop.sharedContentLeftEdges).toBe(true);
         expect(desktop.introParagraphIsReadable).toBe(true);
@@ -213,19 +215,23 @@ test.describe('kritikus vizuális nézetek', () => {
 
         const metrics = await page.evaluate(() => {
             const cta = document.querySelector('.szolgaltatas-zaras .gomb');
+            const bookingSection = document.querySelector('#kapcsolat');
             const footer = document.querySelector('.site-footer');
             const styles = getComputedStyle(cta);
             return {
                 ctaText: cta.textContent.trim(),
                 ctaColor: styles.color,
                 ctaBackground: styles.backgroundColor,
+                bookingSectionBackground: getComputedStyle(bookingSection).backgroundColor,
                 footerHeight: footer.getBoundingClientRect().height
             };
         });
 
         expect(metrics.ctaText).not.toBe('');
+        expect(metrics.ctaBackground).toBe('rgb(255, 209, 220)');
+        expect(metrics.bookingSectionBackground).toBe('rgb(255, 209, 220)');
         expect(metrics.ctaColor).not.toBe(metrics.ctaBackground);
-        expect(metrics.footerHeight).toBeLessThan(300);
+        expect(metrics.footerHeight).toBeLessThan(280);
     });
 
     test('desktop account and booking verification retain desktop proportions', async ({ page }) => {

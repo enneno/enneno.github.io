@@ -260,6 +260,23 @@ test('a főoldali vendégértesítő adminból kapcsolható és mobilon is rende
     await expect(ertesito).toBeHidden();
 });
 
+test('a főoldali hero pontosan a tartalomszerkesztőben megadott képet használja', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+
+    await page.evaluate(() => {
+        window.fooldalAdatokAlkalmazasa({
+            hero: {
+                kep: '/kepek/hero-exact.jpg',
+                kepAlt: 'Tartalomszerkesztő hero tesztkép'
+            }
+        }, {});
+    });
+
+    await expect(page.locator('.hero-kep')).toHaveAttribute('src', '/kepek/hero-exact.jpg');
+    await expect(page.locator('.hero-kep')).toHaveAttribute('alt', 'Tartalomszerkesztő hero tesztkép');
+});
+
 test('mobilon minden szerkeszthető publikus és admin mező megőrzi az iOS-barát technikai méretet', async ({ page }) => {
     const mezoSelector = [
         'input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"])',

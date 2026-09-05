@@ -526,8 +526,7 @@ function fooldalAdatokAlkalmazasa(fooldal, teljesGaleria) {
     const hero = document.getElementById('hero');
     const heroKep = hero?.querySelector('.hero-kep');
     if (hero && heroAdatok.kep) {
-        const heroKepSrc = heroAdatok.kep === '/kepek/hero-exact.jpg'
-            ? '/kepek/hero-turkiz.jpg' : (heroAdatok.kep || '/kepek/hero-turkiz.jpg');
+        const heroKepSrc = heroAdatok.kep;
 
         if (heroKep) {
             heroKep.src = heroKepSrc;

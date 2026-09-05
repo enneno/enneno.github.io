@@ -22,7 +22,7 @@
   "design": {
     "colorMode": "light public UI; light and dark admin UI",
     "colors": {
-      "primary": "#dd8ea4",
+      "primary": "#FFD1DC",
       "onPrimary": "#31383f",
       "accent": "#cc8b65",
       "background": "#e3dcd2",
@@ -124,6 +124,11 @@
       "date": "2026-09-02",
       "decision": "Implement the supplied Figma system with Playfair Display, DM Sans, a slate/pink/greige palette, sharp component radii, consistent gallery captions, and one shared public footer.",
       "reason": "The user supplied an editable Figma source and explicitly requested implementation across desktop, mobile, public pages, and admin while preserving the current homepage gallery imagery."
+    },
+    {
+      "date": "2026-09-03",
+      "decision": "Use #FFD1DC as the shared public and admin primary pink.",
+      "reason": "The user explicitly selected the lighter pink for every component using the primary brand color."
     }
   ],
   "evidence": [

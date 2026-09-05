@@ -15,14 +15,14 @@ Ez a TEST projekt Figma-alapú vizuális szerződése. A referencia a `fNgCClNjs
 
 | Szerep | Token | Érték |
 | --- | --- | --- |
-| Rózsaszín brand / CTA | `--ui-primary` | `#dd8ea4` |
+| Rózsaszín brand / CTA | `--ui-primary` | `#FFD1DC` |
 | Sötét tinta / footer | `--ui-off-black` | `#31383f` |
 | Szöveg sötét felületen | `--ui-on-dark` | `#f2e9eb` |
 | Oldalháttér | `--ui-bg` | `#e3dcd2` |
 | Világos felület | `--ui-surface` | `#f2e9eb` |
 | Terrakotta kiegészítő | `--ui-warm` | `#cc8b65` |
 | Másodlagos szöveg | `--ui-muted` | `#62686d` |
-| Finom elválasztó | `--ui-line` | `rgba(221, 142, 164, 0.19)` |
+| Finom elválasztó | `--ui-line` | `rgba(255, 209, 220, 0.19)` |
 | Erős elválasztó | `--ui-line-strong` | `rgba(49, 56, 63, 0.28)` |
 
 Komponensben szemantikus tokent kell használni. A publikus és admin light mód ugyanazt a palettát használja; az admin sötét mód saját, szemantikailag azonos állapottokeneket tart meg. Success, warning, danger és info állapotnál a szín mellé szöveg vagy ikon is szükséges.
