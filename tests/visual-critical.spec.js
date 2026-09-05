@@ -223,13 +223,17 @@ test.describe('kritikus vizuális nézetek', () => {
             const cta = document.querySelector('.szolgaltatas-zaras .gomb');
             const bookingSection = document.querySelector('#kapcsolat');
             const footer = document.querySelector('.site-footer');
+            const footerLogo = document.querySelector('.footer-logo');
+            const footerContact = document.querySelector('.footer-kapcsolat a');
             const styles = getComputedStyle(cta);
             return {
                 ctaText: cta.textContent.trim(),
                 ctaColor: styles.color,
                 ctaBackground: styles.backgroundColor,
                 bookingSectionBackground: getComputedStyle(bookingSection).backgroundColor,
-                footerHeight: footer.getBoundingClientRect().height
+                footerHeight: footer.getBoundingClientRect().height,
+                footerLogoWhiteSpace: getComputedStyle(footerLogo).whiteSpace,
+                footerContactColor: getComputedStyle(footerContact).color
             };
         });
 
@@ -238,6 +242,8 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.bookingSectionBackground).toBe('rgb(255, 209, 220)');
         expect(metrics.ctaColor).not.toBe(metrics.ctaBackground);
         expect(metrics.footerHeight).toBeLessThan(280);
+        expect(metrics.footerLogoWhiteSpace).toBe('nowrap');
+        expect(metrics.footerContactColor).toBe('rgb(242, 233, 235)');
     });
 
     test('desktop account and booking verification retain desktop proportions', async ({ page }) => {
@@ -275,7 +281,7 @@ test.describe('kritikus vizuális nézetek', () => {
                 documentWidth: document.documentElement.scrollWidth
             };
         });
-        expect(booking.cardBackground).toBe('rgb(242, 233, 235)');
+        expect(booking.cardBackground).not.toBe('rgb(242, 233, 235)');
         expect(booking.surfacesAreDistinct).toBe(true);
         expect(booking.inputWidth).toBeGreaterThanOrEqual(280);
         expect(booking.placeholderFits).toBe(true);
