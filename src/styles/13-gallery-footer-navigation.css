@@ -305,31 +305,28 @@
 
 .site-footer,
 .fooldal .site-footer {
-    --footer-ink: var(--ui-on-dark);
-    --footer-muted: color-mix(in srgb, var(--ui-on-dark) 86%, transparent);
-    --footer-line: color-mix(in srgb, var(--ui-on-dark) 18%, transparent);
     width: 100%;
     max-width: none;
     margin: 0;
-    padding: 28px var(--ui-gutter) 18px;
+    padding: 40px var(--ui-gutter) 26px;
     box-sizing: border-box;
     border: 0;
     border-radius: 0;
     background: var(--ui-off-black);
-    color: var(--footer-muted);
+    color: rgba(255, 253, 249, 0.72);
 }
 
 .footer-belso {
     display: grid;
     grid-template-columns: minmax(300px, 1.25fr) minmax(260px, 0.9fr) auto;
-    gap: 16px 28px;
+    gap: 24px 32px;
     align-items: center;
     width: min(1320px, 100%);
     margin: 0 auto;
-    padding: 0 0 14px;
+    padding: 0 0 28px;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid var(--footer-line);
+    border-bottom: 1px solid rgba(242, 233, 235, 0.16);
     border-radius: 0;
     box-shadow: none;
 }
@@ -352,33 +349,32 @@
 
 .footer-logo {
     display: inline-block;
-    color: var(--footer-ink);
+    color: #fffdf9;
     font-family: 'Playfair Display', serif;
     font-size: 30px;
     font-weight: 700;
-    white-space: nowrap;
     text-decoration: none;
 }
 
 .footer-brand p {
-    margin: 2px 0 0;
-    color: var(--footer-muted);
+    margin: 4px 0 0;
+    color: rgba(255, 253, 249, 0.76);
     font-size: var(--lumi-font-body-small);
     font-style: normal;
-    line-height: 1.35;
+    line-height: 1.45;
 }
 
 .footer-kapcsolat address {
-    margin: 2px 0 0;
-    color: var(--footer-ink);
+    margin: 4px 0 0;
+    color: var(--szoveg);
     font-size: var(--lumi-font-body-small);
     font-style: normal;
-    line-height: 1.35;
+    line-height: 1.45;
 }
 
 .footer-kapcsolat h3 {
-    margin: 0 0 4px;
-    color: var(--footer-ink);
+    margin: 0 0 6px;
+    color: #fffdf9;
     font-family: 'DM Sans', sans-serif;
     font-size: var(--lumi-font-label);
     font-weight: 500;
@@ -390,7 +386,7 @@
 .footer-kapcsolat address {
     display: flex;
     flex-wrap: wrap;
-    gap: 2px 12px;
+    gap: 3px 14px;
 }
 
 .footer-kapcsolat a {
@@ -399,7 +395,7 @@
     max-width: 100%;
     min-height: 44px;
     align-items: center;
-    color: var(--footer-ink);
+    color: rgba(255, 253, 249, 0.76);
     text-decoration: none;
     overflow-wrap: anywhere;
     transition: color 0.2s ease;
@@ -752,17 +748,16 @@
 .footer-kapcsolat span,
 .footer-jogok,
 .footer-jogok p {
-    color: var(--footer-muted);
+    color: rgba(255, 253, 249, 0.76);
 }
 
 .footer-jogok {
     width: min(1320px, 100%);
-    margin: clamp(8px, 1.25vw, 12px) auto 0;
+    margin: 18px auto 0;
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
-    line-height: 1.35;
-    color: var(--footer-muted);
-    border-top-color: var(--footer-line);
+    line-height: 1.5;
+    border-top-color: rgba(255, 249, 245, 0.12);
 }
 
 .site-footer .social-gomb {

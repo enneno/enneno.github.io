@@ -1554,31 +1554,28 @@ select.urlap-mezo:invalid {
 
 .site-footer,
 .fooldal .site-footer {
-    --footer-ink: var(--ui-on-dark);
-    --footer-muted: color-mix(in srgb, var(--ui-on-dark) 86%, transparent);
-    --footer-line: color-mix(in srgb, var(--ui-on-dark) 18%, transparent);
     width: 100%;
     max-width: none;
     margin: 0;
-    padding: 28px var(--ui-gutter) 18px;
+    padding: 40px var(--ui-gutter) 26px;
     box-sizing: border-box;
     border: 0;
     border-radius: 0;
     background: var(--ui-off-black);
-    color: var(--footer-muted);
+    color: rgba(255, 253, 249, 0.72);
 }
 
 .footer-belso {
     display: grid;
     grid-template-columns: minmax(300px, 1.25fr) minmax(260px, 0.9fr) auto;
-    gap: 16px 28px;
+    gap: 24px 32px;
     align-items: center;
     width: min(1320px, 100%);
     margin: 0 auto;
-    padding: 0 0 14px;
+    padding: 0 0 28px;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid var(--footer-line);
+    border-bottom: 1px solid rgba(242, 233, 235, 0.16);
     border-radius: 0;
     box-shadow: none;
 }
@@ -1601,33 +1598,32 @@ select.urlap-mezo:invalid {
 
 .footer-logo {
     display: inline-block;
-    color: var(--footer-ink);
+    color: #fffdf9;
     font-family: 'Playfair Display', serif;
     font-size: 30px;
     font-weight: 700;
-    white-space: nowrap;
     text-decoration: none;
 }
 
 .footer-brand p {
-    margin: 2px 0 0;
-    color: var(--footer-muted);
+    margin: 4px 0 0;
+    color: rgba(255, 253, 249, 0.76);
     font-size: var(--lumi-font-body-small);
     font-style: normal;
-    line-height: 1.35;
+    line-height: 1.45;
 }
 
 .footer-kapcsolat address {
-    margin: 2px 0 0;
-    color: var(--footer-ink);
+    margin: 4px 0 0;
+    color: var(--szoveg);
     font-size: var(--lumi-font-body-small);
     font-style: normal;
-    line-height: 1.35;
+    line-height: 1.45;
 }
 
 .footer-kapcsolat h3 {
-    margin: 0 0 4px;
-    color: var(--footer-ink);
+    margin: 0 0 6px;
+    color: #fffdf9;
     font-family: 'DM Sans', sans-serif;
     font-size: var(--lumi-font-label);
     font-weight: 500;
@@ -1639,7 +1635,7 @@ select.urlap-mezo:invalid {
 .footer-kapcsolat address {
     display: flex;
     flex-wrap: wrap;
-    gap: 2px 12px;
+    gap: 3px 14px;
 }
 
 .footer-kapcsolat a {
@@ -1648,7 +1644,7 @@ select.urlap-mezo:invalid {
     max-width: 100%;
     min-height: 44px;
     align-items: center;
-    color: var(--footer-ink);
+    color: rgba(255, 253, 249, 0.76);
     text-decoration: none;
     overflow-wrap: anywhere;
     transition: color 0.2s ease;
@@ -2001,17 +1997,16 @@ select.urlap-mezo:invalid {
 .footer-kapcsolat span,
 .footer-jogok,
 .footer-jogok p {
-    color: var(--footer-muted);
+    color: rgba(255, 253, 249, 0.76);
 }
 
 .footer-jogok {
     width: min(1320px, 100%);
-    margin: clamp(8px, 1.25vw, 12px) auto 0;
+    margin: 18px auto 0;
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
-    line-height: 1.35;
-    color: var(--footer-muted);
-    border-top-color: var(--footer-line);
+    line-height: 1.5;
+    border-top-color: rgba(255, 249, 245, 0.12);
 }
 
 .site-footer .social-gomb {
@@ -5437,7 +5432,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .foglalas-lepes-fej p {
     margin: 0;
-    color: var(--booking-muted, var(--szoveg));
+    color: var(--szoveg);
     font-size: var(--lumi-font-body-small);
     line-height: 1.55;
 }
@@ -5495,14 +5490,14 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-kartya-cim {
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
     font-size: var(--lumi-font-body-small);
     font-weight: 800;
     line-height: 1.25;
 }
 
 .foglalas-kartya-meta {
-    color: var(--booking-muted, rgba(83, 67, 59, 0.72));
+    color: rgba(83, 67, 59, 0.72);
     font-size: var(--lumi-font-caption);
     line-height: 1.35;
 }
@@ -5536,12 +5531,12 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-stilus-kartya span {
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
     font-weight: 800;
 }
 
 .foglalas-stilus-kartya small {
-    color: var(--booking-muted, rgba(83, 67, 59, 0.76));
+    color: rgba(83, 67, 59, 0.76);
     line-height: 1.45;
 }
 
@@ -5554,7 +5549,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-tipp,
 .foglalas-kartya-uzenet {
     margin: 12px 0 0;
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
     font-size: var(--lumi-font-body-small);
     font-weight: 700;
     line-height: 1.5;
@@ -5587,7 +5582,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    color: var(--ui-on-primary);
+    color: #fffaf4;
     font-size: 24px;
     line-height: 1;
 }
@@ -5598,12 +5593,12 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-kepfeltoltes strong {
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
 }
 
 .foglalas-kepfeltoltes small {
     margin-top: 2px;
-    color: var(--booking-muted, rgba(83, 67, 59, 0.72));
+    color: rgba(83, 67, 59, 0.72);
     line-height: 1.45;
 }
 
@@ -5665,7 +5660,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .foglalas-osszefoglalo p {
     margin: 0;
-    color: var(--booking-muted, var(--szoveg));
+    color: var(--szoveg);
     font-size: var(--lumi-font-body-small);
     line-height: 1.55;
 }
@@ -5684,7 +5679,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-osszefoglalo dt {
-    color: var(--booking-ink, var(--akcentus));
+    color: var(--akcentus);
     font-size: var(--lumi-font-caption);
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -5799,7 +5794,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-datum-chip-nap {
     display: inline-flex;
     align-items: center;
-    color: var(--booking-ink, var(--akcentus));
+    color: var(--akcentus);
     font-weight: 900;
 }
 
@@ -5957,14 +5952,10 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 /* Booking — végleges megjelenés (99-ből migrálva) */
 .foglalas-oldal {
-    --booking-ink: var(--ui-ink);
-    --booking-muted: color-mix(in srgb, var(--ui-ink) 82%, var(--ui-surface));
-    --booking-border: color-mix(in srgb, var(--ui-ink) 22%, transparent);
-    --booking-border-strong: color-mix(in srgb, var(--ui-ink) 38%, transparent);
-    --booking-panel-bg: var(--ui-surface);
-    --booking-card-bg: color-mix(in srgb, var(--ui-bg) 62%, var(--ui-surface));
-    --booking-choice-bg: color-mix(in srgb, var(--ui-primary) 16%, var(--ui-surface));
-    --booking-choice-hover-bg: color-mix(in srgb, var(--ui-primary) 24%, var(--ui-surface));
+    --booking-panel-bg: color-mix(in srgb, var(--ui-accent) 15%, var(--ui-surface));
+    --booking-card-bg: var(--ui-surface);
+    --booking-choice-bg: color-mix(in srgb, var(--ui-accent) 8%, var(--ui-surface));
+    --booking-choice-hover-bg: color-mix(in srgb, var(--ui-accent) 12%, var(--ui-surface));
     --booking-summary-bg: color-mix(in srgb, var(--ui-warm) 7%, var(--ui-surface));
     width: min(1180px, calc(100% - 48px));
     margin: 0 auto;
@@ -6010,7 +6001,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-nyito .szekcio-leiras {
     max-width: 680px;
     margin: 0;
-    color: var(--booking-muted);
+    color: var(--ui-muted);
     font-size: var(--lumi-font-body-small);
     line-height: 1.8;
 }
@@ -6032,9 +6023,9 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     gap: 14px;
     min-height: 228px;
     padding: 26px;
-    border: 1px solid var(--booking-border);
+    border: 1px solid var(--ui-line);
     border-radius: var(--lumi-radius-card);
-    background: var(--booking-card-bg);
+    background: var(--ui-surface);
     box-shadow: 0 12px 34px rgba(44, 33, 30, 0.06);
     color: var(--ui-ink);
     text-decoration: none;
@@ -6074,7 +6065,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .foglalas-ut-leiras {
     display: block;
-    color: var(--booking-muted);
+    color: var(--ui-muted);
     font-size: var(--lumi-font-body-small);
     line-height: 1.6;
 }
@@ -6106,7 +6097,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-ut-kartya:hover {
     z-index: 1;
     transform: none;
-    background: var(--booking-choice-hover-bg);
+    background: var(--ui-off-white);
     box-shadow: 0 18px 38px rgba(44, 33, 30, 0.1);
 }
 
@@ -6123,7 +6114,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-leiras {
-    color: var(--ui-on-primary);
+    color: color-mix(in srgb, var(--ui-on-primary) 74%, transparent);
 }
 
 .foglalas-ut-kartya-kiemelt:hover,
@@ -6148,7 +6139,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     overflow: visible;
     margin: 0;
     padding: clamp(44px, 6vw, 72px);
-    border: 1px solid var(--booking-border-strong);
+    border: 1px solid var(--ui-line);
     border-radius: var(--lumi-radius-card);
     background: var(--booking-panel-bg);
     box-shadow: var(--ui-shadow);
@@ -6167,7 +6158,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-asszisztens-fej p {
-    color: var(--booking-muted);
+    color: var(--ui-muted);
     line-height: 1.75;
 }
 
@@ -6184,7 +6175,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-lepes {
     margin: 0;
     padding: clamp(28px, 4vw, 42px);
-    border: 1px solid var(--booking-border);
+    border: 1px solid var(--ui-line);
     border-radius: var(--lumi-radius-card);
     background: var(--booking-card-bg);
     box-shadow: none;
@@ -6192,7 +6183,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-lepes:last-child {
-    border-bottom: 1px solid var(--booking-border);
+    border-bottom: 1px solid var(--ui-line);
 }
 
 .foglalas-lepes-fej {
@@ -6215,10 +6206,10 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     width: 44px;
     height: 44px;
     justify-content: center;
-    border: 1px solid var(--booking-border-strong);
+    border: 1px solid var(--ui-line-strong);
     border-radius: 50%;
     background: var(--ui-surface);
-    color: var(--booking-ink);
+    color: var(--ui-primary);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     letter-spacing: 0.12em;
@@ -6240,7 +6231,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     min-width: 0;
     margin: 0;
     padding: 16px 0 0;
-    border-top: 1px solid var(--booking-border);
+    border-top: 1px solid var(--ui-line);
 }
 
 .foglalas-szolgaltatas-csoport:first-child {
@@ -6250,7 +6241,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .foglalas-szolgaltatas-csoport-cim {
     margin: 0 0 8px;
-    color: var(--booking-ink);
+    color: var(--ui-rose-dark);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 800;
@@ -6313,7 +6304,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-mini-kartya,
 .foglalas-idopont-gomb,
 .foglalas-datum-chip {
-    border-color: var(--booking-border-strong);
+    border-color: var(--ui-line);
     background: var(--booking-choice-bg);
     box-shadow: none;
 }
@@ -6330,8 +6321,8 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-idopont-gomb:hover,
 .foglalas-datum-chip:hover {
     transform: none;
-    border-color: var(--ui-rose-dark);
-    background: var(--booking-choice-hover-bg);
+    border-color: var(--ui-rose);
+    background: var(--ui-off-white);
     box-shadow: 0 9px 24px rgba(55, 40, 35, 0.06);
 }
 
@@ -6343,7 +6334,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     border-color: var(--ui-primary);
     background: var(--ui-primary);
     box-shadow: none;
-    color: var(--ui-on-primary);
+    color: var(--ui-off-white);
 }
 
 .foglalas-valaszto-kartya.aktiv .foglalas-kartya-cim,
@@ -6355,7 +6346,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-datum-chip.aktiv .foglalas-datum-chip-resz {
     border-color: transparent;
     background: transparent;
-    color: var(--ui-on-primary);
+    color: var(--ui-off-white);
 }
 
 .foglalas-valaszto-kartya {
@@ -6418,7 +6409,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-kep-elonezet,
 .foglalas-osszefoglalo,
 .foglalas-kupon-blokk {
-    border-color: var(--booking-border);
+    border-color: var(--ui-line);
     border-radius: 14px;
     background: var(--booking-summary-bg);
     box-shadow: none;
@@ -6465,7 +6456,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-oldal .urlap-mezo,
 .foglalas-oldal .tel-csoport {
     min-height: 48px;
-    border: 1px solid var(--booking-border-strong);
+    border: 1px solid var(--ui-line-strong);
     border-radius: 14px;
     background: var(--ui-off-white);
     box-shadow: none;
@@ -6489,7 +6480,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .foglalas-oldal .urlap-mezo:focus,
 .foglalas-oldal .tel-csoport:focus-within {
-    border-color: var(--booking-ink);
+    border-color: var(--ui-rose-dark);
     box-shadow: none;
 }
 

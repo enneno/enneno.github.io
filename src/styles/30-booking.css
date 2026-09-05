@@ -35,7 +35,7 @@
 
 .foglalas-lepes-fej p {
     margin: 0;
-    color: var(--booking-muted, var(--szoveg));
+    color: var(--szoveg);
     font-size: var(--lumi-font-body-small);
     line-height: 1.55;
 }
@@ -93,14 +93,14 @@
 }
 
 .foglalas-kartya-cim {
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
     font-size: var(--lumi-font-body-small);
     font-weight: 800;
     line-height: 1.25;
 }
 
 .foglalas-kartya-meta {
-    color: var(--booking-muted, rgba(83, 67, 59, 0.72));
+    color: rgba(83, 67, 59, 0.72);
     font-size: var(--lumi-font-caption);
     line-height: 1.35;
 }
@@ -134,12 +134,12 @@
 }
 
 .foglalas-stilus-kartya span {
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
     font-weight: 800;
 }
 
 .foglalas-stilus-kartya small {
-    color: var(--booking-muted, rgba(83, 67, 59, 0.76));
+    color: rgba(83, 67, 59, 0.76);
     line-height: 1.45;
 }
 
@@ -152,7 +152,7 @@
 .foglalas-tipp,
 .foglalas-kartya-uzenet {
     margin: 12px 0 0;
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
     font-size: var(--lumi-font-body-small);
     font-weight: 700;
     line-height: 1.5;
@@ -185,7 +185,7 @@
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    color: var(--ui-on-primary);
+    color: #fffaf4;
     font-size: 24px;
     line-height: 1;
 }
@@ -196,12 +196,12 @@
 }
 
 .foglalas-kepfeltoltes strong {
-    color: var(--booking-ink, var(--barna));
+    color: var(--barna);
 }
 
 .foglalas-kepfeltoltes small {
     margin-top: 2px;
-    color: var(--booking-muted, rgba(83, 67, 59, 0.72));
+    color: rgba(83, 67, 59, 0.72);
     line-height: 1.45;
 }
 
@@ -263,7 +263,7 @@
 
 .foglalas-osszefoglalo p {
     margin: 0;
-    color: var(--booking-muted, var(--szoveg));
+    color: var(--szoveg);
     font-size: var(--lumi-font-body-small);
     line-height: 1.55;
 }
@@ -282,7 +282,7 @@
 }
 
 .foglalas-osszefoglalo dt {
-    color: var(--booking-ink, var(--akcentus));
+    color: var(--akcentus);
     font-size: var(--lumi-font-caption);
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -397,7 +397,7 @@
 .foglalas-datum-chip-nap {
     display: inline-flex;
     align-items: center;
-    color: var(--booking-ink, var(--akcentus));
+    color: var(--akcentus);
     font-weight: 900;
 }
 
@@ -555,14 +555,10 @@
 
 /* Booking — végleges megjelenés (99-ből migrálva) */
 .foglalas-oldal {
-    --booking-ink: var(--ui-ink);
-    --booking-muted: color-mix(in srgb, var(--ui-ink) 82%, var(--ui-surface));
-    --booking-border: color-mix(in srgb, var(--ui-ink) 22%, transparent);
-    --booking-border-strong: color-mix(in srgb, var(--ui-ink) 38%, transparent);
-    --booking-panel-bg: var(--ui-surface);
-    --booking-card-bg: color-mix(in srgb, var(--ui-bg) 62%, var(--ui-surface));
-    --booking-choice-bg: color-mix(in srgb, var(--ui-primary) 16%, var(--ui-surface));
-    --booking-choice-hover-bg: color-mix(in srgb, var(--ui-primary) 24%, var(--ui-surface));
+    --booking-panel-bg: color-mix(in srgb, var(--ui-accent) 15%, var(--ui-surface));
+    --booking-card-bg: var(--ui-surface);
+    --booking-choice-bg: color-mix(in srgb, var(--ui-accent) 8%, var(--ui-surface));
+    --booking-choice-hover-bg: color-mix(in srgb, var(--ui-accent) 12%, var(--ui-surface));
     --booking-summary-bg: color-mix(in srgb, var(--ui-warm) 7%, var(--ui-surface));
     width: min(1180px, calc(100% - 48px));
     margin: 0 auto;
@@ -608,7 +604,7 @@
 .foglalas-nyito .szekcio-leiras {
     max-width: 680px;
     margin: 0;
-    color: var(--booking-muted);
+    color: var(--ui-muted);
     font-size: var(--lumi-font-body-small);
     line-height: 1.8;
 }
@@ -630,9 +626,9 @@
     gap: 14px;
     min-height: 228px;
     padding: 26px;
-    border: 1px solid var(--booking-border);
+    border: 1px solid var(--ui-line);
     border-radius: var(--lumi-radius-card);
-    background: var(--booking-card-bg);
+    background: var(--ui-surface);
     box-shadow: 0 12px 34px rgba(44, 33, 30, 0.06);
     color: var(--ui-ink);
     text-decoration: none;
@@ -672,7 +668,7 @@
 
 .foglalas-ut-leiras {
     display: block;
-    color: var(--booking-muted);
+    color: var(--ui-muted);
     font-size: var(--lumi-font-body-small);
     line-height: 1.6;
 }
@@ -704,7 +700,7 @@
 .foglalas-ut-kartya:hover {
     z-index: 1;
     transform: none;
-    background: var(--booking-choice-hover-bg);
+    background: var(--ui-off-white);
     box-shadow: 0 18px 38px rgba(44, 33, 30, 0.1);
 }
 
@@ -721,7 +717,7 @@
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-leiras {
-    color: var(--ui-on-primary);
+    color: color-mix(in srgb, var(--ui-on-primary) 74%, transparent);
 }
 
 .foglalas-ut-kartya-kiemelt:hover,
@@ -746,7 +742,7 @@
     overflow: visible;
     margin: 0;
     padding: clamp(44px, 6vw, 72px);
-    border: 1px solid var(--booking-border-strong);
+    border: 1px solid var(--ui-line);
     border-radius: var(--lumi-radius-card);
     background: var(--booking-panel-bg);
     box-shadow: var(--ui-shadow);
@@ -765,7 +761,7 @@
 }
 
 .foglalas-asszisztens-fej p {
-    color: var(--booking-muted);
+    color: var(--ui-muted);
     line-height: 1.75;
 }
 
@@ -782,7 +778,7 @@
 .foglalas-lepes {
     margin: 0;
     padding: clamp(28px, 4vw, 42px);
-    border: 1px solid var(--booking-border);
+    border: 1px solid var(--ui-line);
     border-radius: var(--lumi-radius-card);
     background: var(--booking-card-bg);
     box-shadow: none;
@@ -790,7 +786,7 @@
 }
 
 .foglalas-lepes:last-child {
-    border-bottom: 1px solid var(--booking-border);
+    border-bottom: 1px solid var(--ui-line);
 }
 
 .foglalas-lepes-fej {
@@ -813,10 +809,10 @@
     width: 44px;
     height: 44px;
     justify-content: center;
-    border: 1px solid var(--booking-border-strong);
+    border: 1px solid var(--ui-line-strong);
     border-radius: 50%;
     background: var(--ui-surface);
-    color: var(--booking-ink);
+    color: var(--ui-primary);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     letter-spacing: 0.12em;
@@ -838,7 +834,7 @@
     min-width: 0;
     margin: 0;
     padding: 16px 0 0;
-    border-top: 1px solid var(--booking-border);
+    border-top: 1px solid var(--ui-line);
 }
 
 .foglalas-szolgaltatas-csoport:first-child {
@@ -848,7 +844,7 @@
 
 .foglalas-szolgaltatas-csoport-cim {
     margin: 0 0 8px;
-    color: var(--booking-ink);
+    color: var(--ui-rose-dark);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 800;
@@ -911,7 +907,7 @@
 .foglalas-mini-kartya,
 .foglalas-idopont-gomb,
 .foglalas-datum-chip {
-    border-color: var(--booking-border-strong);
+    border-color: var(--ui-line);
     background: var(--booking-choice-bg);
     box-shadow: none;
 }
@@ -928,8 +924,8 @@
 .foglalas-idopont-gomb:hover,
 .foglalas-datum-chip:hover {
     transform: none;
-    border-color: var(--ui-rose-dark);
-    background: var(--booking-choice-hover-bg);
+    border-color: var(--ui-rose);
+    background: var(--ui-off-white);
     box-shadow: 0 9px 24px rgba(55, 40, 35, 0.06);
 }
 
@@ -941,7 +937,7 @@
     border-color: var(--ui-primary);
     background: var(--ui-primary);
     box-shadow: none;
-    color: var(--ui-on-primary);
+    color: var(--ui-off-white);
 }
 
 .foglalas-valaszto-kartya.aktiv .foglalas-kartya-cim,
@@ -953,7 +949,7 @@
 .foglalas-datum-chip.aktiv .foglalas-datum-chip-resz {
     border-color: transparent;
     background: transparent;
-    color: var(--ui-on-primary);
+    color: var(--ui-off-white);
 }
 
 .foglalas-valaszto-kartya {
@@ -1016,7 +1012,7 @@
 .foglalas-kep-elonezet,
 .foglalas-osszefoglalo,
 .foglalas-kupon-blokk {
-    border-color: var(--booking-border);
+    border-color: var(--ui-line);
     border-radius: 14px;
     background: var(--booking-summary-bg);
     box-shadow: none;
@@ -1063,7 +1059,7 @@
 .foglalas-oldal .urlap-mezo,
 .foglalas-oldal .tel-csoport {
     min-height: 48px;
-    border: 1px solid var(--booking-border-strong);
+    border: 1px solid var(--ui-line-strong);
     border-radius: 14px;
     background: var(--ui-off-white);
     box-shadow: none;
@@ -1087,7 +1083,7 @@
 
 .foglalas-oldal .urlap-mezo:focus,
 .foglalas-oldal .tel-csoport:focus-within {
-    border-color: var(--booking-ink);
+    border-color: var(--ui-rose-dark);
     box-shadow: none;
 }
 

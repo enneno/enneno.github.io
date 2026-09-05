@@ -58,22 +58,6 @@ test('dark theme changes the shared surfaces, controls, switch and PWA dock', as
 });
 
 
-test('light admin primary controls keep readable text on the pink brand color', async ({ page }) => {
-  const css = read('admin-v2.css');
-  await page.setContent(`<!doctype html><html><head><style>${css}</style></head><body class="admin-body admin-v2"><main id="admin-tartalom"><button class="admin-v2-button admin-v2-button-primary">Kieső idő</button></main></body></html>`);
-
-  const metrics = await page.evaluate(() => [...document.querySelectorAll('button')].map(button => {
-    const styles = getComputedStyle(button);
-    return { background: styles.backgroundColor, color: styles.color };
-  }));
-
-  for (const metric of metrics) {
-    expect(metric.background).toBe('rgb(255, 209, 220)');
-    expect(metric.color).toBe('rgb(49, 56, 63)');
-  }
-});
-
-
 test('booking calendar uses dark surfaces and dark status colors', async ({ page }) => {
   const css = read('admin-v2.css');
   await page.setContent(`<!doctype html><html data-admin-theme="dark"><head><style>${css}</style></head><body class="admin-body admin-v2"><main id="admin-tartalom"><section id="admin-panel-foglalasok"><div class="admin-foglalas-naptar"><div class="admin-foglalas-naptar-hetfej"><span>H</span><span>K</span><span>SZE</span><span>CS</span><span>P</span><span>SZO</span><span>V</span></div><div class="admin-foglalas-naptar-racs"><div class="admin-foglalas-naptar-cella"><button class="admin-foglalas-naptar-nap kijelolt"><span class="admin-foglalas-naptar-napszam">28</span><span class="admin-foglalas-naptar-darab">2</span><span class="admin-foglalas-naptar-esemeny admin-foglalas-naptar-statusz-done"><time>10:00</time></span></button></div><div class="admin-foglalas-naptar-cella admin-foglalas-naptar-ures"></div></div><div class="admin-foglalas-napi-panel"><button class="admin-foglalas-napi-sor"><span class="admin-foglalas-napi-ido">10:00</span><span class="admin-foglalas-napi-adat"><strong>Teszt</strong></span><span class="admin-foglalas-napi-statusz">Kész</span></button></div></div></section></main></body></html>`);

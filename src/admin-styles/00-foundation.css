@@ -117,7 +117,7 @@ html {
 body.admin-body {
   --admin-primary: var(--ui-primary);
   --admin-accent: var(--ui-accent);
-  --admin-ink: var(--ui-ink);
+  --admin-ink: var(--ui-primary);
   --admin-muted: var(--ui-muted);
   --admin-surface: var(--ui-surface);
   --admin-canvas: var(--ui-bg);

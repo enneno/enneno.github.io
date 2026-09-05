@@ -36,7 +36,7 @@
 }
 
 .admin-body .admin-mezo span {
-  color: var(--admin-v2-muted, var(--admin-muted));
+  color: rgba(93, 77, 70, 0.62);
   font-size: var(--lumi-font-caption);
   font-weight: 600;
 }
@@ -181,7 +181,7 @@
 
 .admin-body .admin-gomb {
   border-color: var(--admin-v2-brand-dark);
-  color: var(--admin-v2-on-navigation, var(--admin-v2-on-brand));
+  color: var(--admin-v2-on-brand);
   background: var(--admin-v2-brand-dark);
 }
 
