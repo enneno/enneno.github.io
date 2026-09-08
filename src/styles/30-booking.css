@@ -100,7 +100,7 @@
 }
 
 .foglalas-kartya-meta {
-    color: rgba(83, 67, 59, 0.72);
+    color: var(--ui-muted);
     font-size: var(--lumi-font-caption);
     line-height: 1.35;
 }
@@ -139,7 +139,7 @@
 }
 
 .foglalas-stilus-kartya small {
-    color: rgba(83, 67, 59, 0.76);
+    color: var(--ui-muted);
     line-height: 1.45;
 }
 
@@ -185,7 +185,7 @@
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    color: #fffaf4;
+    color: var(--ui-on-primary);
     font-size: 24px;
     line-height: 1;
 }
@@ -201,7 +201,7 @@
 
 .foglalas-kepfeltoltes small {
     margin-top: 2px;
-    color: rgba(83, 67, 59, 0.72);
+    color: var(--ui-muted);
     line-height: 1.45;
 }
 
@@ -282,7 +282,7 @@
 }
 
 .foglalas-osszefoglalo dt {
-    color: var(--akcentus);
+    color: var(--ui-ink);
     font-size: var(--lumi-font-caption);
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -328,7 +328,7 @@
 }
 
 .foglalas-kep-mini small {
-    color: rgba(83, 67, 59, 0.68);
+    color: var(--ui-muted);
     font-weight: 600;
 }
 
@@ -397,7 +397,7 @@
 .foglalas-datum-chip-nap {
     display: inline-flex;
     align-items: center;
-    color: var(--akcentus);
+    color: var(--ui-ink);
     font-weight: 900;
 }
 
@@ -717,7 +717,7 @@
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-leiras {
-    color: color-mix(in srgb, var(--ui-on-primary) 74%, transparent);
+    color: var(--ui-on-primary);
 }
 
 .foglalas-ut-kartya-kiemelt:hover,
@@ -812,7 +812,7 @@
     border: 1px solid var(--ui-line-strong);
     border-radius: 50%;
     background: var(--ui-surface);
-    color: var(--ui-primary);
+    color: var(--ui-ink);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     letter-spacing: 0.12em;
@@ -844,7 +844,7 @@
 
 .foglalas-szolgaltatas-csoport-cim {
     margin: 0 0 8px;
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 800;
@@ -937,7 +937,7 @@
     border-color: var(--ui-primary);
     background: var(--ui-primary);
     box-shadow: none;
-    color: var(--ui-off-white);
+    color: var(--ui-on-primary);
 }
 
 .foglalas-valaszto-kartya.aktiv .foglalas-kartya-cim,
@@ -949,7 +949,7 @@
 .foglalas-datum-chip.aktiv .foglalas-datum-chip-resz {
     border-color: transparent;
     background: transparent;
-    color: var(--ui-off-white);
+    color: var(--ui-on-primary);
 }
 
 .foglalas-valaszto-kartya {
@@ -1326,7 +1326,7 @@
 }
 
 .foglalas-kezelo-kartya > label {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-kezelo-bevitel {
@@ -1404,7 +1404,7 @@
 }
 
 .foglalas-lemondas-megjegyzes > span {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
     font-size: var(--lumi-font-caption);
     font-weight: 750;
     letter-spacing: 0.1em;
@@ -1558,13 +1558,13 @@
 
 /* Booking form accessibility — végleges megjelenés (99-ből migrálva) */
 .foglalas-ut-gomb {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-ut-kartya:not(.foglalas-ut-kartya-kiemelt) .foglalas-ut-ikon {
     border-color: rgba(145, 118, 110, 0.28);
     background: rgba(145, 118, 110, 0.08);
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-ikon {
@@ -1602,7 +1602,7 @@
 }
 
 .foglalas-mezo-cimke span {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-mezo-cimke small {

@@ -1,5 +1,45 @@
 # LumiNails vizuális audit
 
+## Célzott olvashatósági javítás — 2026-09-08
+
+Kiindulás: TEST `main`, `f1e96b2`, a korábbi kontraszt/spacing csomag visszavonása után. Ez a javítás nem alkalmazza újra a visszavont csomagot: az elrendezések, térközök, képek, felülethátterek és a `#FFD1DC` primary megmaradnak. Az alábbi bejegyzés az aktuális állapot; a korábbi auditbejegyzések történeti feljegyzések.
+
+### Bizonyított és javított hibák
+
+- Világos felületen a halványrózsaszín hero-felirat és egyes címkék/linkek nem voltak olvashatók. A dekoráció és a szöveg külön tokent kapott: `--ui-accent-text: #885333`; a másodlagos szöveg `#555d64`.
+- Foglalás: ár/időtartam, stílusleírás, képfeltöltési segítség, lépésszám, összefoglaló és kijelölt kártya felirata. A betöltött szolgáltatáskártyákon korábban 3,87:1 szövegkontraszt volt; a halvány barna alpha-színek helyett szemantikus szövegtokenek vannak.
+- Árlista időtartamai, vendégfiók/galéria/adatkezelés világos felületen lévő címkéi ugyanazt az olvasható rendszert használják.
+- A letiltott telefonmező és a befoglalója egyszerre halványodott. Csak maga a mező marad halványított, az országkód nem.
+- Admin light: az alap tinta tévesen a rózsaszín primary tokenre mutatott. A pink és a sötét/hover gombháttér külön felirattokent kapott; a navigáció másodlagos feliratai, mezőcímkék, akciók és lemondási értesítés feliratai is javítva.
+- A kézzel felvett foglalás státuszának és ikonjainak előtérszíne világos módban sötét, sötét módban világos. A rózsaszín státuszháttér, illetve a többi foglalási állapot jelentése megmaradt.
+
+### Ellenőrzés és korlátok
+
+- `npm run build`, `npm run assets:version`, `npm run check` és a végső CSS-változások után `npm run lint:css`: sikeres. Git-diff/forrás–bundle és CSS-felelősség ellenőrizve; nincs új `!important` vagy felülírásréteg.
+- `tests/accessibility-critical.spec.js`: home-mobile és admin-mobile sikeres; a booking-mobile hibájának javítása után csak az érintett booking-mobile teszt futott újra, sikeresen. Mindhárom nézetben a megengedett kontraszthibaszám most 0. A két korábbi touch-target eltérés megengedett kerete változatlan.
+- Célzott axe szövegkontraszt- és képi ellenőrzés: kezdőlap, foglalás, fiók, árlista, reprezentatív szolgáltatásoldal, galéria és admin belépés mobilon; kezdőlap/foglalás/árlista asztali méreten. A közös tokenek vizsgált nézeteiben nem maradt automatikusan kimutatott szövegkontraszt-hiba.
+- A foglalás ténylegesen betöltött szolgáltatásaival és kijelölt stíluskártyával külön mobil (390 px) és desktop (1440 px) ellenőrzés is történt: 0 axe szövegkontraszt-eltérés, vízszintes dokumentumtúlcsordulás nélkül. A hálózatilag nem elérhető szolgáltatásadatok tartalék nézete önmagában nem volt elegendő bizonyíték.
+- Bejelentkezett admin: kizárólag helyi mintaadatokkal ellenőrzött áttekintés, lista és naptár, világos/sötét témában; desktop és mobil/standalone-szimuláció. Az admin `Foglalt` readonly státusza és a primary gomb külön kontraszt-regressziótesztet kapott a meglévő `tests/admin-dark-mode.spec.js` fájlban: mindkét téma, 390 és 1440 px, legalább 4,5:1. Ez azért szükséges, mert az axe kihagyja a disabled mezőket.
+- A 21st determinisztikus review az utolsó teljes ellenőrzésekor 0 error, 0 warning és 546 információs javaslatot adott. A token-definíciókat is jelző hardcoded-color javaslatok nem automatikus hibák; nem történt tömeges csere. A ui-ux-pro-max szövegkontraszt-ajánlása alapján csak bizonyított olvashatósági eltéréseket javítottunk.
+- Nem futott teljes Playwright-csomag vagy Lighthouse. Valódi iPhone/Safari és telepített iOS PWA nem állt rendelkezésre; a standalone nézet böngészős szimuláció. A PWA zoomtilalma és működése változatlan.
+- LIVE kód, adatbázis, foglalás vagy tartalom nem módosult. A nyilvános tartalom betöltése csak olvasás; admin háttérműveletek helyi mockkal futottak. GitHub workflow nem módosult, új automatikus teszt nem került oda.
+
+### További észrevételek — ebben a csomagban nem módosítva
+
+- Az admin „A weboldal tartalma betöltve” visszajelzése a lista elé úszhat; külön, rövid életű és jól elkülönített értesítési felület javíthatná ezt.
+- A foglalás-ellenőrzés hosszú desktop címe sok sorra törik. Ez nem kontraszthiba: külön tartalmi/szélességi finomítás lehet, a jelenlegi elrendezést most megtartottuk.
+- A korábbi footer érintésicél-méretekre vonatkozó audit és a jelenlegi ratchet között eltérés maradt (két engedett target-size találat). Ez nem oldható meg pusztán színcserével; a kisebb spacing és a megfelelő érintési terület együtt vizsgálandó.
+
+### Pontos módosított fájlkör
+
+- Design-kontextus: `.21st/design.json`, `docs/design-system.md`, `docs/visual-audit.md`.
+- Publikus CSS-forrás: `src/styles/00-base.css`, `src/styles/11-price-page.css`, `src/styles/12-legal.css`, `src/styles/13-gallery-footer-navigation.css`, `src/styles/18-hero-inner-pages.css`, `src/styles/19-service-detail.css`, `src/styles/25-customer-account.css`, `src/styles/30-booking.css`.
+- Admin CSS-forrás: `src/admin-styles/00-foundation.css`, `src/admin-styles/10-components.css`, `src/admin-styles/20-workspace.css`, `src/admin-styles/30-bookings.css`.
+- Helyi ellenőrzés: `tests/accessibility-critical.spec.js`, `tests/admin-dark-mode.spec.js`.
+- Build által generált: `style.css`, `admin-v2.css`.
+- Kizárólag CSS-cache-verzió frissítés: `index.html`, `admin/index.html`, `adatkezeles/index.html`, `arlista/index.html`, `fiokom/index.html`, `foglalas/index.html`, `galeria/index.html`, `gel-lakk-tatabanya/index.html`, `korom-diszites-nail-art-tatabanya/index.html`, `manikur-tatabanya/index.html`, `mukorom-epites-toltes/index.html`.
+- Az egyszeri audit helyi képei/JSON-jelentései és segédszkriptje az ignorált `output/playwright/` mappában maradnak, nem kerülnek a kiadásba.
+
 ## Tartalom- és sűrűségkorrekció — 2026-09-03
 
 - A közös publikus és admin primary rózsaszín `#FFD1DC`; a hozzá tartozó áttetsző vonal- és fókuszszínek ugyanennek az RGB-értékét használják.

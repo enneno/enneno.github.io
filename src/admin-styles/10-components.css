@@ -36,7 +36,7 @@
 }
 
 .admin-body .admin-mezo span {
-  color: rgba(93, 77, 70, 0.62);
+  color: var(--admin-v2-muted);
   font-size: var(--lumi-font-caption);
   font-weight: 600;
 }
@@ -181,7 +181,7 @@
 
 .admin-body .admin-gomb {
   border-color: var(--admin-v2-brand-dark);
-  color: var(--admin-v2-on-brand);
+  color: var(--admin-v2-on-brand-dark);
   background: var(--admin-v2-brand-dark);
 }
 
@@ -263,7 +263,7 @@
   overflow: visible;
   border: 1px solid var(--admin-v2-border);
   border-radius: var(--admin-ui-icon-radius);
-  color: var(--admin-v2-brand);
+  color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-surface);
   box-shadow: 0 1px 3px rgba(67, 42, 35, .06);
   font-size: 0;
@@ -942,7 +942,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   padding: 0;
   border: 1px solid var(--admin-v2-border);
   border-radius: 11px;
-  color: var(--admin-v2-brand);
+  color: var(--admin-v2-brand-dark);
   background: var(--admin-v2-surface);
   box-shadow: 0 1px 3px rgba(67, 42, 35, .06);
 }

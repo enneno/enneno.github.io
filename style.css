@@ -7,7 +7,7 @@
     --barna: #596067;
     --krem: #e3dcd2;
     --kartya: #f2e9eb;
-    --szoveg: #62686d;
+    --szoveg: #555d64;
     --rozsa-halvany: #ead4da;
     --zsalyaszurke: #aeb8af;
 
@@ -21,12 +21,13 @@
     --ui-soft: #e9dfe1;
     --ui-highlight: #ffd1dc;
     --ui-warm: #cc8b65;
+    --ui-accent-text: #885333;
     --ui-off-black: #31383f;
     --ui-off-white: #f2e9eb;
     --ui-on-dark: #f2e9eb;
     --ui-header-bg: var(--ui-bg);
     --ui-ink: var(--ui-off-black);
-    --ui-muted: #62686d;
+    --ui-muted: #555d64;
     --ui-rose: var(--ui-accent);
     --ui-rose-dark: #cc8b65;
     --ui-line: rgba(255, 209, 220, 0.19);
@@ -393,7 +394,7 @@ h2 {
 .szekcio-kicker,
 .hero-kicker,
 .foglalas-kicker {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 750;
@@ -586,8 +587,7 @@ select.urlap-mezo:invalid {
     color: #9b3434;
 }
 
-.urlap-mezo:disabled,
-.tel-csoport:has(.urlap-mezo:disabled) {
+.urlap-mezo:disabled {
     opacity: 0.68;
 }
 
@@ -808,7 +808,7 @@ select.urlap-mezo:invalid {
 }
 
 .arlista-ido {
-    color: color-mix(in srgb, var(--ui-muted) 72%, transparent);
+    color: var(--ui-muted);
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     font-weight: 500;
@@ -938,7 +938,7 @@ select.urlap-mezo:invalid {
 .jogi-fejlec .jogi-cimke {
     max-width: none;
     margin: 0 0 18px;
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 750;
@@ -969,7 +969,7 @@ select.urlap-mezo:invalid {
 
 .jogi-tartalomjegyzek > p {
     margin: 0 0 14px;
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
     font-size: var(--lumi-font-caption);
     font-weight: 750;
     letter-spacing: 0.16em;
@@ -1003,7 +1003,7 @@ select.urlap-mezo:invalid {
 
 .jogi-tartalomjegyzek a::before {
     content: counter(jogi-tartalom, decimal-leading-zero);
-    color: var(--ui-primary);
+    color: var(--ui-accent-text);
     font-size: var(--lumi-font-micro);
     letter-spacing: 0.04em;
 }
@@ -1164,7 +1164,7 @@ select.urlap-mezo:invalid {
 
 .jogi-frissitve {
     margin: 34px 0 0;
-    color: var(--ui-primary);
+    color: var(--ui-accent-text);
     font-size: var(--lumi-font-caption);
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -1264,7 +1264,7 @@ select.urlap-mezo:invalid {
 }
 
 .galeria-oldal-fej .szekcio-kicker {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .galeria-oldal-fej h1 {
@@ -3783,7 +3783,7 @@ select.urlap-mezo:invalid {
 }
 
 .hero-content .hero-kicker {
-    color: var(--ui-warm);
+    color: var(--ui-accent-text);
     margin-bottom: 0;
     line-height: 1.2;
     text-align: left;
@@ -3810,7 +3810,7 @@ select.urlap-mezo:invalid {
 }
 
 .hero-title-line:last-child {
-    color: var(--ui-primary);
+    color: var(--ui-accent-text);
     font-weight: 500;
 }
 
@@ -3986,7 +3986,7 @@ select.urlap-mezo:invalid {
     }
 
     .hero-content .hero-kicker {
-        color: var(--ui-warm);
+        color: var(--ui-accent-text);
     }
 
     .hero-content h1 {
@@ -4427,6 +4427,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .seo-szolgaltatas-zaras {
+    --ui-accent-text: var(--ui-primary);
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
     align-items: end;
@@ -4683,7 +4684,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .fiok-kicker {
     margin: 0 0 12px;
-    color: var(--ui-rose-dark, #91766e);
+    color: var(--ui-accent-text);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-micro);
     font-weight: 700;
@@ -5497,7 +5498,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-kartya-meta {
-    color: rgba(83, 67, 59, 0.72);
+    color: var(--ui-muted);
     font-size: var(--lumi-font-caption);
     line-height: 1.35;
 }
@@ -5536,7 +5537,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-stilus-kartya small {
-    color: rgba(83, 67, 59, 0.76);
+    color: var(--ui-muted);
     line-height: 1.45;
 }
 
@@ -5582,7 +5583,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    color: #fffaf4;
+    color: var(--ui-on-primary);
     font-size: 24px;
     line-height: 1;
 }
@@ -5598,7 +5599,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .foglalas-kepfeltoltes small {
     margin-top: 2px;
-    color: rgba(83, 67, 59, 0.72);
+    color: var(--ui-muted);
     line-height: 1.45;
 }
 
@@ -5679,7 +5680,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-osszefoglalo dt {
-    color: var(--akcentus);
+    color: var(--ui-ink);
     font-size: var(--lumi-font-caption);
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -5725,7 +5726,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-kep-mini small {
-    color: rgba(83, 67, 59, 0.68);
+    color: var(--ui-muted);
     font-weight: 600;
 }
 
@@ -5794,7 +5795,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-datum-chip-nap {
     display: inline-flex;
     align-items: center;
-    color: var(--akcentus);
+    color: var(--ui-ink);
     font-weight: 900;
 }
 
@@ -6114,7 +6115,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-leiras {
-    color: color-mix(in srgb, var(--ui-on-primary) 74%, transparent);
+    color: var(--ui-on-primary);
 }
 
 .foglalas-ut-kartya-kiemelt:hover,
@@ -6209,7 +6210,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     border: 1px solid var(--ui-line-strong);
     border-radius: 50%;
     background: var(--ui-surface);
-    color: var(--ui-primary);
+    color: var(--ui-ink);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     letter-spacing: 0.12em;
@@ -6241,7 +6242,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 .foglalas-szolgaltatas-csoport-cim {
     margin: 0 0 8px;
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
     font-weight: 800;
@@ -6334,7 +6335,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
     border-color: var(--ui-primary);
     background: var(--ui-primary);
     box-shadow: none;
-    color: var(--ui-off-white);
+    color: var(--ui-on-primary);
 }
 
 .foglalas-valaszto-kartya.aktiv .foglalas-kartya-cim,
@@ -6346,7 +6347,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 .foglalas-datum-chip.aktiv .foglalas-datum-chip-resz {
     border-color: transparent;
     background: transparent;
-    color: var(--ui-off-white);
+    color: var(--ui-on-primary);
 }
 
 .foglalas-valaszto-kartya {
@@ -6723,7 +6724,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-kezelo-kartya > label {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-kezelo-bevitel {
@@ -6801,7 +6802,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-lemondas-megjegyzes > span {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
     font-size: var(--lumi-font-caption);
     font-weight: 750;
     letter-spacing: 0.1em;
@@ -6955,13 +6956,13 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 
 /* Booking form accessibility — végleges megjelenés (99-ből migrálva) */
 .foglalas-ut-gomb {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-ut-kartya:not(.foglalas-ut-kartya-kiemelt) .foglalas-ut-ikon {
     border-color: rgba(145, 118, 110, 0.28);
     background: rgba(145, 118, 110, 0.08);
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-ut-kartya-kiemelt .foglalas-ut-ikon {
@@ -6999,7 +7000,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .foglalas-mezo-cimke span {
-    color: var(--ui-rose-dark);
+    color: var(--ui-accent-text);
 }
 
 .foglalas-mezo-cimke small {

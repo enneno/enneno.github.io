@@ -312,6 +312,7 @@ body > #fo-tartalom.seo-szolgaltatas-oldal {
 }
 
 .seo-szolgaltatas-zaras {
+    --ui-accent-text: var(--ui-primary);
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
     align-items: end;

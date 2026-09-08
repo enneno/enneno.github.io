@@ -100,7 +100,7 @@
 }
 
 .arlista-ido {
-    color: color-mix(in srgb, var(--ui-muted) 72%, transparent);
+    color: var(--ui-muted);
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     font-weight: 500;

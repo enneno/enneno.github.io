@@ -52,7 +52,7 @@
 
 .fiok-kicker {
     margin: 0 0 12px;
-    color: var(--ui-rose-dark, #91766e);
+    color: var(--ui-accent-text);
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-micro);
     font-weight: 700;

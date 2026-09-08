@@ -21,11 +21,20 @@ Ez a TEST projekt Figma-alapú vizuális szerződése. A referencia a `fNgCClNjs
 | Oldalháttér | `--ui-bg` | `#e3dcd2` |
 | Világos felület | `--ui-surface` | `#f2e9eb` |
 | Terrakotta kiegészítő | `--ui-warm` | `#cc8b65` |
-| Másodlagos szöveg | `--ui-muted` | `#62686d` |
+| Másodlagos szöveg | `--ui-muted` | `#555d64` |
+| Terrakotta szöveg világos felületen | `--ui-accent-text` | `#885333` |
 | Finom elválasztó | `--ui-line` | `rgba(255, 209, 220, 0.19)` |
 | Erős elválasztó | `--ui-line-strong` | `rgba(49, 56, 63, 0.28)` |
 
 Komponensben szemantikus tokent kell használni. A publikus és admin light mód ugyanazt a palettát használja; az admin sötét mód saját, szemantikailag azonos állapottokeneket tart meg. Success, warning, danger és info állapotnál a szín mellé szöveg vagy ikon is szükséges.
+
+### Olvasható színpárok — 2026-09-08
+
+- A `#FFD1DC` brand háttérszín marad; rajta `--ui-on-primary` (`#31383f`) felirat legyen, ne fehér. Világos felületen ne szolgáljon szövegszínként.
+- A `--ui-warm` dekoratív szín. Világos felületű címkéhez/linkhez a sötétebb `--ui-accent-text` tartozik. A sötét szolgáltatás-záróblokk ezt helyileg a világos brand színre állítja.
+- Másodlagos szövegre `--ui-muted` használható; további opacity/áttetszőség leronthatja a kontrasztját.
+- Adminban a `--admin-v2-on-brand` a rózsaszín háttér felirata; a `--admin-v2-on-brand-dark` a témafüggő sötét/hover háttér saját felirata. Ezek nem felcserélhetők.
+- A kritikus helyi axe-teszt kezdőlapon, foglaláson és admin belépésen nulla szövegkontraszt-eltérést enged. A színátmenetes vagy képes felületeket kézzel is ellenőrizni kell; az automatikus mérés nem jelent teljes akadálymentességi tanúsítást.
 
 ## Tipográfia
 

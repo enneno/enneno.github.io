@@ -34,7 +34,7 @@
 }
 
 .hero-content .hero-kicker {
-    color: var(--ui-warm);
+    color: var(--ui-accent-text);
     margin-bottom: 0;
     line-height: 1.2;
     text-align: left;
@@ -61,7 +61,7 @@
 }
 
 .hero-title-line:last-child {
-    color: var(--ui-primary);
+    color: var(--ui-accent-text);
     font-weight: 500;
 }
 
@@ -237,7 +237,7 @@
     }
 
     .hero-content .hero-kicker {
-        color: var(--ui-warm);
+        color: var(--ui-accent-text);
     }
 
     .hero-content h1 {

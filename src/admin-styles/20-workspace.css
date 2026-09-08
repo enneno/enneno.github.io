@@ -15,12 +15,14 @@
   --admin-v2-border: rgba(49, 56, 63, 0.16);
   --admin-v2-border-strong: rgba(49, 56, 63, 0.3);
   --admin-v2-ink: #31383f;
-  --admin-v2-muted: #62686d;
-  --admin-v2-subtle: #7a7f83;
+  --admin-v2-muted: #555d64;
+  --admin-v2-subtle: #555d64;
   --admin-v2-brand: #ffd1dc;
   --admin-v2-brand-dark: #31383f;
   --admin-v2-brand-soft: #ead4da;
-  --admin-v2-on-brand: #fffaf4;
+  --admin-v2-on-brand: #31383f;
+  --admin-v2-on-brand-dark: #fffaf4;
+  --admin-v2-nav-muted: #bfc4c8;
   --admin-v2-navigation: #31383f;
   --admin-v2-success: #446f58;
   --admin-v2-success-soft: #e8f1eb;
@@ -63,6 +65,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   --admin-v2-brand-dark: #e8afbf;
   --admin-v2-brand-soft: #4d3942;
   --admin-v2-on-brand: #31383f;
+  --admin-v2-on-brand-dark: #31383f;
   --admin-v2-navigation: #31383f;
   --admin-v2-success: #8fb99c;
   --admin-v2-success-soft: #2f4437;
@@ -103,7 +106,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   left: 50%;
   padding: 9px 14px;
   border-radius: 8px;
-  color: var(--admin-v2-on-brand);
+  color: var(--admin-v2-on-brand-dark);
   background: var(--admin-v2-brand-dark);
   font-size: 13px;
   font-weight: 600;
@@ -147,7 +150,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   align-items: flex-end;
   padding: 48px 38px;
   background: var(--admin-v2-brand-dark);
-  color: var(--admin-v2-on-brand);
+  color: var(--admin-v2-on-brand-dark);
   font-family: var(--font-display);
   font-size: 72px;
   font-weight: 600;
@@ -163,7 +166,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 .admin-body.admin-v2 .admin-auth-panel .admin-eyebrow {
   margin: 0 0 12px;
-  color: var(--admin-v2-brand);
+  color: var(--admin-v2-brand-dark);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -342,7 +345,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 .admin-body.admin-v2 .admin-v2-nav-label {
   margin: 0;
   padding: 11px 10px 4px;
-  color: rgba(255, 255, 255, 0.38);
+  color: var(--admin-v2-nav-muted);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -501,7 +504,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 .admin-body.admin-v2 .admin-v2-profile small {
   margin-top: 2px;
-  color: rgba(255, 255, 255, 0.48);
+  color: var(--admin-v2-nav-muted);
   font-size: 11px;
 }
 
@@ -533,7 +536,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 .admin-body.admin-v2 .admin-v2-logout {
   min-height: 36px;
   border: 0;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--admin-v2-nav-muted);
   background: transparent;
   font: inherit;
   font-size: 13px;
@@ -789,7 +792,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 .admin-body.admin-v2 .admin-v2-kicker {
   margin: 0 0 5px;
-  color: var(--admin-v2-brand);
+  color: var(--admin-v2-brand-dark);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.15em;
@@ -860,7 +863,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
 
 .admin-body.admin-v2 .admin-v2-button-primary:hover {
   border-color: var(--admin-v2-brand-dark);
-  color: var(--admin-v2-on-brand);
+  color: var(--admin-v2-on-brand-dark);
   background: var(--admin-v2-brand-dark);
 }
 
@@ -1027,7 +1030,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   padding: 5px;
   gap: 4px;
   border: 0;
-  color: var(--admin-v2-brand);
+  color: var(--admin-v2-brand-dark);
   background: transparent;
   font: inherit;
   font-size: 13px;
@@ -1246,7 +1249,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 {
   min-height: 30px;
   padding: 5px 8px;
   border: 0;
-  color: var(--admin-v2-brand);
+  color: var(--admin-v2-brand-dark);
   background: transparent;
   font: inherit;
   font-size: 12px;

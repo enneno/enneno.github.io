@@ -28,7 +28,8 @@
       "background": "#e3dcd2",
       "surface": "#f2e9eb",
       "foreground": "#31383f",
-      "mutedForeground": "#62686d"
+      "mutedForeground": "#555d64",
+      "accentForeground": "#885333"
     },
     "typography": {
       "display": "Playfair Display",

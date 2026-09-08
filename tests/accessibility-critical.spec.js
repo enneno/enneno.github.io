@@ -6,19 +6,19 @@ const auditedViews = [
         name: 'home-mobile',
         path: '/',
         ready: '#hero',
-        maximumKnownViolations: { 'color-contrast': 30, 'target-size': 2 }
+        maximumKnownViolations: { 'color-contrast': 0, 'target-size': 2 }
     },
     {
         name: 'booking-mobile',
         path: '/foglalas/',
         ready: '#foglalas-urlap',
-        maximumKnownViolations: { 'color-contrast': 22, 'target-size': 2 }
+        maximumKnownViolations: { 'color-contrast': 0, 'target-size': 2 }
     },
     {
         name: 'admin-mobile',
         path: '/admin/',
         ready: '#admin-bejelentkezes-panel',
-        maximumKnownViolations: { 'color-contrast': 1 }
+        maximumKnownViolations: { 'color-contrast': 0 }
     }
 ];
 

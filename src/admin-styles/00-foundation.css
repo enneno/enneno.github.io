@@ -6,7 +6,7 @@
   --barna: #596067;
   --krem: #e3dcd2;
   --kartya: #f2e9eb;
-  --szoveg: #62686d;
+  --szoveg: #555d64;
   --rozsa-halvany: #ead4da;
   --zsalyaszurke: #a7b7a1;
 
@@ -22,8 +22,8 @@
   --ui-off-black: #31383f;
   --ui-off-white: #f2e9eb;
   --ui-on-dark: #f2e9eb;
-  --ui-ink: var(--ui-primary);
-  --ui-muted: #62686d;
+  --ui-ink: var(--tinta);
+  --ui-muted: #555d64;
   --ui-rose: var(--ui-accent);
   --ui-rose-dark: #cc8b65;
   --ui-line: rgba(255, 209, 220, 0.19);
@@ -117,7 +117,7 @@ html {
 body.admin-body {
   --admin-primary: var(--ui-primary);
   --admin-accent: var(--ui-accent);
-  --admin-ink: var(--ui-primary);
+  --admin-ink: var(--ui-ink);
   --admin-muted: var(--ui-muted);
   --admin-surface: var(--ui-surface);
   --admin-canvas: var(--ui-bg);

@@ -127,7 +127,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   place-items: center;
   border: 0;
   border-radius: var(--admin-ui-icon-radius);
-  color: var(--admin-rose-dark);
+  color: var(--admin-v2-brand-dark);
   background: transparent;
   font-size: var(--admin-ui-action-font-size);
   line-height: 1;
@@ -175,7 +175,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-vendeg-lemondas-kicker {
   display: block;
   margin-bottom: 4px;
-  color: var(--admin-rose-dark);
+  color: var(--admin-v2-brand-dark);
   font-size: var(--lumi-font-caption);
   font-weight: 600;
   letter-spacing: .12em;
@@ -192,7 +192,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
   font-size: var(--lumi-font-body-small);
 }
 .admin-body.admin-v2 #admin-panel-foglalasok #admin-vendeg-lemondas-darab {
-  color: var(--admin-rose-dark);
+  color: var(--admin-v2-brand-dark);
   font-weight: 600;
 }
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-vendeg-lemondas-akciok {
@@ -202,7 +202,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
 }
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-vendeg-lemondas-nyugtazas {
   border-color: var(--admin-rose-dark);
-  color: var(--ui-off-white);
+  color: var(--ui-on-primary);
   background: var(--admin-rose-dark);
 }
 
@@ -295,7 +295,7 @@ html[data-admin-theme="dark"] .admin-body.admin-v2 #admin-panel-foglalasok {
 .admin-body.admin-v2 #admin-panel-foglalasok :is(
   .admin-foglalas-statusz-blocked,
   .admin-foglalas-kartya:has(.admin-db-statusz option[value="blocked"]:checked)
-) { --booking-state-color: var(--admin-v2-brand); --booking-state-bg: var(--admin-v2-brand-soft); --booking-state-border: color-mix(in srgb, var(--admin-v2-brand) 34%, var(--admin-v2-border)); }
+) { --booking-state-color: var(--admin-v2-brand-dark); --booking-state-bg: var(--admin-v2-brand-soft); --booking-state-border: color-mix(in srgb, var(--admin-v2-brand) 34%, var(--admin-v2-border)); }
 .admin-body.admin-v2 #admin-panel-foglalasok :is(
   .admin-foglalas-statusz-cancelled,
   .admin-foglalas-kartya:has(.admin-db-statusz option[value="cancelled"]:checked)
@@ -804,7 +804,7 @@ body.admin-modal-nyitva { overflow: hidden; }
 }
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-foglalas-naptar-nap.mai .admin-foglalas-naptar-napszam {
   border-radius: 50%;
-  color: var(--ui-off-white);
+  color: var(--ui-on-primary);
   background: var(--admin-rose-dark);
 }
 .admin-body.admin-v2 #admin-panel-foglalasok .admin-foglalas-naptar-darab {
