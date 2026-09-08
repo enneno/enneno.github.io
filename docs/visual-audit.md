@@ -1,5 +1,15 @@
 # LumiNails vizuális audit
 
+## Mobil hero átrendezése — 2026-09-08
+
+- Felhasználói kérésre teljes képernyőszélességű mobil hero-kép, a bal oldalon olvasható, palaszürke szöveggel; az account/belépési gombok a kép alatt. A mobil dekoratív LN jelvény nem takarja a szöveget (rejtve). A galérialink megmarad a kép alsó sávjában.
+- A barna hero-feliratok desktopon is palaszürkék. A többi szekció, az admin, a galériaképek, a belépési folyamat és a PWA-szabályok változatlanok. A tartalomszerkesztő leírásának célpontja az új `.hero-copy` dobozhoz igazítva.
+- Célzott Playwright-ellenőrzés csak a hero blokkon: 375, 390, 768 és 1440 px; betöltött publikus képpel és szöveggel. Nincs dokumentumszintű vízszintes túlcsordulás; mobilon a kép a két szélig ér, a gombok alatta vannak, legalább 52 px magasak. A szöveg a képen belül marad; 0 automatikus szövegkontraszt-találat, képi ellenőrzéssel kiegészítve. Valódi iOS-eszköz nem volt része az ellenőrzésnek.
+- Sikeres: build, asset-verzió frissítés, `npm run check` (benne CSS-lint), Git-diff ellenőrzése. 21st review: 0 error, 0 warning, 6 információs javaslat. A 21st katalóguskeresése sikeres belépés után működött; külső komponenst nem telepítettünk, a meglévő hero maradt az alap. A UI/UX skill olvashatósági és érintésicél-alapelveit alkalmaztuk; a Python kereső ebben a környezetben nem volt elérhető.
+- Pontos forrásfájlok: `index.html`, `src/styles/18-hero-inner-pages.css`, `src/public/30-content-rendering.js`. Dokumentáció: `.21st/design.json`, `.21st/DESIGN.md`, `docs/design-system.md`, `docs/visual-audit.md`. Generált: `style.css`, `script.js`.
+- Csak cache-verzió miatt módosult: `adatkezeles/index.html`, `admin/index.html`, `arlista/index.html`, `fiokom/index.html`, `foglalas/index.html`, `galeria/index.html`, `gel-lakk-tatabanya/index.html`, `korom-diszites-nail-art-tatabanya/index.html`, `manikur-tatabanya/index.html`, `mukorom-epites-toltes/index.html`.
+- A képek és az egyszeri ellenőrzőszkript az ignorált `output/playwright/hero-*` fájlokban maradnak. LIVE nem változott; GitHub workflow nem módosult.
+
 ## Célzott olvashatósági javítás — 2026-09-08
 
 Kiindulás: TEST `main`, `f1e96b2`, a korábbi kontraszt/spacing csomag visszavonása után. Ez a javítás nem alkalmazza újra a visszavont csomagot: az elrendezések, térközök, képek, felülethátterek és a `#FFD1DC` primary megmaradnak. Az alábbi bejegyzés az aktuális állapot; a korábbi auditbejegyzések történeti feljegyzések.

@@ -72,7 +72,7 @@ Komponensben szemantikus tokent kell használni. A publikus és admin light mód
 
 - Elsődleges breakpoint: 768 px. A 480/640/900/1100 px csak valódi komponensigényhez használható.
 - Kötelező reprezentatív nézetek: 390 × 844 és 1440 × 1000.
-- Mobilon egyoszlopos hero, galéria, árlista és foglalási utak; desktopon a Figma szerinti split vagy kétoszlopos elrendezés.
+- Mobilon a hero teljes szélességű képet és arra balra helyezett palaszürke szöveget használ, világos olvashatósági fátyollal. A gombok a kép alá kerülnek, a galériahivatkozás a kép alsó sávjában marad. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
 - Nincs vízszintes dokumentumgörgetés, levágott cím vagy 44 px-nél kisebb elsődleges érintési cél.
 - A publikus nagyítás engedélyezett. Az admin standalone PWA nagyítási tilalma változatlan.
 - `prefers-reduced-motion: reduce` esetén az érdemi animáció kikapcsol.

@@ -15,6 +15,7 @@ The TEST UI follows the supplied Figma file: a light editorial beauty-salon syst
 ## Patterns
 
 - Full-width split homepage hero with existing homepage imagery.
+- Mobile hero: edge-to-edge image, left-aligned slate copy over a light readability scrim, gallery caption at the image bottom, account actions below. No brown hero text.
 - Full-width split introduction, dark service showcase, and pink account/booking CTA.
 - Two-column desktop gallery with consistent caption backgrounds on every image; one column on mobile.
 - One shared dark footer across all public pages, pinned after the page content without trailing canvas.

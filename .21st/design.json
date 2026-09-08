@@ -47,7 +47,7 @@
     "radius": {
       "control": "3px",
       "card": "4px",
-      "hero": "full-bleed split on desktop; 4px image card on mobile",
+      "hero": "full-bleed split on desktop; edge-to-edge mobile image with left text overlay and actions below",
       "pill": "999px only for semantic pills"
     },
     "shadows": {
@@ -96,6 +96,11 @@
     ]
   },
   "decisions": [
+    {
+      "date": "2026-09-08",
+      "decision": "Use an edge-to-edge mobile hero photo with left-aligned slate text over a light readability scrim and account actions below the image.",
+      "reason": "The user requested a desktop-inspired mobile hero and removal of brown hero text. Preserve the CMS image and copy, desktop split layout, and existing action links."
+    },
     {
       "date": "2026-09-01",
       "decision": "Adopt a quiet-luxury editorial redesign for the TEST critical views.",

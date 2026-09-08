@@ -500,7 +500,7 @@ function fooldalAdatokAlkalmazasa(fooldal, teljesGaleria) {
             ? `<span class="hero-title-line">${html(cimReszek.slice(0, -1).join(' '))}</span><span class="hero-title-line">${html(cimReszek.at(-1))}</span>`
             : `<span class="hero-title-line">${html(cimReszek[0] || '')}</span>`;
     }
-    szovegBeallitasa('.hero-content > p', heroAdatok.leiras);
+    szovegBeallitasa('.hero-copy > p', heroAdatok.leiras);
     szovegBeallitasa('.hero-primary', heroAdatok.gombSzoveg);
 
     const heroElonyok = document.querySelector('.hero-bizalom');
