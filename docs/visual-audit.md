@@ -1,5 +1,13 @@
 # LumiNails vizuális audit
 
+## Mobil hero képkivágás és overlay korrekció — 2026-09-08
+
+- A korábbi 390 px minimum képmagasság és `cover` helyett fix 16:9 és `contain`: a teljes kép látszik, középre igazítva, vágás/nagyítás nélkül. A galériasáv nem takar bele a fotóba, hanem közvetlenül alá kerül.
+- A teljes képes fátyol megszűnt. Csak a kompakt bal oldali szövegek és az immár a képen lévő három előnyfelirat kap 80%-os világos helyi hátteret. A cím mobilon egysoros; a gombok maradnak a kép alatt. Desktopon nincs megjelenésváltozás.
+- Ellenőrzés csak az érintett hero komponensen: 375, 390 és 768 px mobil + 1440 px desktop kontroll. A kép pontosan 16:9 mobilon, `contain`, nincs vízszintes túlcsordulás, nincs szöveg/előnysor ütközés, a gombok legalább 52 px magasak. A betöltött tartalommal 0 axe szövegkontraszt-találat, mobil képernyőkép kézzel átnézve. CSS-lint, build és Git-diff ellenőrizve. 21st review: 0 error, 0 warning. Teljes tesztcsomag nem futott.
+- Pontos módosított fájlok: `src/styles/18-hero-inner-pages.css`, generált `style.css`, `.21st/design.json`, `.21st/DESIGN.md`, `docs/design-system.md`, `docs/visual-audit.md`. Csak cache-verzió: `index.html`, `adatkezeles/index.html`, `arlista/index.html`, `fiokom/index.html`, `foglalas/index.html`, `galeria/index.html`, `gel-lakk-tatabanya/index.html`, `korom-diszites-nail-art-tatabanya/index.html`, `manikur-tatabanya/index.html`, `mukorom-epites-toltes/index.html`.
+- Helyi, nem kiadott ellenőrzőszkript/képek: `output/playwright/hero-layout.cjs`, `output/playwright/hero-16x9-*.png`. LIVE, admin alkalmazáskód, PWA és GitHub workflow nem változott. Valódi iOS-eszköz nem volt része az ellenőrzésnek.
+
 ## Mobil hero átrendezése — 2026-09-08
 
 - Felhasználói kérésre teljes képernyőszélességű mobil hero-kép, a bal oldalon olvasható, palaszürke szöveggel; az account/belépési gombok a kép alatt. A mobil dekoratív LN jelvény nem takarja a szöveget (rejtve). A galérialink megmarad a kép alsó sávjában.

@@ -72,7 +72,7 @@ Komponensben szemantikus tokent kell használni. A publikus és admin light mód
 
 - Elsődleges breakpoint: 768 px. A 480/640/900/1100 px csak valódi komponensigényhez használható.
 - Kötelező reprezentatív nézetek: 390 × 844 és 1440 × 1000.
-- Mobilon a hero teljes szélességű képet és arra balra helyezett palaszürke szöveget használ, világos olvashatósági fátyollal. A gombok a kép alá kerülnek, a galériahivatkozás a kép alsó sávjában marad. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
+- Mobilon a hero kép teljes szélességű, fix 16:9 arányú és `object-fit: contain`: nincs vágás, zoom vagy képeltolás. A kompakt, bal oldali palaszürke cím/leírás és az alsó három előnyszöveg csak szövegméretű áttetsző hátteret kap, nincs teljes képes fátyol. A galériahivatkozás és a gombok a kép alatt vannak. Feltöltéshez 16:9-es kép tervezendő (pl. 1920×1080), bal oldalt szöveghellyel. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
 - Nincs vízszintes dokumentumgörgetés, levágott cím vagy 44 px-nél kisebb elsődleges érintési cél.
 - A publikus nagyítás engedélyezett. Az admin standalone PWA nagyítási tilalma változatlan.
 - `prefers-reduced-motion: reduce` esetén az érdemi animáció kikapcsol.

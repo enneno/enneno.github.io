@@ -47,7 +47,7 @@
     "radius": {
       "control": "3px",
       "card": "4px",
-      "hero": "full-bleed split on desktop; edge-to-edge mobile image with left text overlay and actions below",
+      "hero": "desktop split; uncropped 16:9 mobile image with compact left text and bottom benefits; actions below",
       "pill": "999px only for semantic pills"
     },
     "shadows": {
@@ -96,6 +96,11 @@
     ]
   },
   "decisions": [
+    {
+      "date": "2026-09-08",
+      "decision": "Keep the mobile hero image exactly 16:9 without cropping or zoom, place all three benefit labels on the photo, and replace the broad overlay with text-local translucent backgrounds.",
+      "reason": "The user plans to upload 16:9 images and needs predictable framing. Compact mobile typography fits the fixed image height; desktop layout remains unchanged."
+    },
     {
       "date": "2026-09-08",
       "decision": "Use an edge-to-edge mobile hero photo with left-aligned slate text over a light readability scrim and account actions below the image.",
