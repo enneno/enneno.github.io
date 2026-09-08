@@ -441,6 +441,13 @@
 }
 
 @media screen and (max-width: 380px) {
+    #szolgaltatasok h2 {
+        font-size: clamp(31px, 10vw, 36px);
+        letter-spacing: -0.04em;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
     .szolgaltatas-lista {
         width: calc(100% - 24px);
         max-width: calc(100% - 24px);
@@ -601,6 +608,15 @@
     .bemutatkozas-szoveg p {
         font-size: var(--lumi-font-body-small);
         line-height: 1.75;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .bemutatkozas-szoveg h2 {
+        font-size: clamp(31px, 10vw, 36px);
+        letter-spacing: -0.04em;
+        overflow-wrap: normal;
+        word-break: normal;
     }
 }
 

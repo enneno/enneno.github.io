@@ -63,43 +63,52 @@ async function waitForImages(page) {
 }
 
 test.describe('kritikus vizuális nézetek', () => {
-    test('home-mobile hero image and gallery label form one card without duplicate account promotion', async ({ page }) => {
+    test('home-mobile hero keeps the full 16:9 image composed and the actions below it', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto('/', { waitUntil: 'domcontentloaded' });
         await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
 
         const metrics = await page.evaluate(() => {
-            const card = document.querySelector('.hero-visual');
+            const hero = document.querySelector('#hero');
+            const card = hero.querySelector('.hero-visual');
             const image = card.querySelector('.hero-kep');
             const label = card.querySelector('.hero-visual-cimke');
-            const cardRect = card.getBoundingClientRect();
+            const copy = hero.querySelector('.hero-copy');
+            const benefits = hero.querySelector('.hero-bizalom');
+            const actions = hero.querySelector('.hero-actions');
             const imageRect = image.getBoundingClientRect();
             const labelRect = label.getBoundingClientRect();
-            const cardStyle = getComputedStyle(card);
-            const labelStyle = getComputedStyle(label);
+            const copyRect = copy.getBoundingClientRect();
+            const benefitsRect = benefits.getBoundingClientRect();
+            const actionsRect = actions.getBoundingClientRect();
             return {
-                cardRadius: Number.parseFloat(cardStyle.borderTopLeftRadius),
-                cardBorderWidth: Number.parseFloat(cardStyle.borderTopWidth),
-                labelTopRadius: Number.parseFloat(labelStyle.borderTopLeftRadius),
-                labelBottomRadius: Number.parseFloat(labelStyle.borderBottomLeftRadius),
-                labelTopBorderWidth: Number.parseFloat(labelStyle.borderTopWidth),
-                imageAlignedToCard: Math.abs(imageRect.left - cardRect.left) <= 1,
-                labelAlignedToCard: Math.abs(labelRect.left - cardRect.left) <= 1
-                    && Math.abs(labelRect.right - cardRect.right) <= 1,
-                labelClosesCard: Math.abs(labelRect.bottom - cardRect.bottom) <= 1,
+                imageRatio: imageRect.width / imageRect.height,
+                imageFit: getComputedStyle(image).objectFit,
+                imageIsFullWidth: Math.abs(imageRect.width - window.innerWidth) <= 1,
+                copyInsideImage: copyRect.top >= imageRect.top - 1
+                    && copyRect.bottom <= imageRect.bottom + 1,
+                benefitsInsideImage: benefitsRect.top >= imageRect.top - 1
+                    && benefitsRect.bottom <= imageRect.bottom + 1,
+                labelBelowImage: Math.abs(labelRect.top - imageRect.bottom) <= 1,
+                actionsBelowLabel: actionsRect.top >= labelRect.bottom,
+                copyUsesSeparateBlocks: Array.from(copy.children).some(element =>
+                    getComputedStyle(element).backgroundColor !== 'rgba(0, 0, 0, 0)'
+                ),
+                readabilityLayer: getComputedStyle(card, '::after').backgroundImage,
                 accountRecommendationAbsent: !document.querySelector('#fiok-ajanlo'),
                 overflow: document.documentElement.scrollWidth - window.innerWidth
             };
         });
 
-        expect(metrics.cardRadius).toBe(4);
-        expect(metrics.cardBorderWidth).toBe(1);
-        expect(metrics.labelTopRadius).toBe(0);
-        expect(metrics.labelBottomRadius).toBe(0);
-        expect(metrics.labelTopBorderWidth).toBe(1);
-        expect(metrics.imageAlignedToCard).toBe(true);
-        expect(metrics.labelAlignedToCard).toBe(true);
-        expect(metrics.labelClosesCard).toBe(true);
+        expect(metrics.imageRatio).toBeCloseTo(16 / 9, 2);
+        expect(metrics.imageFit).toBe('contain');
+        expect(metrics.imageIsFullWidth).toBe(true);
+        expect(metrics.copyInsideImage).toBe(true);
+        expect(metrics.benefitsInsideImage).toBe(true);
+        expect(metrics.labelBelowImage).toBe(true);
+        expect(metrics.actionsBelowLabel).toBe(true);
+        expect(metrics.copyUsesSeparateBlocks).toBe(false);
+        expect(metrics.readabilityLayer).toContain('linear-gradient');
         expect(metrics.accountRecommendationAbsent).toBe(true);
         expect(metrics.overflow).toBeLessThanOrEqual(1);
     });
@@ -172,8 +181,8 @@ test.describe('kritikus vizuális nézetek', () => {
             };
         });
 
-        expect(mobile.heroBackground).toBe('rgb(242, 233, 235)');
-        expect(mobile.surfaceToken).toBe('#f2e9eb');
+        expect(mobile.heroBackground).toBe('rgb(245, 241, 235)');
+        expect(mobile.surfaceToken).toBe('#f5f1eb');
         expect(mobile.hamburgerColor).toBe('rgb(49, 56, 63)');
         expect(mobile.inkToken).toBe('#31383f');
         expect(mobile.introImageShowsFullFrame).toBe(true);
@@ -223,21 +232,30 @@ test.describe('kritikus vizuális nézetek', () => {
             const cta = document.querySelector('.szolgaltatas-zaras .gomb');
             const bookingSection = document.querySelector('#kapcsolat');
             const footer = document.querySelector('.site-footer');
+            const activeGalleryCard = document.querySelector('.galeria-kartya-lapozo img[data-aktiv="true"]');
+            const galleryControls = document.querySelector('.galeria-kartya-vezerlok');
+            const galleryStage = document.querySelector('.galeria-kartya-lapozo');
             const styles = getComputedStyle(cta);
             return {
                 ctaText: cta.textContent.trim(),
                 ctaColor: styles.color,
                 ctaBackground: styles.backgroundColor,
                 bookingSectionBackground: getComputedStyle(bookingSection).backgroundColor,
-                footerHeight: footer.getBoundingClientRect().height
+                footerHeight: footer.getBoundingClientRect().height,
+                activeGalleryShadow: getComputedStyle(activeGalleryCard).boxShadow,
+                galleryControlsShadow: getComputedStyle(galleryControls).boxShadow,
+                galleryGlowVisible: getComputedStyle(galleryStage, '::before').display !== 'none'
             };
         });
 
         expect(metrics.ctaText).not.toBe('');
-        expect(metrics.ctaBackground).toBe('rgb(255, 209, 220)');
-        expect(metrics.bookingSectionBackground).toBe('rgb(255, 209, 220)');
+        expect(metrics.ctaBackground).toBe('rgb(223, 231, 227)');
+        expect(metrics.bookingSectionBackground).toBe('rgb(201, 212, 207)');
         expect(metrics.ctaColor).not.toBe(metrics.ctaBackground);
         expect(metrics.footerHeight).toBeLessThan(280);
+        expect(metrics.activeGalleryShadow).toBe('none');
+        expect(metrics.galleryControlsShadow).toBe('none');
+        expect(metrics.galleryGlowVisible).toBe(false);
     });
 
     test('desktop account and booking verification retain desktop proportions', async ({ page }) => {
@@ -275,7 +293,7 @@ test.describe('kritikus vizuális nézetek', () => {
                 documentWidth: document.documentElement.scrollWidth
             };
         });
-        expect(booking.cardBackground).toBe('rgb(242, 233, 235)');
+        expect(booking.cardBackground).toBe('rgb(245, 241, 235)');
         expect(booking.surfacesAreDistinct).toBe(true);
         expect(booking.inputWidth).toBeGreaterThanOrEqual(280);
         expect(booking.placeholderFits).toBe(true);

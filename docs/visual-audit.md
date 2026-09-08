@@ -1,5 +1,15 @@
 # LumiNails vizuális audit
 
+## Publikus hero, színrendszer és galérialapozó finomítása — 2026-09-08
+
+- A mobil hero tényleges 16:9 képként, `contain` módban és ránagyítás nélkül jelenik meg. A korábbi több különálló világos feliratdoboz helyett egy bal oldali irányított olvashatósági átmenet és egyetlen közös alsó előnysáv van; a galériahivatkozás és a fiókgombok a kép alatt maradtak.
+- A képeken kifogásolt publikus rózsaszín elsődleges akcentus gyöngyház-zsályára (`#C9D4CF`), a rózsaszínes világos surface semleges ivoryra (`#F5F1EB`) változott. A sötét tinta megmaradt, így a fő akcentuson 7,8:1 körüli, az ivory felületen 10,5:1 körüli kontrasztot ad. Az admin külön színrendszere nem változott.
+- A kezdőlapi galérialapozó levágódó radiális fényudvara, képkártya-árnyéka és vezérlőárnyéka megszűnt. A rétegzettséget most a kártyák pozíciója, skálája és finom kerete adja. A képek forrása, sorrendje és lapozási működése változatlan.
+- A 320 px-es vizuális kontroll két korábbi mobil tipográfiai hibát is feltárt: a „Bemutatkozás” nem törik többé betű közben, a „Szolgáltatások” cím pedig nem lóg ki a viewportból.
+- Sikeres helyi ellenőrzések: build és asset-verziózás; teljes statikus projektellenőrzés benne CSS-architektúrával és Stylelinttel; célzott Playwright hero/layout/CTA kontroll (a hibás elvárás javítása után minden érintett eset sikeres); célzott axe home-mobile és booking-mobile, nulla új kontraszthibával. Kézi képi kontroll: 320, 390, 768 és 1440 px. A galéria aktív képe böngészőben betöltve 675×900 px; a képfájlok nem változtak.
+- Forrás: `src/styles/00-base.css`, `src/styles/15-home-sections.css`, `src/styles/16-home-gallery.css`, `src/styles/18-hero-inner-pages.css`, `tests/visual-critical.spec.js`. Design-dokumentáció: `.21st/DESIGN.md`, `.21st/design.json`, `docs/design-system.md`, `docs/visual-audit.md`. Generált: `style.css`; a publikus HTML-fájlokban csak a CSS cache-verzió frissül. Az `AGENTS.md` külön, korábban kért skillhasználati szabályokat tartalmaz.
+- Nem futott teljes Playwright-csomag vagy Lighthouse. LIVE projekt, LIVE oldal, admin forrás, PWA és GitHub workflow nem változott.
+
 ## Mobil hero képkivágás és overlay korrekció — 2026-09-08
 
 - A korábbi 390 px minimum képmagasság és `cover` helyett fix 16:9 és `contain`: a teljes kép látszik, középre igazítva, vágás/nagyítás nélkül. A galériasáv nem takar bele a fotóba, hanem közvetlenül alá kerül.

@@ -1,36 +1,36 @@
 /* Generated from src/styles by npm run build. Edit the source parts, not this file. */
 
 :root {
-    --akcentus: #ffd1dc;
-    --akcentus-vilagos: #e8afbf;
+    --akcentus: #c9d4cf;
+    --akcentus-vilagos: #a8bbb3;
     --tinta: #31383f;
     --barna: #596067;
     --krem: #e3dcd2;
-    --kartya: #f2e9eb;
+    --kartya: #f5f1eb;
     --szoveg: #555d64;
-    --rozsa-halvany: #ead4da;
+    --rozsa-halvany: #dfe7e3;
     --zsalyaszurke: #aeb8af;
 
     /* Public semantic design tokens. */
-    --ui-primary: #ffd1dc;
+    --ui-primary: #c9d4cf;
     --ui-on-primary: #31383f;
-    --ui-accent: #ffd1dc;
+    --ui-accent: #c9d4cf;
     --ui-on-accent: #31383f;
     --ui-bg: #e3dcd2;
-    --ui-surface: #f2e9eb;
-    --ui-soft: #e9dfe1;
-    --ui-highlight: #ffd1dc;
-    --ui-warm: #cc8b65;
-    --ui-accent-text: #885333;
+    --ui-surface: #f5f1eb;
+    --ui-soft: #e4e9e6;
+    --ui-highlight: #dfe7e3;
+    --ui-warm: #8ba198;
+    --ui-accent-text: #4b625a;
     --ui-off-black: #31383f;
-    --ui-off-white: #f2e9eb;
-    --ui-on-dark: #f2e9eb;
+    --ui-off-white: #f5f1eb;
+    --ui-on-dark: #f5f1eb;
     --ui-header-bg: var(--ui-bg);
     --ui-ink: var(--ui-off-black);
     --ui-muted: #555d64;
     --ui-rose: var(--ui-accent);
-    --ui-rose-dark: #cc8b65;
-    --ui-line: rgba(255, 209, 220, 0.19);
+    --ui-rose-dark: #465d55;
+    --ui-line: rgba(201, 212, 207, 0.3);
     --ui-line-strong: rgba(49, 56, 63, 0.28);
     --ui-shadow: 0 18px 40px rgba(49, 56, 63, 0.1);
     --ui-gutter: clamp(20px, 4.3vw, 80px);
@@ -63,12 +63,12 @@
     --lumi-font-control: 18px;
     --lumi-font-calendar: 11px;
     --lumi-button-shadow: none;
-    --lumi-control-bg: #fff9f5;
+    --lumi-control-bg: #fbf8f3;
     --lumi-control-border: rgba(49, 56, 63, 0.19);
     --lumi-control-border-strong: rgba(49, 56, 63, 0.38);
-    --lumi-control-focus: 0 0 0 3px rgba(255, 209, 220, 0.24);
+    --lumi-control-focus: 0 0 0 3px rgba(70, 93, 85, 0.24);
     --lumi-soft-shadow: 0 16px 38px rgba(49, 56, 63, 0.1);
-    --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%2364524d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --lumi-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' fill='none' stroke='%23465d55' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 * {
@@ -254,21 +254,21 @@ textarea:focus-visible {
 
 body:not(.fooldal):not(.admin-body) .site-header {
     --ui-header-bg: #31383f;
-    border-bottom-color: rgba(255, 209, 220, 0.19);
+    border-bottom-color: rgba(201, 212, 207, 0.28);
 }
 
 body:not(.fooldal):not(.admin-body) .site-header :is(.logo, .menu-pontok a) {
-    color: #f2e9eb;
+    color: var(--ui-on-dark);
 }
 
 body:not(.fooldal):not(.admin-body) .site-header .menu-pontok a:hover,
 body:not(.fooldal):not(.admin-body) .site-header .menu-pontok a.aktiv {
-    color: #f2e9eb;
+    color: var(--ui-on-dark);
 }
 
 body:not(.fooldal):not(.admin-body) .site-header .menu-pontok a:last-child {
-    background: #ffd1dc;
-    color: #31383f;
+    background: var(--ui-primary);
+    color: var(--ui-on-primary);
 }
 
 .menu-pontok a:last-child:hover {
@@ -2859,6 +2859,13 @@ select.urlap-mezo:invalid {
 }
 
 @media screen and (max-width: 380px) {
+    #szolgaltatasok h2 {
+        font-size: clamp(31px, 10vw, 36px);
+        letter-spacing: -0.04em;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
     .szolgaltatas-lista {
         width: calc(100% - 24px);
         max-width: calc(100% - 24px);
@@ -3019,6 +3026,15 @@ select.urlap-mezo:invalid {
     .bemutatkozas-szoveg p {
         font-size: var(--lumi-font-body-small);
         line-height: 1.75;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .bemutatkozas-szoveg h2 {
+        font-size: clamp(31px, 10vw, 36px);
+        letter-spacing: -0.04em;
+        overflow-wrap: normal;
+        word-break: normal;
     }
 }
 
@@ -3360,17 +3376,11 @@ select.urlap-mezo:invalid {
 }
 
 .galeria-kartya-lapozo::before {
-    content: "";
-    position: absolute;
-    inset: 10% 8% 14%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(240, 215, 213, 0.5), transparent 68%);
-    filter: blur(28px);
-    pointer-events: none;
+    display: none;
 }
 
 .galeria-kartya-lapozo:focus-visible {
-    outline: 3px solid rgba(145, 118, 110, 0.34);
+    outline: 3px solid var(--ui-rose-dark);
     outline-offset: 4px;
 }
 
@@ -3387,10 +3397,10 @@ select.urlap-mezo:invalid {
     height: clamp(380px, 40vw, 540px);
     margin: 0;
     padding: 8px;
-    border: 1px solid var(--ui-line);
-    border-radius: 18px;
+    border: 1px solid var(--ui-line-strong);
+    border-radius: var(--lumi-radius-card);
     background: var(--ui-surface);
-    box-shadow: 0 22px 52px rgba(55, 40, 35, 0.12);
+    box-shadow: none;
     object-fit: contain;
     transform: translate3d(-50%, 0, 0);
     opacity: 1;
@@ -3426,8 +3436,9 @@ select.urlap-mezo:invalid {
 }
 
 .galeria-kartya-lapozo img[data-aktiv="true"] {
+    border-color: var(--ui-rose-dark);
     cursor: default;
-    box-shadow: 0 30px 72px rgba(55, 40, 35, 0.18);
+    box-shadow: none;
 }
 
 .galeria-kartya-vezerlok {
@@ -3440,10 +3451,10 @@ select.urlap-mezo:invalid {
     gap: 10px;
     min-height: 54px;
     padding: 6px 8px;
-    border: 1px solid rgba(67, 49, 43, 0.16);
-    border-radius: 14px;
-    background: rgba(255, 253, 249, 0.82);
-    box-shadow: 0 14px 34px rgba(55, 40, 35, 0.08);
+    border: 1px solid var(--ui-line-strong);
+    border-radius: var(--lumi-radius-card);
+    background: color-mix(in srgb, var(--ui-surface) 94%, transparent);
+    box-shadow: none;
     transform: translateX(-50%);
     backdrop-filter: blur(16px);
 }
@@ -3470,7 +3481,7 @@ select.urlap-mezo:invalid {
     height: 30px;
     place-items: center;
     border: 1px solid var(--ui-line-strong);
-    border-radius: 10px;
+    border-radius: var(--lumi-radius-control);
     background: transparent;
     font-size: 14px;
     line-height: 1;
@@ -3978,18 +3989,18 @@ select.urlap-mezo:invalid {
 
     .hero-copy {
         position: relative;
-        z-index: 1;
+        z-index: 3;
         grid-area: 1 / 1;
         align-self: start;
-        width: 64%;
+        width: min(64%, 250px);
         min-width: 0;
-        padding: 12px 0 0 12px;
+        padding: 18px 0 0 18px;
     }
 
     .hero-copy > * {
-        width: fit-content;
-        padding: 2px 4px;
-        background: color-mix(in srgb, var(--ui-surface) 80%, transparent);
+        width: auto;
+        padding: 0;
+        background: transparent;
     }
 
     .hero-content .hero-kicker {
@@ -3999,11 +4010,11 @@ select.urlap-mezo:invalid {
 
     .hero-content h1 {
         max-width: 100%;
-        margin: 6px 0;
-        font-size: clamp(30px, 8vw, 56px);
-        letter-spacing: -0.055em;
-        line-height: 1.1;
-        overflow-wrap: anywhere;
+        margin: 8px 0 10px;
+        font-size: clamp(36px, 10vw, 46px);
+        letter-spacing: -0.045em;
+        line-height: 1;
+        overflow-wrap: normal;
     }
 
     .hero-title-line {
@@ -4015,10 +4026,11 @@ select.urlap-mezo:invalid {
     }
 
     .hero-copy > p {
-        max-width: 25ch;
+        max-width: 23ch;
         color: var(--ui-ink);
-        font-size: clamp(12px, 3.3vw, 18px);
-        line-height: 1.4;
+        font-size: clamp(12px, 3.25vw, 15px);
+        font-weight: 500;
+        line-height: 1.42;
     }
 
     .hero-actions {
@@ -4042,24 +4054,26 @@ select.urlap-mezo:invalid {
 
     .hero-bizalom {
         position: relative;
-        z-index: 1;
+        z-index: 3;
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
+        gap: 12px;
         grid-area: 1 / 1;
         align-self: end;
-        margin: 0 12px 10px;
-        padding: 0;
+        margin: 0;
+        padding: 10px 18px;
         border: 0;
+        background: color-mix(in srgb, var(--ui-surface) 88%, transparent);
         color: var(--ui-ink);
         font-size: var(--lumi-font-micro);
-        line-height: 1.45;
+        line-height: 1.35;
+        backdrop-filter: blur(8px);
     }
 
     .hero-bizalom > span {
-        width: fit-content;
-        padding: 3px 6px;
-        background: color-mix(in srgb, var(--ui-surface) 80%, transparent);
+        width: auto;
+        padding: 0;
+        background: transparent;
     }
 
     .hero-bizalom strong {
@@ -4070,11 +4084,31 @@ select.urlap-mezo:invalid {
     }
 
     .hero-visual {
-        display: contents;
+        position: relative;
+        display: grid;
+        grid-template-rows: calc(100vw * 9 / 16) auto;
+        grid-area: 1 / 1 / 3 / 2;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .hero-visual::after {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: linear-gradient(90deg, rgba(245, 241, 235, 0.96) 0%, rgba(245, 241, 235, 0.78) 38%, rgba(245, 241, 235, 0.12) 68%, transparent 100%);
+        content: "";
+        pointer-events: none;
     }
 
     .hero-kep {
+        z-index: 0;
         grid-area: 1 / 1;
+        height: auto;
         aspect-ratio: 16 / 9;
         object-fit: contain;
         object-position: center;
@@ -4085,7 +4119,8 @@ select.urlap-mezo:invalid {
     }
 
     .hero-visual-cimke {
-        position: static;
+        position: relative;
+        z-index: 2;
         grid-area: 2 / 1;
         gap: 14px;
         width: 100%;

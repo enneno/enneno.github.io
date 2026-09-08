@@ -44,6 +44,14 @@ Ez a fájl a `C:\Users\llevi\OneDrive\Asztali gép\LumiNails_test` projektben v�
 - Generált fájl helyett az irányadó forrásfájlt kell módosítani.
 - Titkokat, kulcsokat, tokeneket és személyes adatokat tilos forráskódba vagy naplóba írni.
 
+## UI- és mobilos skillhasználat
+
+- Reszponzív elrendezés, mobilos tördelés, túlcsordulás vagy képméretezés javításakor a `mobile-responsive` skill használható az irányadó forráskód feltérképezésére és a legkisebb javítás kiválasztására.
+- Kontraszt-, olvashatósági, fókusz-, billentyűzet- vagy űrlap-hozzáférhetőségi probléma esetén a `web-accessibility` skill használható; az automatikus eredményt szükség szerint vizuális vagy kézi ellenőrzéssel kell kiegészíteni.
+- Mobilos UI-változás után a `mobile-responsive-qa` skill a kockázathoz igazított ellenőrzési kör meghatározására használható. A projekt meglévő Playwright-parancsai és az alábbi tesztelési alapelvek elsőbbséget élveznek a skillhez mellékelt általános segédprogramokkal szemben.
+- A `ui-ux-pro-max`, `impeccable`, `design-taste-frontend` és 21st.dev skillek csak akkor használhatók együtt, ha eltérő, szükséges feladatot fednek le; ugyanarra a vizuális döntésre nem kell több, egymást ismétlő auditot futtatni.
+- A skillek használata nem bővíti a felhasználó által jóváhagyott módosítási kört, és nem indokol automatikusan teljes oldalas, minden viewportot érintő vagy teljes tesztcsomagos ellenőrzést.
+
 ## Tesztelési alapelv
 
 - Mindig a legkisebb, még kellően megbízható ellenőrzést kell választani. A tesztelés terjedelmét a tényleges változási kör és kockázat határozza meg, nem a megszokás.

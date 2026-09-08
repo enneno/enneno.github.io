@@ -2,12 +2,12 @@
 
 ## Direction
 
-The TEST UI follows the supplied Figma file: a light editorial beauty-salon system using a dusty pink accent, slate ink, warm greige canvas, pale pink surfaces, and a restrained terracotta secondary accent.
+The TEST public UI keeps the supplied Figma file's light editorial beauty-salon structure, but uses a quieter pearl-sage accent, slate ink, warm greige canvas, and clean ivory surfaces. The admin keeps its separately owned light/dark theme.
 
 ## Core tokens
 
-- Primary `#FFD1DC`; ink/footer `#31383f`.
-- Background `#e3dcd2`; surface `#f2e9eb`; warm accent `#cc8b65`.
+- Public primary `#C9D4CF`; ink/footer `#31383f`.
+- Background `#e3dcd2`; surface `#f5f1eb`; soft sage `#dfe7e3`; accent text `#4b625a`.
 - Display typography: Playfair Display. Functional typography: DM Sans.
 - Card radius 4px; control radius 3px; pill only for semantic pills/circular controls.
 - Shared content width 1200px and responsive `--ui-gutter`.
@@ -15,8 +15,9 @@ The TEST UI follows the supplied Figma file: a light editorial beauty-salon syst
 ## Patterns
 
 - Full-width split homepage hero with existing homepage imagery.
-- Mobile hero: edge-to-edge 16:9 image with contain (no crop/zoom), compact left-aligned slate copy and three benefit labels on the photo. Only text-local translucent backgrounds; gallery caption and account actions below the complete photo. No brown hero text.
-- Full-width split introduction, dark service showcase, and pink account/booking CTA.
+- Mobile hero: edge-to-edge 16:9 image with contain (no crop/zoom), compact left-aligned slate copy over one directional readability scrim, and one unified translucent benefit strip. Gallery caption and account actions stay below the complete photo.
+- Full-width split introduction, dark service showcase, and pearl-sage booking CTA.
+- Homepage gallery cards use crisp borders and positional depth, without clipped glow or floating card/control shadows.
 - Two-column desktop gallery with consistent caption backgrounds on every image; one column on mobile.
 - One shared dark footer across all public pages, pinned after the page content without trailing canvas.
 - Compact admin workspace using the same light palette while preserving its functional dark theme.

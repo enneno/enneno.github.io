@@ -15,23 +15,25 @@ Ez a TEST projekt Figma-alapú vizuális szerződése. A referencia a `fNgCClNjs
 
 | Szerep | Token | Érték |
 | --- | --- | --- |
-| Rózsaszín brand / CTA | `--ui-primary` | `#FFD1DC` |
+| Gyöngyház-zsálya brand / CTA | `--ui-primary` | `#C9D4CF` |
 | Sötét tinta / footer | `--ui-off-black` | `#31383f` |
-| Szöveg sötét felületen | `--ui-on-dark` | `#f2e9eb` |
+| Szöveg sötét felületen | `--ui-on-dark` | `#F5F1EB` |
 | Oldalháttér | `--ui-bg` | `#e3dcd2` |
-| Világos felület | `--ui-surface` | `#f2e9eb` |
-| Terrakotta kiegészítő | `--ui-warm` | `#cc8b65` |
+| Világos felület | `--ui-surface` | `#F5F1EB` |
+| Halvány zsálya kiemelés | `--ui-highlight` | `#DFE7E3` |
+| Zsálya kiegészítő | `--ui-warm` | `#8BA198` |
 | Másodlagos szöveg | `--ui-muted` | `#555d64` |
-| Terrakotta szöveg világos felületen | `--ui-accent-text` | `#885333` |
-| Finom elválasztó | `--ui-line` | `rgba(255, 209, 220, 0.19)` |
+| Zsálya szöveg világos felületen | `--ui-accent-text` | `#4B625A` |
+| Finom elválasztó | `--ui-line` | `rgba(201, 212, 207, 0.30)` |
 | Erős elválasztó | `--ui-line-strong` | `rgba(49, 56, 63, 0.28)` |
 
-Komponensben szemantikus tokent kell használni. A publikus és admin light mód ugyanazt a palettát használja; az admin sötét mód saját, szemantikailag azonos állapottokeneket tart meg. Success, warning, danger és info állapotnál a szín mellé szöveg vagy ikon is szükséges.
+Komponensben szemantikus tokent kell használni. A publikus paletta és az admin light/dark paletta külön CSS-tulajdonban marad; egy publikus színváltás nem írja át automatikusan az admin funkcionális állapotszíneit. Success, warning, danger és info állapotnál a szín mellé szöveg vagy ikon is szükséges.
 
 ### Olvasható színpárok — 2026-09-08
 
-- A `#FFD1DC` brand háttérszín marad; rajta `--ui-on-primary` (`#31383f`) felirat legyen, ne fehér. Világos felületen ne szolgáljon szövegszínként.
-- A `--ui-warm` dekoratív szín. Világos felületű címkéhez/linkhez a sötétebb `--ui-accent-text` tartozik. A sötét szolgáltatás-záróblokk ezt helyileg a világos brand színre állítja.
+- A publikus `#C9D4CF` brand háttéren `--ui-on-primary` (`#31383f`) felirat legyen. Ez a pár 7,8:1 körüli kontrasztot ad.
+- Az ivory `#F5F1EB` felületen az alap tinta 10,5:1 körüli, az `--ui-accent-text` (`#4B625A`) 5,8:1 körüli kontrasztot ad.
+- A `--ui-warm` dekoratív/support szín. Világos felületű címkéhez és linkhez az olvashatóbb `--ui-accent-text` tartozik. A sötét szolgáltatás-záróblokk helyileg a világos `--ui-highlight` tokent használja.
 - Másodlagos szövegre `--ui-muted` használható; további opacity/áttetszőség leronthatja a kontrasztját.
 - Adminban a `--admin-v2-on-brand` a rózsaszín háttér felirata; a `--admin-v2-on-brand-dark` a témafüggő sötét/hover háttér saját felirata. Ezek nem felcserélhetők.
 - A kritikus helyi axe-teszt kezdőlapon, foglaláson és admin belépésen nulla szövegkontraszt-eltérést enged. A színátmenetes vagy képes felületeket kézzel is ellenőrizni kell; az automatikus mérés nem jelent teljes akadálymentességi tanúsítást.
@@ -57,7 +59,7 @@ Komponensben szemantikus tokent kell használni. A publikus és admin light mód
 - Kártya: `--lumi-radius-card: 4px`.
 - Mező és alap vezérlő: `--lumi-radius-control: 3px`.
 - Pill kizárólag valódi chiphez vagy kör alakú vezérlőhöz: `--lumi-radius-pill: 999px`.
-- Árnyék ritkán használható; alapérték: `--lumi-soft-shadow`. Felülethatárhoz elsőként finom border tartozik.
+- Árnyék ritkán használható; alapérték: `--lumi-soft-shadow`. Felülethatárhoz elsőként finom border tartozik. A kezdőlapi galérialapozó lapjai és vezérlője nem kapnak árnyékot vagy radiális fényudvart, mert az overflow levághatja ezeket; a lapok pozíciója, mérete és kerete ad mélységet.
 - Egymásba ágyazott kép és caption egyetlen közös külső formát alkot; belső, egymást metsző lekerekítés nem használható.
 
 ## Komponensek
@@ -72,7 +74,7 @@ Komponensben szemantikus tokent kell használni. A publikus és admin light mód
 
 - Elsődleges breakpoint: 768 px. A 480/640/900/1100 px csak valódi komponensigényhez használható.
 - Kötelező reprezentatív nézetek: 390 × 844 és 1440 × 1000.
-- Mobilon a hero kép teljes szélességű, fix 16:9 arányú és `object-fit: contain`: nincs vágás, zoom vagy képeltolás. A kompakt, bal oldali palaszürke cím/leírás és az alsó három előnyszöveg csak szövegméretű áttetsző hátteret kap, nincs teljes képes fátyol. A galériahivatkozás és a gombok a kép alatt vannak. Feltöltéshez 16:9-es kép tervezendő (pl. 1920×1080), bal oldalt szöveghellyel. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
+- Mobilon a hero kép teljes szélességű, fix 16:9 arányú és `object-fit: contain`: nincs vágás, zoom vagy képeltolás. A kompakt, bal oldali palaszürke cím/leírás egyetlen balról kifutó olvashatósági átmenet fölött jelenik meg; a három előnyszöveg egy közös, áttetsző alsó sávban van. Nincsenek külön szövegdobozok vagy teljes képet elfedő fátyol. A galériahivatkozás és a gombok a kép alatt vannak. Feltöltéshez 16:9-es kép tervezendő (pl. 1920×1080), bal oldalt szöveghellyel. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
 - Nincs vízszintes dokumentumgörgetés, levágott cím vagy 44 px-nél kisebb elsődleges érintési cél.
 - A publikus nagyítás engedélyezett. Az admin standalone PWA nagyítási tilalma változatlan.
 - `prefers-reduced-motion: reduce` esetén az érdemi animáció kikapcsol.
