@@ -308,7 +308,7 @@
     width: 100%;
     max-width: none;
     margin: 0;
-    padding: 40px var(--ui-gutter) 26px;
+    padding: 26px var(--ui-gutter) 18px;
     box-sizing: border-box;
     border: 0;
     border-radius: 0;
@@ -318,12 +318,12 @@
 
 .footer-belso {
     display: grid;
-    grid-template-columns: minmax(300px, 1.25fr) minmax(260px, 0.9fr) auto;
-    gap: 24px 32px;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.35fr) auto;
+    gap: 16px 24px;
     align-items: center;
     width: min(1320px, 100%);
     margin: 0 auto;
-    padding: 0 0 28px;
+    padding: 0 0 16px;
     background: transparent;
     border: 0;
     border-bottom: 1px solid rgba(242, 233, 235, 0.16);
@@ -351,7 +351,7 @@
     display: inline-block;
     color: #fffdf9;
     font-family: 'Playfair Display', serif;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 700;
     text-decoration: none;
 }
@@ -649,14 +649,14 @@
 
     .site-footer,
     .fooldal .site-footer {
-        padding: 10px 20px calc(10px + env(safe-area-inset-bottom));
+        padding: 6px 20px calc(6px + env(safe-area-inset-bottom));
     }
 
     .footer-belso {
         grid-template-columns: minmax(0, 1fr) auto;
-        gap: 6px 14px;
+        gap: 4px 12px;
         align-items: start;
-        padding-bottom: 8px;
+        padding-bottom: 2px;
         text-align: left;
     }
 
@@ -670,10 +670,10 @@
         grid-column: 1 / -1;
         grid-row: 2;
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         align-items: start;
-        gap: 0 14px;
-        padding-top: 8px;
+        gap: 0;
+        padding-top: 4px;
         border-top: 1px solid rgba(185, 133, 143, 0.18);
     }
 
@@ -689,21 +689,19 @@
     }
 
     .footer-brand p {
-        margin-top: 2px;
-        font-size: var(--lumi-font-micro);
-        line-height: 1.25;
+        display: none;
     }
 
     .footer-kapcsolat h3 {
-        margin: 2px 0 0;
+        margin: 0;
         font-size: var(--lumi-font-label);
     }
 
     .footer-kapcsolat address {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
         margin: 0;
-        gap: 0 12px;
+        gap: 0 4px;
         font-size: var(--lumi-font-caption);
         line-height: 1.25;
     }
@@ -715,10 +713,6 @@
     .footer-jogi-link {
         grid-column: 1 / -1;
         font-size: var(--lumi-font-caption);
-    }
-
-    .footer-jogok {
-        margin-top: 8px;
     }
 
     .social-linkek {
@@ -753,10 +747,10 @@
 
 .footer-jogok {
     width: min(1320px, 100%);
-    margin: 18px auto 0;
+    margin: 8px auto 0;
     font-family: "DM Sans", sans-serif;
     font-size: var(--lumi-font-caption);
-    line-height: 1.5;
+    line-height: 1.35;
     border-top-color: rgba(255, 249, 245, 0.12);
 }
 

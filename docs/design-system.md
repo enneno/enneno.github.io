@@ -74,9 +74,10 @@ Komponensben szemantikus tokent kell használni. A publikus paletta és az admin
 
 - Elsődleges breakpoint: 768 px. A 480/640/900/1100 px csak valódi komponensigényhez használható.
 - Kötelező reprezentatív nézetek: 390 × 844 és 1440 × 1000.
-- Mobilon a hero kép teljes szélességű, fix 16:9 arányú és `object-fit: contain`: nincs vágás, zoom vagy képeltolás. A kompakt, bal oldali palaszürke cím/leírás egyetlen balról kifutó olvashatósági átmenet fölött jelenik meg; a három előnyszöveg egy közös, áttetsző alsó sávban van. Nincsenek külön szövegdobozok vagy teljes képet elfedő fátyol. A galériahivatkozás és a gombok a kép alatt vannak. Feltöltéshez 16:9-es kép tervezendő (pl. 1920×1080), bal oldalt szöveghellyel. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
+- Mobilon a hero kép teljes szélességű, fix 16:9 arányú és `object-fit: contain`: nincs vágás, zoom vagy képeltolás. A kompakt, bal oldali palaszürke cím/leírás egyetlen balról kifutó olvashatósági átmenet fölött jelenik meg; a három előnyszöveg középre igazítva, egy közös áttetsző alsó sávban van. Nincsenek külön szövegdobozok vagy teljes képet elfedő fátyol. A galériahivatkozás kompakt, 52–54 px-es sor, a két következő művelet egyenlő szélességű oszlopokban van a kép alatt. Feltöltéshez 16:9-es kép tervezendő (pl. 1920×1080), bal oldalt szöveghellyel. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
+- A publikus oldal nagyítható marad, de a mobil űrlapmezők számított betűmérete legalább 16 px; a jelenlegi optikai beállítás 22 CSS px-et használ, így iOS fókuszáláskor nem indul automatikus nagyítás. Az admin standalone PWA külön nagyítási tilalma változatlan.
+- A közös footer asztalon egyetlen tömör információs sor, mobilon legfeljebb körülbelül 200 px magas. A mobil márkaleírás elhagyható, mert ismétlés; a cím, e-mail, adatkezelési link és a legalább 44 px-es érintési célok nem rövidíthetők le.
 - Nincs vízszintes dokumentumgörgetés, levágott cím vagy 44 px-nél kisebb elsődleges érintési cél.
-- A publikus nagyítás engedélyezett. Az admin standalone PWA nagyítási tilalma változatlan.
 - `prefers-reduced-motion: reduce` esetén az érdemi animáció kikapcsol.
 
 ## Módosítás utáni minimum

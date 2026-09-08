@@ -1,5 +1,15 @@
 # LumiNails vizuális audit
 
+## Kezdőlapi sűrűség és admin foglalhatónap-számláló — 2026-09-08
+
+- Az „Aktuális információ” mobilon 390 px szélességen 92 px körüli: a tartalmi üres sorok nem növelik tovább a blokkot, a belső térköz és sortáv kisebb, a címke az aktuális zsálya brand tokent használja. Keskeny 320 px-en a hosszabb szöveg természetesen több sor, de túlcsordulás nélkül jelenik meg.
+- A hero három előnycímkéje középre igazított. A galériaátvezető 52–54 px körüli kompakt sor, az alatta lévő két művelet egy sorban, azonos szélességben és legalább 48 px magas érintési célként jelenik meg.
+- A közös footer 390 és 320 px-en körülbelül 198 px magas; a fölösleges mobil márkaleírás nem ismétlődik, a cím és az e-mail olvasható oszloparányt kap. Asztalon az elérhetőségi terület szélesebb, így a footer 190 px alatt marad. A linkek és közösségi gombok 44 px-es érintési területe megmaradt.
+- A publikus viewport továbbra sem tiltja a felhasználói nagyítást. A foglalás látható mezői és a fiók bejelentkezési, profil- és körömigény-mezői mobilon 22 CSS px-es számított betűméretet kapnak, így az iOS fókusz-zoom nem aktiválódik. Az admin standalone zoomtilalma nem változott.
+- Az admin „Foglalható időszak” kártya korábban a mai nap és a legtávolabbi aktív dátum közti naptári távolságot számolta. A kártya neve „Foglalható napok”; értéke most a maitól kezdődő aktív `availability_windows` rekordok különböző dátumainak száma, a segédszöveg pedig a legutolsó dátumot mutatja. Két minta-dátumnál az ellenőrzött eredmény `2`.
+- Sikeres: build, asset-verziózás, teljes statikus ellenőrzés, forrás/bundle egyezés, publikus és admin CSS-architektúra, Stylelint. Célzott Playwright: hero/értesítő, közös footer, publikus mobil mezőméret és admin foglalhatónap-számláló. A nagy általános admin desktop teszt az új számláló-ellenőrzés után egy, a mostani módosítás által nem érintett 14/16 px body-font elváráson megállt; az új funkciót ezért külön, szűk regresszióteszt igazolja. Teljes Playwright-csomag nem futott.
+- Forrás: `src/styles/13-gallery-footer-navigation.css`, `src/styles/15-home-sections.css`, `src/styles/18-hero-inner-pages.css`, `src/styles/25-customer-account.css`, `src/admin/05-admin-workspace-v2.js`. Teszt: `tests/visual-critical.spec.js`, `tests/admin-production-redesign.spec.js`. Generált: `style.css`, `admin-supabase.js`; a HTML-fájlokban csak az érintett asset cache-verziója frissül. LIVE és GitHub workflow nem változott.
+
 ## Publikus hero, színrendszer és galérialapozó finomítása — 2026-09-08
 
 - A mobil hero tényleges 16:9 képként, `contain` módban és ránagyítás nélkül jelenik meg. A korábbi több különálló világos feliratdoboz helyett egy bal oldali irányított olvashatósági átmenet és egyetlen közös alsó előnysáv van; a galériahivatkozás és a fiókgombok a kép alatt maradtak.

@@ -220,7 +220,7 @@
         grid-template-columns: minmax(0, 1fr);
         grid-template-rows: calc(100vw * 9 / 16) auto auto;
         min-height: 0;
-        padding-bottom: 24px;
+        padding-bottom: 12px;
     }
 
     .hero-content {
@@ -275,15 +275,26 @@
 
     .hero-actions {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
         grid-area: 3 / 1;
-        margin: 20px var(--lumi-section-padding-inline) 0;
+        margin: 12px var(--lumi-section-padding-inline) 0;
     }
 
     .hero-actions .hero-primary,
     .hero-actions .hero-secondary {
         width: 100%;
-        min-height: 52px;
+        min-height: 48px;
+        padding-inline: 8px;
+        font-size: 12px;
+        letter-spacing: 0.025em;
+        white-space: nowrap;
+    }
+
+    .hero-actions .hero-primary {
+        border-color: var(--ui-primary);
+        background: var(--ui-primary);
+        color: var(--ui-on-primary);
     }
 
     .hero-actions .hero-secondary {
@@ -298,6 +309,7 @@
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
+        justify-items: center;
         grid-area: 1 / 1;
         align-self: end;
         margin: 0;
@@ -307,11 +319,12 @@
         color: var(--ui-ink);
         font-size: var(--lumi-font-micro);
         line-height: 1.35;
+        text-align: center;
         backdrop-filter: blur(8px);
     }
 
     .hero-bizalom > span {
-        width: auto;
+        width: 100%;
         padding: 0;
         background: transparent;
     }
@@ -364,7 +377,7 @@
         grid-area: 2 / 1;
         gap: 14px;
         width: 100%;
-        padding: 12px var(--lumi-section-padding-inline);
+        padding: 4px var(--lumi-section-padding-inline);
         border: 0;
         border-top: 1px solid var(--ui-line);
         border-radius: 0;

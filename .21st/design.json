@@ -100,6 +100,11 @@
   "decisions": [
     {
       "date": "2026-09-08",
+      "decision": "Keep the homepage notice, gallery transition and shared footer compact; center the mobile hero benefits and use a balanced two-column action row. Preserve public page zoom while keeping form controls large enough to prevent iOS focus zoom.",
+      "reason": "The previous vertical rhythm consumed too much of a phone screen, while narrow footer columns harmed readability. Compact spacing must come from layout and redundant copy, not from shrinking touch targets or form text."
+    },
+    {
+      "date": "2026-09-08",
       "decision": "Replace the public pink primary and pink-tinted surfaces with pearl sage and neutral ivory, simplify the mobile hero into one image composition, and remove the homepage carousel glow and card shadows.",
       "reason": "The user rejected the visible pink and the fragmented hero, while the clipped carousel shadow created an obvious edge artifact. Slate-on-sage and slate-on-ivory keep strong contrast without changing public flows or the admin theme."
     },

@@ -676,6 +676,13 @@
         padding: 24px 14px 64px;
     }
 
+    .fiok-form input:not([type="checkbox"]),
+    .fiok-form select,
+    .fiok-form textarea {
+        font-size: max(22px, 1em);
+        font-size-adjust: var(--lumi-input-optical-ratio, 0.36);
+    }
+
     .fiok-hero,
     .fiok-dashboard-fej {
         grid-template-columns: minmax(0, 1fr);

@@ -459,6 +459,14 @@ function expectHeadingTopsAligned(tops) {
 }
 
 test.describe('production admin redesign', () => {
+    test('dashboard counts distinct future bookable dates', async ({ page }) => {
+        const browserErrors = await openAdmin(page, { width: 1440, height: 1000 });
+
+        await expect(page.locator('#admin-v2-stat-horizon')).toHaveText('2');
+        await expect(page.locator('#admin-v2-stat-horizon-meta')).toContainText('Legutolsó:');
+        expect(browserErrors).toEqual([]);
+    });
+
     test('desktop: the new information architecture is compact and usable', async ({ page }) => {
         const browserErrors = await openAdmin(page, { width: 1440, height: 1000 });
 

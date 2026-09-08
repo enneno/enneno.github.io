@@ -67,6 +67,10 @@ test.describe('kritikus vizuális nézetek', () => {
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto('/', { waitUntil: 'domcontentloaded' });
         await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+        await page.locator('#vendegertesito').evaluate((notice) => {
+            notice.hidden = false;
+            notice.querySelector('.vendegertesito-szoveg').textContent = 'Kedves vendégeim.\n\nHa online nincs elérhető időpont, Instagramon akkor is tudunk egyeztetni.';
+        });
 
         const metrics = await page.evaluate(() => {
             const hero = document.querySelector('#hero');
@@ -76,6 +80,7 @@ test.describe('kritikus vizuális nézetek', () => {
             const copy = hero.querySelector('.hero-copy');
             const benefits = hero.querySelector('.hero-bizalom');
             const actions = hero.querySelector('.hero-actions');
+            const notice = document.querySelector('#vendegertesito');
             const imageRect = image.getBoundingClientRect();
             const labelRect = label.getBoundingClientRect();
             const copyRect = copy.getBoundingClientRect();
@@ -91,10 +96,16 @@ test.describe('kritikus vizuális nézetek', () => {
                     && benefitsRect.bottom <= imageRect.bottom + 1,
                 labelBelowImage: Math.abs(labelRect.top - imageRect.bottom) <= 1,
                 actionsBelowLabel: actionsRect.top >= labelRect.bottom,
+                actionColumns: getComputedStyle(actions).gridTemplateColumns.split(' ').filter(Boolean).length,
+                galleryLabelHeight: labelRect.height,
+                benefitsCentered: Array.from(benefits.children).every(item =>
+                    getComputedStyle(item).textAlign === 'center'
+                ),
                 copyUsesSeparateBlocks: Array.from(copy.children).some(element =>
                     getComputedStyle(element).backgroundColor !== 'rgba(0, 0, 0, 0)'
                 ),
                 readabilityLayer: getComputedStyle(card, '::after').backgroundImage,
+                noticeHeight: notice.getBoundingClientRect().height,
                 accountRecommendationAbsent: !document.querySelector('#fiok-ajanlo'),
                 overflow: document.documentElement.scrollWidth - window.innerWidth
             };
@@ -107,10 +118,39 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.benefitsInsideImage).toBe(true);
         expect(metrics.labelBelowImage).toBe(true);
         expect(metrics.actionsBelowLabel).toBe(true);
+        expect(metrics.actionColumns).toBe(2);
+        expect(metrics.galleryLabelHeight).toBeLessThanOrEqual(54);
+        expect(metrics.benefitsCentered).toBe(true);
         expect(metrics.copyUsesSeparateBlocks).toBe(false);
         expect(metrics.readabilityLayer).toContain('linear-gradient');
+        expect(metrics.noticeHeight).toBeLessThanOrEqual(100);
         expect(metrics.accountRecommendationAbsent).toBe(true);
         expect(metrics.overflow).toBeLessThanOrEqual(1);
+    });
+
+    test('mobile public fields prevent focus zoom without disabling page zoom', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+
+        for (const path of ['/foglalas/', '/fiokom/']) {
+            await page.goto(path, { waitUntil: 'domcontentloaded' });
+            await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+
+            const metrics = await page.evaluate(() => {
+                const viewport = document.querySelector('meta[name="viewport"]')?.content || '';
+                const fields = Array.from(document.querySelectorAll(
+                    'input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea'
+                ));
+                return {
+                    fieldCount: fields.length,
+                    minimumFontSize: Math.min(...fields.map(field => Number.parseFloat(getComputedStyle(field).fontSize))),
+                    disablesZoom: /maximum-scale|user-scalable\s*=\s*no/i.test(viewport)
+                };
+            });
+
+            expect(metrics.fieldCount).toBeGreaterThan(0);
+            expect(metrics.minimumFontSize).toBeGreaterThanOrEqual(16);
+            expect(metrics.disablesZoom).toBe(false);
+        }
     });
 
     test('homepage layout uses one gutter system and keeps the hero inside its section', async ({ page }) => {
@@ -223,7 +263,7 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.contentFits).toBe(true);
     });
 
-    test('mobile homepage CTA stays readable and footer stays compact', async ({ page }) => {
+    test('homepage CTA stays readable and the shared footer stays compact', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto('/', { waitUntil: 'domcontentloaded' });
         await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
@@ -252,10 +292,17 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.ctaBackground).toBe('rgb(223, 231, 227)');
         expect(metrics.bookingSectionBackground).toBe('rgb(201, 212, 207)');
         expect(metrics.ctaColor).not.toBe(metrics.ctaBackground);
-        expect(metrics.footerHeight).toBeLessThan(280);
+        expect(metrics.footerHeight).toBeLessThan(200);
         expect(metrics.activeGalleryShadow).toBe('none');
         expect(metrics.galleryControlsShadow).toBe('none');
         expect(metrics.galleryGlowVisible).toBe(false);
+
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        await page.reload({ waitUntil: 'domcontentloaded' });
+        const desktopFooterHeight = await page.locator('.site-footer').evaluate(
+            footer => footer.getBoundingClientRect().height
+        );
+        expect(desktopFooterHeight).toBeLessThan(190);
     });
 
     test('desktop account and booking verification retain desktop proportions', async ({ page }) => {
