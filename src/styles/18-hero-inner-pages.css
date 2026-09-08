@@ -177,10 +177,11 @@
     bottom: 0;
     left: 0;
     display: flex;
+    min-height: 48px;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    padding: 18px 20px;
+    padding: 0 20px;
     border: 1px solid rgba(255, 250, 246, 0.18);
     border-radius: 2px 2px 0 0;
     background: rgba(49, 56, 63, 0.8);
@@ -191,6 +192,13 @@
 .hero-visual-cimke a,
 .hero-visual-cimke span {
     color: inherit;
+}
+
+.hero-visual-cimke a {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    gap: 8px;
 }
 
 .hero-visual-cimke a > span {
@@ -377,7 +385,8 @@
         grid-area: 2 / 1;
         gap: 14px;
         width: 100%;
-        padding: 4px var(--lumi-section-padding-inline);
+        min-height: 44px;
+        padding: 0 var(--lumi-section-padding-inline);
         border: 0;
         border-top: 1px solid var(--ui-line);
         border-radius: 0;

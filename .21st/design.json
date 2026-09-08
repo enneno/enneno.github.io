@@ -100,6 +100,11 @@
   "decisions": [
     {
       "date": "2026-09-08",
+      "decision": "Compress the homepage gallery transitions and shared footer, remove the redundant inner gallery title, and present service-detail heroes as an untinted 3:2 image plus neutral copy on mobile.",
+      "reason": "The previous transition, footer and service heroes consumed disproportionate screen space. The new treatment keeps 44px targets, full imagery and readable hierarchy without adding a component dependency; a 21st.dev search only informed the understated arrow CTA styling."
+    },
+    {
+      "date": "2026-09-08",
       "decision": "Keep the homepage notice, gallery transition and shared footer compact; center the mobile hero benefits and use a balanced two-column action row. Preserve public page zoom while keeping form controls large enough to prevent iOS focus zoom.",
       "reason": "The previous vertical rhythm consumed too much of a phone screen, while narrow footer columns harmed readability. Compact spacing must come from layout and redundant copy, not from shrinking touch targets or form text."
     },

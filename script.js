@@ -147,7 +147,6 @@ function lumiAlapOldalAdatok() {
                 kiemeltAkcentus: 'Nagy hatás.',
                 metaLeiras: 'Formák, színek és személyre szabott részletek a Lumi Nails világából.',
                 belsoKicker: 'Részletek, színek, formák',
-                cim: 'Galéria',
                 leiras: 'Nézd meg a korábbi munkákat, színeket és formákat inspirációként a következő időpontodhoz.',
                 gombSzoveg: 'Galéria megnyitása',
                 kivalasztottKepek: []
@@ -593,7 +592,6 @@ function lablecBetoltese() {
                             <a data-footer-phone href="#" hidden style="display: none;"></a>
                         </span>
                         <a data-footer-email href="#" hidden style="display: none;"></a>
-                        <a class="footer-jogi-link" href="/adatkezeles/">Adatkezelési tájékoztató</a>
                     </address>
                 </div>
 
@@ -613,8 +611,11 @@ function lablecBetoltese() {
                         </a>
                     </div>
                 </div>
+                <div class="footer-meta">
+                    <a class="footer-jogi-link" href="/adatkezeles/">Adatkezelési tájékoztató</a>
+                    <p class="footer-jogok">© Lumi Nails. Minden jog fenntartva.</p>
+                </div>
             </div>
-            <p class="footer-jogok">© Lumi Nails. Minden jog fenntartva.</p>
         </footer>
     `;
 
@@ -1794,7 +1795,6 @@ function galeriaAtvezetoAlkalmazasa(galeria, teljesGaleria) {
     }
     szovegBeallitasa('.galeria-showcase-meta p', galeria.metaLeiras, szekcio);
     szovegBeallitasa('.galeria-atvezeto-szoveg .szekcio-kicker', galeria.belsoKicker, szekcio);
-    szovegBeallitasa('.galeria-atvezeto-szoveg h2', galeria.cim, szekcio);
     szovegBeallitasa('.galeria-atvezeto-szoveg .szekcio-leiras', galeria.leiras, szekcio);
     szovegBeallitasa('.galeria-atvezeto-szoveg .gomb', galeria.gombSzoveg, szekcio);
 

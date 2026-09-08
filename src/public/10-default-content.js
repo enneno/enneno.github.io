@@ -88,7 +88,6 @@ function lumiAlapOldalAdatok() {
                 kiemeltAkcentus: 'Nagy hatás.',
                 metaLeiras: 'Formák, színek és személyre szabott részletek a Lumi Nails világából.',
                 belsoKicker: 'Részletek, színek, formák',
-                cim: 'Galéria',
                 leiras: 'Nézd meg a korábbi munkákat, színeket és formákat inspirációként a következő időpontodhoz.',
                 gombSzoveg: 'Galéria megnyitása',
                 kivalasztottKepek: []

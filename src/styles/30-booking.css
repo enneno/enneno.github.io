@@ -1634,14 +1634,3 @@
     outline: 3px solid rgba(145, 118, 110, 0.34);
     outline-offset: 2px;
 }
-
-@media screen and (max-width: 768px) {
-    .foglalas-oldal input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
-    .foglalas-oldal .urlap-mezo,
-    .foglalas-oldal select,
-    .foglalas-oldal textarea,
-    .foglalas-oldal [contenteditable="true"] {
-        font-size: max(22px, 1em);
-        font-size-adjust: var(--lumi-input-optical-ratio, 0.36);
-    }
-}

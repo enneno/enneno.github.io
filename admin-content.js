@@ -111,7 +111,6 @@
                 field('fooldal.galeriaAtvezeto.kiemeltAkcentus', 'Nagy cím kiemelt sora'),
                 field('fooldal.galeriaAtvezeto.metaLeiras', 'Kiemelt cím melletti leírás', 'textarea'),
                 field('fooldal.galeriaAtvezeto.belsoKicker', 'Galériakártyák melletti kis szöveg'),
-                field('fooldal.galeriaAtvezeto.cim', 'Cím'),
                 field('fooldal.galeriaAtvezeto.leiras', 'Leírás', 'textarea'),
                 field('fooldal.galeriaAtvezeto.gombSzoveg', 'Gomb szövege')
             ]
@@ -1243,7 +1242,10 @@
         }
         setPath(normalized, 'fooldal.galeriaAtvezeto.kivalasztottKepek', kivalasztottKepek);
         const galeriaAtvezeto = getPath(normalized, 'fooldal.galeriaAtvezeto');
-        if (galeriaAtvezeto && typeof galeriaAtvezeto === 'object') delete galeriaAtvezeto.kepek;
+        if (galeriaAtvezeto && typeof galeriaAtvezeto === 'object') {
+            delete galeriaAtvezeto.cim;
+            delete galeriaAtvezeto.kepek;
+        }
 
         const nailArt = getPath(normalized, 'szolgaltatasOldalak.nailArt');
         if (nailArt && typeof nailArt === 'object') {

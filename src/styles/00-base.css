@@ -604,7 +604,9 @@ select.urlap-mezo:invalid {
     select,
     textarea,
     [contenteditable="true"] {
-        font-size: max(22px, 1em);
-        font-size-adjust: var(--lumi-input-optical-ratio, 0.36);
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        font-size: max(16px, 1em);
+        font-size-adjust: none;
     }
 }

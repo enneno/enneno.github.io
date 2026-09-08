@@ -223,7 +223,7 @@
     background: var(--lumi-control-bg);
     color: var(--ui-off-black, #211b19);
     font-family: "DM Sans", sans-serif;
-    font-size: var(--lumi-font-body-small);
+    font-size: max(16px, var(--lumi-font-body-small));
 }
 
 .fiok-form input:not([type="checkbox"]),
@@ -626,7 +626,8 @@
     outline: none;
     background: var(--lumi-control-bg);
     color: var(--ui-off-black, #211b19);
-    font: inherit;
+    font-family: "DM Sans", sans-serif;
+    font-size: max(16px, var(--lumi-font-body-small));
     font-weight: 400;
     resize: vertical;
 }
@@ -674,13 +675,6 @@
     .fiok-main {
         width: min(100%, 680px);
         padding: 24px 14px 64px;
-    }
-
-    .fiok-form input:not([type="checkbox"]),
-    .fiok-form select,
-    .fiok-form textarea {
-        font-size: max(22px, 1em);
-        font-size-adjust: var(--lumi-input-optical-ratio, 0.36);
     }
 
     .fiok-hero,

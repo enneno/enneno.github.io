@@ -119,7 +119,7 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.labelBelowImage).toBe(true);
         expect(metrics.actionsBelowLabel).toBe(true);
         expect(metrics.actionColumns).toBe(2);
-        expect(metrics.galleryLabelHeight).toBeLessThanOrEqual(54);
+        expect(metrics.galleryLabelHeight).toBeLessThanOrEqual(48);
         expect(metrics.benefitsCentered).toBe(true);
         expect(metrics.copyUsesSeparateBlocks).toBe(false);
         expect(metrics.readabilityLayer).toContain('linear-gradient');
@@ -138,17 +138,21 @@ test.describe('kritikus vizuális nézetek', () => {
             const metrics = await page.evaluate(() => {
                 const viewport = document.querySelector('meta[name="viewport"]')?.content || '';
                 const fields = Array.from(document.querySelectorAll(
-                    'input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea'
+                    'input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea'
                 ));
                 return {
                     fieldCount: fields.length,
                     minimumFontSize: Math.min(...fields.map(field => Number.parseFloat(getComputedStyle(field).fontSize))),
+                    fieldsUseNaturalGlyphScale: fields.every(field => getComputedStyle(field).fontSizeAdjust === 'none'),
+                    fieldsKeepFullTextScale: fields.every(field => getComputedStyle(field).textSizeAdjust === '100%'),
                     disablesZoom: /maximum-scale|user-scalable\s*=\s*no/i.test(viewport)
                 };
             });
 
             expect(metrics.fieldCount).toBeGreaterThan(0);
             expect(metrics.minimumFontSize).toBeGreaterThanOrEqual(16);
+            expect(metrics.fieldsUseNaturalGlyphScale).toBe(true);
+            expect(metrics.fieldsKeepFullTextScale).toBe(true);
             expect(metrics.disablesZoom).toBe(false);
         }
     });
@@ -232,35 +236,59 @@ test.describe('kritikus vizuális nézetek', () => {
 
     test('mobile service pages keep their content inside the viewport', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 });
-        await page.goto('/korom-diszites-nail-art-tatabanya/', { waitUntil: 'domcontentloaded' });
-        await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
+        const paths = [
+            '/mukorom-epites-toltes/',
+            '/gel-lakk-tatabanya/',
+            '/manikur-tatabanya/',
+            '/korom-diszites-nail-art-tatabanya/'
+        ];
 
-        const metrics = await page.evaluate(() => {
-            const main = document.querySelector('.seo-szolgaltatas-oldal');
-            const hero = document.querySelector('.seo-szolgaltatas-hero');
-            const mainRect = main.getBoundingClientRect();
-            const heroRect = hero.getBoundingClientRect();
-            const contentFits = Array.from(main.querySelectorAll('h1, h2, h3, p, a'))
-                .every(element => {
-                    const rect = element.getBoundingClientRect();
-                    return rect.left >= -1 && rect.right <= window.innerWidth + 1;
-                });
-            return {
-                documentWidth: document.documentElement.scrollWidth,
-                mainLeft: Math.round(mainRect.left),
-                mainRight: Math.round(mainRect.right),
-                heroLeft: Math.round(heroRect.left),
-                heroRight: Math.round(heroRect.right),
-                contentFits
-            };
-        });
+        for (const path of paths) {
+            await page.goto(path, { waitUntil: 'domcontentloaded' });
+            await expect(page.locator('body')).not.toHaveClass(/tartalom-toltes/);
 
-        expect(metrics.documentWidth).toBe(390);
-        expect(metrics.mainLeft).toBe(16);
-        expect(metrics.mainRight).toBe(374);
-        expect(metrics.heroLeft).toBe(0);
-        expect(metrics.heroRight).toBe(390);
-        expect(metrics.contentFits).toBe(true);
+            const metrics = await page.evaluate(() => {
+                const main = document.querySelector('.seo-szolgaltatas-oldal');
+                const hero = document.querySelector('.seo-szolgaltatas-hero');
+                const heroImage = hero.querySelector('img');
+                const mainRect = main.getBoundingClientRect();
+                const heroRect = hero.getBoundingClientRect();
+                const imageRect = heroImage.getBoundingClientRect();
+                const contentFits = Array.from(main.querySelectorAll('h1, h2, h3, p, a'))
+                    .every(element => {
+                        const rect = element.getBoundingClientRect();
+                        return rect.left >= -1 && rect.right <= window.innerWidth + 1;
+                    });
+                const paragraphs = Array.from(main.querySelectorAll('p'));
+                return {
+                    documentWidth: document.documentElement.scrollWidth,
+                    mainLeft: Math.round(mainRect.left),
+                    mainRight: Math.round(mainRect.right),
+                    heroLeft: Math.round(heroRect.left),
+                    heroRight: Math.round(heroRect.right),
+                    heroHeight: heroRect.height,
+                    imageRatio: imageRect.width / imageRect.height,
+                    imageFit: getComputedStyle(heroImage).objectFit,
+                    mobileTintRemoved: getComputedStyle(hero.querySelector('.seo-szolgaltatas-hero-kep'), '::after').display === 'none',
+                    paragraphsAreJustified: paragraphs.every(paragraph => getComputedStyle(paragraph).textAlign === 'justify'),
+                    paragraphsDoNotHyphenate: paragraphs.every(paragraph => getComputedStyle(paragraph).hyphens === 'none'),
+                    contentFits
+                };
+            });
+
+            expect(metrics.documentWidth, path).toBe(390);
+            expect(metrics.mainLeft, path).toBe(16);
+            expect(metrics.mainRight, path).toBe(374);
+            expect(metrics.heroLeft, path).toBe(0);
+            expect(metrics.heroRight, path).toBe(390);
+            expect(metrics.heroHeight, path).toBeLessThan(650);
+            expect(metrics.imageRatio, path).toBeCloseTo(3 / 2, 2);
+            expect(metrics.imageFit, path).toBe('contain');
+            expect(metrics.mobileTintRemoved, path).toBe(true);
+            expect(metrics.paragraphsAreJustified, path).toBe(true);
+            expect(metrics.paragraphsDoNotHyphenate, path).toBe(true);
+            expect(metrics.contentFits, path).toBe(true);
+        }
     });
 
     test('homepage CTA stays readable and the shared footer stays compact', async ({ page }) => {
@@ -275,6 +303,7 @@ test.describe('kritikus vizuális nézetek', () => {
             const activeGalleryCard = document.querySelector('.galeria-kartya-lapozo img[data-aktiv="true"]');
             const galleryControls = document.querySelector('.galeria-kartya-vezerlok');
             const galleryStage = document.querySelector('.galeria-kartya-lapozo');
+            const galleryBridge = document.querySelector('.galeria-atvezeto-szoveg');
             const styles = getComputedStyle(cta);
             return {
                 ctaText: cta.textContent.trim(),
@@ -284,7 +313,9 @@ test.describe('kritikus vizuális nézetek', () => {
                 footerHeight: footer.getBoundingClientRect().height,
                 activeGalleryShadow: getComputedStyle(activeGalleryCard).boxShadow,
                 galleryControlsShadow: getComputedStyle(galleryControls).boxShadow,
-                galleryGlowVisible: getComputedStyle(galleryStage, '::before').display !== 'none'
+                galleryGlowVisible: getComputedStyle(galleryStage, '::before').display !== 'none',
+                galleryBridgeHeight: galleryBridge.getBoundingClientRect().height,
+                redundantGalleryHeadingAbsent: !galleryBridge.querySelector('h2')
             };
         });
 
@@ -292,17 +323,19 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.ctaBackground).toBe('rgb(223, 231, 227)');
         expect(metrics.bookingSectionBackground).toBe('rgb(201, 212, 207)');
         expect(metrics.ctaColor).not.toBe(metrics.ctaBackground);
-        expect(metrics.footerHeight).toBeLessThan(200);
+        expect(metrics.footerHeight).toBeLessThan(160);
         expect(metrics.activeGalleryShadow).toBe('none');
         expect(metrics.galleryControlsShadow).toBe('none');
         expect(metrics.galleryGlowVisible).toBe(false);
+        expect(metrics.galleryBridgeHeight).toBeLessThanOrEqual(64);
+        expect(metrics.redundantGalleryHeadingAbsent).toBe(true);
 
         await page.setViewportSize({ width: 1440, height: 1000 });
         await page.reload({ waitUntil: 'domcontentloaded' });
         const desktopFooterHeight = await page.locator('.site-footer').evaluate(
             footer => footer.getBoundingClientRect().height
         );
-        expect(desktopFooterHeight).toBeLessThan(190);
+        expect(desktopFooterHeight).toBeLessThan(150);
     });
 
     test('desktop account and booking verification retain desktop proportions', async ({ page }) => {

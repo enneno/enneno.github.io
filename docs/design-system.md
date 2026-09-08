@@ -68,15 +68,17 @@ Komponensben szemantikus tokent kell használni. A publikus paletta és az admin
 - **Mező:** látható label, mobilon legalább 16 px betűméret, hiba esetén `aria-invalid` és kapcsolt hibaüzenet.
 - **Kártya:** világos surface vagy sötét showcase; a háttérkép felett olvashatóságot adó overlay kötelező.
 - **Galériakártya:** minden képen ugyanaz a sötét, áttetsző szövegháttér jelenik meg; nem csak az elsőn.
+- **Galériaátvezető:** a hero képcímkéje 44–48 px magas, a kezdőlapi galérialapozó alatt pedig csak egy visszafogott, keretes nyílgomb marad. Külön „Galéria” cím nem ismétli meg a szekció főcímét és a tartalomszerkesztőben sincs hozzá mező.
+- **Szolgáltatás-részlet:** desktopon a kép felett irányított palaszürke olvashatósági réteg használható. Mobilon a teljes 3:2 kép nem kap színező overlayt; a cím és a bevezető külön, világos felületen követi. A törzsszöveg sorkizárt, de automatikus elválasztás nem használható.
 - **Footer:** minden publikus oldal ugyanazt a dinamikusan betöltött, sötét homepage footert használja.
 
 ## Mobil és asztali szabályok
 
 - Elsődleges breakpoint: 768 px. A 480/640/900/1100 px csak valódi komponensigényhez használható.
 - Kötelező reprezentatív nézetek: 390 × 844 és 1440 × 1000.
-- Mobilon a hero kép teljes szélességű, fix 16:9 arányú és `object-fit: contain`: nincs vágás, zoom vagy képeltolás. A kompakt, bal oldali palaszürke cím/leírás egyetlen balról kifutó olvashatósági átmenet fölött jelenik meg; a három előnyszöveg középre igazítva, egy közös áttetsző alsó sávban van. Nincsenek külön szövegdobozok vagy teljes képet elfedő fátyol. A galériahivatkozás kompakt, 52–54 px-es sor, a két következő művelet egyenlő szélességű oszlopokban van a kép alatt. Feltöltéshez 16:9-es kép tervezendő (pl. 1920×1080), bal oldalt szöveghellyel. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
-- A publikus oldal nagyítható marad, de a mobil űrlapmezők számított betűmérete legalább 16 px; a jelenlegi optikai beállítás 22 CSS px-et használ, így iOS fókuszáláskor nem indul automatikus nagyítás. Az admin standalone PWA külön nagyítási tilalma változatlan.
-- A közös footer asztalon egyetlen tömör információs sor, mobilon legfeljebb körülbelül 200 px magas. A mobil márkaleírás elhagyható, mert ismétlés; a cím, e-mail, adatkezelési link és a legalább 44 px-es érintési célok nem rövidíthetők le.
+- Mobilon a hero kép teljes szélességű, fix 16:9 arányú és `object-fit: contain`: nincs vágás, zoom vagy képeltolás. A kompakt, bal oldali palaszürke cím/leírás egyetlen balról kifutó olvashatósági átmenet fölött jelenik meg; a három előnyszöveg középre igazítva, egy közös áttetsző alsó sávban van. Nincsenek külön szövegdobozok vagy teljes képet elfedő fátyol. A galériahivatkozás kompakt, 44–48 px-es sor, a két következő művelet egyenlő szélességű oszlopokban van a kép alatt. Feltöltéshez 16:9-es kép tervezendő (pl. 1920×1080), bal oldalt szöveghellyel. A kép és szöveg továbbra is a tartalomszerkesztőből érkezik; a desktop split elrendezés megmarad. A galéria, árlista és foglalási utak mobilon egyoszloposak.
+- A publikus oldal nagyítható marad, de a mobil űrlapmezők számított betűmérete legalább 16 px, `font-size-adjust: none` és saját 100%-os szövegskálázás mellett; így az iOS fókusz-zoomot nem egy optikailag lekicsinyített betűvel próbáljuk elkerülni. Az admin standalone PWA külön nagyítási tilalma változatlan.
+- A közös footer asztalon és mobilon három tömör információs sorba rendezi a márkát, elérhetőséget és jogi metaadatot. A márkaleírás elhagyható, mert ismétlés; a cím, e-mail, adatkezelési link és a legalább 44 px-es érintési célok nem rövidíthetők le.
 - Nincs vízszintes dokumentumgörgetés, levágott cím vagy 44 px-nél kisebb elsődleges érintési cél.
 - `prefers-reduced-motion: reduce` esetén az érdemi animáció kikapcsol.
 

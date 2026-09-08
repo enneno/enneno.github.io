@@ -15,11 +15,12 @@ The TEST public UI keeps the supplied Figma file's light editorial beauty-salon 
 ## Patterns
 
 - Full-width split homepage hero with existing homepage imagery.
-- Mobile hero: edge-to-edge 16:9 image with contain (no crop/zoom), compact left-aligned slate copy over one directional readability scrim, and one unified translucent benefit strip with centered labels. The gallery caption is a compact 52px transition row; two equal-width account/booking actions stay below it.
+- Mobile hero: edge-to-edge 16:9 image with contain (no crop/zoom), compact left-aligned slate copy over one directional readability scrim, and one unified translucent benefit strip with centered labels. The gallery caption is a compact 44–48px transition row; two equal-width account/booking actions stay below it.
 - Full-width split introduction, dark service showcase, and pearl-sage booking CTA.
 - Homepage gallery cards use crisp borders and positional depth, without clipped glow or floating card/control shadows.
 - Two-column desktop gallery with consistent caption backgrounds on every image; one column on mobile.
-- One shared compact dark footer across all public pages, pinned after the page content without trailing canvas. Mobile removes the redundant brand description but preserves readable contact details and 44px interactive targets.
+- Service detail pages use a compact 3:2 image followed by neutral editorial copy on mobile; desktop uses a directional slate readability layer instead of a brown wash. Article paragraphs are justified without automatic hyphenation.
+- One shared compact dark footer across all public pages, pinned after the page content without trailing canvas. Its identity, contact and legal information form three dense rows while preserving readable details and 44px interactive targets.
 - Compact admin workspace using the same light palette while preserving its functional dark theme.
 
 ## Constraints
