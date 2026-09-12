@@ -34,6 +34,7 @@ Az önálló `admin-content.js`, `supabase-config.js` és a HTML-fájlok tovább
 ## Parancsok
 
 - `npm run build` – összeállítja a böngészőnek szánt CSS/JS fájlokat.
+- `npm run prerender` – lekéri a nyilvános Supabase-tartalmat, majd valódi HTML-be írja a fejlécet, láblécet, képeket, galériát, szolgáltatásoldalakat és az aktuális árlistát. Hibás adatlekérésnél nem ír felül oldalt.
 - `npm run assets:version` – a fájlok tartalmából frissíti a cache-verziókat a HTML-ben.
 - `npm run lint:css` – gyors, helyi Stylelint-ellenőrzés a forrás-CSS fájlokra; CSS-módosítás után futtatandó.
 - `npm run check` – statikus ellenőrzések, szintaxis, hivatkozások, Supabase-kliens, CSS-szabályok és forrás/bundle egyezés.
@@ -45,6 +46,20 @@ Az önálló `admin-content.js`, `supabase-config.js` és a HTML-fájlok tovább
 - `npm run serve` – helyi szerver a 8101-es porton.
 
 Commit vagy push előtt a módosítás kockázatához illeszkedő legkisebb elegendő helyi ellenőrzést kell sikeresen elvégezni. A teljes `verify` nem általános előfeltétel.
+
+## Keresőbarát HTML és admin tartalomfrissítés
+
+A publikus oldal alapja előrenderelt HTML. A böngészőben futó JavaScript ezt az aktuális Supabase-adatokkal újraellenőrzi és szükség esetén frissíti, de a fő tartalom, a szolgáltatásoldalak, a galéria, az árlista és a belső navigáció JavaScript nélkül is olvasható.
+
+A tartalom- vagy árlistamentés után az admin a `request-site-rebuild` Supabase Edge Functionön keresztül `site-content-updated` eseményt küldhet a TEST GitHub-tárolónak. Ettől függetlenül a deploy workflow 30 percenként összehasonlítja a nyilvános tartalom ujjlenyomatát, és csak változás esetén ad ki új oldalt. Így az adminból mentett adat legkésőbb a következő kiadási körben bekerül a HTML-be akkor is, ha a gyors értesítő Edge Function még nincs beállítva. A workflow nem futtat tesztet. Ha az előrenderelés adatlekérése hibázik, a workflow leáll, és a korábbi működő oldal marad kint.
+
+Az automatikus indításhoz egyszer kell:
+
+1. a `request-site-rebuild` Edge Functiont telepíteni;
+2. a Supabase Function Secretjei közé felvenni a csak az `enneno/enneno.github.io` tárolóra, `Contents: Read and write` jogosultságra korlátozott `GITHUB_DISPATCH_TOKEN` értéket;
+3. az admin azonosításához az `ADMIN_EMAIL` vagy a már használt `OWNER_EMAIL` secretet, a cél felülírásához pedig szükség esetén a `GITHUB_REPOSITORY=enneno/enneno.github.io` értéket beállítani.
+
+A GitHub token kizárólag szerveroldali secret lehet; HTML-be, JavaScriptbe vagy naplóba nem kerülhet.
 
 A vizuális alapelvek és a CSS-felelősségek rövid forrása a `docs/design-system.md`. A bizonyított hibák, következetlenségek és külön jóváhagyást igénylő ötletek a `docs/visual-audit.md` fájlban vannak. Az új UI-munka előtt mindkettőt át kell nézni.
 

@@ -5,10 +5,15 @@ on:
     branches:
       - main
     paths-ignore:
-      - '**/*.md'
-      - '.github/**'
-      - '.agents/**'
+      - "**/*.md"
+      - ".github/**"
+      - ".agents/**"
   workflow_dispatch:
+  repository_dispatch:
+    types:
+      - site-content-updated
+  schedule:
+    - cron: "7,37 * * * *"
 
 concurrency:
   group: test-pages
@@ -36,7 +41,37 @@ jobs:
             exit 1
           fi
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Prepare current public HTML
+        shell: bash
+        run: |
+          npm ci
+          npm run prerender
+          npm run build
+          npm run assets:version
+
+      - name: Check whether scheduled content changed
+        if: github.event_name == 'schedule'
+        id: freshness
+        shell: bash
+        run: |
+          local_fingerprint="$(sed -n 's/.*data-lumi-content-fingerprint="\([a-f0-9]*\)".*/\1/p' index.html | head -n 1)"
+          deployed_fingerprint="$(curl --fail --silent --show-error --max-time 20 https://enneno.github.io/ | sed -n 's/.*data-lumi-content-fingerprint="\([a-f0-9]*\)".*/\1/p' | head -n 1 || true)"
+          if [[ -n "$local_fingerprint" && "$local_fingerprint" == "$deployed_fingerprint" ]]; then
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "A publikus tartalom nem változott; nincs szükség új deployra."
+          else
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+            echo "A publikus tartalom változott; indul a deploy."
+          fi
+
       - name: Prepare TEST site
+        if: github.event_name != 'schedule' || steps.freshness.outputs.deploy == 'true'
         shell: bash
         run: |
           site_dir="${RUNNER_TEMP}/test-site"
@@ -44,20 +79,32 @@ jobs:
           rsync -a \
             --exclude='.git/' \
             --exclude='.github/' \
+            --exclude='src/' \
+            --exclude='scripts/' \
+            --exclude='supabase/' \
+            --exclude='tests/' \
             --exclude='node_modules/' \
             --exclude='playwright-report/' \
             --exclude='test-results/' \
+            --exclude='docs/' \
+            --exclude='*.md' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='*.sql' \
             ./ "$site_dir/"
 
       - name: Setup Pages
+        if: github.event_name != 'schedule' || steps.freshness.outputs.deploy == 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload static files
+        if: github.event_name != 'schedule' || steps.freshness.outputs.deploy == 'true'
         uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ runner.temp }}/test-site
           include-hidden-files: true
 
       - name: Deploy test site to GitHub Pages
+        if: github.event_name != 'schedule' || steps.freshness.outputs.deploy == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
