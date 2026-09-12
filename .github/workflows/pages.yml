@@ -102,7 +102,6 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ runner.temp }}/test-site
-          include-hidden-files: true
 
       - name: Deploy test site to GitHub Pages
         if: github.event_name != 'schedule' || steps.freshness.outputs.deploy == 'true'
