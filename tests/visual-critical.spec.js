@@ -323,7 +323,9 @@ test.describe('kritikus vizuális nézetek', () => {
         expect(metrics.ctaBackground).toBe('rgb(223, 231, 227)');
         expect(metrics.bookingSectionBackground).toBe('rgb(201, 212, 207)');
         expect(metrics.ctaColor).not.toBe(metrics.ctaBackground);
-        expect(metrics.footerHeight).toBeLessThan(160);
+        // The shared hours note adds useful content without a separate padded section.
+        await expect(page.locator('.footer-idorend')).toContainText('Nem minden nap van szabad időpont');
+        expect(metrics.footerHeight).toBeLessThan(250);
         expect(metrics.activeGalleryShadow).toBe('none');
         expect(metrics.galleryControlsShadow).toBe('none');
         expect(metrics.galleryGlowVisible).toBe(false);
@@ -335,7 +337,7 @@ test.describe('kritikus vizuális nézetek', () => {
         const desktopFooterHeight = await page.locator('.site-footer').evaluate(
             footer => footer.getBoundingClientRect().height
         );
-        expect(desktopFooterHeight).toBeLessThan(150);
+        expect(desktopFooterHeight).toBeLessThan(220);
     });
 
     test('desktop account and booking verification retain desktop proportions', async ({ page }) => {

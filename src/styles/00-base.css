@@ -118,6 +118,20 @@ textarea:focus-visible {
     outline-offset: 3px;
 }
 
+/* Shared booking-hours note in the public footer and booking introduction. */
+.foglalasi-idorend {
+    min-width: 0;
+    margin: 0;
+    font-size: var(--lumi-font-body-small);
+    line-height: 1.5;
+    text-align: left;
+}
+
+.foglalasi-idorend strong {
+    display: block;
+    font-weight: 600;
+}
+
 /* ===================================
             1. FEJLÉC ÉS MENÜ (Header, Hamburger)
             ===================================== */

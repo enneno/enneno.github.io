@@ -120,6 +120,20 @@ textarea:focus-visible {
     outline-offset: 3px;
 }
 
+/* Shared booking-hours note in the public footer and booking introduction. */
+.foglalasi-idorend {
+    min-width: 0;
+    margin: 0;
+    font-size: var(--lumi-font-body-small);
+    line-height: 1.5;
+    text-align: left;
+}
+
+.foglalasi-idorend strong {
+    display: block;
+    font-weight: 600;
+}
+
 /* ===================================
             1. FEJLÉC ÉS MENÜ (Header, Hamburger)
             ===================================== */
@@ -1664,6 +1678,12 @@ select.urlap-mezo:invalid {
     font-weight: 700;
     color: rgba(255, 253, 249, 0.76);
     text-decoration: none;
+}
+
+.footer-idorend {
+    grid-column: 1 / -1;
+    padding-block: 4px;
+    color: var(--ui-on-dark);
 }
 
 .footer-meta {
@@ -6156,6 +6176,10 @@ body.hibas-oldal {
     color: var(--ui-muted);
     font-size: var(--lumi-font-body-small);
     line-height: 1.8;
+}
+
+.foglalas-nyito-szoveg .foglalasi-idorend {
+    margin-top: 16px;
 }
 
 .foglalas-utak {

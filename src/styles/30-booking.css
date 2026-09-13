@@ -609,6 +609,10 @@
     line-height: 1.8;
 }
 
+.foglalas-nyito-szoveg .foglalasi-idorend {
+    margin-top: 16px;
+}
+
 .foglalas-utak {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
