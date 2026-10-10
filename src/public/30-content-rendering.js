@@ -587,6 +587,25 @@ function fooldalAdatokAlkalmazasa(fooldal, teljesGaleria) {
     if (typeof fooldalStudioTartalomFrissitese === 'function') fooldalStudioTartalomFrissitese();
 }
 
+function fooldalFejlecMeretFrissitese() {
+    const fejlec = document.querySelector('.home-sticky-header');
+    // The prerender DOM has no layout API; its HTML stays useful without JS.
+    if (!fejlec || typeof fejlec.getBoundingClientRect !== 'function') return;
+    document.documentElement.style.setProperty('--ui-header-clearance', `${Math.ceil(fejlec.getBoundingClientRect().height)}px`);
+}
+
+function fooldalFejlecMeretBekotese() {
+    const fejlec = document.querySelector('.home-sticky-header');
+    if (!fejlec) return;
+    fooldalFejlecMeretFrissitese();
+    if (typeof ResizeObserver === 'function') {
+        const figyelo = new ResizeObserver(fooldalFejlecMeretFrissitese);
+        figyelo.observe(fejlec);
+    } else {
+        window.addEventListener('resize', fooldalFejlecMeretFrissitese);
+    }
+}
+
 function vendegertesitoAlkalmazasa(ertesito) {
     const sav = document.getElementById('vendegertesito');
     if (!sav) return;
@@ -594,12 +613,16 @@ function vendegertesitoAlkalmazasa(ertesito) {
     const szoveg = String(ertesito?.szoveg || '').trim();
     const aktiv = ertesito?.aktiv === true && Boolean(szoveg);
     sav.hidden = !aktiv;
-    if (!aktiv) return;
+    if (!aktiv) {
+        fooldalFejlecMeretFrissitese();
+        return;
+    }
 
     const cimke = String(ertesito?.cimke || '').trim() || 'Aktuális információ';
     szovegBeallitasa('.vendegertesito-cimke', cimke, sav);
     szovegBeallitasa('.vendegertesito-szoveg', szoveg, sav);
     sav.setAttribute('aria-label', cimke);
+    fooldalFejlecMeretFrissitese();
 }
 
 function bekezdesekRenderelese(selector, bekezdesek) {
@@ -767,10 +790,10 @@ function szolgaltatasKartyakRenderelese(szolgaltatasok) {
 
     racs.innerHTML = '';
     const megjelenesek = [
-        { valtozat: 'epites', tipus: 'Építés & karbantartás', minta: /epit|tolt/ },
-        { valtozat: 'diszites', tipus: 'Egyedi részletek', minta: /diszit|nail art/ },
-        { valtozat: 'gel-lakk', tipus: 'Tartós szín', minta: /gel lakk/ },
-        { valtozat: 'manikur', tipus: 'Ápolás & eltávolítás', minta: /manikur|apolas|eltavolit/ }
+        { valtozat: 'epites', minta: /epit|tolt/ },
+        { valtozat: 'diszites', minta: /diszit|nail art/ },
+        { valtozat: 'gel-lakk', minta: /gel lakk/ },
+        { valtozat: 'manikur', minta: /manikur|apolas|eltavolit/ }
     ];
 
 
@@ -780,18 +803,10 @@ function szolgaltatasKartyakRenderelese(szolgaltatasok) {
             || megjelenesek[index % megjelenesek.length];
         const doboz = document.createElement('article');
         doboz.className = `szolgaltatas-kartya szolgaltatas-kartya--${megjelenes.valtozat}`;
-        const kepUrl = biztonsagosKepUrl(kartya.kep);
-        if (kepUrl) doboz.style.setProperty('--service-image', `url("${kepUrl}")`);
-
-        const fej = document.createElement('div');
-        fej.className = 'szolgaltatas-kartya-fej';
-
-
-        const tipus = document.createElement('span');
-        tipus.className = 'szolgaltatas-tipus';
-        tipus.textContent = megjelenes.tipus;
-
-        fej.append(tipus);
+        // Trusted, decorative UI geometry; CMS photographs stay on detail pages.
+        const ikon = document.createElement('span');
+        ikon.innerHTML = szolgaltatasIkonSvg(megjelenes.valtozat);
+        const svg = ikon.firstElementChild;
 
         const cim = document.createElement('h3');
         cim.textContent = kartya.cim || '';
@@ -805,20 +820,19 @@ function szolgaltatasKartyakRenderelese(szolgaltatasok) {
         link.href = szolgaltatasKartyaLinkje(megjelenes.valtozat);
         link.innerHTML = `${html(linkSzoveg)} <span aria-hidden="true">→</span>`;
 
-        doboz.append(fej, cim, leiras, link);
+        doboz.append(svg, cim, leiras, link);
         racs.appendChild(doboz);
     });
 }
 
-function biztonsagosKepUrl(ertek) {
-    if (!ertek) return '';
-    try {
-        const url = new URL(String(ertek), window.location.origin);
-        if (!['http:', 'https:'].includes(url.protocol)) return '';
-        return url.href.replace(/["'()\\\s]/g, karakter => encodeURIComponent(karakter));
-    } catch (_error) {
-        return '';
-    }
+function szolgaltatasIkonSvg(valtozat) {
+    const alakzatok = {
+        epites: '<rect x="4" y="3" width="10" height="18" rx="5"/><path d="M4 16c3-2 7-2 10 0m5-14v6m-3-3h6"/>',
+        diszites: '<rect x="3" y="6" width="10" height="15" rx="5"/><path d="M3 17c3-2 7-2 10 0m5-15 1.2 3.8L23 7l-3.8 1.2L18 12l-1.2-3.8L13 7l3.8-1.2Z"/>',
+        'gel-lakk': '<rect x="5" y="10" width="14" height="11" rx="3"/><rect x="7" y="3" width="10" height="7" rx="1"/><path d="M10 6h4m-2 7v4m-3 1h6"/>',
+        manikur: '<g transform="rotate(-45 12 12)"><rect x="2" y="9" width="20" height="6" rx="3"/><path d="M7 9v6m3-6v6"/></g><path d="M17 18c0-2 2-4 4-4m-4 7c2 0 4-2 4-4"/>'
+    };
+    return `<svg class="szolgaltatas-kartya-ikon" viewBox="0 0 24 24" aria-hidden="true">${alakzatok[valtozat] || alakzatok.manikur}</svg>`;
 }
 
 function szolgaltatasKartyaLinkje(valtozat) {

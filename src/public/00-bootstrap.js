@@ -12,6 +12,7 @@ let galeriaElozoFokusz = null;
 
 document.addEventListener('DOMContentLoaded', function () {
     tisztaUrlBeallitasa();
+    fooldalFejlecMeretBekotese();
     oldalTartalomMegjelenitese();
     const arlistaBetoltes = onlineArlistaBetoltese();
     const oldalvaz = Promise.allSettled([fejlecBetoltese(), lablecBetoltese()]);

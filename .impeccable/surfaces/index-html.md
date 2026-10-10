@@ -17,7 +17,7 @@ OWN-WORLD: Ivory #F6F3EE, beige #E2D9D0, taupe #B8A89B, clay #A08075 decoration,
 
 STORY: Explore authentic work, choose a service, meet Szofi; booking stays directly accessible.
 
-FIRST VIEWPORT: Small wordmark and utilities; centered Munkák / Szolgáltatások / Szofi section links; one broad authentic photograph; thumbnail strip and gallery link. No photographic text overlay. Mobile photograph remains uncropped 16:9. Below it: the four real service rows, Szofi's complete portrait and copy, the existing CMS booking introduction, then the unchanged compact footer.
+FIRST VIEWPORT: Active current information leads above the wordmark/utilities in an open, high-contrast sticky shell. Then centered Munkák / Szolgáltatások / Szofi section links; one broad authentic photograph; thumbnail strip and gallery link. No photographic text overlay. Mobile photograph remains uncropped 16:9. Below it: the four real service rows with line icons instead of small photographs, Szofi's complete portrait and copy, the existing CMS booking introduction, then the tighter shared footer retaining all page links and factual contact/hours details. Service-detail photographs stay intact.
 
 FORM: The first/A comp's photographic opening remains (original selection seed a2fb07ec), but its selectors now navigate within a continuous document. Ordinary keyboard links, shared reduced-motion-aware anchor scrolling, actual destination focus and no-JS content. No invented review, service, price or business claim.
 

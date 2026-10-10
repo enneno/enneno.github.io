@@ -23,7 +23,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/kepek/favicon-96.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/kepek/favicon-192.png">
     <link rel="apple-touch-icon" href="/kepek/apple-touch-icon.png">
-    <link rel="stylesheet" href="/style.css?v=5f18783dd2f4">
+    <link rel="stylesheet" href="/style.css?v=0915748861c1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Reddit+Sans+Condensed:wght@300;400&display=swap" rel="stylesheet">
@@ -121,6 +121,19 @@
 </head>
 
 <body class="fooldal">
+    <div class="home-sticky-header">
+    <aside aria-label="Aktuális információ" id="vendegertesito" class="vendegertesito" tabindex="0">
+        <div class="vendegertesito-belso">
+            <svg class="vendegertesito-jel" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg>
+            <div class="vendegertesito-tartalom">
+                <p class="vendegertesito-cimke">Aktuális információ</p>
+                <p class="vendegertesito-szoveg">Kedves vendégeim.
+
+Ha online nincs elérhető időpont,
+Instagramon akkor is tudunk egyeztetni.</p>
+            </div>
+        </div>
+    </aside>
     <div data-prerendered-shell="true" id="fejlec-helye"><header class="site-header">
     <a href="/" class="logo" aria-label="Lumi Nails kezdőlap">
         <span class="logo-lumi">Lumi</span>
@@ -151,6 +164,7 @@
     <a href="/fiokom/">Fiókom</a>
     <a href="/foglalas/">Foglalás</a>
 </nav></div>
+    </div>
 
     <main id="fo-tartalom">
     <div class="studio-heading">
@@ -190,13 +204,6 @@
         <p class="visually-hidden" data-studio-image-status="" aria-live="polite"></p>
     </section>
 
-    <details aria-label="Aktuális információ" id="vendegertesito" class="vendegertesito">
-        <summary class="vendegertesito-cimke">Aktuális információ</summary>
-        <div class="vendegertesito-belso"><p class="vendegertesito-szoveg">Kedves vendégeim.
-
-Ha online nincs elérhető időpont,
-Instagramon akkor is tudunk egyeztetni.</p></div>
-    </details>
     <section id="akcios-banner" class="akcios-banner" hidden aria-live="polite"></section>
 
     <section id="szolgaltatasok" aria-labelledby="szolgaltatasok-cim" tabindex="-1">
@@ -212,7 +219,32 @@ Instagramon akkor is tudunk egyeztetni.</p></div>
                 </div>
             </div>
 
-            <div class="szolgaltatas-lista"><article style="--service-image:url(&quot;/kepek/szolgaltatas-epites.jpg&quot;)" class="szolgaltatas-kartya szolgaltatas-kartya--epites"><div class="szolgaltatas-kartya-fej"><span class="szolgaltatas-tipus">Építés &amp; karbantartás</span></div><h3>Körömépítés &amp; Töltés</h3><p>S, M és L méretű zselés, acryl gel-es, porcelán műkörmök <br>precíz felhelyezése és rendszeres karbantartása.</p><a href="/mukorom-epites-toltes/">Részletek <span aria-hidden="true">→</span></a></article><article style="--service-image:url(&quot;/kepek/szolgaltatas-diszites.jpg&quot;)" class="szolgaltatas-kartya szolgaltatas-kartya--diszites"><div class="szolgaltatas-kartya-fej"><span class="szolgaltatas-tipus">Egyedi részletek</span></div><h3>Díszítés / Nail Art</h3><p>Francia, matricák, kövek és más visszafogott részletek a választott körömszetthez igazítva.</p><a href="/korom-diszites-nail-art-tatabanya/">Részletek <span aria-hidden="true">→</span></a></article><article style="--service-image:url(&quot;/kepek/szolgaltatas-gel-lakk.jpg&quot;)" class="szolgaltatas-kartya szolgaltatas-kartya--gel-lakk"><div class="szolgaltatas-kartya-fej"><span class="szolgaltatas-tipus">Tartós szín</span></div><h3>Gél Lakk</h3><p>Hagyományos és erősített technika a tartós, ragyogó színekért, amelyek hetekig hibátlanok maradnak.</p><a href="/gel-lakk-tatabanya/">Részletek <span aria-hidden="true">→</span></a></article><article style="--service-image:url(&quot;/kepek/szolgaltatas-manikur.jpg&quot;)" class="szolgaltatas-kartya szolgaltatas-kartya--manikur"><div class="szolgaltatas-kartya-fej"><span class="szolgaltatas-tipus">Ápolás &amp; eltávolítás</span></div><h3>Manikűr</h3><p>Klasszikus körömápolás, gél lakk szakszerű eltávolítása <br>és a kezek kényeztető felfrissítése.</p><a href="/manikur-tatabanya/">Részletek <span aria-hidden="true">→</span></a></article></div>
+            <div class="szolgaltatas-lista">
+                <article class="szolgaltatas-kartya szolgaltatas-kartya--epites">
+                    <svg class="szolgaltatas-kartya-ikon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="10" height="18" rx="5"/><path d="M4 16c3-2 7-2 10 0m5-14v6m-3-3h6"/></svg>
+                    <h3>Körömépítés &amp; Töltés</h3>
+                    <p>S, M és L méretű zselés, acryl gel-es, porcelán műkörmök <br>precíz felhelyezése és rendszeres karbantartása.</p>
+                    <a href="/mukorom-epites-toltes/">Részletek <span aria-hidden="true">→</span></a>
+                </article>
+                <article class="szolgaltatas-kartya szolgaltatas-kartya--diszites">
+                    <svg class="szolgaltatas-kartya-ikon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="10" height="15" rx="5"/><path d="M3 17c3-2 7-2 10 0m5-15 1.2 3.8L23 7l-3.8 1.2L18 12l-1.2-3.8L13 7l3.8-1.2Z"/></svg>
+                    <h3>Díszítés / Nail Art</h3>
+                    <p>Francia, matricák, kövek és más visszafogott részletek a választott körömszetthez igazítva.</p>
+                    <a href="/korom-diszites-nail-art-tatabanya/">Részletek <span aria-hidden="true">→</span></a>
+                </article>
+                <article class="szolgaltatas-kartya szolgaltatas-kartya--gel-lakk">
+                    <svg class="szolgaltatas-kartya-ikon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3"/><rect x="7" y="3" width="10" height="7" rx="1"/><path d="M10 6h4m-2 7v4m-3 1h6"/></svg>
+                    <h3>Gél Lakk</h3>
+                    <p>Hagyományos és erősített technika a tartós, ragyogó színekért, amelyek hetekig hibátlanok maradnak.</p>
+                    <a href="/gel-lakk-tatabanya/">Részletek <span aria-hidden="true">→</span></a>
+                </article>
+                <article class="szolgaltatas-kartya szolgaltatas-kartya--manikur">
+                    <svg class="szolgaltatas-kartya-ikon" viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(-45 12 12)"><rect x="2" y="9" width="20" height="6" rx="3"/><path d="M7 9v6m3-6v6"/></g><path d="M17 18c0-2 2-4 4-4m-4 7c2 0 4-2 4-4"/></svg>
+                    <h3>Manikűr</h3>
+                    <p>Klasszikus körömápolás, gél lakk szakszerű eltávolítása <br>és a kezek kényeztető felfrissítése.</p>
+                    <a href="/manikur-tatabanya/">Részletek <span aria-hidden="true">→</span></a>
+                </article>
+            </div>
 
             <div class="szolgaltatas-zaras">
                 <p><strong>Nem tudod, melyik illik hozzád?</strong><span>Válassz időpontot, a részleteket pedig együtt pontosítjuk.</span></p>
@@ -301,9 +333,9 @@ Fontos számomra az igényes, szép munka, a folyamatos fejlődés és az, hogy 
                 <a href="/adatkezeles/">Adatkezelés</a>
             </div>
             <div class="footer-szolgaltatasok">
-                <a href="/mukorom-epites-toltes/">Műköröm építés és töltés</a>
+                <a href="/mukorom-epites-toltes/" aria-label="Műköröm építés és töltés">Műköröm</a>
                 <a href="/gel-lakk-tatabanya/">Gél lakk</a>
-                <a href="/korom-diszites-nail-art-tatabanya/">Körömdíszítés / Nail Art</a>
+                <a href="/korom-diszites-nail-art-tatabanya/" aria-label="Körömdíszítés / Nail Art">Nail Art</a>
                 <a href="/manikur-tatabanya/">Manikűr</a>
             </div>
         </nav>
@@ -316,7 +348,7 @@ Fontos számomra az igényes, szép munka, a folyamatos fejlődés és az, hogy 
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
     <script src="/supabase-config.js?v=c1e1227c60cb"></script>
-    <script src="/script.js?v=f98df9b9fc76"></script>
+    <script src="/script.js?v=7746fb55206c"></script>
 </body>
 
 </html>
