@@ -253,6 +253,10 @@ Public shared micro/caption/label roles are 11/13/14px and become 10/12/13px at 
 
 ## Layout
 
+### Service icon replacement, 2026-10-11
+
+The user rejected the authored homepage service symbols. Their replacement is Phosphor's duotone family: Stack Simple, Sparkle, Paint Brush and Hand Heart, using unmodified geometry from a pinned revision. The existing 40px/48px icon slots, charcoal color, page composition, text and service-detail photographs are unchanged. Both static HTML and the CMS renderer contain the same local SVGs; no runtime package or CDN. Source and MIT notice: `licenses/phosphor-icons.txt`. This is a local TEST refinement, not a new publishing authorization.
+
 ### Notice, footer and service-icon refinement, 2026-10-10
 
 Latest local-only user instructions supersede the historical notice and footer descriptions below: the active homepage notice precedes the wordmark/navigation in one in-flow sticky shell. It stays open during scrolling, uses charcoal/ivory with a bold label and an authored information icon, and remains in prerendered HTML. Empty/inactive notices leave no gap. Content is capped at 25svh with accessible internal scrolling for unusually long messages. The measured shell height supplies menu and anchor clearance; other pages retain their original fixed header. Homepage service rows now use four consistent authored line icons, not photograph backgrounds; all service-detail photographs remain unchanged. The shared footer retains all ten destinations, contact/social details and booking hours, with concise visible service labels, complete accessible names, one wrapping navigation flow and reduced spacing. At 390px its height is 289px instead of 413px; at 1440px, 155px instead of 211px. Mobile link hit areas remain 44px. See `docs/notice-footer-icons.md` for the scoped checks and file manifest. No remote content write or new release accompanies this local refinement.

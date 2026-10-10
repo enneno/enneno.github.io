@@ -80,3 +80,21 @@ Dokumentáció:
 - `docs/notice-footer-icons.md`
 
 A korábbról megmaradt látványtervek és helyi build-artifactok érintetlenek, nem részei a kiadásnak. A fenti helyi elkészítés során a TEST GitHub-verzió nem változott; a későbbi közzétételi jóváhagyást a kiadási rész rögzíti. A LIVE oldal nem változott.
+
+## Szolgáltatásikon-csere — 2026-10-11
+
+A felhasználó a saját rajzolt jeleket elutasította. Helyükön a Phosphor duotone készlet Stack Simple / Sparkle / Paint Brush / Hand Heart ikonjai vannak. Eredeti geometria és20%-os másodlagos kitöltés, meglévő charcoal szín, változatlan40px mobil /48px desktop méret és elrendezés. Az ikonok dekoratívak, nem fókuszálhatók. Nincs csomagtelepítés, ikonfont, CDN-kérés vagy új animáció. A szolgáltatásoldalak képei és az adatok érintetlenek. Forrás, rögzített revision és teljes MIT licenc: `licenses/phosphor-icons.txt`.
+
+Sikeres, szűk helyi ellenőrzés: build, asset-verziózás, CSS-lint, JS-szintaxis és Git-diff/whitespace; Playwright CLI képi kontroll320/390/1440px-en.390/1440px-en nulla dokumentumtúlcsordulás,40/48px méret, négy dekoratív SVG. A böngészőben és külön statikus ellenőrzéssel a CMS-helper és a JS nélküli HTML ikon-geometriája4/4 egyezik. Mobil és desktop szekcióképek saját átnézése: nincs ikonvágás vagy szövegütközés. Képek: az ignorált `output/playwright/phosphor-services-*.png` alatt. Teljes tesztcsomag, axe/Lighthouse és nem érintett oldalak ellenőrzése nem futott.
+
+Az Impeccable scan nem jelzett az ikoncsere új kódjára hibát; a teljes céloldalra meglévő palette/font/justify/kupon/depth és dokumentációs jelzéseket is adott. A paletta és a sorkizárás felhasználói döntés; a listahatár mögött a sorok saját paddingje van. Ezek és a régi kuponstílusok nem részei az ikoncsere hatókörének. A desktop szekcióképen a meglévő rögzített foglalásgomb a szekció CTA-jára ráfedhet; nem az új ikon okozza, ebben a körben nem változtattuk. Inline finish review: a négy ikon helyi előnézete átadható, ez nem független tanúsítás.
+
+Pontos új fájlkör:
+
+- Forrás: `index.html`, `src/public/30-content-rendering.js`, `src/styles/15-home-sections.css`.
+- Dokumentáció/licenc: `DESIGN.md`, `docs/design-system.md`, `docs/notice-footer-icons.md`, `licenses/phosphor-icons.txt` (új).
+- Buildből generált: `script.js`, `style.css`.
+- Csak CSS/JS cache-verzió: `404.html`, `adatkezeles/index.html`, `arlista/index.html`, `fiokom/index.html`, `foglalas/index.html`, `galeria/index.html`, `gel-lakk-tatabanya/index.html`, `korom-diszites-nail-art-tatabanya/index.html`, `manikur-tatabanya/index.html`, `mukorom-epites-toltes/index.html`.
+- Csak JS cache-verzió: `admin/index.html`.
+
+A korábbi TEST-kiadás `cfaa8a4`. Elkészítéskor ez a csere még csak helyi volt; a felhasználó2026-10-11-i „Mehet tesztre” jóváhagyása alapján a fent felsorolt, már ellenőrzött fájlkör az `enneno/enneno.github.io` TEST `main` ágára kerül. Változatlan alkalmazáskód mellett a sikeres helyi ellenőrzéseket nem ismételjük; a kiadás előtt Git-diff/ág/origin ellenőrzés, utána a deploy és a publikált asset-verziók ellenőrzése történik. Régi látványtervek és CLI-artifactok nem kerülnek a commitba. A LIVE nem változott.
