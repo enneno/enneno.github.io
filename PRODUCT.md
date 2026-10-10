@@ -36,6 +36,8 @@ A felhasználó külön megerősítette: „Igen, a saját képekkel építsd me
 
 ## Evidence on Hand
 
+2026-10-10 refinement: the user likes the homepage style but finds the page too short, like a single block. Preserve Ivory & Taupe, typography and authentic photographs; expose services and introduction as continuous sections after the opening, with the existing CMS booking introduction before the compact footer. This latest instruction supersedes the previous hidden alternate-view structure. Work locally in TEST; no new deployment approval.
+
 Valós tartalom az index.html-ben és a szolgáltatásoldalakon; meglévő fotók a kepek/ alatt és a publikus tartalomrekordokban. Új ügyfélvélemények vagy állítások nem készülnek.
 
 ## Accessibility & Inclusion

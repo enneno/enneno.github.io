@@ -16,9 +16,9 @@ Local implementation of the user-approved first/A studio comp, using the own CMS
 
 ## Patterns
 
-- Homepage: Munkák / Szolgáltatások / Szofi accessible views; compact utilities/tagline, broad real photo without text/scrim, five thumbnails and circular arrows.
+- Homepage: Munkák / Szolgáltatások / Szofi are accessible in-page links. The approved photographic opening continues into services, introduction and the existing CMS booking invitation; nothing is hidden behind alternate views. Compact utilities/tagline, broad real photo without text/scrim, five thumbnails and circular arrows remain.
 - Phone opening uncropped16:9 contain; desktop opening follows the broad comp frame. Selected gallery images always contain. Swipe/keyboard/predecode/error recovery.
-- Services are divided image/text rows; introduction separate portrait/text view. No-JS HTML retains all facts/images/links.
+- Services are divided image/text rows; introduction follows on a beige surface with the complete portrait and copy. Section spacing uses the shared block/inline tokens, booking restores existing CMS fields without changing data. No-JS HTML retains all facts/images/links.
 - Shared compact ivory footer: six main/function links plus four services, contact/socials/hours caveat/copyright. Desktop3columns at900px; phone44px link targets.
 - Utility/gallery/service/booking/account functional layouts retained with same palette. Service copy justified without hyphenation by explicit user request.
 - Admin retains grouped metrics/tasks, semantic states, light/dark themes, responsive navigation and functional controls.

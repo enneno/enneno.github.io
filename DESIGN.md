@@ -253,6 +253,10 @@ Public shared micro/caption/label roles are 11/13/14px and become 10/12/13px at 
 
 ## Layout
 
+### Continuous homepage refinement, 2026-10-10
+
+The latest user request likes the studio style but rejects its single-block length. It supersedes the hidden alternate-view composition described in the original snapshot below. Keep the approved opening, colors, own photos and utility header. Munkák / Szolgáltatások / Szofi now navigate within one continuous document; services follow the photographs, Szofi follows on beige, and the existing CMS booking invitation precedes the unchanged compact footer. All sections remain visible with and without JS. Shared section spacing follows the existing block/inline tokens and content height. Ordinary keyboard links and destination focus replace tab roles; existing shared anchor handling reserves header clearance and honors reduced motion. Reddit Sans Condensed 300 extends to the service/booking headings; DM Sans introduction copy stays. No booking data, authentication, remote content or admin theme changes. See `docs/continuous-home.md` for this refinement's bounded verification and exact file list; the original snapshot and review below are historical evidence, not certification of this change.
+
 The shared public content width is 1200px with the responsive gutter in frontmatter. The opening studio photograph deliberately spans the viewport. General section tokens remain available to inner pages; they do not force the homepage back into a long section stack.
 
 The fixed public header is 76px high on desktop and 68px at 768px and below. Page content reserves that height. Main content expands before the shared footer, with no decorative empty canvas after it.

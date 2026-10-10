@@ -1,22 +1,30 @@
-/* Alternate studio views. Each panel is content, not another landing-page section. */
+/* Continuous studio sections. Shared rhythm, no alternate hidden views. */
 #szolgaltatasok,
-#bemutatkozas {
+#bemutatkozas,
+#kapcsolat {
     width: 100%;
     max-width: none;
     margin: 0;
-    padding: 24px var(--lumi-section-padding-inline) 40px;
-    background: var(--ui-bg);
+    padding: var(--lumi-section-padding-block) var(--lumi-section-padding-inline);
 }
 .szolgaltatasok-belso,
-.bemutatkozas-belso {
+.bemutatkozas-belso,
+.kapcsolat-belso {
     width: min(1200px, 100%);
     margin-inline: auto;
 }
 #szolgaltatasok .szekcio-fej {
-    margin-bottom: 24px;
+    display: grid;
+    gap: 20px;
+    margin-bottom: 32px;
 }
-#szolgaltatasok .szekcio-fej > div:first-child {
-    display: none;
+#szolgaltatasok h2 {
+    margin: 0;
+    font-family: 'Reddit Sans Condensed', 'DM Sans', sans-serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
 }
 .szolgaltatas-bevezeto {
     display: flex;
@@ -142,6 +150,41 @@
     hyphens: none;
 }
 .bemutatkozas-szoveg p:last-child { margin-bottom: 0; }
+#bemutatkozas {
+    background: var(--ui-soft);
+}
+.kapcsolat-belso {
+    display: grid;
+    gap: 28px;
+}
+.kapcsolat-tartalom h2 {
+    max-width: 22ch;
+    margin: 0 0 20px;
+    font-family: 'Reddit Sans Condensed', 'DM Sans', sans-serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
+}
+.kapcsolat-tartalom .szekcio-leiras {
+    max-width: 60ch;
+    margin: 0;
+    color: var(--ui-ink);
+    font-size: var(--lumi-font-body);
+    line-height: 1.6;
+    text-align: left;
+}
+.kapcsolat-akcio {
+    display: grid;
+    justify-items: start;
+    align-content: center;
+    gap: 12px;
+}
+.kapcsolat-akcio > span {
+    color: var(--ui-ink);
+    font-size: 14px;
+    line-height: 1.5;
+}
 .vendegertesito[hidden] { display: none; }
 .vendegertesito {
     width: 100%;
@@ -174,10 +217,6 @@
     overflow-wrap: anywhere;
 }
 @media (min-width: 769px) {
-    #szolgaltatasok,
-    #bemutatkozas {
-        padding-block: 20px 48px;
-    }
     .szolgaltatas-kartya {
         grid-template-columns: 140px minmax(0, 0.8fr) minmax(0, 1fr) 100px;
         align-items: center;
@@ -198,4 +237,9 @@
     }
     .bemutatkozas-kep { width: 100%; }
     .bemutatkozas-szoveg h2 { font-size: 38px; }
+    .kapcsolat-belso {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 48px;
+    }
 }

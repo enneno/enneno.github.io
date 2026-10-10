@@ -1,6 +1,6 @@
 # LumiNails design system
 
-A jelenlegi **helyi** felület a felhasználó által választott első/A stúdiótervet és Ivory & Taupe palettát követi, saját CMS-nyitóképpel és öt meglévő galériaképpel. A kezdőlap három választható nézetből áll. Nincs push vagy LIVE-változás.
+A jelenlegi felület a felhasználó által választott első/A stúdiótervet és Ivory & Taupe palettát követi, saját CMS-nyitóképpel és öt meglévő galériaképpel. A TEST-re már kiadott háromnézetes változat új, helyi folytatása egybefüggően görgethető: munkák, szolgáltatások, bemutatkozás, foglalási meghívás. Ez a folytatás még nincs feltöltve; LIVE-változás nincs.
 
 Részletes vizuális szabályok/tokenek: `DESIGN.md`; megjeleníthető komponensek: `.impeccable/design.json`. A futó megjelenés forrása a CSS. A korábbi paletták/elrendezések történeti referenciák.
 
@@ -16,14 +16,14 @@ Részletes vizuális szabályok/tokenek: `DESIGN.md`; megjeleníthető komponens
 
 A szemantikus `--ui-*` és `--admin-v2-*` változókat kell használni. A régi színnevek kompatibilitási aliasok, nem külön paletta. A foglalási/siker/figyelmeztetés/hiba állapotszínek önállók. A sötét admin kártyái charcoal–ivory keverékek, nem azonosak a háttérrel.
 
-DM Sans: törzsszöveg, általános címek és működési vezérlők. Reddit Sans Condensed 300: kizárólag a kezdőlapi három nézetválasztó. Playfair Display: meglévő Lumi szólogó. Kis szöveg kontrasztja legalább 4,5:1; nagy szöveg/lényeges nem-szöveges állapot legalább 3:1. A clay nem megfelelő kis charcoal felirathoz.
+DM Sans: törzsszöveg, általános címek és működési vezérlők. Reddit Sans Condensed 300: a kezdőlapi három szekcióhivatkozás és a szolgáltatás/foglalás szekciócím. Playfair Display: meglévő Lumi szólogó. Kis szöveg kontrasztja legalább 4,5:1; nagy szöveg/lényeges nem-szöveges állapot legalább 3:1. A clay nem megfelelő kis charcoal felirathoz.
 
 ## Térközök, alakok és állapotok
 
 - Általános tartalom max1200px; közös gutter `clamp(20px, 4.8vw, 80px)`. A nagy stúdiófotó szándékosan teljes szélességű.
-- Kezdőlapi szolgáltatás/bemutatkozás nézet: mobilon 24px felül, 40px alul és a közös 20px-es oldalpadding; asztalon 20px felül, 48px alul és közös gutter. Más oldalak a saját közös szekciótokenjeiket használják.
+- Kezdőlapi szolgáltatás/bemutatkozás/foglalási meghívás: közös `--lumi-section-padding-block` és `--lumi-section-padding-inline`, mobilon 58px/20px, asztalon fluid közös térköz. A magasságot a valódi tartalom adja, nem fix viewport vagy üres min-height. Bemutatkozás: bézs, többi rész: ivory.
 - Közös vezérlősugár8px, kártya16px, kör/chip999px. Megőrzött helyi kivételek: foglalási mező14px, admin vezérlő11px, belépés12px, fiókgomb10px. Ezek nem új globális sugárlépcsők.
-- Gomb: bézs/charcoal; sötét hover/ivory; látható fókusz. Aktív nézet és bélyegkép: kontrasztos aláhúzás/keret, nem csak halvány színeltérés.
+- Gomb: bézs/charcoal; sötét hover/ivory; látható fókusz. Aktuális szekcióhivatkozás és bélyegkép: kontrasztos aláhúzás/keret, nem csak halvány színeltérés.
 - Mező: ivory felület, keret, olvasható placeholder és kapcsolt hiba. A14px-es sugár nem betűméret.
 - Szolgáltatás: képes, elválasztott sor. Admin: megszokott feladat-/foglaláskonténer, külön állapotjelzés.
 - Fotón és bélyegképen nincs árnyék vagy szöveges overlay. Publikus soft/button és világos workspace árnyék `none`; megőrzött helyi overlay/fókusz/állapot és sötét admin árnyék külön kivétel.
@@ -34,9 +34,9 @@ DM Sans: törzsszöveg, általános címek és működési vezérlők. Reddit Sa
 - Kezdőlapi fő töréspont768px. Footer900px-től háromoszlopos; alatta tördelődik, mind a tíz oldalhivatkozással. Admin900px alatt mobilmenü.
 - Publikus mobil mezőszöveg ≥16px,100%-os skálázás és `font-size-adjust: none`; publikus nagyítás szabad. Admin standalone PWA meglévő zoomszabálya változatlan.
 - Mobil publikus célterület ≥44px; admin kompakt gombjain kiterjesztett érintési terület. Asztali sűrű footer-link ≥24px.
-- Nézetek: közvetlen URL-horgony, billentyűzetes váltás, látható fókusz. JavaScript nélkül minden tartalom és oldalhivatkozás megmarad.
+- Szekciók: közvetlen URL-horgony, normál billentyűzetes linkek, célra kerülő fókusz és fejléc alatti görgetési pozíció. Minden szekció JS-sel és nélküle is látható; nincsenek tab/tabpanel szerepek.
 - Lapozás: elődekódolás, utolsó kérés nyer, hiba esetén korábbi sikeres kép és szöveges visszajelzés.
-- Rövid állapotátmenetek; reduced-motion esetén nincs stúdiónézet-animáció. Induló tartalom nem vár animációra.
+- Rövid állapotátmenetek; a közös horgonygörgetés reduced-motion esetén azonnali. Induló tartalom nem vár animációra.
 
 ## Források és felelősség
 

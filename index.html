@@ -23,7 +23,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/kepek/favicon-96.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/kepek/favicon-192.png">
     <link rel="apple-touch-icon" href="/kepek/apple-touch-icon.png">
-    <link rel="stylesheet" href="/style.css?v=1ab72177983a">
+    <link rel="stylesheet" href="/style.css?v=5f18783dd2f4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Reddit+Sans+Condensed:wght@300;400&display=swap" rel="stylesheet">
@@ -169,7 +169,7 @@
         <p class="studio-intro">Körmök, személyes figyelemmel. Tatabányán.</p>
     </div>
 
-    <section aria-label="Lumi Nails nyitókép" style="background-image:none" id="hero" class="studio-work-panel" data-studio-panel="">
+    <section aria-label="Lumi Nails nyitókép" style="background-image:none" id="hero" class="studio-work-panel" tabindex="-1">
         <div class="hero-visual">
             <img src="https://htbpzvmlegapaphsipax.supabase.co/storage/v1/object/public/site-media/uploads/2026-09-05/1788628618091-4ce48d0e-4cda-40a4-afc4-f15b78f8d0fe-full.jpg" class="hero-kep" alt="Lumi Nails nyitókép" width="1280" height="720" fetchpriority="high" decoding="async">
         </div>
@@ -199,34 +199,12 @@ Instagramon akkor is tudunk egyeztetni.</p></div>
     </details>
     <section id="akcios-banner" class="akcios-banner" hidden aria-live="polite"></section>
 
-    <section id="bemutatkozas" class="bemutatkozas" data-studio-panel="">
-        <div class="bemutatkozas-belso">
-            <div class="bemutatkozas-kep">
-                <img src="https://htbpzvmlegapaphsipax.supabase.co/storage/v1/object/public/site-media/uploads/2026-07-28/1785272237422-0wb9mvzv7xi-migrated-full.jpg" alt="Lumi Nails Szofi" loading="lazy" decoding="async">
-                <div class="bemutatkozas-kep-jelveny" aria-hidden="true">
-                    <span>LN</span>
-                    <small>Tatabánya</small>
-                </div>
-            </div>
-            <div class="bemutatkozas-szoveg">
-                <span class="szekcio-kicker">A LumiNails mögött</span>
-                <h2>Bemutatkozás</h2>
-
-
-            <p>Sziasztok!
-
-Petrás Szofi vagyok,  körmösként dolgozom munka mellett. Körülbelül 2 éve foglalkozom körmökkel, és ez idő alatt egyre jobban beleszerettem ebbe a szakmába.
-
-Fontos számomra az igényes, szép munka, a folyamatos fejlődés és az, hogy minden vendég elégedetten távozzon tőlem. Mivel még fejlődöm és építem a vendégkörömet, nagy odafigyeléssel, türelemmel és lelkesedéssel készítem el a körmöket.</p><p>Szeretettel várlak, ha szívesen bíznád rám a körmeidet!</p></div>
-        </div>
-    </section>
-
-    <section id="szolgaltatasok" data-studio-panel="">
+    <section id="szolgaltatasok" aria-labelledby="szolgaltatasok-cim" tabindex="-1">
         <div class="szolgaltatasok-belso">
             <div class="szekcio-fej">
                 <div>
                     <span class="szekcio-kicker">Amiben segíthetek</span>
-                    <h2>SZOLGÁLTATÁSOK</h2>
+                    <h2 id="szolgaltatasok-cim">SZOLGÁLTATÁSOK</h2>
                 </div>
                 <div class="szolgaltatas-bevezeto">
                     <p>Letisztult alapoktól az egyedi díszítésig — minden szett személyre szabva, nyugodt tempóban készül.</p>
@@ -239,6 +217,40 @@ Fontos számomra az igényes, szép munka, a folyamatos fejlődés és az, hogy 
             <div class="szolgaltatas-zaras">
                 <p><strong>Nem tudod, melyik illik hozzád?</strong><span>Válassz időpontot, a részleteket pedig együtt pontosítjuk.</span></p>
                 <a href="/foglalas/" class="gomb">Időpontot foglalok</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="bemutatkozas" class="bemutatkozas" aria-labelledby="bemutatkozas-cim" tabindex="-1">
+        <div class="bemutatkozas-belso">
+            <div class="bemutatkozas-kep">
+                <img src="https://htbpzvmlegapaphsipax.supabase.co/storage/v1/object/public/site-media/uploads/2026-07-28/1785272237422-0wb9mvzv7xi-migrated-full.jpg" alt="Lumi Nails Szofi" loading="lazy" decoding="async">
+                <div class="bemutatkozas-kep-jelveny" aria-hidden="true">
+                    <span>LN</span>
+                    <small>Tatabánya</small>
+                </div>
+            </div>
+            <div class="bemutatkozas-szoveg">
+                <span class="szekcio-kicker">A LumiNails mögött</span>
+                <h2 id="bemutatkozas-cim">Bemutatkozás</h2>
+
+            <p>Sziasztok!
+
+Petrás Szofi vagyok,  körmösként dolgozom munka mellett. Körülbelül 2 éve foglalkozom körmökkel, és ez idő alatt egyre jobban beleszerettem ebbe a szakmába.
+
+Fontos számomra az igényes, szép munka, a folyamatos fejlődés és az, hogy minden vendég elégedetten távozzon tőlem. Mivel még fejlődöm és építem a vendégkörömet, nagy odafigyeléssel, türelemmel és lelkesedéssel készítem el a körmöket.</p><p>Szeretettel várlak, ha szívesen bíznád rám a körmeidet!</p></div>
+        </div>
+    </section>
+
+    <section id="kapcsolat" aria-labelledby="kapcsolat-cim" tabindex="-1">
+        <div class="kapcsolat-belso">
+            <div class="kapcsolat-tartalom">
+                <h2 id="kapcsolat-cim">Időpontfoglalás</h2>
+                <p class="szekcio-leiras">Válaszd ki a neked megfelelő szabad sávot online rendszerünkben vagy írj Instagramon vagy vedd fel a kapcsolatot telefonon.</p>
+            </div>
+            <div class="kapcsolat-akcio">
+                <a href="/foglalas/" class="gomb">Online Időpontfoglalás</a>
+                <span>Gyors, online visszaigazolással</span>
             </div>
         </div>
     </section>
@@ -304,7 +316,7 @@ Fontos számomra az igényes, szép munka, a folyamatos fejlődés és az, hogy 
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
     <script src="/supabase-config.js?v=c1e1227c60cb"></script>
-    <script src="/script.js?v=75cc9625148e"></script>
+    <script src="/script.js?v=f98df9b9fc76"></script>
 </body>
 
 </html>

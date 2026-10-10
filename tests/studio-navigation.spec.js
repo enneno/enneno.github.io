@@ -6,29 +6,35 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://*.supabase.co/rest/**', route => route.abort());
 });
 
-test('studio tabs support keyboard, deep links, mobile menu and readable alternate views', async ({ page }) => {
+test('studio section links support keyboard, deep links and mobile menu without hiding content', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#bemutatkozas');
-  await expect(page.getByRole('tab', { name: 'Szofi', exact: true })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.locator('#bemutatkozas')).toBeVisible();
+  await expect(page.locator('#bemutatkozas')).toBeInViewport();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(300);
+  for (const id of ['hero', 'szolgaltatasok', 'bemutatkozas', 'kapcsolat']) {
+    await expect(page.locator(`#${id}`)).toBeVisible();
+    await expect(page.locator(`#${id}`)).not.toHaveAttribute('hidden');
+  }
   await expect(page.locator('h1')).toHaveText('Lumi Nails');
-  await page.getByRole('tab', { name: 'Szofi', exact: true }).focus();
-  await page.keyboard.press('Home');
-  await expect(page.getByRole('tab', { name: 'Munkák', exact: true })).toBeFocused();
-  await page.keyboard.press('ArrowRight');
-  await expect(page.locator('#szolgaltatasok')).toBeVisible();
-  await expect(page.locator('#hero')).toBeHidden();
+  await page.locator('#studio-tab-services').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#szolgaltatasok')).toBeFocused();
+  await expect(page.locator('#szolgaltatasok')).toBeInViewport();
+  await expect(page.locator('#studio-tab-services')).toHaveAttribute('aria-current', 'location');
   await page.getByRole('button', { name: 'Menü megnyitása' }).click();
   await page.locator('#mobil-nav a[href="/#szolgaltatasok"]').click();
   await expect(page.locator('#mobil-nav')).not.toHaveClass(/open/);
-  await expect(page.locator('#szolgaltatasok')).toBeVisible();
-  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await expect(page.locator('#szolgaltatasok')).toBeInViewport();
+  const heading = await page.locator('#szolgaltatasok-cim').boundingBox();
+  const header = await page.locator('.site-header').boundingBox();
+  expect(heading.y).toBeGreaterThanOrEqual(header.height);
+  await page.locator('#studio-tab-works').click();
+  await expect(page.locator('#hero')).toBeInViewport();
   await documentFonts(page);
-  for (const name of ['Szolgáltatások', 'Szofi', 'Munkák']) {
-    await page.getByRole('tab', { name, exact: true }).click();
-    const report = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
-    expect(report.violations, `accessibility: ${name}`).toEqual([]);
-  }
+  const report = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+  expect(report.violations, 'accessibility: all homepage sections').toEqual([]);
+  await expect(page.locator('#kapcsolat .gomb')).toHaveAttribute('href', '/foglalas/');
+  await expect(page.locator('#kapcsolat h2')).not.toBeEmpty();
 });
 
 async function documentFonts(page) {
@@ -61,8 +67,6 @@ test('studio has no viewport overflow and the phone opening photograph is uncut 
   await page.goto('/');
   for (const width of [320, 375, 390, 414, 768, 1024, 1280, 1440, 1536]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const name of ['Munkák', 'Szolgáltatások', 'Szofi']) {
-      await page.getByRole('tab', { name, exact: true }).click();
       const metrics = await page.evaluate(() => {
         const tabs = document.querySelector('.studio-view-tabs').getBoundingClientRect();
         const visual = document.querySelector('.hero-visual').getBoundingClientRect();
@@ -70,16 +74,26 @@ test('studio has no viewport overflow and the phone opening photograph is uncut 
           overflow: document.documentElement.scrollWidth - innerWidth,
           tabsInside: tabs.left >= 0 && tabs.right <= innerWidth + 1,
           ratio: visual.width / visual.height,
-          fit: getComputedStyle(document.querySelector('.hero-kep')).objectFit
+          fit: getComputedStyle(document.querySelector('.hero-kep')).objectFit,
+          sections: ['hero', 'szolgaltatasok', 'bemutatkozas', 'kapcsolat'].map(id => {
+            const section = document.getElementById(id);
+            return { hidden: section.hidden, height: section.offsetHeight, top: section.offsetTop };
+          }),
+          pageHeight: document.documentElement.scrollHeight
         };
       });
-      expect(metrics.overflow, `${name}, ${width}`).toBeLessThanOrEqual(1);
-      expect(metrics.tabsInside, `${name}, ${width}`).toBe(true);
-      if (width <= 768 && name === 'Munkák') {
+      expect(metrics.overflow, `${width}`).toBeLessThanOrEqual(1);
+      expect(metrics.tabsInside, `${width}`).toBe(true);
+      expect(metrics.pageHeight).toBeGreaterThan(2000);
+      for (const section of metrics.sections) {
+        expect(section.hidden).toBe(false);
+        expect(section.height).toBeGreaterThan(0);
+      }
+      expect(metrics.sections.map(s => s.top)).toEqual([...metrics.sections.map(s => s.top)].sort((a, b) => a - b));
+      if (width <= 768) {
         expect(metrics.ratio).toBeCloseTo(16 / 9, 2);
         expect(metrics.fit).toBe('contain');
       }
-    }
   }
 });
 
@@ -87,8 +101,10 @@ test('without JavaScript factual panels, photos and every public footer destinat
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:8101/');
-  for (const selector of ['#hero', '#szolgaltatasok', '#bemutatkozas']) await expect(page.locator(selector)).toBeVisible();
+  for (const selector of ['#hero', '#szolgaltatasok', '#bemutatkozas', '#kapcsolat']) await expect(page.locator(selector)).toBeVisible();
   await expect(page.locator('h1')).toHaveText('Lumi Nails');
+  await expect(page.locator('#kapcsolat h2')).not.toBeEmpty();
+  await expect(page.locator('#kapcsolat .gomb')).toHaveAttribute('href', '/foglalas/');
   await expect(page.locator('.galeria-atvezeto-kepek > img')).toHaveCount(5);
   expect((await page.locator('#galeria-atvezeto').boundingBox()).width).toBeGreaterThan(300);
   for (const route of ['/arlista/', '/galeria/', '/foglalas/', '/fiokom/', '/adatkezeles/', '/mukorom-epites-toltes/', '/gel-lakk-tatabanya/', '/korom-diszites-nail-art-tatabanya/', '/manikur-tatabanya/']) {

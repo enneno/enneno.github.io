@@ -120,7 +120,6 @@ function navigaciosLinkKattintas(event) {
     event.preventDefault();
     const menuNyitva = Boolean(document.getElementById('mobil-nav')?.classList.contains('open'));
     const gordites = () => {
-        if (typeof lumiStudio !== 'undefined' && lumiStudio?.navigate(horgony.url.hash)) return;
         horgonyhozGordites(horgony);
     };
 
@@ -174,6 +173,9 @@ function horgonyhozGordites({ cel, url }) {
         behavior: csokkentettMozgas ? 'auto' : 'smooth',
         block: 'start'
     });
+    if (cel.closest('.fooldal') && cel.hasAttribute('tabindex')) {
+        cel.focus({ preventScroll: true });
+    }
     aktivMenuJelolese();
 }
 
@@ -188,7 +190,6 @@ function kezdetiHorgonyPontositasaBekotese() {
 }
 
 function aktualisHorgonyPontositasa() {
-    if (typeof lumiStudio !== 'undefined' && lumiStudio?.navigate(window.location.hash, false)) return;
     const horgony = azonosOldaliHorgony({ href: window.location.href });
     if (!horgony) return;
 
@@ -203,7 +204,7 @@ function aktivMenuJelolese() {
     const aktualis = normalizaltUtvonal(window.location.pathname);
     const hash = window.location.hash;
 
-    document.querySelectorAll('.site-header nav a, #mobil-nav a').forEach(link => {
+    document.querySelectorAll('.site-header nav a, #mobil-nav a, .studio-view-tabs a').forEach(link => {
         const linkUtvonal = normalizaltUtvonal(new URL(link.href).pathname);
         const azonosUtvonal = linkUtvonal === aktualis;
         const aktiv = link.hash
@@ -211,6 +212,10 @@ function aktivMenuJelolese() {
             : azonosUtvonal && !hash;
 
         link.classList.toggle('aktiv', aktiv);
+        if (link.closest('.studio-view-tabs')) {
+            if (aktiv) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+        }
     });
 }
 
