@@ -344,7 +344,8 @@
     line-height: 1.4;
 }
 .footer-kapcsolat a,
-.footer-navigacio a {
+.footer-navigacio a,
+.footer-ikon-forras {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
@@ -355,7 +356,8 @@
     overflow-wrap: anywhere;
 }
 .footer-kapcsolat a:hover,
-.footer-navigacio a:hover {
+.footer-navigacio a:hover,
+.footer-ikon-forras:hover {
     text-decoration: underline;
     text-underline-offset: 4px;
 }
@@ -403,12 +405,25 @@
     line-height: 1.5;
 }
 .footer-idorend strong { color: inherit; font-weight: 500; }
-.footer-meta { grid-column: 1 / -1; }
+.footer-meta {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0 16px;
+}
 .footer-jogok {
+    min-width: 0;
     margin: 0;
     color: var(--ui-ink);
     font-size: 12px;
     line-height: 1.5;
+}
+.footer-ikon-forras {
+    flex-shrink: 0;
+    font-size: 12px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 @media (min-width: 900px) {
     .footer-belso {
@@ -421,7 +436,8 @@
         padding-inline: 24px;
         border-inline: 1px solid var(--ui-taupe);
     }
-    .footer-navigacio a { min-height: 30px; }
+    .footer-navigacio a,
+    .footer-ikon-forras { min-height: 30px; }
     .footer-kapcsolat { grid-area: 1 / 3; align-self: start; }
     .footer-kapcsolat address { display: grid; gap: 0; }
     .footer-kapcsolat a { min-height: 30px; }

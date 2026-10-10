@@ -255,7 +255,7 @@ Public shared micro/caption/label roles are 11/13/14px and become 10/12/13px at 
 
 ### Service icon replacement, 2026-10-11
 
-The user rejected the authored homepage service symbols. Their replacement is Phosphor's duotone family: Stack Simple, Sparkle, Paint Brush and Hand Heart, using unmodified geometry from a pinned revision. The existing 40px/48px icon slots, charcoal color, page composition, text and service-detail photographs are unchanged. Both static HTML and the CMS renderer contain the same local SVGs; no runtime package or CDN. Source and MIT notice: `licenses/phosphor-icons.txt`. This is a local TEST refinement, not a new publishing authorization.
+The user rejected both authored and generic Phosphor service symbols, then selected Icons8's solid monochrome nail-and-brush example. The homepage now uses four recognizable nail-care glyphs: nail, decorating brush, polish bottle and nail file. The selected Design Circle artwork is preserved; the companion Icons8/Yogi glyphs share its charcoal silhouette treatment, rather than pretending to belong to one author or collection. Existing 40px/48px slots, page composition, text and service-detail photographs are unchanged. Both static HTML and the CMS renderer use the same four local 100px PNGs; no runtime package or CDN. Icons8's free license requires the visible clickable attribution beside the copyright in the shared footer. Sources and terms: `licenses/icons8.txt`. This is a local TEST refinement, not a new publishing authorization.
 
 ### Notice, footer and service-icon refinement, 2026-10-10
 
