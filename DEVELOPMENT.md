@@ -61,6 +61,8 @@ Az automatikus indításhoz egyszer kell:
 
 A GitHub token kizárólag szerveroldali secret lehet; HTML-be, JavaScriptbe vagy naplóba nem kerülhet.
 
+Az admin a `luminails.hu` és `www.luminails.hu` domaineken a meglévő `request-live-site-rebuild` függvényt hívja; TEST-en és localhoston a `request-site-rebuild` függvényt. Mindkét forrás megmarad a TEST repositoryban, ezért a promóció nem törli az éles frissítő forrását. A domainválasztás nem jogosultságellenőrzés: az admin hitelesítése továbbra is szerveroldalon történik. A két függvény nem települ automatikusan az oldal élesítésekor.
+
 A vizuális alapelvek és a CSS-felelősségek rövid forrása a `docs/design-system.md`. A bizonyított hibák, következetlenségek és külön jóváhagyást igénylő ötletek a `docs/visual-audit.md` fájlban vannak. Az új UI-munka előtt mindkettőt át kell nézni.
 
 ## Biztonság
