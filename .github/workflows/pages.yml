@@ -79,6 +79,8 @@ jobs:
           rsync -a \
             --exclude='.git/' \
             --exclude='.github/' \
+            --exclude='.impeccable/' \
+            --exclude='.21st/' \
             --exclude='src/' \
             --exclude='scripts/' \
             --exclude='supabase/' \

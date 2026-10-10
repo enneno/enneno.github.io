@@ -119,7 +119,10 @@ function navigaciosLinkKattintas(event) {
 
     event.preventDefault();
     const menuNyitva = Boolean(document.getElementById('mobil-nav')?.classList.contains('open'));
-    const gordites = () => horgonyhozGordites(horgony);
+    const gordites = () => {
+        if (typeof lumiStudio !== 'undefined' && lumiStudio?.navigate(horgony.url.hash)) return;
+        horgonyhozGordites(horgony);
+    };
 
     if (menuNyitva) {
         document.addEventListener(LUMI_MENU_BEZARVA_ESEMENY, gordites, { once: true });
@@ -185,6 +188,7 @@ function kezdetiHorgonyPontositasaBekotese() {
 }
 
 function aktualisHorgonyPontositasa() {
+    if (typeof lumiStudio !== 'undefined' && lumiStudio?.navigate(window.location.hash, false)) return;
     const horgony = azonosOldaliHorgony({ href: window.location.href });
     if (!horgony) return;
 
@@ -403,6 +407,9 @@ function fejlecAdatokAlkalmazasa(adatok) {
         if (!gyoker) return;
         linkek.forEach(([selector, felirat]) => szovegBeallitasa(selector, felirat, gyoker));
     });
+    if (document.querySelector('.studio-view-tabs')) {
+        szovegBeallitasa('.site-header a[href="/foglalas/"]', 'Időpontfoglalás');
+    }
 }
 
 function galeriaAdatokAlkalmazasa(galeria) {
@@ -505,7 +512,7 @@ function fooldalAdatokAlkalmazasa(fooldal, teljesGaleria) {
     if (heroCim && heroAdatok.cim !== undefined) {
         const cimReszek = String(heroAdatok.cim || '').trim().split(/\s+/).filter(Boolean);
         heroCim.innerHTML = cimReszek.length > 1
-            ? `<span class="hero-title-line">${html(cimReszek.slice(0, -1).join(' '))}</span><span class="hero-title-line">${html(cimReszek.at(-1))}</span>`
+            ? `<span class="hero-title-line">${html(cimReszek.slice(0, -1).join(' '))}</span> <span class="hero-title-line">${html(cimReszek.at(-1))}</span>`
             : `<span class="hero-title-line">${html(cimReszek[0] || '')}</span>`;
     }
     szovegBeallitasa('.hero-copy > p', heroAdatok.leiras);
@@ -572,6 +579,7 @@ function fooldalAdatokAlkalmazasa(fooldal, teljesGaleria) {
     szolgaltatasKartyakRenderelese(fooldal.szolgaltatasok);
     galeriaAtvezetoAlkalmazasa(fooldal.galeriaAtvezeto, teljesGaleria);
     foglalasAtvezetoAlkalmazasa(fooldal.foglalasAtvezeto);
+    if (typeof fooldalStudioTartalomFrissitese === 'function') fooldalStudioTartalomFrissitese();
 }
 
 function vendegertesitoAlkalmazasa(ertesito) {
@@ -855,6 +863,7 @@ function galeriaAtvezetoAlkalmazasa(galeria, teljesGaleria) {
     const atvezetoKepek = kivalasztottElemek.length
         ? kivalasztottElemek.slice(0, 5).map(elem => ({
             src: elem.eloKep || elem.kep,
+            fullSrc: elem.kep,
             alt: elem.kepAlt || 'Lumi Nails köröm munka'
         }))
         : (galeria.kepek || []);
@@ -868,6 +877,7 @@ function galeriaAtvezetoAlkalmazasa(galeria, teljesGaleria) {
         kepek[index].decoding = 'async';
         if (kep.alt) kepek[index].alt = kep.alt;
         if (kep.src) kepek[index].src = kep.src;
+        if (kep.fullSrc || kep.src) kepek[index].dataset.fullSrc = kep.fullSrc || kep.src;
     });
 }
 

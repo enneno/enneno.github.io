@@ -1,6 +1,6 @@
 const metaThemeColor = document.createElement('meta');
 metaThemeColor.name = 'theme-color';
-metaThemeColor.content = '#fdf4e2';
+metaThemeColor.content = '#f6f3ee';
 document.head.appendChild(metaThemeColor);
 
 let galeriaAktualisIndex = 0;
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     idopontokGeneralasa();
     datumMinimumBeallitasa();
     foglalasiUrlapBekotese();
-    fooldalGaleriaLapozasBekotese();
+    fooldalStudioBekotese();
     lebegoFoglalasLetrehozasa();
     lebegoFoglalasFigyeles();
 });
