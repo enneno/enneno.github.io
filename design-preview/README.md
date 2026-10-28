@@ -6,7 +6,7 @@ A felhasználó által kért, egyetlen aktuális publikus kezdőlapi előnézet.
 
 Fejléc menüvel → nagy hero rész → közvetlenül Szofi bemutatkozása → szolgáltatások → munkák → foglalási meghívó → lábléc. A meglévő aktuális vendégértesítő a fejléc alatt megmarad; a hero és bemutatkozás között nincs más szakasz.
 
-A hero a jelenlegi CMS saját széles nyitóképét használja, a valódi névvel és leírással, külön foglalási gombbal. Asztalon a kép teljes szélességű, 420–620px magas; mobilon 16:9, contain megjelenéssel. Nincs fényképre tett szöveg vagy sötétítő réteg. A bemutatkozás saját portréval és a meglévő teljes szöveggel következik.
+A hero a jelenlegi CMS saját széles nyitóképét használja, a valódi névvel és leírással, külön foglalási gombbal. A felhasználó legújabb kérése alapján a kép asztalon és mobilon is teljes szélességű, cover kitöltéssel. A hero a fejléc és értesítő alatti megmaradó képernyőmagasságot tölti ki. A cím, leírás és világos foglalási gomb a képen van, sötét gradiens overlayen. A fejléc tényleges méretét ResizeObserver követi, ezért tördelés vagy betűbetöltés után is igazodik a magasság. A bemutatkozás saját portréval és a meglévő teljes szöveggel következik.
 
 ## Megőrzött tartalom és működés
 

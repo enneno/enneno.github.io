@@ -22,10 +22,12 @@ try {
       await document.fonts.ready;
       await Promise.all([...document.querySelectorAll('img[src]')].map(image => image.decode()));
     });
-    const actual = await page.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth, order: document.querySelector('.hero-opening').nextElementSibling.id, broken: [...document.querySelectorAll('img[src]')].filter(x => !x.naturalWidth).length }));
+    const actual = await page.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth, order: document.querySelector('.hero-opening').nextElementSibling.id, broken: [...document.querySelectorAll('img[src]')].filter(x => !x.naturalWidth).length, heroBottom: document.querySelector('.hero-opening').getBoundingClientRect().bottom, viewportHeight: innerHeight, imageFit: getComputedStyle(document.querySelector('.hero-photo img')).objectFit }));
     assert.ok(actual.scroll <= actual.width, 'Horizontal overflow at ' + width);
     assert.equal(actual.order, 'szofi', 'Introduction must directly follow the hero');
     assert.equal(actual.broken, 0);
+    assert.ok(Math.abs(actual.heroBottom - actual.viewportHeight) <= 2, 'Hero must fill the opening viewport');
+    assert.equal(actual.imageFit, 'cover');
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []);
     assert.equal(await page.locator('.site-head').count(), 1);

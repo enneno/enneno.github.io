@@ -18,3 +18,12 @@ dialog?.addEventListener('click', event => { if (event.target === dialog) dialog
 dialog?.addEventListener('close', () => photoOpener?.focus({ preventScroll: true }));
 
 document.querySelectorAll('.mobile-menu a').forEach(link => link.addEventListener('click', () => { link.closest('details').open = false; }));
+
+const openingChrome = [...document.querySelectorAll('.preview-bar, .site-head, .notice')];
+function sizeHero() {
+  const height = openingChrome.reduce((sum, element) => sum + element.getBoundingClientRect().height, 0);
+  document.documentElement.style.setProperty('--opening-chrome', Math.ceil(height) + 'px');
+}
+sizeHero();
+const openingObserver = new ResizeObserver(sizeHero);
+openingChrome.forEach(element => openingObserver.observe(element));
