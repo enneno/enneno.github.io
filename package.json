@@ -23,7 +23,7 @@
     "verify": "npm run build && npm run assets:version && npm run check && npm test",
     "build:site": "node scripts/build-site.js",
     "serve:dist": "node scripts/static-server.js --dir dist --port 8102",
-    "deploy:test": "wrangler deploy",
+    "deploy:test": "wrangler pages deploy dist --project-name luminails-test",
     "test:architecture": "node --test tests/unit/publication.test.mjs tests/unit/publication-sql.test.mjs tests/unit/site-build.test.mjs"
   },
   "license": "UNLICENSED",

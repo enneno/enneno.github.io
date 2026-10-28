@@ -21,7 +21,7 @@ test('publication SQL: private claims, atomic CMS save, stale-editor rejection a
       grant usage on schema public to authenticated, anon, service_role;
       grant select, insert, update on public.site_settings, public.services to authenticated;
     `);
-    await db.exec(fs.readFileSync(new URL('../../supabase/migrations/20261028132648_static_publication.sql', import.meta.url), 'utf8'));
+    await db.exec(fs.readFileSync(new URL('../../supabase/migrations/20261028160120_static_publication.sql', import.meta.url), 'utf8'));
     const hash = 'a'.repeat(64);
     await db.exec('set role anon');
     await assert.rejects(db.query('select public.lumi_claim_publication($1,$2)', ['test', hash]), /permission denied/);

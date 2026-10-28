@@ -1,97 +1,52 @@
 # LumiNails: statikus Cloudflare-kiadás és élő Supabase
 
-Ez az új TEST-kiadási mód irányadó leírása. Az éles Cloudflare Pages projekt átállítása és a Supabase-migráció telepítése még külön aktiválási lépés; a helyi kódváltoztatás önmagában nem végzi el ezeket.
+## A működés és a kiadás
 
-## A folyamat
+1. Fejlesztés és a kockázathoz igazított helyi ellenőrzés a TEST-ben.
+2. A kész commit az enneno/enneno.github.io main ágára kerül. GitHubon nem fut teszt vagy audit.
+3. A Cloudflare Pages Git-integráció az npm run build:site paranccsal készíti el a dist csomagot. A TEST címe https://luminails-test.pages.dev.
+4. Az élesítés csak külön jóváhagyással történik: a tényleges TEST deployment.json által igazolt commit alkalmazásfájljai kerülnek az enneno/LumiNails-Live main ágára. A LIVE CNAME megmarad; a korábbi GitHub Pages workflow-k megszűnnek. Az éles Cloudflare Pages projekt neve luminails, a domain https://luminails.hu marad.
+5. A Pages statikus fájlokat szolgál ki; saját Worker-script, SSR és KV nem kell. A meglévő Pages hosztingot megtartjuk, ezért DNS- vagy domainköltözés sem kell.
+6. Az admin nyilvános tartalommentése Supabase-ben történik. Az Edge Function minden híváskor ellenőrzi a belépést és az aktuális is_lumi_admin jogosultságot, összeveti a tartalom ujjlenyomatát a ténylegesen kiszolgált kiadással, és szükség esetén meghívja a szerveroldali Deploy Hookot.
+7. A mentés és a nyilvános megjelenés külön állapot. A megjelenést a deployment.json környezete, eredete és contentHash értéke igazolja. A build elindítása önmagában nem jelent megjelenést. Sikertelen buildnél az előző működő kiadás marad kiszolgálva.
 
-1. Fejlesztés és helyi ellenőrzés a TEST-ben.
-2. Az ellenőrzött commit a TEST GitHub-repositoryba kerül.
-3. Cloudflare Workers Builds: `npm run build:site`, majd `npm run deploy:test`.
-4. Az `assets` konfiguráció a `dist` fájljait szolgálja ki, saját Worker-script, SSR és KV nélkül.
-5. Az admin nyilvános tartalommentése Supabase-ben történik. A szerveroldali Edge Function ellenőrzi a felhasználót és az aktuális `is_lumi_admin` jogot, összeveti a tartalmi ujjlenyomatot a tényleges publikus kiadással, és csak szükség esetén hívja a titkos Cloudflare Deploy Hookot.
-6. Az admin külön jelzi a mentést és a megjelenést. A megjelenés bizonyítéka a tényleges webhely `/deployment.json` fájljának egyező környezete, eredete és tartalmi hash-e, nem a buildindítás elfogadása.
+## Fájlok, cache és élő adatok
 
-A régi TEST GitHub Pages workflow megszűnik: nem indít párhuzamos, másik hosztingra irányuló kiadást. GitHubon nem fut teszt vagy audit. Az éles repository meglévő workflow-jait ez a TEST-változtatás nem módosítja.
+A scripts/public-files.js az egyetlen publikus fájllista. A dist csak az engedélyezett HTML-t, böngészős CSS/JS-t, képeket, manifestet, robots.txt-t, sitemapet, adatokat és Cloudflare _headers fájlt tartalmazza. SQL, Edge Function, teszt, dokumentáció, npm-eszköz és helyi mentés nem kerül a kiadásba.
 
-## Mi kerül a kiadásba?
+A HTML és az adatok.json ugyanabból a nyilvános pillanatképből készül. Vendégadat, foglalás és e-mail-sablon nem része a JSON-nak. A fő CSS/JS fájlok tartalmi hash-t és hosszú immutable cache-t kapnak; a HTML, az állandó nevű JSON és a service worker frissességét újraellenőrzi a kliens. Az admin PWA nagyítási tilalma megmarad.
 
-A `scripts/public-files.js` az egyetlen publikus fájllista. A `dist` csak az engedélyezett HTML-t, böngészős CSS/JS-t, képeket, manifestet, robots.txt-t, sitemapet, `adatok.json`-t, `deployment.json`-t és Cloudflare `_headers` fájlt tartalmazza. SQL, szerveroldali kód, `src`, teszt, npm-fájl, dokumentáció és helyi mentés nem kerül bele.
+A foglalható időpontok, kuponok, belépés, profilok, foglalások és e-mailküldés élő Supabase-műveletek maradnak. A végleges foglalást továbbra is az adatbázis ellenőrzi. A statikus JSON hibájánál nincs publikálatlan tartalmat megjelenítő Supabase-fallback. Az azonos párhuzamos lekérések összevonódnak; az admin felület csak a megnyitott panel adatait tölti be, a stabil szerkesztőadatokat munkameneten belül őrzi.
 
-A HTML és a JSON ugyanabból a nyilvános pillanatképből készül. Az e-mail-sablonok, vendégadatok és foglalások nem részei a JSON-nak. A fő CSS/JS fájlok tartalmi hash-t kapnak a fájlnévben és hosszú immutable cache-t; a változó HTML/JSON és a service worker frissességét ellenőrizni kell. A service worker működése és az admin PWA nagyítási tilalma változatlan.
+## Cloudflare konfiguráció
 
-A foglalható dátumok/időpontok, kuponérvényesítés, belépés, profilok, foglalások és e-mailküldés továbbra is élő Supabase-műveletek. Az időérzékeny főoldali kuponajánlatok is élő lekérést használnak. A ritkán változó oldal- és árlistatartalom a statikus JSON-ból érkezik; nincs Supabase-fallback, amely publikálatlan tartalmat tenne láthatóvá egy sikertelen build után.
+Mindkét Pages projekt Git-alapú buildet használ: npm run build:site, dist kimenet, / gyökér, NODE_VERSION=24. A TEST változói: LUMI_DEPLOY_ENV=test és LUMI_SITE_ORIGIN=https://luminails-test.pages.dev. A LIVE változói: LUMI_DEPLOY_ENV=live és LUMI_SITE_ORIGIN=https://luminails.hu. A TEST robots és HTML noindex védelemmel készül.
 
-## Cloudflare TEST beállítása
+A deploy:test parancs a kész helyi dist manuális Pages-feltöltésére szolgál; a normál kiadási út a Git-integráció. Helyi build kizárólag a megfelelő TEST/localhost eredettel indítható. A build nyilvános Supabase-adatokat olvas, adatbázist nem ír.
 
-- Worker neve: a `wrangler.jsonc` szerinti `luminails-test`.
-- Git-forrás: a saját TEST repository `main` ága.
-- Build command: `npm run build:site`.
-- Deploy command: `npm run deploy:test`.
-- A runtime nem igényel bindingot vagy titkot.
-- Build változók: `LUMI_DEPLOY_ENV=test`, `LUMI_SITE_ORIGIN` = a tényleges TEST HTTPS-eredet, záró perjel és útvonal nélkül.
-- Hozz létre az adott TEST ághoz kötött Cloudflare Build Deploy Hookot. Az URL titok, csak Supabase Secretként tárolható.
+A Cloudflare Deploy Hook URL-je titok. Nem kerül Gitbe, böngészőbe vagy alkalmazásnaplóba. A TEST és LIVE külön hookot és külön publikációs zárolást kap.
 
-Helyi kiadási előnézet PowerShellben:
+## Supabase és tartalommegőrzés
 
-```powershell
-$env:LUMI_DEPLOY_ENV='test'
-$env:LUMI_SITE_ORIGIN='http://127.0.0.1:8102'
-npm run build:site
-npm run test:architecture
-npm run serve:dist
-```
+A közös Supabase projekt: htbpzvmlegapaphsipax. Külön TEST-adatbázis nincs: a TEST és LIVE adatkezelése nem izolált. Más projekt adatát, titkát és környezeti azonosítóját nem használjuk.
 
-A `build:site` nyilvános Supabase-adatokat olvas, adatbázist nem módosít. Helyi és TEST build nem célozhatja az éles domaint. A helyi előnézet kiadási manifestjének localhost eredetét éles buildben nem szabad használni.
+A külön jóváhagyott 20261028160120_static_publication.sql migráció telepítve. Új privát publikációs állapotot, mentési RPC-ket és a services.editor_version technikai mezőt hozta létre. A szolgáltatások, site_settings, foglalások, tiltott időpontok, ügyfélprofilok, kuponok és elérhetőségi ablakok darabszáma és teljes üzleti tartalmuk ellenőrzőösszege a migráció előtt és után egyezett. A felhasználók száma is változatlan.
 
-## Supabase aktiválás
+A CMS két beállításrekordja egy tranzakcióban mentődik; elavult szerkesztőváltozat 40001 ütközést ad. Az árlista mentése tranzakciós és sorverzióval védett. Valós adminjoggal, tranzakción belül kipróbáltuk a meglévő tartalom változatlan visszamentését; a verziók változatlanok maradtak, a tranzakció végén rollback történt. Nem hoztunk létre próbaadatot vagy próbafoglalást.
 
-Az új végpontok neve szándékosan különbözik a korábbi `request-site-rebuild` és `request-live-site-rebuild` nevektől. Így egy új kliens állapotlekérdezése nem indíthat buildet a régi, `status` műveletet még nem ismerő szerveren. A régi végpontok forrása változatlan; kivezetésük az éles átállás része.
+A publish-site-content és publish-live-site-content Edge Function aktív, JWT-védelemmel. A helyes TEST/LIVE webcímek, Deploy Hookok és engedélyezett eredetek szerveroldali Supabase Secretként beállítva. A service-role kulcs csak szerveroldalon szerepel. A meglévő hitelesítési, tulajdonosi és adminjogok megmaradtak. A private séma régi belső tábláihoz sem anon, sem authenticated sémahozzáférés vagy táblajog nincs; a hiányzó RLS-re adott általános tanácsadói jelzés önmagában nem bizonyít publikálást.
 
-Előbb azonosítani kell a megfelelő adatbázis-környezetet. Jelenleg a TEST és LIVE ugyanazt a projektet használja; ez nem adatizoláció. A közös adatbázis migrációja az éles rendszert is érinti, ezért külön jóváhagyás és működő hozzáférés szükséges. Más projekt adatait, titkait és környezeti azonosítóit nem szabad átmásolni.
+Az új végpontok külön nevet kaptak, ezért régi kód nem kezeli félre az új állapotlekérdezést. A 15 perces, környezetenkénti zárolás és a tartalom hash-e visszafogja a párhuzamos és változatlan buildindításokat. Külső HTTP-hívás pontosan egyszeri végrehajtása hálózati megszakadásnál nem garantálható.
 
-1. Alkalmazandó migráció: `supabase/migrations/20261028132648_static_publication.sql`.
-2. TEST Edge Function: `publish-site-content`; a `_shared` fájlokkal együtt telepítendő.
-3. Szerveroldali Secret: `LUMI_TEST_SITE_URL` = a buildben használt HTTPS-eredet; `CLOUDFLARE_TEST_DEPLOY_HOOK` = az adott TEST build hookja.
-4. A Supabase biztosítja a `SUPABASE_URL`, `SUPABASE_ANON_KEY` és `SUPABASE_SERVICE_ROLE_KEY` környezeti változókat. A service-role kulcs csak az Edge Functionben használható.
-5. Opcionális `LUMI_PUBLICATION_ALLOWED_ORIGINS`: további, kifejezetten engedélyezett admin-eredetek vesszővel elválasztva. Az átállás alatt a korábbi TEST admin eredete is engedélyezhető. A domainválasztás nem helyettesíti a szerveroldali jogosultságellenőrzést.
-6. Az első sikeres Cloudflare build után ellenőrizni kell a tényleges `deployment.json`-t, majd egy visszaolvasott adminmentést és annak nyilvános megjelenését.
+## Naplók és ellenőrzés
 
-A CMS két beállításrekordja egy tranzakcióban mentődik; a régi szerkesztőváltozat mentése `40001` ütközést ad. Az árlista teljes mentése szintén tranzakciós, a sorok `editor_version` értékével védett. A migráció nélküli új mentés hibával leáll, nem esik vissza részleges írásokra.
+A sikeres foglalás részletes konzolnaplói a helyi forrásból kikerültek; a hibajelzés és booking_events audit megmarad. Mindkét meglévő foglalási/e-mail Edge Function tényleges távoli forrását összevetettük: a kiadás a távoli változathoz képest csak a sikeres műveletek részletes konzolnaplóit törli. A send-booking-email helyi forrásának nagyobb formai diffje az éles, formázott forrás átvételéből ered; annak meglévő viselkedése megmarad. A platform naplókeletkezése, naplólekérdezése és adatforgalma külön kérdés. Platformnaplókat nem olvastunk, megőrzést és adatbázis/Realtimelog-beállítást nem kapcsoltunk ki látatlanban.
 
-A privát közzétételi tábla környezetenként külön indítási zárolást használ. Azonos tartalomhoz 15 percig nem indít újra buildet. Elutasított hooknál a zár felszabadul. A külső HTTP-hívás pontosan egyszeri végrehajtása hálózati megszakadásnál nem garantálható; a zár és az ujjlenyomat az ismétlődéseket korlátozza.
+A helyi ellenőrzések: npm run check; nyolc architektúra/SQL/Edge teszt; két kész dist böngészős eset; tizenkét publikációs klienseset; hat célzott admineset; célzott vendégfiók-, navigációs és JavaScript nélküli tartalomellenőrzések; git diff --check. A böngészős tesztek helyi mockokkal futottak. A migráció fájlnevének távoli verzióhoz igazítása után a célzott SQL-teszt ismét sikeres.
 
-## Éles átállás, külön jóváhagyás után
+Két korábbi, tágabb böngészős teszt elavult elvárás miatt hibázott: customer-account.spec.js:128 a baseline HTML-ben sem létező .hero-primary elemet keresi; studio-navigation.spec.js:127 a baseline sorrendtől eltérő sorrendet vár. Ezeket nem számoljuk sikeres tesztnek. Megjelenés és forrás-CSS nem változott.
 
-Az éles helyi példány útvonalát ismét read-only módon kell azonosítani; a LIVE repository és Cloudflare-beállítások most változatlanok. Az éles átálláshoz az ellenőrzött TEST commit, külön LIVE build/deploy cél, `LUMI_DEPLOY_ENV=live`, `LUMI_SITE_ORIGIN=https://luminails.hu`, `LUMI_LIVE_SITE_URL` és `CLOUDFLARE_LIVE_DEPLOY_HOOK` szükséges. A `publish-live-site-content` előkészített forrás, telepítése nem része automatikusan a TEST munkának.
-
-Át kell irányítani a tényleges domaint az új, ellenőrzött statikus kiadásra, és ki kell kapcsolni a régi, GitHub Pagesre irányuló LIVE kiadási útvonalat. A korábbi működő kiadást meg kell őrizni visszaállításhoz. A build hiba esetén nem publikálhat részleges csomagot.
-
-## Naplózás és ellenőrzési korlátok
-
-Az alkalmazáskódból kikerültek a sikeres foglalások részletes konzolnaplói. A hibajelzés és az üzleti `booking_events` audit megmarad. A Supabase Postgres/Realtimelog-beállításai és megőrzési szabályai külön platformbeállítások; ezeket nem szabad látatlanban kikapcsolni. A napló keletkezése, lekérdezése és az alkalmazás adatforgalma külön mérendő.
-
-A helyi PostgreSQL teszt a migráció jogosultságait, tranzakcióit és stale-editor védelmét ellenőrzi; nem bizonyítja a távoli Supabase telepítését vagy a több adatbázis-kapcsolat közti éles ütközéskezelést. A helyi Edge Function tesztek kontrollált HTTP-válaszokkal futnak, valódi buildet és foglalást nem indítanak.
-
-## Helyi ellenőrzés – 2026. október 28.
-
-Állapot: a TEST-kód és a helyi kiadási csomag elkészült. Nem történt commit, push, Cloudflare-telepítés, Supabase-migráció vagy Edge Function-telepítés. A közös Supabase csak nyilvános, anonim REST-lekérésekkel volt olvasva; tartalom és foglalás nem változott. Az éles helyi projekt, a LIVE GitHub-repository és az éles webhely változatlan.
-
-- `npm run build:site`: 12 kész HTML-oldal, 19 aktív árlistatétel, 132 kiadási fájl.
-- Wrangler `deploy --dry-run`: sikeres, nincs runtime binding; nem történt feltöltés.
-- `npm run test:architecture`: 8/8 sikeres, valódi helyi PGlite PostgreSQL-motorral és kontrollált Edge HTTP-válaszokkal.
-- `npm run check`: sikeres statikus ellenőrzés, generált bundle-ellenőrzés, publikus/admin CSS-felelősség és Stylelint. Forrás-CSS nem változott.
-- Kész `dist` böngészős ellenőrzése: 2/2 sikeres; egy közös statikus JSON-kérés, hash-elt dinamikus CSS, nincs `services`/`site_settings` böngészős tartalomolvasás, kieső JSON mellett megmaradó HTML, nem publikus SQL/forráskód.
-- Közzétételi kliens: 12/12 sikeres; környezetválasztás, bejelentkezés hiánya, hálózati hiba, valódi manifest-egyezés, külön mentések soros kezelése és azonos státuszlekérések összevonása.
-- Admin: 6/6 célzott eset sikeres, a mobilos teszt látható kezelőszervekre javítása után. Lusta betöltés, szerkesztések megőrzése, ütközés, mentés/visszaolvasás, külön publikációs állapot, dashboard, kézi időpont, árkalkulátor és mobilos szerkesztő. A képernyőkép 390 px szélességen vizuálisan is ellenőrizve.
-- Vendégfiók: regisztráció/megerősítés, jelszó-visszaállítás, saját profil/előzmények, lemondás, foglalási előkitöltés és mobilos nézet célzott tesztjei sikeresek. A tesztek helyi mockokat írnak, nem a közös adatbázist.
-- Navigáció és JavaScript nélküli publikus tartalom: a kapcsolódó célzott ellenőrzések sikeresek.
-- `git diff --check`: sikeres. A meglévő HTML-sablonok látható szövege változatlan; csak eszközverziók frissültek. A `dist` a Supabase-ben már mentett nyilvános tartalmat rendereli.
-
-A korábbi, tágabb böngészős körben két meglévő teszt elavult elvárás miatt hibázott: `customer-account.spec.js:128` a kiinduló HTML-ben sem létező `.hero-primary` elemet keresi; `studio-navigation.spec.js:127` a kiinduló HTML sorrendjétől eltérő szolgáltatások/bemutatkozás sorrendet vár. A baseline Git-tartalma igazolja mindkettőt; ehhez a munkához nem módosult a megjelenésük vagy a forrás-CSS. Ezeket nem számoljuk sikeres tesztnek.
-
-A távoli Supabase RLS- és naplóbeállítások, a tényleges Cloudflare Build/Deploy Hook és a teljes mentés → nyilvános megjelenés folyamat felhős ellenőrzése hátravan. Nincs külön Supabase TEST projekt, és a felhasználó csak olvasást engedélyezett a közös adatbázison. A migráció nélkül az új CMS/árlista-mentés leáll; ezért a jelenlegi csomag még nem kiadható teljesen működő átállásként. Deno/platformszintű Edge Function-telepítési ellenőrzés sem történt.
-
-A korábbi fejlesztői függőségek npm-audit jelzései változatlan verziókon maradtak; a módosítás nem frissítette őket és nem vezette be ezeket a jelzéseket. A csomagolt webhely nem tartalmaz npm-eszközöket vagy `node_modules`-t.
+A felhős TEST build sikeres és a tényleges deployment.json igazolja a commitot és a tartalom hash-ét. A végleges kiadási azonosítókat és az élesítés eredményét a helyi kiadási jegyzőkönyv rögzíti. A teljes, belépett admin böngészős mentés–új build–megjelenés kört meglévő tartalom átírása nélkül nem futtattuk végig; a mentési RPC-t a valódi adatbázisban változtatás nélkül ellenőriztük, a kliens és Edge folyamatot célzott helyi tesztek fedik.
 
 ## Pontos helyi fájlkör
 
@@ -151,11 +106,11 @@ Az alábbi lista a munkafában látható, ehhez a megvalósításhoz tartozó f�
 - `supabase/functions/publish-live-site-content/index.ts`
 - `supabase/functions/publish-site-content/index.ts`
 - `supabase/functions/send-booking-email/index.ts`
-- `supabase/migrations/20261028132648_static_publication.sql`
+- `supabase/migrations/20261028160120_static_publication.sql`
 - `tests/admin-production-redesign.spec.js`
 - `tests/admin-public-html-refresh.spec.js`
 - `tests/static-publication.spec.js`
 - `tests/unit/publication-sql.test.mjs`
 - `tests/unit/publication.test.mjs`
 - `tests/unit/site-build.test.mjs`
-- `wrangler.jsonc`
+- `wrangler.jsonc` (törölt Worker-konfiguráció)
