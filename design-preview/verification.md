@@ -46,3 +46,13 @@ Módosított meglévő fájl: package.json, csak ezen a külön preview ágon a 
 - design-preview/preview.js
 - design-preview/serve.mjs
 - design-preview/verification.md
+
+## Új ellenőrzés: mindig látható fejléc és színek
+
+- Célzott check-colors.mjs: 320/390/768/1440px-en nincs túlcsordulás vagy JavaScript-hiba. A fejléc a lap aljáig látható, a menü horgonyai a fejléc alatt maradnak, a nyitó hero továbbra is kitölti a fennmaradó képernyőt.
+- Mindhárom paletta működik; az árlistára lépés megtartja a választást. Látható pipa és aria-pressed állapot jelöli a kijelölt gombot.
+- Tényleges számított kontraszt: szöveg ≥11,37:1; elsődleges gomb/lábléc ≥6,28:1; színes cím a tónusos bemutatkozás hátterén ≥5,12:1. Ezek a vizsgált színpárok, nem teljes WCAG-tanúsítás.
+- A jelölő pipa frissítése után csak a 320/390/1440 tördelést és az érintett képernyőképeket ellenőriztük újra.
+- CSS-lint és a külön előnézeti CSS lintje sikeres. Új egyszeri detektor: padding-block jelzések kézi ellenőrzéssel megfelelőek; a színeltérési jelzések a gyökér kanonikus DESIGN.md és az engedélyezett, kizárólag preview színkísérlet különbségét jelölik. A gyökérdokumentumot nem módosítottuk és a jelzéseket nem tiltottuk le.
+- Képek és gépi jegyzőkönyv: .impeccable/review/sticky-colors-20261028. Új forrásfájl: design-preview/check-colors.mjs.
+- Módosított források ebben a körben: design-preview/build.mjs, preview.css, preview.js, README.md, DESIGN.md, design.json, verification.md. A korábbi független review a hero előző állapotára vonatkozik; a mostani szűkített szín- és sticky ellenőrzés a fenti helyi bizonyíték.

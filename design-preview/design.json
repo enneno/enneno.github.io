@@ -1,44 +1,50 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-28T17:50:40Z",
+  "generatedAt": "2026-10-28T18:28:05Z",
   "title": "Design System: Lumi Nails — hero és bemutatkozás",
   "extensions": {
     "colorMeta": {
-      "ivory": {
+      "canvas": {
         "role": "neutral",
-        "displayName": "Elefántcsont",
+        "displayName": "Világos alap",
         "source": "--ui-bg",
-        "purpose": "Oldalháttér, hero-szöveg, hero-gomb háttere és az általános elsődleges gomb felirata."
+        "purpose": "Oldal- és fejléc-háttér, valamint hero-szöveg."
       },
-      "soft-taupe": {
+      "soft": {
         "role": "neutral",
-        "displayName": "Világos taupe",
+        "displayName": "Tónusos felület",
         "source": "--ui-soft",
-        "purpose": "Értesítő, lábléc, képháttér és hover."
-      },
-      "taupe": {
-        "role": "neutral",
-        "displayName": "Taupe",
-        "source": "--ui-taupe",
-        "purpose": "Megőrzött márkaszín; jelenleg nincs komponenshez rendelve."
-      },
-      "clay": {
-        "role": "neutral",
-        "displayName": "Agyag",
-        "source": "--ui-clay",
-        "purpose": "Deklarált márkaszín; jelenleg nincs komponenshez rendelve."
+        "purpose": "Értesítő, bemutatkozósáv, képhely és kijelölt palettagomb."
       },
       "ink": {
-        "role": "primary",
-        "displayName": "Sötét meleg szürke",
+        "role": "neutral",
+        "displayName": "Sötét törzsszöveg",
         "source": "--ui-ink",
-        "purpose": "Világos felületek szövege, általános elsődleges akció, hero-gomb felirata és hero alapja."
+        "purpose": "Törzsszöveg a világos felületeken; hero alapja."
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Kísérleti hangsúlyszín",
+        "source": "--ui-accent",
+        "purpose": "Akciók, szakaszcímek, fejlécbeli szóvédjegy és lábléc."
+      },
+      "accent-strong": {
+        "role": "primary",
+        "displayName": "Erős hangsúly",
+        "source": "--ui-accent-strong",
+        "purpose": "Elsődleges akció hover háttere és kerete."
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "Világos felirat",
+        "source": "--ui-on-accent",
+        "purpose": "Színes gombok és lábléc szövege; palettapipa."
       },
       "line": {
         "role": "neutral",
         "displayName": "Áttetsző elválasztó",
         "source": "--ui-line",
-        "purpose": "Finom szakasz- és komponenshatárok."
+        "purpose": "Palettához igazodó finom keretek."
       }
     },
     "typographyMeta": {
@@ -94,7 +100,7 @@
         "../adatok.json"
       ],
       "canonicalDesignSystem": false,
-      "requestedComposition": "Külön fejléc menüvel → teljes képernyős hero a képre helyezett címmel és foglalási gombbal → közvetlenül Szofi bemutatkozása → szolgáltatások → munkák → foglalási meghívó → lábléc.",
+      "requestedComposition": "Külön sticky fejléc menüvel → teljes képernyős hero a képre helyezett címmel és foglalási gombbal → közvetlenül tónusos Szofi-bemutatkozósáv → szolgáltatások → munkák → foglalási meghívó → lábléc.",
       "noticePosition": "A fejléc alatt, a főtartalom és hero előtt.",
       "imageCompApproved": false,
       "homePath": "/",
@@ -108,8 +114,8 @@
         "overlay": true,
         "mobileGradient": "linear-gradient(0deg, rgb(23 20 18 / 86%), rgb(23 20 18 / 68%) 65%, rgb(23 20 18 / 40%))",
         "desktopGradient": "linear-gradient(90deg, rgb(23 20 18 / 84%), rgb(23 20 18 / 68%) 65%, rgb(23 20 18 / 35%))",
-        "text": "Ivory cím és törzsszöveg.",
-        "action": "Ivory háttér és keret, ink felirat; hoverkor soft-taupe háttér és keret, ivory fókuszgyűrű."
+        "text": "A választott paletta világos canvas színe a címen és törzsszövegen.",
+        "action": "Közös elsődleges akció: accent háttér és on-accent felirat; accent-strong hover, canvas fókuszgyűrű."
       },
       "sharedRoutes": [
         "/arlista/",
@@ -121,38 +127,90 @@
       "backendCalls": false,
       "liveReleaseAuthorizedByPreview": false,
       "review": {
-        "disposition": "SHIP FOR PREVIEW",
-        "materialFindings": 0,
-        "evidence": "../.impeccable/review/fullscreen-hero-20261028/",
+        "disposition": "Targeted checks passed",
+        "independentReviewForStickyColors": false,
+        "evidence": "../.impeccable/review/sticky-colors-20261028/",
         "widths": [
           320,
           390,
           768,
           1440
         ],
-        "captureWidths": [
-          390,
-          1440
-        ],
         "checks": [
-          "Teljes képernyős hero-geometria 320/390/768/1440px-en.",
-          "Vízszintes túlcsordulás hiánya mind a négy szélességen."
+          "Sticky fejléc a láblécnél is látható.",
+          "Horgonycélok a fejléc alatt láthatók.",
+          "Mindhárom paletta működik és az árlistára átvihető.",
+          "Nincs vízszintes túlcsordulás vagy szkripthiba."
         ],
-        "detectorNotes": "A cream-palette szándékos márkamegőrzés; a padding-jelzéseket a forrás térközei nem igazolták.",
+        "contrastMinimums": {
+          "body": 11.37,
+          "actionAndFooter": 6.28,
+          "accentHeadingOnSoft": 5.12
+        },
+        "earlierEvidence": [
+          "../.impeccable/review/fullscreen-hero-20261028/",
+          "../.impeccable/review/hero-about-20261028/"
+        ],
+        "earlierChecks": "A változatlan hero-geometria, képnagyító, 19 ár és privát/elutasított URL-ek 404-viselkedése korábban ellenőrzött.",
+        "dispositionScope": "A korábbi SHIP FOR PREVIEW történeti eredmény; nem az új színek független jóváhagyása.",
         "limitations": [
-          "Helyi Chromium és szélességemuláció.",
+          "Helyi böngésző és szélességemuláció.",
+          "Nincs új független finish review ehhez a szűk változtatáshoz.",
           "Nincs fizikai iOS/Android ellenőrzés.",
           "Nincs éles foglalási próba.",
           "Nincs teljes akadálymentességi tanúsítás."
-        ],
-        "priorEvidence": "../.impeccable/review/hero-about-20261028/",
-        "priorChecksStillValid": [
-          "Mobil menü, nagyítás, Escape, fókusz-visszaadás.",
-          "Mind a 19 szolgáltatásnév és ár.",
-          "Privát és elutasított útvonalak 404-válasza."
-        ],
-        "dispositionScope": "Az előző független finish review SHIP FOR PREVIEW eredménye; a legújabb célzott kör a hero geometriáját ellenőrizte."
-      }
+        ]
+      },
+      "stickyHeader": {
+        "position": "sticky",
+        "top": "0",
+        "zIndex": 50,
+        "background": "Tömör, a választott canvas színével.",
+        "measurement": "A meglévő ResizeObserver a fejléc mért magasságát az --sticky-header-height értékbe írja.",
+        "anchorPadding": "calc(var(--sticky-header-height, 106px) + 24px)",
+        "paletteBar": "A preview-sáv a fejléc előtt marad; 640px alatt a palettaválasztó saját sorba törik."
+      },
+      "aboutBand": "A #szofi a teljes szélességű, soft hátterű .about-band elemre mutat, benne .about.section tartalommal; közvetlenül a hero után."
+    },
+    "palettes": {
+      "experimental": true,
+      "canonicalRebrand": false,
+      "default": "malyva",
+      "sharedOnAccent": "#fffaf7",
+      "sets": [
+        {
+          "id": "malyva",
+          "name": "Mályva",
+          "accent": "#873b59",
+          "accentStrong": "#65283f",
+          "canvas": "#fff8f7",
+          "soft": "#f5e1e8",
+          "ink": "#392630",
+          "line": "rgb(85 34 52 / 22%)"
+        },
+        {
+          "id": "terrakotta",
+          "name": "Terrakotta",
+          "accent": "#96452f",
+          "accentStrong": "#74321f",
+          "canvas": "#fff8f0",
+          "soft": "#f4dfd2",
+          "ink": "#3c2920",
+          "line": "rgb(98 49 29 / 22%)"
+        },
+        {
+          "id": "zsalya",
+          "name": "Zsálya",
+          "accent": "#3c6655",
+          "accentStrong": "#294d3e",
+          "canvas": "#f8fbf5",
+          "soft": "#e1ecdf",
+          "ink": "#243c32",
+          "line": "rgb(36 60 50 / 22%)"
+        }
+      ],
+      "state": "A szin query elsőbbséget kap, utána lumi-preview-palette sessionStorage, végül malyva az alap. A belső linkek átviszik a színt az árlistára is.",
+      "controls": "Natív aria-pressed gombok, accent keret, soft háttér és látható pipa az aktív választásnál. Tárolás nélkül a query-alapú működés megmarad."
     }
   },
   "components": [
@@ -160,9 +218,9 @@
       "name": "Elsődleges akció",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Foglalási link; legalább 50px magas.",
+      "description": "Közös accent foglalási akció a herón is; legalább 50px magas.",
       "html": "<a class=\"ds-action\" href=\"#foglalas\">Időpontot foglalok<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></a>",
-      "css": ".ds-action{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:50px;padding:13px 20px;border:1px solid var(--ui-ink,#3e3935);border-radius:var(--control-radius,8px);color:var(--ui-bg,#f6f3ee);background:var(--ui-ink,#3e3935);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;line-height:1.4;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-action:hover{color:var(--ui-ink,#3e3935);background:var(--ui-soft,#e2d9d0)}.ds-action:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}.ds-action svg{flex:none}@media(prefers-reduced-motion:reduce){.ds-action{transition:none}}"
+      "css": ".ds-action{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:50px;padding:13px 20px;border:1px solid var(--ui-accent,#873b59);border-radius:var(--control-radius,8px);color:var(--ui-on-accent,#fffaf7);background:var(--ui-accent,#873b59);font-family:\"DM Sans\",sans-serif;font-size:14px;font-weight:500;line-height:1.4;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-action:hover{color:var(--ui-on-accent,#fffaf7);background:var(--ui-accent-strong,#65283f);border-color:var(--ui-accent-strong,#65283f)}.ds-action:focus-visible{outline:2px solid var(--ui-accent,#873b59);outline-offset:5px}.ds-action svg{flex:none}@media(prefers-reduced-motion:reduce){.ds-action{transition:none}}"
     },
     {
       "name": "Másodlagos akció",
@@ -170,36 +228,35 @@
       "refersTo": "button-secondary",
       "description": "Teljes árlistához vagy galériához vezető keretes link.",
       "html": "<a class=\"ds-secondary\" href=\"#arlista\">Teljes árlista<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></a>",
-      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:50px;padding:13px 20px;border:1px solid var(--ui-ink,#3e3935);border-radius:var(--control-radius,8px);color:var(--ui-ink,#3e3935);background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;line-height:1.4;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-secondary:hover{background:var(--ui-soft,#e2d9d0)}.ds-secondary:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}.ds-secondary svg{flex:none}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:50px;padding:13px 20px;border:1px solid var(--ui-accent,#873b59);border-radius:var(--control-radius,8px);color:var(--ui-accent,#873b59);background:transparent;font-family:\"DM Sans\",sans-serif;font-size:14px;font-weight:500;line-height:1.4;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-secondary:hover{color:var(--ui-accent,#873b59);background:var(--ui-soft,#f5e1e8);border-color:var(--ui-accent,#873b59)}.ds-secondary:focus-visible{outline:2px solid var(--ui-accent,#873b59);outline-offset:5px}.ds-secondary svg{flex:none}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
     },
     {
       "name": "Asztali navigáció",
       "kind": "nav",
-      "description": "900px-től megjelenő navigáció vizuális mintája.",
+      "description": "900px-től megjelenő navigáció a végig látható sticky fejlécben.",
       "html": "<nav class=\"ds-nav\" aria-label=\"Fő navigáció\"><a href=\"#szofi\">Szofi</a><a href=\"#szolgaltatasok\">Szolgáltatások</a><a href=\"#arlista\">Árlista</a><a href=\"#munkak\">Munkák</a></nav>",
-      "css": ".ds-nav{display:flex;align-items:center;gap:28px;color:var(--ui-ink,#3e3935);font-family:'DM Sans',sans-serif;font-size:14px}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:none;text-underline-offset:5px}.ds-nav a:hover{text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}"
+      "css": ".ds-nav{display:flex;align-items:center;gap:28px;color:var(--ui-ink,#392630);font-family:\"DM Sans\",sans-serif;font-size:14px}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:none;text-underline-offset:5px}.ds-nav a:hover{text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid var(--ui-accent,#873b59);outline-offset:5px}"
     },
     {
-      "name": "Hero foglalásgomb",
+      "name": "Palettaválasztó gomb",
       "kind": "button",
-      "refersTo": "button-hero",
-      "description": "A sötétített nyitóképen megjelenő világos foglalási akció.",
-      "html": "<a class=\"ds-hero-action\" href=\"#foglalas\">Időpontot foglalok<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></a>",
-      "css": ".ds-hero-action{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:50px;padding:13px 20px;border:1px solid var(--ui-bg,#f6f3ee);border-radius:var(--control-radius,8px);color:var(--ui-ink,#3e3935);background:var(--ui-bg,#f6f3ee);font-family:\"DM Sans\",sans-serif;font-size:14px;font-weight:500;line-height:1.4;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-hero-action:hover{background:var(--ui-soft,#e2d9d0);border-color:var(--ui-soft,#e2d9d0)}.ds-hero-action:focus-visible{outline:2px solid var(--ui-bg,#f6f3ee);outline-offset:5px}.ds-hero-action svg{flex:none}@media(prefers-reduced-motion:reduce){.ds-hero-action{transition:none}}"
+      "description": "Kijelölt Mályva színpróba; a működő oldal három gombjának állapotát a preview.js szinkronizálja.",
+      "html": "<button class=\"ds-palette-choice\" type=\"button\" aria-pressed=\"true\"><span class=\"ds-palette-swatch\" aria-hidden=\"true\"><svg class=\"ds-palette-check\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"#fffaf7\" stroke-width=\"1.8\"><path d=\"m2 6 2.5 2.5L10 3\"/></svg></span>Mályva</button>",
+      "css": ".ds-palette-choice{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:8px;border:1px solid var(--ui-line,rgb(85 34 52 / 22%));border-radius:var(--control-radius,8px);color:var(--ui-ink,#392630);background:var(--ui-bg,#fff8f7);font-family:\"DM Sans\",sans-serif;font-size:12px;cursor:pointer}.ds-palette-choice[aria-pressed=true]{border-color:var(--ui-accent,#873b59);background:var(--ui-soft,#f5e1e8)}.ds-palette-swatch{display:grid;flex:none;place-items:center;width:14px;height:14px;border-radius:50%;background:var(--palette-malyva,#873b59)}.ds-palette-check{visibility:hidden}.ds-palette-choice[aria-pressed=true] .ds-palette-check{visibility:visible}.ds-palette-choice:focus-visible{outline:2px solid var(--ui-accent,#873b59);outline-offset:5px}"
     }
   ],
   "narrative": {
-    "northStar": "Ivory & Taupe, saját munkákkal",
-    "overview": "Ez a dokumentum csak a különálló design-preview csomag aktuális állapotát írja le. A felhasználó által rögzített sorrend: külön fejléc menüvel → teljes képernyős hero, a képre helyezett címmel és foglalási gombbal → közvetlenül Szofi bemutatkozása. Utána szolgáltatások, munkák, foglalási meghívó és lábléc következik. Az aktív vendégértesítő a fejléc alatt, a főtartalom és a hero előtt marad. A kompozíció kérése egyértelmű; képi comp és végleges LIVE-jóváhagyás nincs. A dokumentum nem helyettesíti a projekt gyökérszintű designrendszerét.",
+    "northStar": "Lumi Nails, saját munkákkal és színpróbákkal",
+    "overview": "Ez a dokumentum csak a különálló design-preview csomag aktuális állapotát írja le. A felhasználó által rögzített sorrend: külön fejléc menüvel → teljes képernyős hero, a képre helyezett címmel és foglalási gombbal → közvetlenül Szofi bemutatkozása. Utána szolgáltatások, munkák, foglalási meghívó és lábléc következik. Az aktív vendégértesítő a fejléc alatt, a főtartalom és a hero előtt marad.\n\nA felhasználó kérésére a fejléc görgetéskor is látható, és három élénkebb, váltható színpróba készült. Ezek kísérleti előnézeti paletták; nincs végleges arculatválasztás, képi comp vagy LIVE-jóváhagyás. A dokumentum nem helyettesíti a projekt gyökérszintű designrendszerét.",
     "keyCharacteristics": [
-      "Meglévő elefántcsont–taupe márka; világos felületen sötét, a herón ivory szöveg.",
-      "Teljes képernyős saját nyitókép sötét átmenetes réteggel, ráhelyezett címmel és világos foglalási gombbal, mobilon is.",
-      "A hero után közvetlen, teljes bemutatkozás saját portréval."
+      "Mályva, Terrakotta és Zsálya színpróba; hangsúlyos gombok, címek és lábléc.",
+      "Görgetéskor is látható, tömör hátterű fejléc; teljes képernyős saját nyitókép ráhelyezett szöveggel.",
+      "A hero után közvetlen, teljes szélességű tónusos bemutatkozósáv saját portréval."
     ],
     "rules": [
       {
-        "name": "The Brand Continuity Rule",
-        "body": "A rögzített palettát őrizd meg; világos felületen sötét, a sötétített herón ivory szöveget használj.",
+        "name": "The Preview Color Rule",
+        "body": "A színpróbák az előnézethez tartoznak; egyik sem végleges arculati döntés. Az accent a hangsúly, az ink a törzsszöveg.",
         "section": "colors"
       },
       {
@@ -215,7 +272,7 @@
     "donts": [
       "Don't tekintsd a foglalás-, fiók- és szolgáltatáslinkeket helyi funkciónak: a jelenlegi éles oldalra vezetnek. Nem történt éles foglalási próba.",
       "Don't következtess az előnézetből admin/PWA-módosításra vagy LIVE-kiadási engedélyre. A csomag noindex/nofollow és robots Disallow jelölést kap; az éles projekt nem módosult.",
-      "Don't állíts teljes akadálymentességi vagy fizikai készülékes igazolást. A .impeccable/review/fullscreen-hero-20261028 célzott Chromium-ellenőrzése 320/390/768/1440px-en igazolta a hero geometriáját és a vízszintes túlcsordulás hiányát. A korábbi .impeccable/review/hero-about-20261028 menü-, nagyító-, fókusz-, 19 ár- és 404-ellenőrzése a változatlan részekre továbbra is érvényes; az ottani független review eredménye SHIP FOR PREVIEW. Nincs fizikai készülékes vagy éles foglalási próba."
+      "Don't állíts teljes akadálymentességi vagy fizikai készülékes igazolást. A .impeccable/review/sticky-colors-20261028 célzott ellenőrzése 320/390/768/1440px-en igazolta a fejléc rögzülését a láblécnél is, a látható horgonycélokat, a palettaváltást és árlistára átvitelt, valamint a túlcsordulás és szkripthibák hiányát. A számított kontraszt a tényleges szerepekben: törzsszöveg ≥11,37; akció/lábléc ≥6,28; accent cím soft felületen ≥5,12. Ehhez a szűk változtatáshoz nem készült új független finish review; a korábbi SHIP nem az új színek jóváhagyása. A korábbi hero-, nagyító- és árlista-bizonyíték a változatlan részekhez tartozik. Nincs fizikai készülékes vagy éles foglalási próba."
     ]
   }
 }

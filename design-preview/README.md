@@ -10,11 +10,11 @@ A hero a jelenlegi CMS saját széles nyitóképét használja, a valódi névve
 
 ## Megőrzött tartalom és működés
 
-Saját fotók, a jelenlegi magyar szövegek és 19 valós ár. Elefántcsont–taupe márka, DM Sans és a szóvédjegyhez Playfair Display. HTML/CSS/vanilla JavaScript; új függőség nélkül. Az adatforrás a projekt meglévő nyilvános adatok.json pillanatképe.
+Saját fotók, a jelenlegi magyar szövegek és 19 valós ár. A felhasználó színkísérletezést kért: a felső színpróbán mályva, terrakotta és zsálya választható. A DM Sans és a szóvédjegyhez használt Playfair Display megmarad. HTML/CSS/vanilla JavaScript; új függőség nélkül. Az adatforrás a projekt meglévő nyilvános adatok.json pillanatképe.
 
 Nincs Auth-kliens, Supabase-lekérés, próbaadat, foglalási írás vagy képküldés az előnézetben. A foglalási/fiók- és szolgáltatásrészlet-műveletek a jelenleg működő éles oldalra mutató normál linkek. Az árlista külön statikus oldalon a teljes eredeti árat mutatja.
 
-A galéria natív dialogos nagyítást használ, Escape bezárással és fókusz-visszaadással. Mobilon natív details menü működik; asztalon teljes navigáció. A szélességhez igazodó szakaszok nem változtatják meg a hero–bemutatkozás sorrendet.
+A galéria natív dialogos nagyítást használ, Escape bezárással és fókusz-visszaadással. Mobilon natív details menü működik; asztalon teljes navigáció. A fejléc sticky módon, átlátszatlan háttérrel mindig látható marad görgetés közben. A horgonyok a tényleges fejlécmagasság + 24px térközt tartják. A szélességhez igazodó szakaszok nem változtatják meg a hero–bemutatkozás sorrendet.
 
 ## Helyi futtatás és hosztolás
 
@@ -33,3 +33,9 @@ A package.json build:site parancsa csak ezen az előnézeti ágon mutat a külö
 A képek eredete a media/provenance.json fájlban és a JPEG-metaadatokban szerepel, pixeladataik változatlanok. A betűk helyben vannak, két OFL-licencükkel együtt. A kimenet nem tartalmazza a dokumentációt, a teszteket, a forrásadatbázis-fájlokat vagy a szerveroldali kódot. Nincs külső font- vagy Tailwind CDN.
 
 Impeccable, 21st katalógusreferenciák és mobile-responsive útmutatás alapján készült, a felhasználó konkrét sorrendje felülírja a korábbi három elrendezést. Nincs képi comp vagy végleges élesítési jóváhagyás. Teljes noindex/nofollow és robots Disallow védelem.
+
+## Színpróba és rögzített fejléc
+
+A három paletta azonos felépítésen hasonlítható össze. A választás névvel, lenyomott gombállapottal és pipával is jelzett. Csak az előnézet saját sessionStorage-kulcsa és a szin URL-paraméter őrzi; személyes adat nem kerül bele. Az árlista is megtartja a színválasztást. Ez kísérlet, a kanonikus márkapaletta és az éles oldal nem módosult.
+
+node design-preview/check-colors.mjs – a fejléc görgetés alatti láthatóságának, horgonyoknak, színválasztónak és a tényleges kontrasztoknak célzott ellenőrzése.
