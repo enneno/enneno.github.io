@@ -1,6 +1,6 @@
 ---
-name: Lumi Nails — hero és bemutatkozás
-description: Teljes képernyős nyitókép ráhelyezett szöveggel, közvetlen bemutatkozással.
+name: Lumi Nails — saját munkák, mályva arculat
+description: Saját körmös fotó, nagy Playfair név és közvetlen, mély mályva bemutatkozás.
 colors:
   canvas: "#fff8f7"
   soft: "#f5e1e8"
@@ -11,11 +11,11 @@ colors:
   line: "rgb(85 34 52 / 22%)"
 typography:
   display:
-    fontFamily: "DM Sans, sans-serif"
-    fontSize: "clamp(44px, 5.3vw, 76px)"
+    fontFamily: "Playfair Display, serif"
+    fontSize: "clamp(68px, 12vw, 96px)"
     fontWeight: 500
-    lineHeight: 1.07
-    letterSpacing: "-0.035em"
+    lineHeight: 0.95
+    letterSpacing: "-0.04em"
   headline:
     fontFamily: "DM Sans, sans-serif"
     fontSize: "clamp(30px, 4vw, 48px)"
@@ -60,77 +60,73 @@ components:
     textColor: "{colors.on-accent}"
 ---
 
-# Design System: Lumi Nails — hero és bemutatkozás
+# Design System: Lumi Nails — saját munkák, mályva arculat
 
 ## Overview
 
-**Creative North Star: "Lumi Nails, saját munkákkal és színpróbákkal"**
+**Creative North Star: "Saját munkák és Szofi, mályvában"**
 
-Ez a dokumentum csak a különálló `design-preview` csomag aktuális állapotát írja le. A felhasználó által rögzített sorrend: külön fejléc menüvel → teljes képernyős hero, a képre helyezett címmel és foglalási gombbal → közvetlenül Szofi bemutatkozása. Utána szolgáltatások, munkák, foglalási meghívó és lábléc következik. Az aktív vendégértesítő a fejléc alatt, a főtartalom és a hero előtt marad.
+Ez a dokumentum kizárólag a `design-preview` jelenlegi publikus TEST-előnézetét rögzíti. A kiválasztott mályva szín fix. A saját körmös munka, a nagy, kétsoros Lumi Nails név és Szofi személye adja a felület karakterét. A fejléc → teljes képernyős hero → közvetlen bemutatkozás sorrend megmarad; utána szolgáltatások, munkák, foglalási meghívó és lábléc következik.
 
-A felhasználó kérésére a fejléc görgetéskor is látható, és három élénkebb, váltható színpróba készült. Ezek kísérleti előnézeti paletták; nincs végleges arculatválasztás, képi comp vagy LIVE-jóváhagyás. A dokumentum nem helyettesíti a projekt gyökérszintű designrendszerét.
+A jelenlegi vizuális alap a `README.md` direction contractja és a megvalósult forrás; ez kódalapú felhasználói iteráció, új képi comp nélkül. A dokumentum nem cseréli le a gyökér kanonikus designrendszerét, és nem ad élesítési engedélyt.
 
 **Key Characteristics:**
 
-- Mályva, Terrakotta és Zsálya színpróba; hangsúlyos gombok, címek és lábléc.
-- Görgetéskor is látható, tömör hátterű fejléc; teljes képernyős saját nyitókép ráhelyezett szöveggel.
-- A hero után közvetlen, teljes szélességű tónusos bemutatkozósáv saját portréval.
+- Egyetlen mályva paletta, halvány rózsás alap és mély színű bemutatkozósáv.
+- Saját Francia kövekkel. munkafotó, alul nagy Playfair név és foglalási meghívó.
+- Oldalt álló szolgáltatáscím és váltakozó méretű, sarkos galériaképek desktopon.
 
 ## Colors
 
-A frontmatter a kezdő Mályva palettát rögzíti; a váltható készletek pontos értékei a `design.json` kiterjesztésében vannak. A canvas az oldal és a fejléc háttere, valamint a hero szövege. A soft az értesítő, bemutatkozósáv, képhely és kijelölt palettagomb felülete; az ink a törzsszöveg. Az accent színezi az akciókat, szakaszcímeket, fejlécbeli szóvédjegyet és láblécet; az accent-strong az elsődleges hover. Az on-accent a színes gombok és lábléc közös világos szövege, a line az elválasztó.
+Az accent a rögzített mályva: az akciók, világos szakaszok címei, a fejléc szóvédjegye, a teljes bemutatkozósáv és a lábléc használja. Az accent-strong az elsődleges hover. A canvas a lap és a tömör fejléc háttere, valamint a hero szövege. A soft az értesítő és a képek alapszíne; az ink a világos felületek törzsszövege. Az on-accent a mályva felületek világos felirata, a line az áttetsző elválasztó.
 
-| Előnézeti paletta | Accent | Erősebb accent | Canvas | Soft | Ink |
-| --- | --- | --- | --- | --- | --- |
-| Mályva — alapértelmezett | #873b59 | #65283f | #fff8f7 | #f5e1e8 | #392630 |
-| Terrakotta | #96452f | #74321f | #fff8f0 | #f4dfd2 | #3c2920 |
-| Zsálya | #3c6655 | #294d3e | #f8fbf5 | #e1ecdf | #243c32 |
-
-**The Preview Color Rule.** A színpróbák az előnézethez tartoznak; egyik sem végleges arculati döntés. Az accent a hangsúly, az ink a törzsszöveg.
+**The Fixed Mauve Rule.** Ebben az előnézetben a felhasználó által kiválasztott mályva az egyetlen paletta; nincs színválasztó vagy URL-/munkamenet-alapú témaváltás.
 
 ## Typography
 
-A DM Sans viszi a címsorokat, szöveget és vezérlőket. A Playfair Display csak a szóvédjegy betűje. A két család négy helyi WOFF2 fájlból töltődik, két OFL licenccel; nincs külső font-CDN.
+A Playfair Display a fejléc/lábléc szóvédjegye mellett a nagy hero nevet és a bemutatkozás első, üdvözlő bekezdését is viszi. A DM Sans a további címsorok, törzsszöveg és vezérlők betűje. Négy helyi WOFF2 fájl és két OFL-licenc tartozik hozzájuk; nincs külső font-CDN.
 
-A display token a hero címét írja le; az árlista és hibaoldal alap H1 mérete `clamp(46px, 7vw, 88px)`. A törzsszöveg legfeljebb 65ch; a hero leírása 55ch, desktopon 18px. A bemutatkozás és szolgáltatásszöveg 15px, az árlista 14px, időtartama 12px; a szakaszcím ott 30px. Az árértékek tabuláris számjegyekkel, törés nélkül jelennek meg.
+A frontmatter display szerepe a kétsoros hero név. Az alap H1 a többi oldalon DM Sans, `clamp(46px, 7vw, 88px)`, 500 súly, 1.07 sormagasság és −0.035em betűköz. A hero leírása legfeljebb 32ch, 16px/1.6, desktopon 18px. A bemutatkozás címe `clamp(36px, 4.8vw, 56px)`, 400 súly; első bekezdése Playfair 28px/1.3, további szövege 16px, legfeljebb 52ch, 20px bekezdésközzel. Desktopon a szolgáltatáscímek 30px/400; az árlista szakaszcíme 30px, sora 14px, időtartama 12px. Az árértékek tabulárisak és törésmentesek.
 
 ## Layout
 
-A `/` egyetlen kezdőlapi előnézet; nincs variáns- vagy tervválasztó. A külön `/arlista/` oldal az `adatok.json` pillanatkép mind a 19 szolgáltatásnevét és árát tartalmazza. A források: `build.mjs`, `preview.css`, `preview.js`.
+A `/` az egyetlen kezdőlap, a `/arlista/` külön statikus árlista a 19 eredeti névvel és árral. A forrás a `build.mjs`, `preview.css`, `preview.js`, tartalma az `adatok.json` pillanatképe. A tartalmi szélesség legfeljebb 1200px, folyékony kétoldali margóval.
 
-A tartalmi szélesség legfeljebb 1200px, folyékony kétoldali margóval. A hero fotója minden szélességen teljes felületű `cover` háttér; a cím, leírás és foglalási gomb a sötétített képen jelenik meg. A hero minimális magassága `calc(100svh - var(--opening-chrome, 0px))`. A `preview.js` a preview-sáv, fejléc és értesítő tényleges összmagasságát méri, és `ResizeObserver` segítségével frissíti az `--opening-chrome` értékét. Így a hero a külön fejléc alatti képernyőterületet tölti ki; a tartalom szükség esetén növelheti a magasságát.
+A külön fejléc `sticky`, `top: 0`, `z-index: 50`, canvas háttérrel. A meglévő értesítő a fejléc után, a hero előtt áll. A `ResizeObserver` a fejléc és értesítő összmagasságából frissíti az `--opening-chrome` értéket; a hero minimuma `calc(100svh - var(--opening-chrome, 0px))`. A fejléc külön mért magassága az `--sticky-header-height`; a horgonyok eltartása ez + 24px. Nincs preview-sáv.
 
-A fejléc `position: sticky; top: 0; z-index: 50`, tömör canvas háttérrel. Ugyanaz a megfigyelő a fejléc mért magasságát az `--sticky-header-height` értékbe írja; a dokumentum horgonygörgetési eltartása ez a magasság + 24px. A palettaválasztó a fejléc előtti preview-sávban van; 640px alatt saját sorba törik. A `#szofi` a teljes szélességű soft hátterű `.about-band`, benne a középre rendezett `.about.section` tartalommal.
+A nyitókép `/assets/work-1.jpg`, saját Francia kövekkel. munka. Teljes felületű `cover` kép, a tartalom alulra rendezett. A név minden szava külön sor. A hero után azonnal a teljes szélességű, mályva `#szofi` bemutatkozósáv jön saját portréval; a teljes eredeti szöveg csak bekezdésekre tagolódik.
 
 | Szélesség | Megvalósult viselkedés |
 | --- | --- |
-| 320–639px | Natív mobil menü; a teljes képernyős képen egymás alatti cím, leírás és gomb. Képfókusz `70% center`, 56px függőleges tartalmi térköz. Szofi portréja és szövege egymás alatt, a munkák két oszlopban. |
-| 640–899px | Ugyanaz a teljes képernyős hero és képfókusz; a bemutatkozás és több közös szakasz kétoszlopos, a munkák háromoszloposak. |
-| 900px-től | Teljes navigáció; középre igazított képkivágás. A hero szövege és gombja továbbra is a képen, egymás alatt; 80px függőleges tartalmi térközzel. |
+| 320–639px | Natív mobilmenü. A hero név fölül, leírás és akció alatta, 48px függőleges tartalmi térközzel; képfókusz `58% 54%`. Egymás alatti portré és szöveg; a galéria kétoszlopos, 32px × 16px térközzel. |
+| 640–899px | A hero továbbra is egymás alatti. A bemutatkozás 0.85fr/1.15fr, 40px oszlopközzel; a galéria két oszlop marad, 48px × 32px térközzel. |
+| 900px-től | Teljes navigáció. Hero név bal alsó, leírás/akció jobb alsó oszlopban; `minmax(0, 1fr) minmax(260px, 350px)`, 80px oszlopköz, 72px függőleges térköz; képfókusz `54% 58%`. Bemutatkozás: 80px oszlopköz, portré legfeljebb 680px magas. |
+
+Desktopon a szolgáltatások két oszlopa 0.75fr/1.25fr, 80px oszlopközzel. A bal oldali cím az aktuális fejlécmagasság + 40px ponton rögzül a szakaszon belül; jobb oldalt vonalakkal elválasztott sorok, alattuk árlistalink áll. A galéria 12 oszlopos, 64px × 32px térközzel; a hat kép helye sorrendben `1/8`, `9/13`, `2/6`, `7/13`, `1/7`, `8/13`. Az eltérő méretek és üres oszlopok adják a ritmust.
 
 **The Hero–About Rule.** A hero után minden szélességen közvetlenül Szofi bemutatkozása következik; közéjük más szakasz nem kerül.
 
 ## Elevation & Depth
 
-Nincsenek dobozárnyékok. A hero sötétítő rétege mobilon `linear-gradient(0deg, rgb(23 20 18 / 86%), rgb(23 20 18 / 68%) 65%, rgb(23 20 18 / 40%))`, 900px-től `linear-gradient(90deg, rgb(23 20 18 / 84%), rgb(23 20 18 / 68%) 65%, rgb(23 20 18 / 35%))`. Ez ad olvasható hátteret a világos szövegnek. Másutt tónusváltás, vékony elválasztó és a képnagyító áttetsző háttere ad mélységet. A gombok rövid színátmenetet használnak; a reduced-motion beállítás ezt és a sima horgonygörgetést kikapcsolja.
+Nincsenek dobozárnyékok. A hero mobilos sötétítése `linear-gradient(0deg, rgb(23 20 18 / 86%), rgb(23 20 18 / 68%) 65%, rgb(23 20 18 / 40%))`, 900px-től `linear-gradient(0deg, rgb(23 20 18 / 88%), rgb(23 20 18 / 55%) 44%, rgb(23 20 18 / 12%) 100%)`. A mély mályva sáv és a világos alap váltása tagolja az oldalt. A gombok átmenete 160ms ease; reduced-motion esetén nincs átmenet vagy sima horgonygörgetés.
 
 ## Shapes
 
-A hero széles, sarkos fénykép. A galéria munkaképei álló 3:4 arányú `cover` kivágások. Szofi portréja és a nagyító képe `contain` illesztéssel őrzi a teljes képet. Az akciógombok és a mobil menü finoman kerekítettek; a képek és tartalmi szakaszok sarkosak.
+A fényképek és szakaszok sarkosak, az akciógombok és mobilmenü 8px sugarúak. A galéria 3:4 `cover` kivágásokat használ; a portré és nagyító `contain` illesztéssel őrzi a teljes képet. A hat desktop galériaelem szélessége eltér, képarányuk közös.
 
 ## Components
 
-- **Akciógombok:** elsődleges accent háttér és on-accent szöveg; másodlagos átlátszó háttér és accent felirat; vékony keret és legalább 50px magasság. A hero ugyanazt az elsődleges gombot használja. Hoverkor az elsődleges accent-strong, a másodlagos soft hátteret kap. A fókuszgyűrű 2px, 5px eltartással, általában accent, a herón canvas színnel.
-- **Navigáció:** végig látható sticky fejléc; desktopon Szofi / Szolgáltatások / Árlista / Munkák és accent foglalásgomb. 900px alatt natív `details` menü 44px-es nyitóvezérlővel; linkválasztás után bezárul. Tartalomra ugró link segíti a billentyűzetes belépést.
-- **Palettaválasztó:** három natív gomb, 44px minimális magassággal. Az aktív állapotot `aria-pressed`, accent keret, soft háttér és pipa jelzi. A `szin` query elsőbbséget kap, utána a `lumi-preview-palette` sessionStorage-érték, végül Mályva az alap. A belső linkek átviszik a választást az árlistára is; tárolás nélkül a query-alapú működés megmarad.
-- **Hero és bemutatkozás:** külön fejléc, teljes képernyős saját CMS-kép sötétítő réteggel és ráhelyezett szöveggel, majd közvetlenül saját portré és teljes meglévő bemutatkozószöveg.
-- **Képnagyító:** a munkafotók natív modális `dialog` elemet nyitnak; bezárógombbal és Escape-pel zárható. Bezáráskor a fókusz a megnyitó fotóra tér vissza. A felirat és alternatív szöveg a választott képet követi.
-- **Árlista:** szemantikus leírólista, bal oldalon név és időtartam, jobb oldalon ár. Nincs helyi foglalási űrlap vagy fiókkomponens.
+- **Akciók:** accent háttér és on-accent felirat; legalább 50px magas, 13px × 20px belső térközzel. Hoverkor accent-strong. A másodlagos akció átlátszó, accent felirattal és kerettel; hoverkor soft hátterű. A hero is a közös elsődleges akciót használja.
+- **Navigáció:** folyamatosan látható fejléc, desktopon Szofi / Szolgáltatások / Árlista / Munkák és foglalásgomb. 900px alatt natív `details` menü 44px-es nyitóvezérlővel; linkválasztás után bezárul. Tartalomra ugró link is van.
+- **Fókusz:** általában 2px accent körvonal, 5px eltartással; a herón canvas, a mély bemutatkozósávban on-accent színnel.
+- **Bemutatkozás:** saját portré, nagy cím, Playfair üdvözlés és az eredeti teljes szöveg külön bekezdésekben; sötét színes felületen világos feliratokkal.
+- **Képnagyító:** natív modális `dialog`; látható Bezárás felirat és 28px-es vonalas SVG-záróikon. Escape vagy bezárógomb zárja, a fókusz visszatér a megnyitó fotóra; a kép felirata és alternatív szövege a választást követi.
+- **Árlista:** szemantikus leírólista névvel, időtartammal és jobbra igazított árral. Nincs helyi foglalási űrlap vagy fiókkomponens.
 
 ## Do's and Don'ts
 
-- **Do** őrizd meg a kilenc meglévő fotót, beágyazott eredetadataikat és a `media/provenance.json` nyilvántartását; a `hero.jpg` a meglévő CMS-nyitókép másolata.
-- **Do** az árakat és szövegeket az `adatok.json` pillanatképéből vedd át. Az előnézet nem hív backendet, Authot vagy API-t, és nem ír adatot.
-- **Don't** tekintsd a foglalás-, fiók- és szolgáltatáslinkeket helyi funkciónak: a jelenlegi éles oldalra vezetnek. Nem történt éles foglalási próba.
-- **Don't** következtess az előnézetből admin/PWA-módosításra vagy LIVE-kiadási engedélyre. A csomag noindex/nofollow és robots Disallow jelölést kap; az éles projekt nem módosult.
-- **Don't** állíts teljes akadálymentességi vagy fizikai készülékes igazolást. A `.impeccable/review/sticky-colors-20261028` célzott ellenőrzése 320/390/768/1440px-en igazolta a fejléc rögzülését a láblécnél is, a látható horgonycélokat, a palettaváltást és árlistára átvitelt, valamint a túlcsordulás és szkripthibák hiányát. A számított kontraszt a tényleges szerepekben: törzsszöveg ≥11,37; akció/lábléc ≥6,28; accent cím soft felületen ≥5,12. Ehhez a szűk változtatáshoz nem készült új független finish review; a korábbi SHIP nem az új színek jóváhagyása. A korábbi hero-, nagyító- és árlista-bizonyíték a változatlan részekhez tartozik. Nincs fizikai készülékes vagy éles foglalási próba.
+- **Do** őrizd meg a saját fotókat és teljes eredeti szövegeket. A kilenc JPEG eredete a metaadatokban és a `media/provenance.json` nyilvántartásban szerepel; a megőrzött `hero.jpg` nem a jelenlegi nyitókép.
+- **Do** a rögzített mályva előnézetet és a `README.md` direction contractját kövesd; a gyökér kanonikus dokumentumai külön hatáskörben maradnak.
+- **Don't** tekintsd a foglalás-, fiók- és szolgáltatáslinkeket helyi funkciónak: a jelenlegi éles oldalra vezetnek. Nincs helyi Auth/API-kliens, adatírás vagy éles foglalási próba.
+- **Don't** következtess a preview-ból admin/PWA-módosításra vagy LIVE-kiadási engedélyre. A csomag noindex/nofollow és robots Disallow jelölést kap.
+- **Don't** állíts teljes hozzáférhetőségi vagy fizikai készülékes igazolást. A `.impeccable/review/editorial-malyva-20261028` négy szélességen (320/390/768/1440px) igazolja a célzott helyi ellenőrzést: nincs túlcsordulás, hibás kép vagy külső kérés; működik a menü, nagyító, Escape/fókusz-visszaadás; a teljes szöveg és 19 ár megmaradt, a kizárt útvonalak 404-et adnak. A független reviewer a kompozíciót megfelelőnek találta, dokumentációfrissítést és SVG-záróikont kért; a végső javításellenőrzés mindkét tételt megoldottnak értékelte, disposition: ship, kizárólag TEST publikus előnézetre. A galéria elemképe sticky-fejléc műterméket tartalmaz, ezért ott a dokumentum tetejéről készült teljes oldalképek az irányadók. Nincs teljes audit vagy produkciós jóváhagyás.

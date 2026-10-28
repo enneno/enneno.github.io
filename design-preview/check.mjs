@@ -4,7 +4,7 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 
 const target = 'http://127.0.0.1:8118';
-const evidence = path.resolve('.impeccable/review/hero-about-20261028');
+const evidence = path.resolve('.impeccable/review/editorial-malyva-20261028');
 await fs.mkdir(evidence, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.LUMI_BROWSER_EXECUTABLE, headless: true });
 const report = { layout: 'header, large hero, immediate introduction', views: [], interactions: [] };
@@ -31,8 +31,11 @@ try {
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []);
     assert.equal(await page.locator('.site-head').count(), 1);
-    assert.equal(await page.locator('.hero-photo img').getAttribute('src'), '/assets/hero.jpg');
-    assert.equal(await page.locator('.concepts').count(), 0);
+    assert.equal(await page.locator('.hero-photo img').getAttribute('src'), '/assets/work-1.jpg');
+    assert.equal(await page.locator('.concepts, .palette-controls').count(), 0);
+    assert.equal((await page.locator('h1').textContent()).replace(/\s+/g, ' ').trim(), 'Lumi Nails');
+    if (width === 1440) for (const name of ['about-band', 'services', 'gallery-section']) await page.locator('.' + name).screenshot({ path: path.join(evidence, name + '.png') });
+    await page.evaluate(() => scrollTo(0, 0));
     if ([390, 1440].includes(width)) {
       await page.screenshot({ path: path.join(evidence, 'home-' + width + '.png'), fullPage: true });
       await page.screenshot({ path: path.join(evidence, 'home-' + width + '-first.png') });
@@ -51,11 +54,17 @@ try {
       assert.ok(await photo.evaluate(element => element === document.activeElement));
       report.interactions.push('image enlargement, Escape and focus return');
     }
+    await page.locator('.site-foot').scrollIntoViewIfNeeded();
+    assert.ok(Math.abs(await page.locator('.site-head').evaluate(element => element.getBoundingClientRect().top)) <= 1, 'Header must remain visible');
     report.views.push({ width, overflow: false, externalRequests: 0, brokenImages: 0, heroThenIntroduction: true });
     await context.close();
   }
   const context = await browser.newContext();
   const page = await context.newPage();
+  await page.goto(target, { waitUntil: 'networkidle' });
+  const expectedAbout = JSON.parse(await fs.readFile('adatok.json', 'utf8')).siteContent.fooldal.bemutatkozas.bekezdesek.join(' ').replace(/\s+/g, ' ').trim();
+  const actualAbout = (await page.locator('.about-body p').allTextContents()).join(' ').replace(/\s+/g, ' ').trim();
+  assert.equal(actualAbout, expectedAbout, 'Introduction text must be preserved');
   await page.goto(target + '/arlista/', { waitUntil: 'networkidle' });
   assert.equal(await page.locator('.price-lines > div').count(), 19);
   const rows = JSON.parse(await fs.readFile('adatok.json', 'utf8')).services;

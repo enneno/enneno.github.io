@@ -1,41 +1,40 @@
-# LumiNails: hero és bemutatkozás
+# LumiNails: saját munkák, mályva arculat
 
-A felhasználó által kért, egyetlen aktuális publikus kezdőlapi előnézet. Külön TEST ág: codex/public-redesign-preview. Nem módosítja a TEST main ágat vagy az éles oldalt.
+Külön, kizárólag publikus TEST-előnézet a codex/public-redesign-preview ágon. A main és az éles oldal változatlan.
 
-## Rögzített felépítés
+## Direction contract
 
-Fejléc menüvel → nagy hero rész → közvetlenül Szofi bemutatkozása → szolgáltatások → munkák → foglalási meghívó → lábléc. A meglévő aktuális vendégértesítő a fejléc alatt megmarad; a hero és bemutatkozás között nincs más szakasz.
+THESIS: A saját körmös munkák és Szofi személye adják az oldal karakterét; a felhasználó által elfogadott mályva marad.
 
-A hero a jelenlegi CMS saját széles nyitóképét használja, a valódi névvel és leírással, külön foglalási gombbal. A felhasználó legújabb kérése alapján a kép asztalon és mobilon is teljes szélességű, cover kitöltéssel. A hero a fejléc és értesítő alatti megmaradó képernyőmagasságot tölti ki. A cím, leírás és világos foglalási gomb a képen van, sötét gradiens overlayen. A fejléc tényleges méretét ResizeObserver követi, ezért tördelés vagy betűbetöltés után is igazodik a magasság. A bemutatkozás saját portréval és a meglévő teljes szöveggel következik.
+OWN-WORLD: Mély mályva bemutatkozósáv, halvány rózsás alap, sarkos saját fotók, meglévő Playfair szóvédjegy és DM Sans szöveg.
 
-## Megőrzött tartalom és működés
+STORY: Egy valódi munka nyit, Szofi bemutatkozik, majd a szolgáltatások és munkák vezetnek a foglaláshoz.
 
-Saját fotók, a jelenlegi magyar szövegek és 19 valós ár. A felhasználó színkísérletezést kért: a felső színpróbán mályva, terrakotta és zsálya választható. A DM Sans és a szóvédjegyhez használt Playfair Display megmarad. HTML/CSS/vanilla JavaScript; új függőség nélkül. Az adatforrás a projekt meglévő nyilvános adatok.json pillanatképe.
+FIRST VIEWPORT: Végig látható fejléc és meglévő értesítő; a fennmaradó képernyőt saját körmös fotó tölti ki. Alul nagy, kétsoros Lumi Nails név; asztalon a leírás és foglalás jobb oldalt, mobilon alatta.
 
-Nincs Auth-kliens, Supabase-lekérés, próbaadat, foglalási írás vagy képküldés az előnézetben. A foglalási/fiók- és szolgáltatásrészlet-műveletek a jelenleg működő éles oldalra mutató normál linkek. Az árlista külön statikus oldalon a teljes eredeti árat mutatja.
+FORM: Rögzített hero → bemutatkozás sorrend; asztalon oldalt álló szolgáltatáscím és váltakozó képméretű galéria. Kódalapú felhasználói iteráció, új comp nélkül. Mozgás helyett képnagyítás; reduced-motion támogatás.
 
-A galéria natív dialogos nagyítást használ, Escape bezárással és fókusz-visszaadással. Mobilon natív details menü működik; asztalon teljes navigáció. A fejléc sticky módon, átlátszatlan háttérrel mindig látható marad görgetés közben. A horgonyok a tényleges fejlécmagasság + 24px térközt tartják. A szélességhez igazodó szakaszok nem változtatják meg a hero–bemutatkozás sorrendet.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Tartalom és működés
+
+Az adatforrás a meglévő nyilvános adatok.json pillanatképe. A nyitókép a saját Francia kövekkel. munka, assets/work-1.jpg. A hero után közvetlenül saját portréval és a teljes eredeti szöveggel jön Szofi. A szöveg kizárólag bekezdésekre tagolódik. Az oldal utána szolgáltatásokat, galériát, foglalási meghívót és láblécet mutat.
+
+A mályva egyetlen rögzített paletta. A korábbi három színpróba és színválasztó eltávolítva. DM Sans és Playfair Display helyi betűk, HTML/CSS/vanilla JavaScript; új függőség nincs. Mind a 19 eredeti ár a külön statikus árlistán marad.
+
+A foglalási, fiók- és szolgáltatásrészlet-linkek a meglévő éles oldalra vezetnek. Nincs helyi Auth-kliens, Supabase-kérés vagy adatírás. A natív dialogos nagyító Escape-pel bezárul, fókusza visszatér a fotóra; a mobil details menü navigáláskor bezárul. A sticky fejléc és a horgonyok eltartása a tényleges fejlécmagassághoz igazodik. A hero a fejléc és értesítő alatti képernyőmagasságot tölti ki, sötét overlayen olvasható szöveggel.
 
 ## Helyi futtatás és hosztolás
 
-node design-preview/prepare-assets.mjs – a saját publikus képek és nyílt betűk helyi másolata.
+- node design-preview/build.mjs: az előnézet építése az elkülönített dist kimenetbe.
+- node design-preview/serve.mjs: http://127.0.0.1:8118, csak a dist gyökér kiszolgálása.
+- node design-preview/check.mjs: célzott tördelés-, hero-, menü-, nagyító-, tartalom- és árlista-ellenőrzés. LUMI_BROWSER_EXECUTABLE adja a helyi Chromium útját.
+- node design-preview/prepare-assets.mjs: saját publikus képek és nyílt betűk előkészítése, rendes iterációhoz nem szükséges.
 
-node design-preview/build.mjs – csak ezt az előnézetet építi a dist mappába.
-
-node design-preview/serve.mjs – http://127.0.0.1:8118, csak a dist gyökér kiszolgálásával.
-
-node design-preview/check.mjs – célzott helyi sorrend-, méret-, menü-, nagyítás- és árlista-ellenőrzés. A böngésző elérési útját a LUMI_BROWSER_EXECUTABLE környezeti változó adja.
-
-A package.json build:site parancsa csak ezen az előnézeti ágon mutat a külön buildre. A Cloudflare manuális preview deployment ezt az ágat építi, nem a main kiadását. GitHubon nem fut teszt vagy audit.
+A package.json build:site parancsa csak ezen az ágon mutat az előnézeti buildre. A Cloudflare manuális preview deployment ezt az ágat építi. GitHubon nem fut teszt vagy audit.
 
 ## Források és határok
 
-A képek eredete a media/provenance.json fájlban és a JPEG-metaadatokban szerepel, pixeladataik változatlanok. A betűk helyben vannak, két OFL-licencükkel együtt. A kimenet nem tartalmazza a dokumentációt, a teszteket, a forrásadatbázis-fájlokat vagy a szerveroldali kódot. Nincs külső font- vagy Tailwind CDN.
+A kilenc saját JPEG eredete a media/provenance.json nyilvántartásban és a képek metaadataiban szerepel, pixeladataik változatlanok. A korábbi hero.jpg forrásmásolat megmarad, a nyitófelület most work-1.jpg-t használ. A négy helyi WOFF2 fájlhoz két OFL-licenc tartozik. Nincs külső font/CDN.
 
-Impeccable, 21st katalógusreferenciák és mobile-responsive útmutatás alapján készült, a felhasználó konkrét sorrendje felülírja a korábbi három elrendezést. Nincs képi comp vagy végleges élesítési jóváhagyás. Teljes noindex/nofollow és robots Disallow védelem.
-
-## Színpróba és rögzített fejléc
-
-A három paletta azonos felépítésen hasonlítható össze. A választás névvel, lenyomott gombállapottal és pipával is jelzett. Csak az előnézet saját sessionStorage-kulcsa és a szin URL-paraméter őrzi; személyes adat nem kerül bele. Az árlista is megtartja a színválasztást. Ez kísérlet, a kanonikus márkapaletta és az éles oldal nem módosult.
-
-node design-preview/check-colors.mjs – a fejléc görgetés alatti láthatóságának, horgonyoknak, színválasztónak és a tényleges kontrasztoknak célzott ellenőrzése.
+A források, dokumentáció és tesztek nem kerülnek a kimenetbe. Az előnézet noindex/nofollow és robots Disallow védelmet kap. A gyökér kanonikus designrendszere, admin, PWA, éles oldal és adatbázis nem változik. Az ellenőrzés részletei: verification.md.
