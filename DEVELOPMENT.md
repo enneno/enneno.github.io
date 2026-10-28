@@ -1,8 +1,10 @@
 # Helyi fejlesztés
 
+> Új TEST-kiadási mód: [statikus Cloudflare-kiadás](docs/static-publication.md). Az alábbi GitHub Pages leírás a korábbi kiadást dokumentálja; az éles átállás még külön jóváhagyást és aktiválást igényel.
+
 ## Fejlesztési forrás és éles példány
 
-A projekt elsődleges fejlesztési példánya: `C:\Users\llevi\OneDrive\Asztali gép\LumiNails_test`.
+A projekt elsődleges fejlesztési példánya: `D:\Asztal\LumiNails_test`.
 Minden fejlesztést és hibajavítást ebben a mappában kell elvégezni, ellenőrizni és a tesztoldalra feltölteni.
 
 Az éles `luminails.hu` GitHub-tároló az `enneno/LumiNails-Live`. Ebben normál fejlesztést nem végzünk; az éles tartalmat az ellenőrzött promóciós folyamat frissíti. Ha az éles tároló helyi példányára szükség van, az útvonalát minden művelet előtt külön ellenőrizni kell.

@@ -31,7 +31,6 @@ serve(async (req) => {
       return json({ ok: false, error: "Missing or invalid email_job_id" }, 400);
     }
 
-
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
@@ -103,12 +102,6 @@ serve(async (req) => {
       return json({ ok: false, error: "Booking not found" }, 404);
     }
 
-    console.log("send-booking-email booking loaded", {
-      bookingId,
-      mode,
-      status: booking.status,
-      startsAt: booking.starts_at,
-    });
 
     const serviceName = serviceNameFromRelation(booking.services);
     const appointmentDate = formatDate(booking.starts_at);
@@ -209,7 +202,6 @@ serve(async (req) => {
         [],
         `booking-admin-update-legacy/${bookingId}`,
       );
-      console.log("send-booking-email admin_update sent", { bookingId, target: "customer" });
       return json({ ok: true, email: "admin_update_sent" });
     }
 
@@ -289,8 +281,6 @@ serve(async (req) => {
 
       return { target, ok: false, error: errorMessage(result.reason) };
     });
-
-    console.log("send-booking-email new_booking delivery", { bookingId, delivery });
 
     const failed = delivery.filter((item) => !item.ok);
 
