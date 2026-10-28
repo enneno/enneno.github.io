@@ -1,5 +1,7 @@
 # LumiNails: saját munkák, mályva arculat
 
+> Ez a különálló látványpróba archivált. Az aktuális fejlesztés a teljes meglévő TEST-alkalmazás forrásaiban folytatódik. Indítás: npm run serve, cím: http://127.0.0.1:8101/. A build:site újra a teljes alkalmazást építi. Részletek: ../docs/public-local-redesign.md.
+
 Külön, kizárólag publikus TEST-előnézet a codex/public-redesign-preview ágon. A main és az éles oldal változatlan.
 
 ## Direction contract
