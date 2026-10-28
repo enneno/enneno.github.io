@@ -1,6 +1,6 @@
 ---
-name: Lumi Nails — publikus előnézetek
-description: Három összehasonlítható felépítés a meglévő Ivory & Taupe márkában.
+name: Lumi Nails — hero és bemutatkozás
+description: Nagy nyitókép, közvetlen bemutatkozással, a meglévő Ivory & Taupe márkában.
 colors:
   ivory: "#f6f3ee"
   soft-taupe: "#e2d9d0"
@@ -11,7 +11,7 @@ colors:
 typography:
   display:
     fontFamily: "DM Sans, sans-serif"
-    fontSize: "clamp(46px, 7vw, 88px)"
+    fontSize: "clamp(44px, 5.3vw, 76px)"
     fontWeight: 500
     lineHeight: 1.07
     letterSpacing: "-0.035em"
@@ -40,7 +40,6 @@ typography:
     letterSpacing: "-0.025em"
 rounded:
   control: "8px"
-  round: "50%"
 spacing:
   gutter: "clamp(20px, 4.8vw, 80px)"
   section-gap: "clamp(56px, 7vw, 104px)"
@@ -58,71 +57,70 @@ components:
   button-primary-hover:
     backgroundColor: "{colors.soft-taupe}"
     textColor: "{colors.ink}"
-  service-selected:
-    backgroundColor: "{colors.soft-taupe}"
-    textColor: "{colors.ink}"
 ---
 
-# Design System: Lumi Nails — publikus előnézetek
+# Design System: Lumi Nails — hero és bemutatkozás
 
 ## Overview
 
 **Creative North Star: "Ivory & Taupe, saját munkákkal"**
 
-Ez a dokumentum kizárólag a `design-preview` elkészült, különálló csomagját írja le. A meglévő márkát, valódi fényképeket és tartalmat három eltérő felépítésben mutatja be. Nem új arculati döntés: nincs kiválasztott végleges kompozíció vagy jóváhagyott képi comp, és nem helyettesíti a projekt gyökérszintű designrendszerét.
+Ez a dokumentum csak a különálló `design-preview` csomag aktuális állapotát írja le. A felhasználó által rögzített sorrend: külön fejléc menüvel → nagy hero → közvetlenül Szofi bemutatkozása. Utána szolgáltatások, munkák, foglalási meghívó és lábléc következik. Az aktív vendégértesítő a fejléc alatt, a főtartalom és a hero előtt marad.
+
+A kompozíció kérése egyértelmű; képi comp és végleges LIVE-jóváhagyás nincs. A dokumentum nem helyettesíti a projekt gyökérszintű designrendszerét.
 
 **Key Characteristics:**
 
-- Világos, meleg felületek, sötét szöveg, visszafogott keretek.
-- Saját munkafotók és Szofi portréja; nincs generált helyettesítő kép.
-- Sík elrendezés, nagy képek, folyékony tipográfia és térköz.
+- Meglévő elefántcsont–taupe márka és sötét szöveg.
+- Nagy, teljes szélességű saját nyitókép; külön szöveg és foglalási gomb.
+- A hero után közvetlen, teljes bemutatkozás saját portréval.
 
 ## Colors
 
-Az elefántcsont a lap alapja, a sötét ink a szöveg és az elsődleges gomb színe. A soft-taupe az információs sávot, láblécet, aktív szolgáltatást és hover állapotot jelöli. A taupe a fotószalag görgetősávjában jelenik meg. A clay deklarált palettatag, de jelenleg nincs alkalmazva a komponensekre. A line áttetsző elválasztókat ad.
+Az ivory a lap alapja, az ink a szöveg és elsődleges gomb színe. A soft-taupe az értesítőt, láblécet, képhátteret és hover állapotot jelöli. A line áttetsző elválasztókat ad. A taupe és clay megőrzött, de jelenleg komponenshez nem rendelt palettatagok.
 
-**The Brand Continuity Rule.** A három felépítés ugyanazt a rögzített palettát használja; a halvány árnyalatok nem helyettesítik a sötét szöveget.
+**The Brand Continuity Rule.** A rögzített palettát őrizd meg; a halvány árnyalatok nem helyettesítik a sötét szöveget.
 
 ## Typography
 
-A DM Sans viszi a címsorokat, szöveget és vezérlőket. A Playfair Display csak a szóvédjegyet formázza. A két család négy helyi WOFF2 fájlból töltődik, két OFL licenccel, külső font-CDN nélkül.
+A DM Sans viszi a címsorokat, szöveget és vezérlőket. A Playfair Display csak a szóvédjegy betűje. A két család négy helyi WOFF2 fájlból töltődik, két OFL licenccel; nincs külső font-CDN.
 
-A frontmatter az alap hierarchiát rögzíti. A törzsszöveg legfeljebb 65ch széles; a kisebb kísérőszövegek és címkék 11–15px közöttiek. A C részletcíme 28px, desktopon 24px; az árlista szakaszcíme 30px. Az áraknál tabuláris számjegyek, törésmentes árérték és külön sorba kerülő időtartam segíti az olvasást.
+A display token a hero címét írja le; az árlista és hibaoldal alap H1 mérete `clamp(46px, 7vw, 88px)`. A törzsszöveg legfeljebb 65ch; a hero leírása 55ch, desktopon 18px. A bemutatkozás és szolgáltatásszöveg 15px, az árlista 14px, időtartama 12px; a szakaszcím ott 30px. Az árértékek tabuláris számjegyekkel, törés nélkül jelennek meg.
 
 ## Layout
 
-A tartalmi szélesség legfeljebb 1200px, kétoldali folyékony margóval. Az alapnézet egyoszlopos, legalább 320px szélességre készül. 640px-től a galéria kettőről három oszlopra vált, több közös szakasz kétoszlopossá válik. 900px-től jelenik meg az asztali navigáció és a háromoszlopos tervválasztó.
+A `/` egyetlen kezdőlapi előnézet; nincs variáns- vagy tervválasztó. A külön `/arlista/` oldal az `adatok.json` pillanatkép mind a 19 szolgáltatásnevét és árát tartalmazza. A források: `build.mjs`, `preview.css`, `preview.js`.
 
-| Útvonal | Megvalósult kompozíció | Mobilviselkedés és kompromisszum |
-| --- | --- | --- |
-| `/a/` — Portfólió | Rövid szöveg és aszimmetrikus háromképes nyitófal; utána munkák, szolgáltatások, Szofi és foglalási átvezető. Desktopon a nyitófelület kétoszlopos. | A nyitószöveg a képfal elé kerül; a munkák kétoszloposak. Az árakhoz hosszabb görgetés vezet. |
-| `/b/` — Fotószalag | A nyitógaléria hét portréképet mutat natív, vízszintes scroll-snappel; alatta szolgáltatások, Szofi és foglalási átvezető. | A képkocka a szalag 76%-a, 640px-től 45%, desktopon 320–460px. Húzás és külön nyilak segítik a böngészést. |
-| `/c/` — Válassz szolgáltatást | Négy szolgáltatásgomb és az aktív szolgáltatás fotója, leírása, árai; utána munkák, Szofi és foglalási átvezető. Desktopon a választó mellett a kép és szöveg is oszlopokra válik. | A gombok, kép és részletek egymás alatt jelennek meg. A hosszabb árlisták több görgetést kérnek. |
+A tartalmi szélesség legfeljebb 1200px, folyékony kétoldali margóval. A hero címe, leírása és gombja a fénykép felett helyezkedik el. A fotó a teljes ablak szélességét kitölti; nincs ráhelyezett szöveg vagy sötétítő réteg.
 
-A `/` választó három, kattintható miniatűrt és megnyitó linket tartalmaz. A miniatűrök nem interaktív, lekicsinyített iframe-ek; a teljes változat külön útvonalon működik. A közös `/arlista/` oldal a pillanatkép mind a 19 szolgáltatásnevét és árát tartalmazza, a `v` paraméter megőrzi a választott változat visszalinkjeit.
+| Szélesség | Megvalósult viselkedés |
+| --- | --- |
+| 320–639px | Natív mobil menü; egymás alatti hero-szöveg és gomb; 16:9 kép `contain` illesztéssel. Szofi portréja és szövege egymás alatt, a munkák két oszlopban. |
+| 640–899px | A hero továbbra is 16:9 és `contain`; a bemutatkozás és több közös szakasz kétoszlopos, a munkák háromoszloposak. |
+| 900px-től | Teljes navigáció; a hero-szöveg mellett foglalásgomb. A teljes szélességű nyitókép magassága `clamp(420px, 43vw, 620px)`, középre igazított `cover` kivágással. |
+
+**The Hero–About Rule.** A hero után minden szélességen közvetlenül Szofi bemutatkozása következik; közéjük más szakasz nem kerül.
 
 ## Elevation & Depth
 
-Nincsenek dobozárnyékok. A mélységet tónusváltás, vékony elválasztó és a képnagyító sötét áttetsző háttere adja. Nincs automatikus galériamozgás; a gombok rövid színátmenetet használnak. A reduced-motion beállítás kikapcsolja ezt és a sima görgetést.
+Nincsenek dobozárnyékok. A mélységet tónusváltás, vékony elválasztó és a képnagyító sötét áttetsző háttere adja. A gombok rövid színátmenetet használnak; a reduced-motion beállítás ezt és a sima horgonygörgetést kikapcsolja.
 
 ## Shapes
 
-A munkaképek túlnyomórészt álló, 3:4 arányú kivágások; a C részletképe mobilon 4:3. A nagyító és Szofi portréja az egész kép megőrzéséhez `contain` illesztést használ. A képek és tartalmi szakaszok sarkosak, az akciógombok és a mobil menü finoman kerekítettek; a fotószalag két nyila kör alakú.
+A hero széles, sarkos fénykép. A galéria munkaképei álló 3:4 arányú `cover` kivágások. Szofi portréja és a nagyító képe `contain` illesztéssel őrzi a teljes képet. Az akciógombok és a mobil menü finoman kerekítettek; a képek és tartalmi szakaszok sarkosak.
 
 ## Components
 
-- **Akciógombok:** elsődleges sötét, másodlagos átlátszó felület, vékony keret, legalább 50px magasság. Hoverkor soft-taupe felület; látható fókuszgyűrű (2px, 5px eltartás). A szöveges linkek aláhúzottak és legalább 44px magasak.
-- **Navigáció:** desktopon vízszintes linkek és foglalásgomb; 900px alatt natív `details` menü, 44px-es nyitóvezérlővel. Linkválasztás után bezárul. Minden változatból elérhető a tervválasztó; az oldal elején tartalomra ugró link található.
-- **Képnagyító:** a munkafotók natív modális `dialog` elemet nyitnak. Bezárógombbal és Escape-pel zárható; bezáráskor a fókusz a megnyitó fényképre tér vissza. A kép felirata és alternatív szövege a választott fotót követi.
-- **Fotószalag:** natív görgetés, 44px-es előző/következő gombok; a fókuszált szalagon a bal/jobb nyíl egy képkockával lapoz. Nem lapoz automatikusan.
-- **Szolgáltatásválasztó:** normál gombcsoport `aria-pressed` állapottal; egyszerre egy részletpanel látható. Nincs külön tab-billentyűzeti modell.
-- **Árlista:** szemantikus leírólista, bal oldalon név és időtartam, jobb oldalon ár. Nincs szerkeszthető mező, foglalási űrlap vagy fiókkomponens ebben a csomagban.
+- **Akciógombok:** elsődleges sötét, másodlagos átlátszó felület; vékony keret és legalább 50px magasság. Hoverkor soft-taupe háttér; fókuszgyűrű 2px, 5px eltartással. A szöveges linkek aláhúzottak és legalább 44px magasak.
+- **Navigáció:** desktopon Szofi / Szolgáltatások / Árlista / Munkák és foglalásgomb. 900px alatt natív `details` menü 44px-es nyitóvezérlővel; linkválasztás után bezárul. Tartalomra ugró link segíti a billentyűzetes belépést.
+- **Hero és bemutatkozás:** külön fejléc, szöveges hero-fejrész, teljes szélességű saját CMS-kép, majd közvetlenül saját portré és teljes meglévő bemutatkozószöveg.
+- **Képnagyító:** a munkafotók natív modális `dialog` elemet nyitnak; bezárógombbal és Escape-pel zárható. Bezáráskor a fókusz a megnyitó fotóra tér vissza. A felirat és alternatív szöveg a választott képet követi.
+- **Árlista:** szemantikus leírólista, bal oldalon név és időtartam, jobb oldalon ár. Nincs helyi foglalási űrlap vagy fiókkomponens.
 
 ## Do's and Don'ts
 
-- **Do** a `preview.css`, `preview.js` és `build.mjs` forrását tekintsd az előnézet megvalósításának alapjául; a tokenek ezt a pillanatnyi állapotot dokumentálják.
-- **Do** őrizd meg a nyolc meglévő fotót, beágyazott eredetadataikat és a `media/provenance.json` nyilvántartását; az árak és szövegek az `adatok.json` pillanatképéből származnak.
-- **Do** a három kompozíciót előnézeti választási lehetőségként kezeld. A review kiadhatónak ítélte ezt az összehasonlítási csomagot, végleges redesign kiválasztása nélkül.
-- **Don't** tekintsd a foglalás-, fiók- vagy szolgáltatáslinket helyi alkalmazásfunkciónak: ezek a jelenlegi éles oldalra vezetnek. Nincs backend-, Auth- vagy API-hívás, adatírás vagy foglalási próba.
-- **Don't** következtess az előnézetből admin/PWA-változtatásra vagy LIVE-kiadási engedélyre. A csomag noindex/nofollow és robots Disallow jelölést kap; az éles projekt nem módosult.
-- **Don't** állíts teljes akadálymentességi vagy fizikai készülékes igazolást. A meglévő helyi Chromium-ellenőrzés 320/390/768/1440px szélességre, célzott interakciókra és média/JS/túlcsordulás hibákra terjedt ki; 390/1440px-en hat változatkép és frissített választóoldali kép készült. A `.impeccable/review/public-preview-20261028/detector-notes.md` rögzíti a teljes ellenőrzési előzményt; a `checks.json` csak a végső szűkített futás eredménye.
+- **Do** őrizd meg a kilenc meglévő fotót, beágyazott eredetadataikat és a `media/provenance.json` nyilvántartását; a `hero.jpg` a meglévő CMS-nyitókép másolata.
+- **Do** az árakat és szövegeket az `adatok.json` pillanatképéből vedd át. Az előnézet nem hív backendet, Authot vagy API-t, és nem ír adatot.
+- **Don't** tekintsd a foglalás-, fiók- és szolgáltatáslinkeket helyi funkciónak: a jelenlegi éles oldalra vezetnek. Nem történt éles foglalási próba.
+- **Don't** következtess az előnézetből admin/PWA-módosításra vagy LIVE-kiadási engedélyre. A csomag noindex/nofollow és robots Disallow jelölést kap; az éles projekt nem módosult.
+- **Don't** állíts teljes akadálymentességi vagy fizikai készülékes igazolást. A `.impeccable/review/hero-about-20261028` célzott Chromium-ellenőrzése 320/390/768/1440px-en igazolta a sorrendet, méreteket, médiát és túlcsordulást; a menü, nagyító, fókusz, 19 ár, valamint privát és elutasított útvonalak 404-válasza is átment. A független review eredménye: SHIP FOR PREVIEW, érdemi hiba nélkül. A cream-palette jelzés szándékos márkamegőrzés; a padding-jelzéseket a forrás térközei nem igazolták.

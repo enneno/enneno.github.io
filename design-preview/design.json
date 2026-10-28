@@ -1,55 +1,146 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-28T17:34:58Z",
-  "title": "Design System: Lumi Nails — publikus előnézetek",
+  "generatedAt": "2026-10-28T17:44:13Z",
+  "title": "Design System: Lumi Nails — hero és bemutatkozás",
   "extensions": {
     "colorMeta": {
-      "ivory": { "role": "neutral", "displayName": "Elefántcsont", "source": "--ui-bg", "purpose": "Oldalháttér és elsődleges gomb felirata." },
-      "soft-taupe": { "role": "neutral", "displayName": "Világos taupe", "source": "--ui-soft", "purpose": "Tónusos szakaszok, kijelölt szolgáltatás és hover." },
-      "taupe": { "role": "neutral", "displayName": "Taupe", "source": "--ui-taupe", "purpose": "Fotószalag görgetősávja." },
-      "clay": { "role": "neutral", "displayName": "Agyag", "source": "--ui-clay", "purpose": "Deklarált márkaszín; jelenleg nincs komponenshez rendelve." },
-      "ink": { "role": "primary", "displayName": "Sötét meleg szürke", "source": "--ui-ink", "purpose": "Szöveg, elsődleges akció és fókusz." },
-      "line": { "role": "neutral", "displayName": "Áttetsző elválasztó", "source": "--ui-line", "purpose": "Finom szakasz- és komponenshatárok." }
+      "ivory": {
+        "role": "neutral",
+        "displayName": "Elefántcsont",
+        "source": "--ui-bg",
+        "purpose": "Oldalháttér és elsődleges gomb felirata."
+      },
+      "soft-taupe": {
+        "role": "neutral",
+        "displayName": "Világos taupe",
+        "source": "--ui-soft",
+        "purpose": "Értesítő, lábléc, képháttér és hover."
+      },
+      "taupe": {
+        "role": "neutral",
+        "displayName": "Taupe",
+        "source": "--ui-taupe",
+        "purpose": "Megőrzött márkaszín; jelenleg nincs komponenshez rendelve."
+      },
+      "clay": {
+        "role": "neutral",
+        "displayName": "Agyag",
+        "source": "--ui-clay",
+        "purpose": "Deklarált márkaszín; jelenleg nincs komponenshez rendelve."
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Sötét meleg szürke",
+        "source": "--ui-ink",
+        "purpose": "Szöveg, elsődleges akció és fókusz."
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Áttetsző elválasztó",
+        "source": "--ui-line",
+        "purpose": "Finom szakasz- és komponenshatárok."
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Nyitócím", "purpose": "Alap H1; A desktopon clamp(56px, 5.7vw, 88px)." },
-      "headline": { "displayName": "Szakaszcím", "purpose": "Alap H2; a szolgáltatásrészlet és árlista saját méretvariánst használ." },
-      "title": { "displayName": "Cím", "purpose": "Alap H3, tervválasztó címei." },
-      "body": { "displayName": "Törzsszöveg", "purpose": "Legfeljebb 65ch; kisebb kísérőszövegek külön méretvariánssal." },
-      "wordmark": { "displayName": "Szóvédjegy", "purpose": "Playfair Display kizárólag a Lumi Nails névhez." }
+      "display": {
+        "displayName": "Nyitócím",
+        "purpose": "Hero H1: clamp(44px, 5.3vw, 76px). Az árlista és hibaoldal alap H1 mérete clamp(46px, 7vw, 88px)."
+      },
+      "headline": {
+        "displayName": "Szakaszcím",
+        "purpose": "Alap H2; az árlista szakaszcíme 30px."
+      },
+      "title": {
+        "displayName": "Cím",
+        "purpose": "Alap H3, szolgáltatáscímek."
+      },
+      "body": {
+        "displayName": "Törzsszöveg",
+        "purpose": "Legfeljebb 65ch; kisebb kísérőszövegek külön méretvariánssal."
+      },
+      "wordmark": {
+        "displayName": "Szóvédjegy",
+        "purpose": "Playfair Display kizárólag a Lumi Nails névhez."
+      }
     },
     "shadows": [],
     "motion": [
-      { "name": "action-color", "value": "background-color 160ms ease, color 160ms ease", "purpose": "Akciógomb hover; reduced-motion esetén nincs átmenet." },
-      { "name": "manual-scroll", "value": "smooth", "purpose": "Horgonyok és kézi galérialapozás; reduced-motion esetén közvetlen görgetés." }
+      {
+        "name": "action-color",
+        "value": "background-color 160ms ease, color 160ms ease",
+        "purpose": "Akciógomb hover; reduced-motion esetén nincs átmenet."
+      },
+      {
+        "name": "manual-scroll",
+        "value": "smooth",
+        "purpose": "Horgonygörgetés; reduced-motion esetén közvetlen ugrás."
+      }
     ],
     "breakpoints": [
-      { "name": "shared-columns", "value": "640px" },
-      { "name": "desktop-composition", "value": "900px" }
+      {
+        "name": "shared-columns",
+        "value": "640px"
+      },
+      {
+        "name": "desktop-composition",
+        "value": "900px"
+      }
     ],
     "previewScope": {
-      "sources": ["preview.css", "preview.js", "build.mjs", "../adatok.json"],
-      "canonicalDesignSystem": false,
-      "finalCompositionSelected": false,
-      "compositions": [
-        { "id": "a", "path": "/a/", "name": "Portfólió", "opening": "Aszimmetrikus képfal és rövid szöveg.", "sequence": ["nyitófal", "munkák", "szolgáltatások", "Szofi", "foglalási átvezető"], "mobile": "Egymás alatti nyitószöveg és képfal; kétoszlopos munkagaléria." },
-        { "id": "b", "path": "/b/", "name": "Fotószalag", "opening": "Hét képes, kézzel lapozható natív vízszintes galéria.", "sequence": ["fotószalag", "szolgáltatások", "Szofi", "foglalási átvezető"], "mobile": "76%-os képkockák, vízszintes húzás és külön lapozógombok." },
-        { "id": "c", "path": "/c/", "name": "Válassz szolgáltatást", "opening": "Négy szolgáltatásgomb; az aktív szolgáltatás képe, leírása és árai.", "sequence": ["szolgáltatásválasztó", "munkák", "Szofi", "foglalási átvezető"], "mobile": "Egymás alatti választó, kép és árak; a hosszú listák görgetést kérnek." }
+      "sources": [
+        "preview.css",
+        "preview.js",
+        "build.mjs",
+        "../adatok.json"
       ],
-      "sharedRoutes": ["/", "/arlista/", "/404.html"],
-      "assets": "Nyolc meglévő fotó beágyazott eredetadattal és eredetnyilvántartással; négy helyi WOFF2 fájl és két OFL licenc.",
+      "canonicalDesignSystem": false,
+      "requestedComposition": "Külön fejléc menüvel → nagy hero → közvetlenül Szofi bemutatkozása → szolgáltatások → munkák → foglalási meghívó → lábléc.",
+      "noticePosition": "A fejléc alatt, a főtartalom és hero előtt.",
+      "imageCompApproved": false,
+      "homePath": "/",
+      "hero": {
+        "heading": "clamp(44px, 5.3vw, 76px)",
+        "desktop": "Teljes ablakszélesség; height: clamp(420px, 43vw, 620px); object-fit: cover; object-position: center.",
+        "mobileAndTablet": "900px alatt 16:9; object-fit: contain.",
+        "overlay": false
+      },
+      "sharedRoutes": [
+        "/arlista/",
+        "/404.html"
+      ],
+      "assets": "Kilenc meglévő fotó beágyazott eredetadattal és eredetnyilvántartással; a hero.jpg a meglévő CMS-nyitókép. Négy helyi WOFF2 fájl és két OFL licenc.",
       "data": "Az adatok.json pillanatképe; mind a 19 szolgáltatásnév és ár megőrizve.",
       "externalActions": "A foglalás, fiók, teljes galéria és szolgáltatásrészletek a jelenlegi éles oldalra mutatnak.",
       "backendCalls": false,
       "liveReleaseAuthorizedByPreview": false,
       "review": {
-        "disposition": "ship at preview-selection scope",
+        "disposition": "SHIP FOR PREVIEW",
         "materialFindings": 0,
-        "evidence": "../.impeccable/review/public-preview-20261028/",
-        "widths": [320, 390, 768, 1440],
-        "variantCaptureWidths": [390, 1440],
-        "note": "A detector-notes.md tartalmazza a 12 szélességnézet és az interakciók előzményét. A checks.json csak a végső szűkített futás: 19 ár, választóoldal, 404. A C fotófrissítése után csak az érintett képek és két C-capture frissült.",
-        "limitations": ["Helyi Chromium és szélességemuláció.", "Nincs fizikai iOS/Android ellenőrzés.", "Nincs éles foglalási próba.", "Nincs teljes akadálymentességi tanúsítás."]
+        "evidence": "../.impeccable/review/hero-about-20261028/",
+        "widths": [
+          320,
+          390,
+          768,
+          1440
+        ],
+        "captureWidths": [
+          390,
+          1440
+        ],
+        "checks": [
+          "Hero–bemutatkozás sorrend és méretek.",
+          "Média és vízszintes túlcsordulás.",
+          "Mobil menü, nagyítás, Escape, fókusz-visszaadás.",
+          "Mind a 19 szolgáltatásnév és ár.",
+          "Privát és elutasított útvonalak 404-válasza."
+        ],
+        "detectorNotes": "A cream-palette szándékos márkamegőrzés; a padding-jelzéseket a forrás térközei nem igazolták.",
+        "limitations": [
+          "Helyi Chromium és szélességemuláció.",
+          "Nincs fizikai iOS/Android ellenőrzés.",
+          "Nincs éles foglalási próba.",
+          "Nincs teljes akadálymentességi tanúsítás."
+        ]
       }
     }
   },
@@ -58,8 +149,8 @@
       "name": "Elsődleges akció",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Foglalási vagy előnézet-megnyitási link; legalább 50px magas.",
-      "html": "<a class=\"ds-action\" href=\"#preview\">Megnézem ezt a változatot<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></a>",
+      "description": "Foglalási link; legalább 50px magas.",
+      "html": "<a class=\"ds-action\" href=\"#foglalas\">Időpontot foglalok<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></a>",
       "css": ".ds-action{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:50px;padding:13px 20px;border:1px solid var(--ui-ink,#3e3935);border-radius:var(--control-radius,8px);color:var(--ui-bg,#f6f3ee);background:var(--ui-ink,#3e3935);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;line-height:1.4;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-action:hover{color:var(--ui-ink,#3e3935);background:var(--ui-soft,#e2d9d0)}.ds-action:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}.ds-action svg{flex:none}@media(prefers-reduced-motion:reduce){.ds-action{transition:none}}"
     },
     {
@@ -71,48 +162,41 @@
       "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:50px;padding:13px 20px;border:1px solid var(--ui-ink,#3e3935);border-radius:var(--control-radius,8px);color:var(--ui-ink,#3e3935);background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;line-height:1.4;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-secondary:hover{background:var(--ui-soft,#e2d9d0)}.ds-secondary:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}.ds-secondary svg{flex:none}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
     },
     {
-      "name": "Galérialapozó",
-      "kind": "button",
-      "description": "A fotószalag kézi lapozógombjának megjelenése; a snippet nem tartalmaz görgetési logikát.",
-      "html": "<button class=\"ds-round\" type=\"button\" aria-label=\"Következő munka\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button>",
-      "css": ".ds-round{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--ui-line,rgb(62 57 53 / 20%));border-radius:50%;color:var(--ui-ink,#3e3935);background:transparent;cursor:pointer}.ds-round:hover{background:var(--ui-soft,#e2d9d0)}.ds-round:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}"
-    },
-    {
       "name": "Asztali navigáció",
       "kind": "nav",
       "description": "900px-től megjelenő navigáció vizuális mintája.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Fő navigáció\"><a href=\"#munkak\">Munkák</a><a href=\"#szolgaltatasok\">Szolgáltatások</a><a href=\"#arlista\">Árlista</a><a href=\"#szofi\">Szofi</a></nav>",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Fő navigáció\"><a href=\"#szofi\">Szofi</a><a href=\"#szolgaltatasok\">Szolgáltatások</a><a href=\"#arlista\">Árlista</a><a href=\"#munkak\">Munkák</a></nav>",
       "css": ".ds-nav{display:flex;align-items:center;gap:28px;color:var(--ui-ink,#3e3935);font-family:'DM Sans',sans-serif;font-size:14px}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:none;text-underline-offset:5px}.ds-nav a:hover{text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}"
-    },
-    {
-      "name": "Kijelölt szolgáltatás",
-      "kind": "custom",
-      "refersTo": "service-selected",
-      "description": "A C változat szolgáltatásgombjának kijelölt állapota; a panelváltást a preview.js végzi.",
-      "html": "<button class=\"ds-service\" type=\"button\" aria-pressed=\"true\"><span>Műköröm építés és töltés</span><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button>",
-      "css": ".ds-service{display:flex;align-items:center;justify-content:space-between;gap:24px;min-width:0;min-height:76px;padding:20px 12px;border:0;border-bottom:1px solid var(--ui-line,rgb(62 57 53 / 20%));color:var(--ui-ink,#3e3935);background:transparent;text-align:left;font-family:'DM Sans',sans-serif;font-size:20px;line-height:1.3;cursor:pointer}.ds-service[aria-pressed=true]{background:var(--ui-soft,#e2d9d0)}.ds-service:hover{text-decoration:underline;text-underline-offset:6px}.ds-service:focus-visible{outline:2px solid var(--ui-ink,#3e3935);outline-offset:5px}.ds-service svg{flex:none}@media(min-width:900px){.ds-service{min-height:94px;font-size:24px}}"
     }
   ],
   "narrative": {
     "northStar": "Ivory & Taupe, saját munkákkal",
-    "overview": "Ez a dokumentum kizárólag a design-preview elkészült, különálló csomagját írja le. A meglévő márkát, valódi fényképeket és tartalmat három eltérő felépítésben mutatja be. Nem új arculati döntés: nincs kiválasztott végleges kompozíció vagy jóváhagyott képi comp, és nem helyettesíti a projekt gyökérszintű designrendszerét.",
+    "overview": "Ez a dokumentum csak a különálló design-preview csomag aktuális állapotát írja le. A felhasználó által rögzített sorrend: külön fejléc menüvel → nagy hero → közvetlenül Szofi bemutatkozása. Utána szolgáltatások, munkák, foglalási meghívó és lábléc következik. Az aktív vendégértesítő a fejléc alatt, a főtartalom és a hero előtt marad. A kompozíció kérése egyértelmű; képi comp és végleges LIVE-jóváhagyás nincs. A dokumentum nem helyettesíti a projekt gyökérszintű designrendszerét.",
     "keyCharacteristics": [
-      "Világos, meleg felületek, sötét szöveg, visszafogott keretek.",
-      "Saját munkafotók és Szofi portréja; nincs generált helyettesítő kép.",
-      "Sík elrendezés, nagy képek, folyékony tipográfia és térköz."
+      "Meglévő elefántcsont–taupe márka és sötét szöveg.",
+      "Nagy, teljes szélességű saját nyitókép; külön szöveg és foglalási gomb.",
+      "A hero után közvetlen, teljes bemutatkozás saját portréval."
     ],
     "rules": [
-      { "name": "The Brand Continuity Rule", "body": "A három felépítés ugyanazt a rögzített palettát használja; a halvány árnyalatok nem helyettesítik a sötét szöveget.", "section": "colors" }
+      {
+        "name": "The Brand Continuity Rule",
+        "body": "A rögzített palettát őrizd meg; a halvány árnyalatok nem helyettesítik a sötét szöveget.",
+        "section": "colors"
+      },
+      {
+        "name": "The Hero–About Rule",
+        "body": "A hero után minden szélességen közvetlenül Szofi bemutatkozása következik; közéjük más szakasz nem kerül.",
+        "section": "layout"
+      }
     ],
     "dos": [
-      "Do a preview.css, preview.js és build.mjs forrását tekintsd az előnézet megvalósításának alapjául; a tokenek ezt a pillanatnyi állapotot dokumentálják.",
-      "Do őrizd meg a nyolc meglévő fotót, beágyazott eredetadataikat és a media/provenance.json nyilvántartását; az árak és szövegek az adatok.json pillanatképéből származnak.",
-      "Do a három kompozíciót előnézeti választási lehetőségként kezeld. A review kiadhatónak ítélte ezt az összehasonlítási csomagot, végleges redesign kiválasztása nélkül."
+      "Do őrizd meg a kilenc meglévő fotót, beágyazott eredetadataikat és a media/provenance.json nyilvántartását; a hero.jpg a meglévő CMS-nyitókép másolata.",
+      "Do az árakat és szövegeket az adatok.json pillanatképéből vedd át. Az előnézet nem hív backendet, Authot vagy API-t, és nem ír adatot."
     ],
     "donts": [
-      "Don't tekintsd a foglalás-, fiók- vagy szolgáltatáslinket helyi alkalmazásfunkciónak: ezek a jelenlegi éles oldalra vezetnek. Nincs backend-, Auth- vagy API-hívás, adatírás vagy foglalási próba.",
-      "Don't következtess az előnézetből admin/PWA-változtatásra vagy LIVE-kiadási engedélyre. A csomag noindex/nofollow és robots Disallow jelölést kap; az éles projekt nem módosult.",
-      "Don't állíts teljes akadálymentességi vagy fizikai készülékes igazolást. A meglévő helyi Chromium-ellenőrzés 320/390/768/1440px szélességre, célzott interakciókra és média/JS/túlcsordulás hibákra terjedt ki; 390/1440px-en hat változatkép és frissített választóoldali kép készült. A .impeccable/review/public-preview-20261028/detector-notes.md rögzíti a teljes ellenőrzési előzményt; a checks.json csak a végső szűkített futás eredménye."
+      "Don't tekintsd a foglalás-, fiók- és szolgáltatáslinkeket helyi funkciónak: a jelenlegi éles oldalra vezetnek. Nem történt éles foglalási próba.",
+      "Don't következtess az előnézetből admin/PWA-módosításra vagy LIVE-kiadási engedélyre. A csomag noindex/nofollow és robots Disallow jelölést kap; az éles projekt nem módosult.",
+      "Don't állíts teljes akadálymentességi vagy fizikai készülékes igazolást. A .impeccable/review/hero-about-20261028 célzott Chromium-ellenőrzése 320/390/768/1440px-en igazolta a sorrendet, méreteket, médiát és túlcsordulást; a menü, nagyító, fókusz, 19 ár, valamint privát és elutasított útvonalak 404-válasza is átment. A független review eredménye: SHIP FOR PREVIEW, érdemi hiba nélkül. A cream-palette jelzés szándékos márkamegőrzés; a padding-jelzéseket a forrás térközei nem igazolták."
     ]
   }
 }

@@ -1,28 +1,23 @@
-# Ellenőrzés és fájllista
+# Hero és bemutatkozás: ellenőrzés
 
-Három helyi, működő publikus látványváltozat. Az éles weboldal, az admin, a Supabase-adatbázis és a TEST main változatlan. Külön ág: codex/public-redesign-preview. A Cloudflare preview build csak a helyileg már ellenőrzött csomagot készíti el; GitHubon nem fut teszt vagy audit.
+A felhasználó kifejezetten ezt kérte: külön fejléc → nagy hero → közvetlenül Szofi bemutatkozása. A helyi gyökér ezt az egy új előnézetet mutatja. Utána szolgáltatások, galéria, foglalási meghívó és lábléc következik. Az előző három változat nincs a kimenetben.
 
-## Ellenőrzések
+- node design-preview/build.mjs: sikeres.
+- npm run lint:css és a külön preview.css lintje: sikeres.
+- 320/390/768/1440 px: nincs oldalszintű vízszintes túlcsordulás, hibás kép, külső kérés vagy JavaScript-hiba.
+- A hero közvetlen következő szakasza minden méreten a bemutatkozás.
+- Mobilmenü, képnagyítás, Escape és fókusz-visszaadás: sikeres.
+- Mind a 19 jelenlegi szolgáltatásnév és ár változatlan.
+- Belső SQL-útvonal és a korábbi /a/ előnézet 404-et ad.
+- Impeccable-detektor egyszer futott az új oldalon: a rögzített márkapalettát és a padding-block rövidítéssel írt, kézzel megfelelőnek ellenőrzött térközöket jelölte.
+- A friss, független finish reviewer eredménye: ship for preview; nincs érdemi hiba a kért előnézet körében.
+- Képernyőképek és gépi jegyzőkönyv: .impeccable/review/hero-about-20261028, gitignore alatt.
 
-- Helyi build és a JavaScript-források szintaktikai ellenőrzése sikeres.
-- npm run lint:css és a külön preview.css Stylelint-ellenőrzése sikeres; git diff --check sikeres.
-- A/B/C 320, 390, 768 és 1440 px-en: nincs oldalszintű vízszintes túlcsordulás, hibás betöltött kép, külső API-kérés vagy JavaScript-hiba.
-- Mobilmenü nyitás/navigáció/zárás; képnagyítás/Escape/fókusz-visszaadás; B lapozógomb és billentyűzet; C szolgáltatásválasztás és árváltás ellenőrizve.
-- Mind a 19 eredeti szolgáltatásnév és ár egyezik. Az árlista aggregáló tesztszelektorának javítása után csak a záró rész ismétlődött; a többi sikeres tesztet nem futtattuk újra.
-- A választó iframe-jei eager betöltést kaptak. A frissített képernyőkép mindhárom gyermekdokumentum, font és kép betöltése után készült.
-- A C saját portfóliófotóinak javítása után kizárólag a C képei és 390/1440 képernyőképei frissültek.
-- Az egyszeri Impeccable-detektor a szándékos márkapalettát, a padding-block szabályokat és az üres zárt nagyítóképet jelezte. A nagyító valós kezdőképet kapott; a sorok tényleges térköze megfelelő. Részletek az ignored review-mappa detector-notes.md fájljában.
-- A független finish reviewer végső eredménye: ship, kizárólag a három terv összehasonlítható előnézeti bemutatásának körében.
-- Képek eredete beágyazva; 8 raszter, 0 hiányzó eredet. A betűk két OFL-licence a kiadás része.
-- A nem publikus SQL-útvonal 404-et ad; a csomag noindex/nofollow és robots Disallow védelemmel készül.
+Csak helyi Chromium-szélességemuláció történt, fizikai készülékes vagy teljes hozzáférhetőségi tanúsítás nélkül. Nem futott teljes tesztcsomag, éles foglalás vagy Supabase-írás. A foglalási és fiókműveletek a jelenlegi éles oldalra mutatnak. A main ág, az admin, az éles oldal és az adatbázis változatlan maradt. GitHubon nem fut teszt vagy audit.
 
-Ez Chromium-szélességemuláció; fizikai mobilkészülék, teljes hozzáférhetőségi tanúsítás és valódi éles foglalási teszt nem történt. A foglalási, fiók- és szolgáltatásrészlet-linkek a meglévő éles oldalra vezetnek. Nincs kiválasztott végleges terv vagy élesítési jóváhagyás.
+## Fájlok
 
-## Módosított fájl
-
-- package.json: kizárólag ezen a külön ágon az előnézet buildje.
-
-## Létrehozott fájlok
+Módosított meglévő fájl: package.json, csak ezen a külön preview ágon a build célja változik. A feladathoz létrehozott, végleges előnézeti fájlok:
 
 - design-preview/DESIGN.md
 - design-preview/README.md
@@ -36,6 +31,7 @@ Ez Chromium-szélességemuláció; fizikai mobilkészülék, teljes hozzáférhe
 - design-preview/media/font-3cb6b7b1979e.woff2
 - design-preview/media/font-713ca32c3c8b.woff2
 - design-preview/media/fonts.css
+- design-preview/media/hero.jpg
 - design-preview/media/provenance.json
 - design-preview/media/szofi.jpg
 - design-preview/media/work-1.jpg
@@ -50,5 +46,3 @@ Ez Chromium-szélességemuláció; fizikai mobilkészülék, teljes hozzáférhe
 - design-preview/preview.js
 - design-preview/serve.mjs
 - design-preview/verification.md
-
-A generált dist és a .impeccable/review/public-preview-20261028 képernyőképei/jegyzetei gitignore alatt maradnak. A korábban meglévő .impeccable/mocks tervfájlok nem módosultak.

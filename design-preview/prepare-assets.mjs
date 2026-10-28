@@ -8,6 +8,7 @@ const target = path.join(root, 'design-preview/media');
 const snapshot = JSON.parse(await fs.readFile(path.join(root, 'adatok.json'), 'utf8'));
 await fs.mkdir(target, { recursive: true });
 const photos = snapshot.siteContent.galeria.elemek.slice(0, 5).map((x, i) => ({ name: `work-${i + 1}.jpg`, origin: x.kep, alt: x.kepAlt }));
+photos.push({ name: 'hero.jpg', origin: snapshot.siteContent.fooldal.hero.kep, alt: snapshot.siteContent.fooldal.hero.kepAlt });
 photos.push({ name: 'szofi.jpg', origin: snapshot.siteContent.fooldal.bemutatkozas.kep, alt: snapshot.siteContent.fooldal.bemutatkozas.kepAlt });
 for (const [name, source] of [['work-6.jpg', 'galeria/optimized/large/image4.jpg'], ['work-7.jpg', 'galeria/optimized/large/image7.jpg']]) {
   await fs.copyFile(path.join(root, source), path.join(target, name));
